@@ -20,9 +20,9 @@ namespace MyScience
         public MainPage()
         {
             InitializeComponent();
-            ApplicationBar = new ApplicationBar();
+            /*ApplicationBar = new ApplicationBar();
             ApplicationBar.IsVisible = true;
-            ApplicationBar.IsMenuEnabled = true;
+            ApplicationBar.IsMenuEnabled = true;*/
 
             //ApplicationBarIconButton homeButton = new ApplicationBarIconButton(new Uri("/Images/email.png", UriKind.Relative));
             //homeButton.Text = "Start";
@@ -35,7 +35,7 @@ namespace MyScience
             //ApplicationBar.Buttons.Add(homeButton);
             //ApplicationBar.Buttons.Add(profileButton);
 
-            createMenuItem();
+            //createMenuItem();
 
         }
 
@@ -70,54 +70,29 @@ namespace MyScience
 
         void settingsButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
-        }
-
-        
-        void infoButton_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
+            NavigationService.Navigate(new Uri("/SettingPage.xaml", UriKind.Relative));
         }
 
         void rankButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
-        }
-
-        void menuItem3_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        void menuItem2_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        void menuItem1_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        void menuItem0_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
+            NavigationService.Navigate(new Uri("/RankPage.xaml", UriKind.Relative));
         }
 
         void profileButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            NavigationService.Navigate(new Uri("/ProfilePage.xaml", UriKind.Relative));
         }
 
         void homeButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
         private void appList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
+
 
         
     }
