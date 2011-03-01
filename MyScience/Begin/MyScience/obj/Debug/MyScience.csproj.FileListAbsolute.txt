@@ -1,0 +1,34 @@
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\ApplicationIcon.png
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\Background.png
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\MyScience.dll
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\MyScience.pdb
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\obj\Debug\ResolveAssemblyReference.cache
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\obj\Debug\App.g.i.cs
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\obj\Debug\MainPage.g.i.cs
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\obj\Debug\MyScience.g.resources
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\obj\Debug\MyScience.dll
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\obj\Debug\MyScience.pdb
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\AppManifest.xaml
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\MyScience.xap
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\obj\Debug\XapCacheFile.xml
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\Images\home.png
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\Images\people.png
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\Images\rank.png
+c:\users\cs210student\documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\Images\setting.png
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\obj\Debug\App.g.i.cs
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\obj\Debug\MainPage.g.i.cs
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\obj\Debug\MyScience.g.resources
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\Bin\Debug\ApplicationIcon.png
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\Bin\Debug\Background.png
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\Bin\Debug\Images\home.png
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\Bin\Debug\Images\people.png
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\Bin\Debug\Images\rank.png
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\Bin\Debug\Images\setting.png
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\Bin\Debug\MyScience.dll
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\Bin\Debug\MyScience.pdb
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\obj\Debug\MyScience.dll
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\obj\Debug\MyScience.pdb
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\Bin\Debug\AppManifest.xaml
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\Bin\Debug\MyScience.xap
+C:\Users\naranb\Documents\Visual Studio 2010\Projects\dynovader\MyScience\Begin\MyScience\obj\Debug\XapCacheFile.xml
