@@ -17,6 +17,7 @@ namespace MyScience
 {
     public partial class App : Application
     {
+        public static List<Project> applist;
         private static MainViewModel viewModel = null;
 
         /// <summary>
