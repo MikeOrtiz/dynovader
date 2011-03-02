@@ -15,9 +15,19 @@ namespace MyScience
 {
     public partial class ProfilePage : PhoneApplicationPage
     {
+        private User currentUser;
+
+        public ProfilePage(User user)
+        {
+            currentUser = user;
+            InitializeComponent();
+            DataContext = App.ViewModel;
+        }
+
         public ProfilePage()
         {
             InitializeComponent();
+            DataContext = App.ViewModel;
         }
 
         void settingsButton_Click(object sender, EventArgs e)
@@ -38,6 +48,28 @@ namespace MyScience
         void homeButton_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+        }
+
+        private void ProjectListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // If selected index is -1 (no selection) do nothing
+            if (ProjectListBox.SelectedIndex == -1)
+                return;
+
+            // Navigate to the new page
+            NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + ProjectListBox.SelectedIndex, UriKind.Relative));
+
+            // Reset selected index to -1 (no selection)
+            ProjectListBox.SelectedIndex = -1;
+        }
+
+        // Load data for the ViewModel Items
+        private void ProfilePage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!App.ViewModel.IsDataLoaded)
+            {
+                App.ViewModel.LoadData();
+            }
         }
     }
 }

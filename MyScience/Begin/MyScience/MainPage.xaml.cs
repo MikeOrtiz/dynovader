@@ -47,7 +47,6 @@ namespace MyScience
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
-
         // Handle selection changed on ListBox
         private void MainListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
