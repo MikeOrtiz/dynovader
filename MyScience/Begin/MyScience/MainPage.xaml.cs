@@ -91,16 +91,6 @@ namespace MyScience
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
-        private void appList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void listBox2_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         // Handle selection changed on ListBox
         private void MainListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
