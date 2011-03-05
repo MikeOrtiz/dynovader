@@ -19,6 +19,7 @@ namespace MyScience
     {
         public static List<Project> applist;
         private static MainViewModel viewModel = null;
+        public static int currentIndex;
 
         /// <summary>
         /// A static ViewModel used by the views to bind against.

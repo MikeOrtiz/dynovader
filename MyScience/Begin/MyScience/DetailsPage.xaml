@@ -28,8 +28,11 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <TextBlock Height="130" HorizontalAlignment="Left" Margin="6,6,0,0" Name="DescriptionBlock" Text="" VerticalAlignment="Top" Width="444" />
-            <Button Content="Button" Height="72" HorizontalAlignment="Left" Margin="266,440,0,0" Name="SubmitButton" VerticalAlignment="Top" Width="160" Click="SubmitButton_Click" />
+            <TextBlock Height="130" HorizontalAlignment="Left" Margin="6,6,0,0" Name="DescriptionBlock" Text="" VerticalAlignment="Top" Width="444" TextWrapping="Wrap" />
+            <Button Content="Submit" Height="72" HorizontalAlignment="Left" Margin="266,440,0,0" Name="SubmitButton" VerticalAlignment="Top" Width="160" Click="SubmitButton_Click" />
+            <TextBlock Height="57" HorizontalAlignment="Left" Margin="6,167,0,0" Name="latWrapper" Text="Lat:" VerticalAlignment="Top" Width="444" TextWrapping="Wrap" FontSize="40" />
+            <TextBlock Height="57" HorizontalAlignment="Left" Margin="6,232,0,0" Name="lngWrapper" Text="Lng:" TextWrapping="Wrap" VerticalAlignment="Top" Width="444" FontSize="40" />
+            <TextBlock Height="57" HorizontalAlignment="Left" Margin="6,296,0,0" Name="idWrapper" Text="ID:" TextWrapping="Wrap" VerticalAlignment="Top" Width="444" FontSize="40" />
         </Grid>
     </Grid>
  
