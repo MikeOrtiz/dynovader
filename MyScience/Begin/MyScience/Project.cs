@@ -16,12 +16,14 @@ namespace MyScience
         public int ID { get; set; }
         public String Name { get; set; }
         public String Description { get; set; }
+        public String Form { get; set; }
 
-        public Project(int ID, String Name, String Description)
+        public Project(int ID, String Name, String Description, String Form)
         {
             this.ID = ID;
             this.Name = Name;
             this.Description = Description;
+            this.Form = Form;
         }
     }
 }

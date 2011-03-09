@@ -12,6 +12,8 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
 using System.Text;
+using System.Runtime.Serialization;
+
 
 namespace MyScience
 {
@@ -48,9 +50,8 @@ namespace MyScience
         {
             if (NavigationContext.QueryString.ContainsKey("selectedItem"))
             {
-                int index = Convert.ToInt32(NavigationContext.QueryString["selectedItem"]);
-                App.currentIndex = index;
-                Project currentApp = App.applist[index];
+                App.currentIndex = Convert.ToInt32(NavigationContext.QueryString["selectedItem"]);
+                Project currentApp = App.applist[App.currentIndex];
                 PageTitle.Text = currentApp.Name;
                 DescriptionBlock.Text = currentApp.Description;
                 // Set the phone ID
@@ -66,18 +67,18 @@ namespace MyScience
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            String parameter = "";
+
             WebClient client = new WebClient();
-            try
+
+            //client.UploadStringAsync(new Uri("http://128.12.62.142/dynovader/json.php?action=submit&projectid=7&latitude=37.430299&longitude=-122.173349"),"GET");
+            client.UploadStringAsync(new Uri("http://128.12.62.142/dynovader/json.php?action=submit&projectid=" + App.applist[App.currentIndex].ID + "&latitude=37.430299&longitude=-122.173349"), "GET");
+
+            client.UploadStringCompleted += (s, ev) =>
             {
-                client.UploadStringAsync(new Uri("http://128.12.62.142/dynovader/json.php?action=submit&projectid=7&latitude=37.430299&longitude=-122.173349"), "GET");
-                client.UploadStringCompleted += (s, ev) => { 
-                    String result = ev.Result; 
-                };
-            }
-            catch (Exception ex)
-            {
-            }
+                String result = ev.Result;
+            };
+
+            //NavigationService.Navigate(new Uri("/SubmissionPage.xaml", UriKind.Relative));
 
         }
 

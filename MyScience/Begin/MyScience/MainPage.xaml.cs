@@ -55,8 +55,8 @@ namespace MyScience
                 return;
 
             // Navigate to the new page
-            NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + MainListBox.SelectedIndex, UriKind.Relative));
-
+          NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + MainListBox.SelectedIndex, UriKind.Relative));
+            
             // Reset selected index to -1 (no selection)
             MainListBox.SelectedIndex = -1;
         }
@@ -77,19 +77,20 @@ namespace MyScience
             //       + "<description>Creek Watch is an iPhone application that enables you to help monitor the health of your local watershed."
             //       + "Whenever you pass by a waterway, spend a few seconds using the Creek Watch application to snap a picture and report how much water and trash you see."
             //       + "We aggregate the data and share it with water control boards to help them track pollution and manage water resources.</description>"
+            //       + "<form> {\"type\":\"Question\",\"label\":\"question1\"}</form>"
             //       + "</application>"
-            //       + "<application>"
-            //       + "<id>2</id>"
-            //       + "<name>iNaturalist</name>"
-            //       + "<description>Welcome!to , where you can record what you see in nature, meet other nature lovers,"
-            //       + "and learn about the natural world.</description>"
-            //       + "</application>"
-            //       + "<application>"
-            //       + "<id>3</id>"
-            //       + "<name>The Sleep Cycle</name>"
-            //       + "<description> The Sleep Cycle alarm clock is a bio-alarm clock that analyzes your sleep patterns and wakes you when you are in the lightest sleep phase."
-            //       + "Waking up in the lightest sleep phase feels like waking without an alarm clock - it is a natural way to wake up where you feel rested and relaxed.</description>"
-            //       + "</application>"
+            ////       + "<application>"
+            ////       + "<id>2</id>"
+            ////       + "<name>iNaturalist</name>"
+            ////       + "<description>Welcome!to , where you can record what you see in nature, meet other nature lovers,"
+            ////       + "and learn about the natural world.</description>"
+            ////       + "</application>"
+            ////       + "<application>"
+            ////       + "<id>3</id>"
+            ////       + "<name>The Sleep Cycle</name>"
+            ////       + "<description> The Sleep Cycle alarm clock is a bio-alarm clock that analyzes your sleep patterns and wakes you when you are in the lightest sleep phase."
+            ////       + "Waking up in the lightest sleep phase feels like waking without an alarm clock - it is a natural way to wake up where you feel rested and relaxed.</description>"
+            ////       + "</application>"
             //       + "</applist>";
 
             //XmlReader reader = XmlReader.Create(new MemoryStream(System.Text.UnicodeEncoding.Unicode.GetBytes(text)));
@@ -132,6 +133,7 @@ namespace MyScience
             int id = 0;
             String name = "";
             String description = "";
+            String form = "";
             while (reader.Read())
             {
                 if (reader.NodeType == XmlNodeType.Element && reader.Name == "id")
@@ -149,9 +151,14 @@ namespace MyScience
                     reader.Read();
                     description = reader.Value;
                 }
+                //else if (reader.NodeType == XmlNodeType.Element && reader.Name == "form")
+                //{
+                //    reader.Read();
+                //    form = reader.Value;
+                //}
                 else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "application")
                 {
-                    Project app = new Project(id, name, description);
+                    Project app = new Project(id, name, description, form);
                     appList.Add(app);
                 }
 
