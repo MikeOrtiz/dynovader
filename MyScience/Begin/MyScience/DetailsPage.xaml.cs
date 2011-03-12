@@ -68,17 +68,17 @@ namespace MyScience
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
 
-            WebClient client = new WebClient();
+            //WebClient client = new WebClient();
 
-            //client.UploadStringAsync(new Uri("http://128.12.62.142/dynovader/json.php?action=submit&projectid=7&latitude=37.430299&longitude=-122.173349"),"GET");
-            client.UploadStringAsync(new Uri("http://128.12.62.142/dynovader/json.php?action=submit&projectid=" + App.applist[App.currentIndex].ID + "&latitude=37.430299&longitude=-122.173349"), "GET");
+            ////client.UploadStringAsync(new Uri("http://128.12.62.142/dynovader/json.php?action=submit&projectid=7&latitude=37.430299&longitude=-122.173349"),"GET");
+            //client.UploadStringAsync(new Uri("http://128.12.62.142/dynovader/json.php?action=submit&projectid=" + App.applist[App.currentIndex].ID + "&latitude=37.430299&longitude=-122.173349"), "GET");
 
-            client.UploadStringCompleted += (s, ev) =>
-            {
-                String result = ev.Result;
-            };
+            //client.UploadStringCompleted += (s, ev) =>
+            //{
+            //    String result = ev.Result;
+            //};
 
-            //NavigationService.Navigate(new Uri("/SubmissionPage.xaml", UriKind.Relative));
+           NavigationService.Navigate(new Uri("/SubmissionPage.xaml", UriKind.Relative));
 
         }
 

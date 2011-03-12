@@ -69,37 +69,37 @@ namespace MyScience
                 App.ViewModel.LoadData();
             }
 
-            //String text = "<?xml version=\"1.0\"?>"
-            //       + "<applist>"
-            //       + "<application>"
-            //       + "<id>1</id>"
-            //       + "<name>Creek Watch</name>"
-            //       + "<description>Creek Watch is an iPhone application that enables you to help monitor the health of your local watershed."
-            //       + "Whenever you pass by a waterway, spend a few seconds using the Creek Watch application to snap a picture and report how much water and trash you see."
-            //       + "We aggregate the data and share it with water control boards to help them track pollution and manage water resources.</description>"
-            //       + "<form> {\"type\":\"Question\",\"label\":\"question1\"}</form>"
-            //       + "</application>"
-            ////       + "<application>"
-            ////       + "<id>2</id>"
-            ////       + "<name>iNaturalist</name>"
-            ////       + "<description>Welcome!to , where you can record what you see in nature, meet other nature lovers,"
-            ////       + "and learn about the natural world.</description>"
-            ////       + "</application>"
-            ////       + "<application>"
-            ////       + "<id>3</id>"
-            ////       + "<name>The Sleep Cycle</name>"
-            ////       + "<description> The Sleep Cycle alarm clock is a bio-alarm clock that analyzes your sleep patterns and wakes you when you are in the lightest sleep phase."
-            ////       + "Waking up in the lightest sleep phase feels like waking without an alarm clock - it is a natural way to wake up where you feel rested and relaxed.</description>"
-            ////       + "</application>"
-            //       + "</applist>";
+            String text = "<?xml version=\"1.0\"?>"
+                   + "<applist>"
+                   + "<application>"
+                   + "<id>1</id>"
+                   + "<name>Creek Watch</name>"
+                   + "<description>Creek Watch is an iPhone application that enables you to help monitor the health of your local watershed."
+                   + "Whenever you pass by a waterway, spend a few seconds using the Creek Watch application to snap a picture and report how much water and trash you see."
+                   + "We aggregate the data and share it with water control boards to help them track pollution and manage water resources.</description>"
+                   + "<form> {\"type\":\"Question\",\"label\":\"question1\"}</form>"
+                   + "</application>"
+                //       + "<application>"
+                //       + "<id>2</id>"
+                //       + "<name>iNaturalist</name>"
+                //       + "<description>Welcome!to , where you can record what you see in nature, meet other nature lovers,"
+                //       + "and learn about the natural world.</description>"
+                //       + "</application>"
+                //       + "<application>"
+                //       + "<id>3</id>"
+                //       + "<name>The Sleep Cycle</name>"
+                //       + "<description> The Sleep Cycle alarm clock is a bio-alarm clock that analyzes your sleep patterns and wakes you when you are in the lightest sleep phase."
+                //       + "Waking up in the lightest sleep phase feels like waking without an alarm clock - it is a natural way to wake up where you feel rested and relaxed.</description>"
+                //       + "</application>"
+                   + "</applist>";
 
-            //XmlReader reader = XmlReader.Create(new MemoryStream(System.Text.UnicodeEncoding.Unicode.GetBytes(text)));
-            //App.applist = parseXML(reader);
-            //MainListBox.ItemsSource = App.applist;
+            XmlReader reader = XmlReader.Create(new MemoryStream(System.Text.UnicodeEncoding.Unicode.GetBytes(text)));
+            App.applist = parseXML(reader);
+            MainListBox.ItemsSource = App.applist;
 
             /*Get applist from remote server, not working now*/
-            String address = "http://128.12.62.142/dynovader/json.php?action=projectlist";
-            getAppList(address);
+            //String address = "http://128.12.62.142/dynovader/json.php?action=projectlist";
+            //getAppList(address);
         }
 
         /*Download the applist from the website*/
@@ -151,11 +151,11 @@ namespace MyScience
                     reader.Read();
                     description = reader.Value;
                 }
-                //else if (reader.NodeType == XmlNodeType.Element && reader.Name == "form")
-                //{
-                //    reader.Read();
-                //    form = reader.Value;
-                //}
+                else if (reader.NodeType == XmlNodeType.Element && reader.Name == "form")
+                {
+                    reader.Read();
+                    form = reader.Value;
+                }
                 else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "application")
                 {
                     Project app = new Project(id, name, description, form);
