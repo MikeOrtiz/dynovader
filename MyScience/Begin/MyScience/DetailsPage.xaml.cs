@@ -13,6 +13,8 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
 using System.Text;
 using System.Runtime.Serialization;
+using System.Device.Location;
+using Microsoft.Phone.Reactive;
 
 
 namespace MyScience
@@ -21,9 +23,15 @@ namespace MyScience
 
     public partial class DetailsPage : PhoneApplicationPage
     {
+        private double lat;
+        private double lng;
+        private double blah;
+
         public DetailsPage()
         {
             InitializeComponent();
+            OnLoaded();
+            blah = 0.22;
         }
 
         void settingsButton_Click(object sender, EventArgs e)
@@ -59,11 +67,31 @@ namespace MyScience
                 object uniqueId;
                 if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
                     result = (byte[]) uniqueId;
-                idWrapper.Text = "ID: "+BitConverter.ToString(result);
-                // Set the 
-
+                idWrapper.Text = "ID: " + BitConverter.ToString(result);
+                latWrapper.Text = "Lat: " + lat.ToString();
+                lngWrapper.Text = "Lng: " + lng.ToString();
             }
         }
+
+        private void OnLoaded(/*object sender, RoutedEventArgs e*/)
+        {
+            var useEmulation = false;//TODO change to false
+
+            var observable = useEmulation ? App.CreateGeoPositionEmulator() : App.CreateObservableGeoPositionWatcher();
+
+            observable
+                .ObserveOnDispatcher()
+                .Subscribe(OnPositionChanged);
+        }
+
+        private void OnPositionChanged(GeoCoordinate location)
+        {
+            lat = location.Latitude;
+            lng = location.Longitude;
+
+            //Map.Center = location;
+        }
+
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
