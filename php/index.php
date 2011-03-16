@@ -32,6 +32,11 @@ float: left;
 	color: #000;
 	margin-top: 1px;
 }
+body{
+	margin:0;
+	padding:0;
+	text-align:center;
+}
 </style>
 <div class="wrapper"><div>
 <ul class="top-menu">
@@ -42,7 +47,7 @@ float: left;
 		<a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a>
 	</li>
 	<li>
-		<a href="data.php" class="special-anchor">DATA</a>
+		<a href="manage.php" class="special-anchor">MANAGE PROJECT</a>
 	</li>
 </ul>
 </div>
