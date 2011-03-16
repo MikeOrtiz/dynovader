@@ -11,6 +11,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Xml;
+using System.IO;
 
 namespace MyScience
 {
@@ -20,56 +22,10 @@ namespace MyScience
         public MainPage()
         {
             InitializeComponent();
-            /*ApplicationBar = new ApplicationBar();
-            ApplicationBar.IsVisible = true;
-            ApplicationBar.IsMenuEnabled = true;*/
-
-            //ApplicationBarIconButton homeButton = new ApplicationBarIconButton(new Uri("/Images/email.png", UriKind.Relative));
-            //homeButton.Text = "Start";
-            //homeButton.Click += new EventHandler(homeButton_Click);
-
-            //ApplicationBarIconButton profileButton = new ApplicationBarIconButton(new Uri("/Images/question.png", UriKind.Relative));
-            //profileButton.Text = "Stop";
-            //profileButton.Click += new EventHandler(profileButton_Click);
-
-            //ApplicationBar.Buttons.Add(homeButton);
-            //ApplicationBar.Buttons.Add(profileButton);
-
-            //createMenuItem();
-
             DataContext = App.ViewModel;
-            this.Loaded += new RoutedEventHandler(MainPage_Loaded);
-
+            this.Loaded += new RoutedEventHandler(MainPage_Loaded);          
         }
 
-        void createMenuItem()
-        {
-            string[] imagePath = new string[] { "Images/home.png", "Images/people.png", "Images/rank.png", "Images/setting.png" };
-            string[] buttonLabel = new string[] { "Home", "Profile", "Rank", "Settings" };
-            ApplicationBarIconButton[] barButtons = new ApplicationBarIconButton[4];
-            for (int i = 0; i < barButtons.Length; i++)
-            {
-                barButtons[i] = new ApplicationBarIconButton(new Uri(imagePath[i], UriKind.Relative));
-                barButtons[i].Text = buttonLabel[i];
-                ApplicationBar.Buttons.Add(barButtons[i]);
-                //this is a comment!!!!
-            }
-            barButtons[0].Click += new EventHandler(homeButton_Click);
-            barButtons[1].Click += new EventHandler(profileButton_Click);
-            barButtons[2].Click += new EventHandler(rankButton_Click);
-            barButtons[3].Click += new EventHandler(settingsButton_Click);
-            //ApplicationBarMenuItem[] menuItems = new ApplicationBarMenuItem[4];
-            //for (int i = 0; i < menuItems.Length; i++)
-            //{
-            //    menuItems[i] = new ApplicationBarMenuItem("MenuItem " + i);
-            //}
-            //menuItems[0].Click += new EventHandler(menuItem0_Click);
-            //menuItems[1].Click += new EventHandler(menuItem1_Click);
-            //menuItems[2].Click += new EventHandler(menuItem2_Click);
-            //menuItems[3].Click += new EventHandler(menuItem3_Click);
-
-            
-        }
 
         void settingsButton_Click(object sender, EventArgs e)
         {
@@ -91,16 +47,6 @@ namespace MyScience
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
-        private void appList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void listBox2_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         // Handle selection changed on ListBox
         private void MainListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -109,8 +55,8 @@ namespace MyScience
                 return;
 
             // Navigate to the new page
-            NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + MainListBox.SelectedIndex, UriKind.Relative));
-
+          NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + MainListBox.SelectedIndex, UriKind.Relative));
+            
             // Reset selected index to -1 (no selection)
             MainListBox.SelectedIndex = -1;
         }
@@ -122,6 +68,102 @@ namespace MyScience
             {
                 App.ViewModel.LoadData();
             }
+
+            String text = "<?xml version=\"1.0\"?>"
+                   + "<applist>"
+                   + "<application>"
+                   + "<id>1</id>"
+                   + "<name>Creek Watch</name>"
+                   + "<description>Creek Watch is an iPhone application that enables you to help monitor the health of your local watershed."
+                   + "Whenever you pass by a waterway, spend a few seconds using the Creek Watch application to snap a picture and report how much water and trash you see."
+                   + "We aggregate the data and share it with water control boards to help them track pollution and manage water resources.</description>"
+                   + "<form> {\"type\":\"Question\",\"label\":\"question1\"}</form>"
+                   + "</application>"
+                //       + "<application>"
+                //       + "<id>2</id>"
+                //       + "<name>iNaturalist</name>"
+                //       + "<description>Welcome!to , where you can record what you see in nature, meet other nature lovers,"
+                //       + "and learn about the natural world.</description>"
+                //       + "</application>"
+                //       + "<application>"
+                //       + "<id>3</id>"
+                //       + "<name>The Sleep Cycle</name>"
+                //       + "<description> The Sleep Cycle alarm clock is a bio-alarm clock that analyzes your sleep patterns and wakes you when you are in the lightest sleep phase."
+                //       + "Waking up in the lightest sleep phase feels like waking without an alarm clock - it is a natural way to wake up where you feel rested and relaxed.</description>"
+                //       + "</application>"
+                   + "</applist>";
+
+            XmlReader reader = XmlReader.Create(new MemoryStream(System.Text.UnicodeEncoding.Unicode.GetBytes(text)));
+            App.applist = parseXML(reader);
+            MainListBox.ItemsSource = App.applist;
+
+            /*Get applist from remote server, not working now*/
+            //String address = "http://128.12.62.142/dynovader/json.php?action=projectlist";
+            //getAppList(address);
+        }
+
+        /*Download the applist from the website*/
+        public void getAppList(String websiteURL)
+        {
+            WebClient phone = new WebClient();
+            phone.DownloadStringAsync(new Uri(websiteURL));
+            phone.DownloadStringCompleted += new DownloadStringCompletedEventHandler(phone_DownloadStringCompleted);
+        }
+
+        /*When the download finished, try to parse the xml file and create a list of applications*/
+        void phone_DownloadStringCompleted(object sneder, DownloadStringCompletedEventArgs e)
+        {
+            lock (this)
+            {
+                /*Get the content of the downloaded file*/
+                string result = e.Result;
+
+                /*Parse it as xml format and create a list of applications and bind it to the listbox*/
+                XmlReader reader = XmlReader.Create(new MemoryStream(System.Text.UnicodeEncoding.Unicode.GetBytes(result)));
+                App.applist = parseXML(reader);
+                MainListBox.ItemsSource =App.applist;
+            }
+
+        }
+
+        /*Parsing the dowloaded xml file of applist*/
+        List<Project> parseXML(XmlReader reader)
+        {
+            List<Project> appList = new List<Project>();
+            int id = 0;
+            String name = "";
+            String description = "";
+            String form = "";
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.Element && reader.Name == "id")
+                {
+                    reader.Read();
+                    id = Convert.ToInt32(reader.Value);
+                }
+                else if (reader.NodeType == XmlNodeType.Element && reader.Name == "name")
+                {
+                    reader.Read();
+                    name = reader.Value;
+                }
+                else if (reader.NodeType == XmlNodeType.Element && reader.Name == "description")
+                {
+                    reader.Read();
+                    description = reader.Value;
+                }
+                else if (reader.NodeType == XmlNodeType.Element && reader.Name == "form")
+                {
+                    reader.Read();
+                    form = reader.Value;
+                }
+                else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "application")
+                {
+                    Project app = new Project(id, name, description, form);
+                    appList.Add(app);
+                }
+
+            }
+            return appList;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -12,12 +13,19 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Microsoft.Phone.Reactive;
 
 namespace MyScience
 {
     public partial class App : Application
     {
+        public static List<Project> applist;
         private static MainViewModel viewModel = null;
+        public static int currentIndex;
+        public static GeoCoordinateWatcher geoCoordinateWatcher = new GeoCoordinateWatcher();
+        public static Random random = new Random();
+        public static double lat, lng;
+
 
         /// <summary>
         /// A static ViewModel used by the views to bind against.
@@ -117,6 +125,51 @@ namespace MyScience
                 System.Diagnostics.Debugger.Break();
             }
         }
+
+        public static IObservable<GeoCoordinate> CreateObservableGeoPositionWatcher()
+        {
+            var observable = Observable.FromEvent<GeoPositionChangedEventArgs<GeoCoordinate>>(
+                e => geoCoordinateWatcher.PositionChanged += e,
+                e => geoCoordinateWatcher.PositionChanged -= e)
+                .Select(e => e.EventArgs.Position.Location);
+
+            geoCoordinateWatcher.Start();
+
+            return observable;
+        }
+
+        public static IObservable<GeoCoordinate> CreateGeoPositionEmulator()
+        {
+            return Observable.Timer(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(10))
+                .Select(l => CreateRandomCoordinate());
+        }
+
+        private static GeoCoordinate CreateRandomCoordinate()
+        {
+            var latitude = (random.NextDouble() * 180.0) - 90.0;
+            var longitude = (random.NextDouble() * 360.0) - 180.0;
+
+            return new GeoCoordinate(latitude, longitude);
+        }
+
+        //private void OnLoaded(object sender, RoutedEventArgs e)
+        //{
+        //    var useEmulation = true;//TODO change to false
+
+        //    var observable = useEmulation ? CreateGeoPositionEmulator() : CreateObservableGeoPositionWatcher();
+
+        //    observable
+        //        .ObserveOnDispatcher()
+        //        .Subscribe(OnPositionChanged);
+        //}
+
+        //private void OnPositionChanged(GeoCoordinate location)
+        //{
+        //    lat = location.Latitude;
+        //    lng = location.Longitude;
+
+        //    //Map.Center = location;
+        //}
 
         #region Phone application initialization
 
