@@ -145,6 +145,7 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\BillGates.jpg" />
     <Content Include="Images\home.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

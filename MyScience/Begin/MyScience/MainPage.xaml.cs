@@ -61,6 +61,19 @@ namespace MyScience
             MainListBox.SelectedIndex = -1;
         }
 
+        private void ProjectListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // If selected index is -1 (no selection) do nothing
+            if (ProjectListBox.SelectedIndex == -1)
+                return;
+
+            // Navigate to the new page
+            NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + ProjectListBox.SelectedIndex, UriKind.Relative));
+
+            // Reset selected index to -1 (no selection)
+            ProjectListBox.SelectedIndex = -1;
+        }
+
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
