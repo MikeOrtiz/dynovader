@@ -44,7 +44,7 @@ namespace MyScience
 
             }
             //add button and event handler here
-            //var newButton = new Button { Name = "SubmitButton", Content = "Submit" };
+            var newButton = new Button { Name = "SubmitButton", Content = "Submit" };
             //newButton.Click += new System.EventHandler(newButton_click);
 
 
