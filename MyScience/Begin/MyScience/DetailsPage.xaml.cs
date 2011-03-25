@@ -16,6 +16,7 @@ using System.Runtime.Serialization;
 using System.Device.Location;
 using Microsoft.Phone.Reactive;
 
+using MyScience.MyScienceService;
 
 namespace MyScience
 {

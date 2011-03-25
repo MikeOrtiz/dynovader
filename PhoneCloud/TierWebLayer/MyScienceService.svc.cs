@@ -14,7 +14,7 @@ namespace TierWebLayer
     public class MyScienceService
     {
         [OperationContract]
-        public List<TierDataLayer.Project> GetProjects()
+        public List<Project> GetProjects()
         {
             MyScienceEntities db = new MyScienceEntities();
             var query = (from app in db.projects
@@ -26,7 +26,7 @@ namespace TierWebLayer
                              Form = app.form,
                              Owner = app.owner
                          });
-            return query.ToList();
+            return query.ToList<Project>();
         }
 
         // Add more operations here and mark them with [OperationContract]

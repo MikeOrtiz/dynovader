@@ -1,18 +1,19 @@
-﻿<xapCache source="C:\Users\anotheraccount\Desktop\dynovader\MyScience\Begin\MyScience\Bin\Debug\MyScience.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="3/20/2011 5:19:29 PM">
-  <file source="C:\Users\anotheraccount\Desktop\dynovader\MyScience\Begin\MyScience\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="3/20/2011 4:55:04 PM" />
-  <file source="C:\Users\anotheraccount\Desktop\dynovader\MyScience\Begin\MyScience\obj\Debug\MyScience.dll" archivePath="MyScience.dll" lastWriteTime="3/20/2011 5:19:28 PM" />
-  <file source="c:\Program Files\Microsoft SDKs\Expression\Extensions\FXG\Libraries\Windows Phone\v7.0\Microsoft.Expression.Controls.Fxg.dll" archivePath="Microsoft.Expression.Controls.Fxg.dll" lastWriteTime="9/1/2010 3:15:44 AM" />
-  <file source="c:\Program Files\Microsoft SDKs\Expression\Blend\Windows Phone\v7.0\Libraries\Microsoft.Expression.Interactions.dll" archivePath="Microsoft.Expression.Interactions.dll" lastWriteTime="9/1/2010 2:41:46 AM" />
-  <file source="C:\Program Files\Microsoft SDKs\Windows Phone\v7.0\Libraries\Silverlight\Microsoft.Phone.Controls.dll" archivePath="Microsoft.Phone.Controls.dll" lastWriteTime="1/25/2011 12:39:08 AM" />
-  <file source="C:\Program Files\Microsoft SDKs\Windows Phone\v7.0\Libraries\Silverlight\Microsoft.Phone.Controls.Maps.dll" archivePath="Microsoft.Phone.Controls.Maps.dll" lastWriteTime="1/25/2011 12:39:08 AM" />
-  <file source="C:\Program Files\Microsoft SDKs\Windows Phone\v7.0\Toolkit\Feb11\Bin\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="2/17/2011 4:27:04 PM" />
-  <file source="c:\Program Files\Microsoft SDKs\Expression\Blend\Windows Phone\v7.0\Libraries\System.Windows.Interactivity.dll" archivePath="System.Windows.Interactivity.dll" lastWriteTime="9/1/2010 2:41:46 AM" />
-  <file source="C:\Users\anotheraccount\Desktop\dynovader\MyScience\Begin\MyScience\ApplicationIcon.png" archivePath="ApplicationIcon.png" lastWriteTime="3/20/2011 4:55:03 PM" />
-  <file source="C:\Users\anotheraccount\Desktop\dynovader\MyScience\Begin\MyScience\Background.png" archivePath="Background.png" lastWriteTime="3/20/2011 4:55:03 PM" />
-  <file source="C:\Users\anotheraccount\Desktop\dynovader\MyScience\Begin\MyScience\Images\home.png" archivePath="Images\home.png" lastWriteTime="3/20/2011 4:55:04 PM" />
-  <file source="C:\Users\anotheraccount\Desktop\dynovader\MyScience\Begin\MyScience\Images\people.png" archivePath="Images\people.png" lastWriteTime="3/20/2011 4:55:04 PM" />
-  <file source="C:\Users\anotheraccount\Desktop\dynovader\MyScience\Begin\MyScience\Images\rank.png" archivePath="Images\rank.png" lastWriteTime="3/20/2011 4:55:04 PM" />
-  <file source="C:\Users\anotheraccount\Desktop\dynovader\MyScience\Begin\MyScience\Images\setting.png" archivePath="Images\setting.png" lastWriteTime="3/20/2011 4:55:04 PM" />
-  <file source="C:\Users\anotheraccount\Desktop\dynovader\MyScience\Begin\MyScience\SplashScreenImage.jpg" archivePath="SplashScreenImage.jpg" lastWriteTime="3/20/2011 4:55:04 PM" />
-  <file source="C:\Users\anotheraccount\Desktop\dynovader\MyScience\Begin\MyScience\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="3/20/2011 5:19:29 PM" />
+﻿<xapCache source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\MyScience.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="3/24/2011 8:49:16 PM">
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="3/21/2011 9:25:28 PM" />
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\obj\Debug\MyScience.dll" archivePath="MyScience.dll" lastWriteTime="3/24/2011 8:49:15 PM" />
+  <file source="c:\Program Files\Microsoft SDKs\Expression\Extensions\FXG\Libraries\Windows Phone\v7.0\Microsoft.Expression.Controls.Fxg.dll" archivePath="Microsoft.Expression.Controls.Fxg.dll" lastWriteTime="9/1/2010 2:15:44 AM" />
+  <file source="c:\Program Files\Microsoft SDKs\Expression\Blend\Windows Phone\v7.0\Libraries\Microsoft.Expression.Interactions.dll" archivePath="Microsoft.Expression.Interactions.dll" lastWriteTime="9/1/2010 1:41:46 AM" />
+  <file source="C:\Program Files\Microsoft SDKs\Windows Phone\v7.0\Libraries\Silverlight\Microsoft.Phone.Controls.dll" archivePath="Microsoft.Phone.Controls.dll" lastWriteTime="9/1/2010 3:51:10 AM" />
+  <file source="C:\Program Files\Microsoft SDKs\Windows Phone\v7.0\Libraries\Silverlight\Microsoft.Phone.Controls.Maps.dll" archivePath="Microsoft.Phone.Controls.Maps.dll" lastWriteTime="9/1/2010 3:51:10 AM" />
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="3/21/2011 9:25:27 PM" />
+  <file source="c:\Program Files\Microsoft SDKs\Expression\Blend\Windows Phone\v7.0\Libraries\System.Windows.Interactivity.dll" archivePath="System.Windows.Interactivity.dll" lastWriteTime="9/1/2010 1:41:46 AM" />
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\ServiceReferences.ClientConfig" archivePath="ServiceReferences.ClientConfig" lastWriteTime="3/24/2011 7:09:27 PM" />
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\ApplicationIcon.png" archivePath="ApplicationIcon.png" lastWriteTime="3/21/2011 9:25:27 PM" />
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\Background.png" archivePath="Background.png" lastWriteTime="3/21/2011 9:25:27 PM" />
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\Images\home.png" archivePath="Images\home.png" lastWriteTime="3/21/2011 9:25:27 PM" />
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\Images\people.png" archivePath="Images\people.png" lastWriteTime="3/21/2011 9:25:27 PM" />
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\Images\rank.png" archivePath="Images\rank.png" lastWriteTime="3/21/2011 9:25:28 PM" />
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\Images\setting.png" archivePath="Images\setting.png" lastWriteTime="3/21/2011 9:25:28 PM" />
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\SplashScreenImage.jpg" archivePath="SplashScreenImage.jpg" lastWriteTime="3/21/2011 9:25:28 PM" />
+  <file source="C:\Users\Lu Li\Documents\dynovader\MyScience\Begin\MyScience\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="3/24/2011 8:42:38 PM" />
 </xapCache>

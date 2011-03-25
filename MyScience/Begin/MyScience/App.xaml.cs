@@ -15,6 +15,8 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Reactive;
 
+using MyScience.MyScienceService;
+
 namespace MyScience
 {
     public partial class App : Application

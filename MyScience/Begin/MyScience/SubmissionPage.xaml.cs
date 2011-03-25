@@ -14,6 +14,8 @@ using System.IO;
 using System.Text;
 using System.Runtime.Serialization.Json;
 
+using MyScience.MyScienceService;
+
 namespace MyScience
 {
     public partial class Submission : PhoneApplicationPage
