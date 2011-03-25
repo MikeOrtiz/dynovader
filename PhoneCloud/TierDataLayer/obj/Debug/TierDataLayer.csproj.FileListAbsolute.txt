@@ -1,0 +1,7 @@
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TierDataLayer\bin\Debug\TierDataLayer.dll.config
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TierDataLayer\bin\Debug\TierDataLayer.dll
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TierDataLayer\bin\Debug\TierDataLayer.pdb
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TierDataLayer\bin\Debug\System.Data.Entity.dll
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TierDataLayer\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TierDataLayer\obj\Debug\TierDataLayer.dll
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TierDataLayer\obj\Debug\TierDataLayer.pdb

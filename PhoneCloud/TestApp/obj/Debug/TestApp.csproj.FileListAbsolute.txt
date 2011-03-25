@@ -1,0 +1,13 @@
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\Bin\Debug\ApplicationIcon.png
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\Bin\Debug\Background.png
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\Bin\Debug\TestApp.dll
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\Bin\Debug\TestApp.pdb
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\Bin\Debug\AppManifest.xaml
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\Bin\Debug\TestApp.xap
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\obj\Debug\App.g.i.cs
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\obj\Debug\MainPage.g.i.cs
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\obj\Debug\TestApp.g.resources
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\obj\Debug\TestApp.dll
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\obj\Debug\TestApp.pdb
+C:\Users\Lu Li\Documents\dynovader\PhoneCloud\TestApp\obj\Debug\XapCacheFile.xml

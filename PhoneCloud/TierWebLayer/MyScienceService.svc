@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="TierWebLayer.MyScienceService" CodeBehind="MyScienceService.svc.cs" %>
