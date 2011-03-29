@@ -151,15 +151,15 @@
     <None Include="Service References\MyScienceService\MyScienceService.disco" />
     <None Include="Service References\MyScienceService\configuration91.svcinfo" />
     <None Include="Service References\MyScienceService\configuration.svcinfo" />
-    <None Include="Service References\MyScienceService\MyScienceService.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\MyScienceService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="ServiceReferences.ClientConfig" />
     <None Include="Service References\MyScienceService\MyScienceService.wsdl" />
+    <None Include="Service References\MyScienceService\MyScienceService.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\MyScienceService\MyScienceService1.wsdl" />
     <None Include="Service References\MyScienceService\MyScienceService1.xsd">
       <SubType>Designer</SubType>

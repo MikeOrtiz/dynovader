@@ -14,11 +14,11 @@
       <EntityTypeMapping TypeName="MyScienceModel.datum">
         <MappingFragment StoreEntitySet="data">
           <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="fieldid" ColumnName="fieldid" />
           <ScalarProperty Name="projectid" ColumnName="projectid" />
           <ScalarProperty Name="userid" ColumnName="userid" />
           <ScalarProperty Name="data" ColumnName="data" />
           <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="location" ColumnName="location" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

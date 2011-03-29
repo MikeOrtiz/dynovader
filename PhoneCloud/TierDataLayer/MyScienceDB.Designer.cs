@@ -313,10 +313,20 @@ namespace TierDataLayer
         /// Create a new datum object.
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
-        public static datum Createdatum(global::System.Int32 id)
+        /// <param name="projectid">Initial value of the projectid property.</param>
+        /// <param name="userid">Initial value of the userid property.</param>
+        /// <param name="data">Initial value of the data property.</param>
+        /// <param name="time">Initial value of the time property.</param>
+        /// <param name="location">Initial value of the location property.</param>
+        public static datum Createdatum(global::System.Int32 id, global::System.Int32 projectid, global::System.Int32 userid, global::System.String data, global::System.DateTime time, global::System.String location)
         {
             datum datum = new datum();
             datum.ID = id;
+            datum.projectid = projectid;
+            datum.userid = userid;
+            datum.data = data;
+            datum.time = time;
+            datum.location = location;
             return datum;
         }
 
@@ -353,33 +363,9 @@ namespace TierDataLayer
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> fieldid
-        {
-            get
-            {
-                return _fieldid;
-            }
-            set
-            {
-                OnfieldidChanging(value);
-                ReportPropertyChanging("fieldid");
-                _fieldid = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("fieldid");
-                OnfieldidChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _fieldid;
-        partial void OnfieldidChanging(Nullable<global::System.Int32> value);
-        partial void OnfieldidChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> projectid
+        public global::System.Int32 projectid
         {
             get
             {
@@ -394,16 +380,16 @@ namespace TierDataLayer
                 OnprojectidChanged();
             }
         }
-        private Nullable<global::System.Int32> _projectid;
-        partial void OnprojectidChanging(Nullable<global::System.Int32> value);
+        private global::System.Int32 _projectid;
+        partial void OnprojectidChanging(global::System.Int32 value);
         partial void OnprojectidChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> userid
+        public global::System.Int32 userid
         {
             get
             {
@@ -418,14 +404,14 @@ namespace TierDataLayer
                 OnuseridChanged();
             }
         }
-        private Nullable<global::System.Int32> _userid;
-        partial void OnuseridChanging(Nullable<global::System.Int32> value);
+        private global::System.Int32 _userid;
+        partial void OnuseridChanging(global::System.Int32 value);
         partial void OnuseridChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String data
         {
@@ -437,7 +423,7 @@ namespace TierDataLayer
             {
                 OndataChanging(value);
                 ReportPropertyChanging("data");
-                _data = StructuralObject.SetValidValue(value, true);
+                _data = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("data");
                 OndataChanged();
             }
@@ -449,9 +435,9 @@ namespace TierDataLayer
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.TimeSpan> time
+        public global::System.DateTime time
         {
             get
             {
@@ -466,9 +452,33 @@ namespace TierDataLayer
                 OntimeChanged();
             }
         }
-        private Nullable<global::System.TimeSpan> _time;
-        partial void OntimeChanging(Nullable<global::System.TimeSpan> value);
+        private global::System.DateTime _time;
+        partial void OntimeChanging(global::System.DateTime value);
         partial void OntimeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String location
+        {
+            get
+            {
+                return _location;
+            }
+            set
+            {
+                OnlocationChanging(value);
+                ReportPropertyChanging("location");
+                _location = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("location");
+                OnlocationChanged();
+            }
+        }
+        private global::System.String _location;
+        partial void OnlocationChanging(global::System.String value);
+        partial void OnlocationChanged();
 
         #endregion
     

@@ -21,5 +21,8 @@ namespace MyScience
 
         [DataMember]
         public String label { get; set; }
+
+        [DataMember(IsRequired=false)]
+        public String value { get; set; }
     }
 }
