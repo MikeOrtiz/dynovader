@@ -52,6 +52,7 @@
     </Compile>
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TopScorer.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="MyScienceDB.edmx">

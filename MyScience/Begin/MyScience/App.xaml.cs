@@ -22,6 +22,7 @@ namespace MyScience
     public partial class App : Application
     {
         public static List<Project> applist;
+        public static List<TopScorer> topscorerslist;
         private static MainViewModel viewModel = null;
         public static int currentIndex;
         public static GeoCoordinateWatcher geoCoordinateWatcher = new GeoCoordinateWatcher();
