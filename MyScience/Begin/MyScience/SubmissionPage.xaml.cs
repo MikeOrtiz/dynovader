@@ -47,24 +47,70 @@ namespace MyScience
             }
             //add button and event handler here
             var newButton = new Button { Name = "SubmitButton", Content = "Submit" };
-            //newButton.Click += new System.EventHandler(newButton_click);
+            newButton.Click += new RoutedEventHandler(newButton_Click);
+            DynamicPanel.Children.Add(newButton);
 
+        }
 
+        void newButton_Click(object sender, RoutedEventArgs e)
+        {
+            Project app = App.applist[App.currentIndex];
+            List<Field> fields = GetFormField(app.Form);
+            /*Get the values of all the fields*/
+            int cur = 0;
+            for (int i = 0; i < fields.Count; i++)
+            {
+                switch (fields[i].type)
+                {
+                    case "Question":
+                        TextBox newTextBox = DynamicPanel.Children[cur+1] as TextBox;
+                        fields[i].value = newTextBox.Text;
+                        cur += 2;
+                        break;
+                }
+
+            }
+            /*Parse the fields list into Json String*/
+            String data = GetJsonString(fields);
+            MyScienceServiceClient client = new MyScienceServiceClient();
+            client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
+            client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, 0, data, "location");
+        }
+
+        void client_SubmitDataCompleted(object sender, SubmitDataCompletedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        /*Parse the fields list into Json String*/
+        private String GetJsonString(List<Field> fields)
+        {
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<Field>));
+            MemoryStream ms = new MemoryStream();
+            for (int i = 0; i < fields.Count; i++)
+            {
+                serializer.WriteObject(ms, fields[i]);
+            }
+            byte[] stream = ms.ToArray();
+            ms.Close();
+            return Encoding.UTF8.GetString(stream, 0, stream.Length);
         }
 
         /*parsing Json to get fields required*/
         private List<Field> GetFormField(String form)
         {
-            List<Field> fields = new List<Field>();
+            //List<Field> fields = new List<Field>();
             byte[] byteArray = Encoding.Unicode.GetBytes(form);
             MemoryStream stream = new MemoryStream( byteArray );
-            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Field));
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(List<Field>));
             stream.Position = 0;
-            while (stream.Position < stream.Length)
-            {
-                fields.Add((Field)ser.ReadObject(stream));
-            }
-            return fields;
+            //while (stream.Position < stream.Length)
+            //{
+            //    fields.Add((Field)(ser.ReadObject(stream)));
+            //}
+            var fields = ser.ReadObject(stream);
+            stream.Close();
+            return (List<Field>)fields;
             
         }
 

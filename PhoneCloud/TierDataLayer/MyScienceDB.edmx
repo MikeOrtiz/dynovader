@@ -25,11 +25,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="fieldid" Type="int" />
-          <Property Name="projectid" Type="int" />
-          <Property Name="userid" Type="int" />
-          <Property Name="data" Type="varchar" MaxLength="256" />
-          <Property Name="time" Type="time" Precision="0" />
+          <Property Name="projectid" Type="int" Nullable="false" />
+          <Property Name="userid" Type="int" Nullable="false" />
+          <Property Name="data" Type="varchar" Nullable="false" MaxLength="256" />
+          <Property Name="time" Type="datetime" Nullable="false" />
+          <Property Name="location" Type="varchar" Nullable="false" MaxLength="256" />
         </EntityType>
         <EntityType Name="projectfields">
           <Key>
@@ -85,11 +85,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fieldid" Type="Int32" />
-          <Property Name="projectid" Type="Int32" />
-          <Property Name="userid" Type="Int32" />
-          <Property Name="data" Type="String" MaxLength="256" Unicode="false" FixedLength="false" />
-          <Property Name="time" Type="Time" />
+          <Property Name="projectid" Type="Int32" Nullable="false" />
+          <Property Name="userid" Type="Int32" Nullable="false" />
+          <Property Name="data" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
+          <Property Name="time" Type="DateTime" Nullable="false" />
+          <Property Name="location" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
         </EntityType>
         <EntityType Name="projectfield">
           <Key>
@@ -133,11 +133,11 @@
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="data"><EntityTypeMapping TypeName="MyScienceModel.datum"><MappingFragment StoreEntitySet="data">
             <ScalarProperty Name="ID" ColumnName="ID" />
-            <ScalarProperty Name="fieldid" ColumnName="fieldid" />
             <ScalarProperty Name="projectid" ColumnName="projectid" />
             <ScalarProperty Name="userid" ColumnName="userid" />
             <ScalarProperty Name="data" ColumnName="data" />
             <ScalarProperty Name="time" ColumnName="time" />
+            <ScalarProperty Name="location" ColumnName="location" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="projectfields"><EntityTypeMapping TypeName="MyScienceModel.projectfield"><MappingFragment StoreEntitySet="projectfields">
             <ScalarProperty Name="ID" ColumnName="ID" />
@@ -179,7 +179,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="MyScienceDB">
+      <Diagram Name="MyScienceDB" ZoomLevel="84">
         <EntityTypeShape EntityType="MyScienceModel.coordinator" Width="1.5" PointX="0.75" PointY="0.75" Height="1.59568359375" IsExpanded="true" />
         <EntityTypeShape EntityType="MyScienceModel.datum" Width="1.5" PointX="2.75" PointY="0.75" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="MyScienceModel.projectfield" Width="1.5" PointX="0.75" PointY="3.75" Height="1.9802864583333322" IsExpanded="true" />

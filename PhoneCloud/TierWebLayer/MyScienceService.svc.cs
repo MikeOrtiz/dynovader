@@ -3,8 +3,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.Collections.Generic;
 using TierDataLayer;
+using System.Collections.Generic;
 
 namespace TierWebLayer
 {
@@ -29,6 +29,20 @@ namespace TierWebLayer
             return query.ToList<Project>();
         }
 
+
         // Add more operations here and mark them with [OperationContract]
+        [OperationContract]
+        public int SubmitData(int id, int projectid, int userid, String data, String location)
+        {
+
+            using (var db = new MyScienceEntities())
+            {
+                datum submission = datum.Createdatum(id, projectid, userid, data, DateTime.Now, location);
+                db.data.AddObject(submission);
+                int changes = db.SaveChanges();
+                return changes;
+            }
+        }
+
     }
 }

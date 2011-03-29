@@ -113,6 +113,11 @@ namespace MyScience.MyScienceService {
         System.IAsyncResult BeginGetProjects(System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Project> EndGetProjects(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="urn:MyScienceService/SubmitData", ReplyAction="urn:MyScienceService/SubmitDataResponse")]
+        System.IAsyncResult BeginSubmitData(int id, int projectid, int userid, string data, string location, System.AsyncCallback callback, object asyncState);
+        
+        int EndSubmitData(System.IAsyncResult result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -140,6 +145,25 @@ namespace MyScience.MyScienceService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class SubmitDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public SubmitDataCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public int Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class MyScienceServiceClient : System.ServiceModel.ClientBase<MyScience.MyScienceService.MyScienceService>, MyScience.MyScienceService.MyScienceService {
         
         private BeginOperationDelegate onBeginGetProjectsDelegate;
@@ -147,6 +171,12 @@ namespace MyScience.MyScienceService {
         private EndOperationDelegate onEndGetProjectsDelegate;
         
         private System.Threading.SendOrPostCallback onGetProjectsCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginSubmitDataDelegate;
+        
+        private EndOperationDelegate onEndSubmitDataDelegate;
+        
+        private System.Threading.SendOrPostCallback onSubmitDataCompletedDelegate;
         
         private BeginOperationDelegate onBeginOpenDelegate;
         
@@ -203,6 +233,8 @@ namespace MyScience.MyScienceService {
         
         public event System.EventHandler<GetProjectsCompletedEventArgs> GetProjectsCompleted;
         
+        public event System.EventHandler<SubmitDataCompletedEventArgs> SubmitDataCompleted;
+        
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> OpenCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> CloseCompleted;
@@ -249,6 +281,60 @@ namespace MyScience.MyScienceService {
                 this.onGetProjectsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetProjectsCompleted);
             }
             base.InvokeAsync(this.onBeginGetProjectsDelegate, null, this.onEndGetProjectsDelegate, this.onGetProjectsCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult MyScience.MyScienceService.MyScienceService.BeginSubmitData(int id, int projectid, int userid, string data, string location, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSubmitData(id, projectid, userid, data, location, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        int MyScience.MyScienceService.MyScienceService.EndSubmitData(System.IAsyncResult result) {
+            return base.Channel.EndSubmitData(result);
+        }
+        
+        private System.IAsyncResult OnBeginSubmitData(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int id = ((int)(inValues[0]));
+            int projectid = ((int)(inValues[1]));
+            int userid = ((int)(inValues[2]));
+            string data = ((string)(inValues[3]));
+            string location = ((string)(inValues[4]));
+            return ((MyScience.MyScienceService.MyScienceService)(this)).BeginSubmitData(id, projectid, userid, data, location, callback, asyncState);
+        }
+        
+        private object[] OnEndSubmitData(System.IAsyncResult result) {
+            int retVal = ((MyScience.MyScienceService.MyScienceService)(this)).EndSubmitData(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnSubmitDataCompleted(object state) {
+            if ((this.SubmitDataCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.SubmitDataCompleted(this, new SubmitDataCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void SubmitDataAsync(int id, int projectid, int userid, string data, string location) {
+            this.SubmitDataAsync(id, projectid, userid, data, location, null);
+        }
+        
+        public void SubmitDataAsync(int id, int projectid, int userid, string data, string location, object userState) {
+            if ((this.onBeginSubmitDataDelegate == null)) {
+                this.onBeginSubmitDataDelegate = new BeginOperationDelegate(this.OnBeginSubmitData);
+            }
+            if ((this.onEndSubmitDataDelegate == null)) {
+                this.onEndSubmitDataDelegate = new EndOperationDelegate(this.OnEndSubmitData);
+            }
+            if ((this.onSubmitDataCompletedDelegate == null)) {
+                this.onSubmitDataCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSubmitDataCompleted);
+            }
+            base.InvokeAsync(this.onBeginSubmitDataDelegate, new object[] {
+                        id,
+                        projectid,
+                        userid,
+                        data,
+                        location}, this.onEndSubmitDataDelegate, this.onSubmitDataCompletedDelegate, userState);
         }
         
         private System.IAsyncResult OnBeginOpen(object[] inValues, System.AsyncCallback callback, object asyncState) {
@@ -336,6 +422,23 @@ namespace MyScience.MyScienceService {
             public System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Project> EndGetProjects(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Project> _result = ((System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Project>)(base.EndInvoke("GetProjects", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginSubmitData(int id, int projectid, int userid, string data, string location, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[5];
+                _args[0] = id;
+                _args[1] = projectid;
+                _args[2] = userid;
+                _args[3] = data;
+                _args[4] = location;
+                System.IAsyncResult _result = base.BeginInvoke("SubmitData", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public int EndSubmitData(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                int _result = ((int)(base.EndInvoke("SubmitData", _args, result)));
                 return _result;
             }
         }

@@ -20,11 +20,11 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-    <Property Name="fieldid" Type="int" />
-    <Property Name="projectid" Type="int" />
-    <Property Name="userid" Type="int" />
-    <Property Name="data" Type="varchar" MaxLength="256" />
-    <Property Name="time" Type="time" Precision="0" />
+    <Property Name="projectid" Type="int" Nullable="false" />
+    <Property Name="userid" Type="int" Nullable="false" />
+    <Property Name="data" Type="varchar" Nullable="false" MaxLength="256" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="location" Type="varchar" Nullable="false" MaxLength="256" />
   </EntityType>
   <EntityType Name="projectfields">
     <Key>

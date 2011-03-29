@@ -9,7 +9,7 @@
             </customBinding>
         </bindings>
         <client>
-            <endpoint address="http://localhost:53021/MyScienceService.svc"
+            <endpoint address="http://localhost:49227/MyScienceService.svc"
                 binding="customBinding" bindingConfiguration="CustomBinding_MyScienceService"
                 contract="MyScienceService.MyScienceService" name="CustomBinding_MyScienceService" />
         </client>
