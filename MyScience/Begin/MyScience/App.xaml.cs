@@ -27,6 +27,8 @@ namespace MyScience
         public static GeoCoordinateWatcher geoCoordinateWatcher = new GeoCoordinateWatcher();
         public static Random random = new Random();
         public static double lat, lng;
+        public static bool userVerified = false;
+        public static User currentUser = null;
 
 
         /// <summary>

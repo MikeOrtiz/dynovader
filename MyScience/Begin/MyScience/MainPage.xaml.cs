@@ -79,15 +79,25 @@ namespace MyScience
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!App.ViewModel.IsDataLoaded)
+            if (!App.userVerified)
+                NavigationService.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
+            else
             {
-                App.ViewModel.LoadData();
+                if (!App.ViewModel.IsDataLoaded)
+                {
+                    App.ViewModel.LoadData();
+                }
+
+                MyScienceServiceClient client = new MyScienceServiceClient();
+                client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
+                client.GetProjectsAsync();
+                userName.Text = App.currentUser.Name;
+                score.Text = "Score: " + App.currentUser.Score.ToString();
+                scientistLevel.Text = App.currentUser.Score < 5 ? "Newb" : "Aspiring Scientist";
+
+                client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+                client.GetTopScorersAsync();
             }
-
-            MyScienceServiceClient client = new MyScienceServiceClient();
-            client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
-            client.GetProjectsAsync();
-
             //String text = "<?xml version=\"1.0\"?>"
             //       + "<applist>"
             //       + "<application>"
@@ -119,6 +129,15 @@ namespace MyScience
             /*Get applist from remote server, not working now*/
             //String address = "http://128.12.62.142/dynovader/json.php?action=projectlist";
             //getAppList(address);
+        }
+
+        void client_GetTopScorersCompleted(object sender, GetTopScorersCompletedEventArgs e)
+        {
+            if (e.Result != null)
+            {
+                this.HallOfFameBox.ItemsSource = e.Result;
+                this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
+            }
         }
 
         /*After fetching the project list from sql azure, binding the result with the listbox*/

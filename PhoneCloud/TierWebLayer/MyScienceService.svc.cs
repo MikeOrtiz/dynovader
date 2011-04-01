@@ -44,5 +44,38 @@ namespace TierWebLayer
             }
         }
 
+        [OperationContract]
+        public List<TopScorer> GetTopScorers()
+        {
+            MyScienceEntities db = new MyScienceEntities();
+            //var query = @"SELECT * from db.users ORDER BY Score DESC LIMIT 0,10";
+            var query = (from tscorer in db.users
+                         orderby tscorer.score descending
+                         select new TopScorer
+                         {
+                             ID = tscorer.ID,
+                             Name = tscorer.name,
+                             Score = (int)tscorer.score,
+                         }
+                         );
+            return query.ToList<TopScorer>();
+        }
+
+
+        [OperationContract]
+        public List<User> GetUserProfile(String username, String phoneID)
+        {
+            MyScienceEntities db = new MyScienceEntities();
+            var query = (from user in db.users
+                         where user.name.ToLower() == username.ToLower()// && user.phoneid == phoneID
+                         select new User
+                         {
+                             ID = user.ID,
+                             Name = user.name,
+                             Score = (int)user.score
+                         });
+            return query.ToList<User>();
+        }
+
     }
 }
