@@ -13,6 +13,12 @@
   <wsdl:message name="MyScienceService_GetProjects_OutputMessage">
     <wsdl:part name="parameters" element="GetProjectsResponse" />
   </wsdl:message>
+  <wsdl:message name="MyScienceService_GetTopScorers_InputMessage">
+    <wsdl:part name="parameters" element="GetTopScorers" />
+  </wsdl:message>
+  <wsdl:message name="MyScienceService_GetTopScorers_OutputMessage">
+    <wsdl:part name="parameters" element="GetTopScorersResponse" />
+  </wsdl:message>
   <wsdl:message name="MyScienceService_SubmitData_InputMessage">
     <wsdl:part name="parameters" element="SubmitData" />
   </wsdl:message>
@@ -23,6 +29,10 @@
     <wsdl:operation name="GetProjects">
       <wsdl:input wsaw:Action="urn:MyScienceService/GetProjects" message="MyScienceService_GetProjects_InputMessage" />
       <wsdl:output wsaw:Action="urn:MyScienceService/GetProjectsResponse" message="MyScienceService_GetProjects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTopScorers">
+      <wsdl:input wsaw:Action="urn:MyScienceService/GetTopScorers" message="MyScienceService_GetTopScorers_InputMessage" />
+      <wsdl:output wsaw:Action="urn:MyScienceService/GetTopScorersResponse" message="MyScienceService_GetTopScorers_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="SubmitData">
       <wsdl:input wsaw:Action="urn:MyScienceService/SubmitData" message="MyScienceService_SubmitData_InputMessage" />

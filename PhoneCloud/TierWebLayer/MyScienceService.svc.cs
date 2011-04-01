@@ -31,6 +31,22 @@ namespace TierWebLayer
 
 
         // Add more operations here and mark them with [OperationContract]
+
+        [OperationContract]
+        public List<TopScorer> GetTopScorers()
+        {
+            MyScienceEntities db = new MyScienceEntities();
+            //var query = @"SELECT * from db.users ORDER BY Score DESC LIMIT 0,10";
+            var query = (from tscorer in db.users
+                         orderby tscorer.score descending
+                         select new TopScorer
+                         {
+                             ID = tscorer.ID,
+                             Name = tscorer.name,
+                             Score = (int)tscorer.score,
+                         });
+            return query.ToList<TopScorer>();
+        }
         [OperationContract]
         public int SubmitData(int id, int projectid, int userid, String data, String location)
         {
@@ -78,4 +94,5 @@ namespace TierWebLayer
         }
 
     }
+
 }

@@ -16,4 +16,18 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Project" nillable="true" type="tns:Project" />
+  <xs:complexType name="ArrayOfTopScorer">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TopScorer" nillable="true" type="tns:TopScorer" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTopScorer" nillable="true" type="tns:ArrayOfTopScorer" />
+  <xs:complexType name="TopScorer">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Score" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TopScorer" nillable="true" type="tns:TopScorer" />
 </xs:schema>
