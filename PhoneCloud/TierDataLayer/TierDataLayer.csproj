@@ -55,6 +55,7 @@
     <Compile Include="TopScorer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config">

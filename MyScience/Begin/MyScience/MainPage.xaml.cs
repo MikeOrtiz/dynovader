@@ -78,11 +78,8 @@ namespace MyScience
 
                 client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
                 client.GetTopScorersAsync();
+                //this.Loaded += new RoutedEventHandler(TopScorers_Loaded);
             }
-            MyScienceServiceClient client = new MyScienceServiceClient();
-            client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
-            client.GetProjectsAsync();
-            this.Loaded += new RoutedEventHandler(TopScorers_Loaded);
         }
 
         private void TopScorers_Loaded(object sender, RoutedEventArgs e)
@@ -92,16 +89,6 @@ namespace MyScience
             client.GetTopScorersAsync();
         }
 
-        void client_GetTopScorersCompleted(object sender, GetTopScorersCompletedEventArgs e)
-        {
-            if (e.Result != null)
-            {
-                this.HallOfFameBox.ItemsSource = e.Result;
-                this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
-            }
-        }
-
-        /*After fetching the project list from sql azure, binding the result with the listbox*/
         void client_GetProjectsCompleted(object sender, GetProjectsCompletedEventArgs e)
         {
             if (e.Result != null)

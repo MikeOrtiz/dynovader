@@ -98,6 +98,9 @@
     <Compile Include="SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SignInPage.xaml.cs">
+      <DependentUpon>SignInPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubmissionPage.xaml.cs">
       <DependentUpon>SubmissionPage.xaml</DependentUpon>
     </Compile>
@@ -134,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SignInPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SubmissionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -148,6 +155,9 @@
     <None Include="Service References\MyScienceService\MyScience.MyScienceService.TopScorer.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\MyScienceService\MyScience.MyScienceService.User.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\MyScienceService\MyScienceService.disco" />
     <None Include="Service References\MyScienceService\configuration91.svcinfo" />
     <None Include="Service References\MyScienceService\configuration.svcinfo" />
@@ -155,6 +165,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Resource Include="Images\naran.png" />
     <Content Include="ServiceReferences.ClientConfig" />
     <None Include="Service References\MyScienceService\MyScienceService.wsdl" />
     <None Include="Service References\MyScienceService\MyScienceService.xsd">
