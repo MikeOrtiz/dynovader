@@ -14,6 +14,8 @@ using Microsoft.Phone.Shell;
 using System.Xml;
 using System.IO;
 
+using MyScience.MyScienceService;
+
 namespace MyScience
 {
     public partial class MainPage : PhoneApplicationPage
@@ -23,28 +25,7 @@ namespace MyScience
         {
             InitializeComponent();
             DataContext = App.ViewModel;
-            this.Loaded += new RoutedEventHandler(MainPage_Loaded);          
-        }
-
-
-        void settingsButton_Click(object sender, EventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/SettingPage.xaml", UriKind.Relative));
-        }
-
-        void rankButton_Click(object sender, EventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/RankPage.xaml", UriKind.Relative));
-        }
-
-        void profileButton_Click(object sender, EventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/ProfilePage.xaml", UriKind.Relative));
-        }
-
-        void homeButton_Click(object sender, EventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 
         // Handle selection changed on ListBox
@@ -55,115 +36,78 @@ namespace MyScience
                 return;
 
             // Navigate to the new page
-          NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + MainListBox.SelectedIndex, UriKind.Relative));
-            
+            NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + MainListBox.SelectedIndex, UriKind.Relative));
+
             // Reset selected index to -1 (no selection)
             MainListBox.SelectedIndex = -1;
         }
 
+        private void ProjectListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // If selected index is -1 (no selection) do nothing
+            if (ProjectListBox.SelectedIndex == -1)
+                return;
+
+            // Navigate to the new page
+            NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + ProjectListBox.SelectedIndex, UriKind.Relative));
+
+            // Reset selected index to -1 (no selection)
+            ProjectListBox.SelectedIndex = -1;
+        }
+
+
+
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!App.ViewModel.IsDataLoaded)
+            if (!App.userVerified)
+                NavigationService.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
+            else
             {
-                App.ViewModel.LoadData();
+                if (!App.ViewModel.IsDataLoaded)
+                {
+                    App.ViewModel.LoadData();
+                }
+
+                MyScienceServiceClient client = new MyScienceServiceClient();
+                client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
+                client.GetProjectsAsync();
+                userName.Text = App.currentUser.Name;
+                score.Text = "Score: " + App.currentUser.Score.ToString();
+                scientistLevel.Text = App.currentUser.Score < 5 ? "Newb" : "Aspiring Scientist";
+
+                client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+                client.GetTopScorersAsync();
+                //this.Loaded += new RoutedEventHandler(TopScorers_Loaded);
             }
-
-            String text = "<?xml version=\"1.0\"?>"
-                   + "<applist>"
-                   + "<application>"
-                   + "<id>1</id>"
-                   + "<name>Creek Watch</name>"
-                   + "<description>Creek Watch is an iPhone application that enables you to help monitor the health of your local watershed."
-                   + "Whenever you pass by a waterway, spend a few seconds using the Creek Watch application to snap a picture and report how much water and trash you see."
-                   + "We aggregate the data and share it with water control boards to help them track pollution and manage water resources.</description>"
-                   + "<form> {\"type\":\"Question\",\"label\":\"question1\"}</form>"
-                   + "</application>"
-                //       + "<application>"
-                //       + "<id>2</id>"
-                //       + "<name>iNaturalist</name>"
-                //       + "<description>Welcome!to , where you can record what you see in nature, meet other nature lovers,"
-                //       + "and learn about the natural world.</description>"
-                //       + "</application>"
-                //       + "<application>"
-                //       + "<id>3</id>"
-                //       + "<name>The Sleep Cycle</name>"
-                //       + "<description> The Sleep Cycle alarm clock is a bio-alarm clock that analyzes your sleep patterns and wakes you when you are in the lightest sleep phase."
-                //       + "Waking up in the lightest sleep phase feels like waking without an alarm clock - it is a natural way to wake up where you feel rested and relaxed.</description>"
-                //       + "</application>"
-                   + "</applist>";
-
-            XmlReader reader = XmlReader.Create(new MemoryStream(System.Text.UnicodeEncoding.Unicode.GetBytes(text)));
-            App.applist = parseXML(reader);
-            MainListBox.ItemsSource = App.applist;
-
-            /*Get applist from remote server, not working now*/
-            //String address = "http://128.12.62.142/dynovader/json.php?action=projectlist";
-            //getAppList(address);
         }
 
-        /*Download the applist from the website*/
-        public void getAppList(String websiteURL)
+        private void TopScorers_Loaded(object sender, RoutedEventArgs e)
         {
-            WebClient phone = new WebClient();
-            phone.DownloadStringAsync(new Uri(websiteURL));
-            phone.DownloadStringCompleted += new DownloadStringCompletedEventHandler(phone_DownloadStringCompleted);
+            MyScienceServiceClient client = new MyScienceServiceClient();
+            client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+            client.GetTopScorersAsync();
         }
 
-        /*When the download finished, try to parse the xml file and create a list of applications*/
-        void phone_DownloadStringCompleted(object sneder, DownloadStringCompletedEventArgs e)
+        void client_GetProjectsCompleted(object sender, GetProjectsCompletedEventArgs e)
         {
-            lock (this)
+            if (e.Result != null)
             {
-                /*Get the content of the downloaded file*/
-                string result = e.Result;
-
-                /*Parse it as xml format and create a list of applications and bind it to the listbox*/
-                XmlReader reader = XmlReader.Create(new MemoryStream(System.Text.UnicodeEncoding.Unicode.GetBytes(result)));
-                App.applist = parseXML(reader);
-                MainListBox.ItemsSource =App.applist;
+                this.MainListBox.ItemsSource = e.Result;
+                App.applist = e.Result.ToList<Project>();
             }
-
+            this.MainListBox.Visibility = System.Windows.Visibility.Visible;
         }
 
-        /*Parsing the dowloaded xml file of applist*/
-        List<Project> parseXML(XmlReader reader)
+        /*After fetching the list of top scorers from sql azure, bind the result with the listbox*/
+        void client_GetTopScorersCompleted(object sender, GetTopScorersCompletedEventArgs e)
         {
-            List<Project> appList = new List<Project>();
-            int id = 0;
-            String name = "";
-            String description = "";
-            String form = "";
-            while (reader.Read())
+            if (e.Result != null)
             {
-                if (reader.NodeType == XmlNodeType.Element && reader.Name == "id")
-                {
-                    reader.Read();
-                    id = Convert.ToInt32(reader.Value);
-                }
-                else if (reader.NodeType == XmlNodeType.Element && reader.Name == "name")
-                {
-                    reader.Read();
-                    name = reader.Value;
-                }
-                else if (reader.NodeType == XmlNodeType.Element && reader.Name == "description")
-                {
-                    reader.Read();
-                    description = reader.Value;
-                }
-                else if (reader.NodeType == XmlNodeType.Element && reader.Name == "form")
-                {
-                    reader.Read();
-                    form = reader.Value;
-                }
-                else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "application")
-                {
-                    Project app = new Project(id, name, description, form);
-                    appList.Add(app);
-                }
-
+                this.HallOfFameBox.ItemsSource = e.Result;
+                App.topscorerslist = e.Result.ToList<TopScorer>();
             }
-            return appList;
+            this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
         }
     }
 }

@@ -10,7 +10,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True" Loaded="DetailsPage_Loaded">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -28,32 +28,16 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <TextBlock Height="130" HorizontalAlignment="Left" Margin="6,6,0,0" Name="DescriptionBlock" Text="" VerticalAlignment="Top" Width="444" TextWrapping="Wrap" />
-            <Button Content="Submit" Height="72" HorizontalAlignment="Left" Margin="266,440,0,0" Name="SubmitButton" VerticalAlignment="Top" Width="160" Click="SubmitButton_Click" />
-            <TextBlock Height="57" HorizontalAlignment="Left" Margin="6,167,0,0" Name="latWrapper" Text="Lat:" VerticalAlignment="Top" Width="444" TextWrapping="Wrap" FontSize="40" />
-            <TextBlock Height="57" HorizontalAlignment="Left" Margin="6,232,0,0" Name="lngWrapper" Text="Lng:" TextWrapping="Wrap" VerticalAlignment="Top" Width="444" FontSize="40" />
-            <TextBlock Height="57" HorizontalAlignment="Left" Margin="6,296,0,0" Name="idWrapper" Text="ID:" TextWrapping="Wrap" VerticalAlignment="Top" Width="444" FontSize="40" />
+            <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="DynamicPanel" VerticalAlignment="Top" Width="450"></StackPanel>
         </Grid>
     </Grid>
- 
-    <!--Sample code showing usage of ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
-                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
-            </shell:ApplicationBar.MenuItems>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
 
-    <phone:PhoneApplicationPage.ApplicationBar>
+    <!--phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton x:Name ="homeButton" IconUri="/Images/home.png" Text="Home" Click="homeButton_Click"/>
             <shell:ApplicationBarIconButton x:Name ="profileButton" IconUri="/Images/people.png" Text="Profile" Click="profileButton_Click"/>
             <shell:ApplicationBarIconButton x:Name ="rankButton" IconUri="/Images/rank.png" Text="Rank" Click="rankButton_Click"/>
             <shell:ApplicationBarIconButton x:Name ="settingsButton" IconUri="/Images/setting.png" Text="Setting" Click="settingsButton_Click"/>
         </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar-->
 </phone:PhoneApplicationPage>

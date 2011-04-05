@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TierDataLayer", "TierDataLayer\TierDataLayer.csproj", "{20FD8AE8-846D-4A00-940C-33796D433E9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyScience", "..\MyScience\Begin\MyScience\MyScience.csproj", "{F7E371BF-FD0C-4CC0-B148-A8CFB1E45AF3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7A76D167-EA12-4D52-B14D-9E9BC8D443ED} = {7A76D167-EA12-4D52-B14D-9E9BC8D443ED}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TierWebLayer", "TierWebLayer\TierWebLayer.csproj", "{7A76D167-EA12-4D52-B14D-9E9BC8D443ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20FD8AE8-846D-4A00-940C-33796D433E9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20FD8AE8-846D-4A00-940C-33796D433E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20FD8AE8-846D-4A00-940C-33796D433E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20FD8AE8-846D-4A00-940C-33796D433E9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7E371BF-FD0C-4CC0-B148-A8CFB1E45AF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7E371BF-FD0C-4CC0-B148-A8CFB1E45AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7E371BF-FD0C-4CC0-B148-A8CFB1E45AF3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F7E371BF-FD0C-4CC0-B148-A8CFB1E45AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7E371BF-FD0C-4CC0-B148-A8CFB1E45AF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7E371BF-FD0C-4CC0-B148-A8CFB1E45AF3}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7A76D167-EA12-4D52-B14D-9E9BC8D443ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A76D167-EA12-4D52-B14D-9E9BC8D443ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A76D167-EA12-4D52-B14D-9E9BC8D443ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A76D167-EA12-4D52-B14D-9E9BC8D443ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
