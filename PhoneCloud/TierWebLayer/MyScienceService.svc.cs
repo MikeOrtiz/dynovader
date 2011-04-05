@@ -33,13 +33,17 @@ namespace TierWebLayer
         // Add more operations here and mark them with [OperationContract]
 
         [OperationContract]
-        public int SubmitData(int id, int projectid, int userid, String data, String location)
+        public int SubmitData(int id, int projectid, int userid, String data, String location, int point)
         {
 
             using (var db = new MyScienceEntities())
             {
                 datum submission = datum.Createdatum(id, projectid, userid, data, DateTime.Now, location);
                 db.data.AddObject(submission);
+                user curUser = (from auser in db.users
+                                where auser.ID == userid
+                                select auser).First();
+                curUser.score = curUser.score + point;
                 int changes = db.SaveChanges();
                 return changes;
             }
@@ -78,16 +82,16 @@ namespace TierWebLayer
             return query.ToList<User>();
         }
 
-        [OperationContract]
-        public void UpdateScore(int userID, int point)
-        {
-            MyScienceEntities db = new MyScienceEntities();
-            user curUser = (from auser in db.users
-                            where auser.ID == userID
-                            select auser).First();
-            curUser.score = curUser.score + point;
-            db.SaveChanges();
-        }
+        //[OperationContract]
+        //public void UpdateScore(int userID, int point)
+        //{
+        //    MyScienceEntities db = new MyScienceEntities();
+        //    user curUser = (from auser in db.users
+        //                    where auser.ID == userID
+        //                    select auser).First();
+        //    curUser.score = curUser.score + point;
+        //    db.SaveChanges();
+        //}
     }
 
 }

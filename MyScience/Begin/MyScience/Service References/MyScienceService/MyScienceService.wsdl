@@ -31,12 +31,6 @@
   <wsdl:message name="MyScienceService_GetUserProfile_OutputMessage">
     <wsdl:part name="parameters" element="GetUserProfileResponse" />
   </wsdl:message>
-  <wsdl:message name="MyScienceService_UpdateScore_InputMessage">
-    <wsdl:part name="parameters" element="UpdateScore" />
-  </wsdl:message>
-  <wsdl:message name="MyScienceService_UpdateScore_OutputMessage">
-    <wsdl:part name="parameters" element="UpdateScoreResponse" />
-  </wsdl:message>
   <wsdl:portType name="MyScienceService">
     <wsdl:operation name="GetProjects">
       <wsdl:input wsaw:Action="urn:MyScienceService/GetProjects" message="MyScienceService_GetProjects_InputMessage" />
@@ -53,10 +47,6 @@
     <wsdl:operation name="GetUserProfile">
       <wsdl:input wsaw:Action="urn:MyScienceService/GetUserProfile" message="MyScienceService_GetUserProfile_InputMessage" />
       <wsdl:output wsaw:Action="urn:MyScienceService/GetUserProfileResponse" message="MyScienceService_GetUserProfile_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="UpdateScore">
-      <wsdl:input wsaw:Action="urn:MyScienceService/UpdateScore" message="MyScienceService_UpdateScore_InputMessage" />
-      <wsdl:output wsaw:Action="urn:MyScienceService/UpdateScoreResponse" message="MyScienceService_UpdateScore_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
 </wsdl:definitions>

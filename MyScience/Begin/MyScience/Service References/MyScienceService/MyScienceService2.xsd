@@ -21,6 +21,7 @@
         <xs:element minOccurs="0" name="userid" type="xs:int" />
         <xs:element minOccurs="0" name="data" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="location" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="point" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -56,19 +57,6 @@
       <xs:sequence>
         <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/TierDataLayer" minOccurs="0" name="GetUserProfileResult" nillable="true" type="q3:ArrayOfUser" />
       </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="UpdateScore">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="userID" type="xs:int" />
-        <xs:element minOccurs="0" name="point" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="UpdateScoreResponse">
-    <xs:complexType>
-      <xs:sequence />
     </xs:complexType>
   </xs:element>
 </xs:schema>

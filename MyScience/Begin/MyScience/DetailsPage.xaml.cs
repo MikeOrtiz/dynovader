@@ -19,6 +19,7 @@ using Microsoft.Phone.Reactive;
 using MyScience.MyScienceService;
 using System.Runtime.Serialization.Json;
 using System.IO;
+using System.Windows.Controls.Primitives;
 
 namespace MyScience
 {
@@ -64,15 +65,6 @@ namespace MyScience
                 App.currentIndex = Convert.ToInt32(NavigationContext.QueryString["selectedItem"]);
                 Project currentApp = App.applist[App.currentIndex];
                 PageTitle.Text = currentApp.Name;
-                //DescriptionBlock.Text = currentApp.Description;
-                // Set the phone ID
-                //byte[] result = null;
-                //object uniqueId;
-                //if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
-                //    result = (byte[]) uniqueId;
-                //idWrapper.Text = "ID: " + BitConverter.ToString(result);
-                //latWrapper.Text = "Lat: " + lat.ToString();
-                //lngWrapper.Text = "Lng: " + lng.ToString();
                 DynamicPanel.Children.Clear();
                 var DescriptionBlock = new TextBlock();
                 DescriptionBlock.Text = currentApp.Description;
@@ -129,14 +121,20 @@ namespace MyScience
             String data = GetJsonString(fields);
             MyScienceServiceClient client = new MyScienceServiceClient();
             client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
-            client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString()+","+lng.ToString());
+            client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString()+","+lng.ToString(),1);
 
-            client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
+            //client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
         }
 
         void client_SubmitDataCompleted(object sender, SubmitDataCompletedEventArgs e)
         {
             
+            Popup messagePopup = new Popup();
+            TextBlock message = new TextBlock();
+            message.Text = "Congratulation! Data Submitted Successfully!";
+            messagePopup.Child = message;
+            messagePopup.IsOpen = true;
+            DynamicPanel.Children.Add(messagePopup);
             //throw new NotImplementedException();
         }
 

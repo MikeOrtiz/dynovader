@@ -235,7 +235,7 @@ namespace MyScience.MyScienceService {
         System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Project> EndGetProjects(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="urn:MyScienceService/SubmitData", ReplyAction="urn:MyScienceService/SubmitDataResponse")]
-        System.IAsyncResult BeginSubmitData(int id, int projectid, int userid, string data, string location, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginSubmitData(int id, int projectid, int userid, string data, string location, int point, System.AsyncCallback callback, object asyncState);
         
         int EndSubmitData(System.IAsyncResult result);
         
@@ -248,11 +248,6 @@ namespace MyScience.MyScienceService {
         System.IAsyncResult BeginGetUserProfile(string username, string phoneID, System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.User> EndGetUserProfile(System.IAsyncResult result);
-        
-        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="urn:MyScienceService/UpdateScore", ReplyAction="urn:MyScienceService/UpdateScoreResponse")]
-        System.IAsyncResult BeginUpdateScore(int userID, int point, System.AsyncCallback callback, object asyncState);
-        
-        void EndUpdateScore(System.IAsyncResult result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -363,12 +358,6 @@ namespace MyScience.MyScienceService {
         
         private System.Threading.SendOrPostCallback onGetUserProfileCompletedDelegate;
         
-        private BeginOperationDelegate onBeginUpdateScoreDelegate;
-        
-        private EndOperationDelegate onEndUpdateScoreDelegate;
-        
-        private System.Threading.SendOrPostCallback onUpdateScoreCompletedDelegate;
-        
         private BeginOperationDelegate onBeginOpenDelegate;
         
         private EndOperationDelegate onEndOpenDelegate;
@@ -430,8 +419,6 @@ namespace MyScience.MyScienceService {
         
         public event System.EventHandler<GetUserProfileCompletedEventArgs> GetUserProfileCompleted;
         
-        public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> UpdateScoreCompleted;
-        
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> OpenCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> CloseCompleted;
@@ -481,8 +468,8 @@ namespace MyScience.MyScienceService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult MyScience.MyScienceService.MyScienceService.BeginSubmitData(int id, int projectid, int userid, string data, string location, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSubmitData(id, projectid, userid, data, location, callback, asyncState);
+        System.IAsyncResult MyScience.MyScienceService.MyScienceService.BeginSubmitData(int id, int projectid, int userid, string data, string location, int point, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSubmitData(id, projectid, userid, data, location, point, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -496,7 +483,8 @@ namespace MyScience.MyScienceService {
             int userid = ((int)(inValues[2]));
             string data = ((string)(inValues[3]));
             string location = ((string)(inValues[4]));
-            return ((MyScience.MyScienceService.MyScienceService)(this)).BeginSubmitData(id, projectid, userid, data, location, callback, asyncState);
+            int point = ((int)(inValues[5]));
+            return ((MyScience.MyScienceService.MyScienceService)(this)).BeginSubmitData(id, projectid, userid, data, location, point, callback, asyncState);
         }
         
         private object[] OnEndSubmitData(System.IAsyncResult result) {
@@ -512,11 +500,11 @@ namespace MyScience.MyScienceService {
             }
         }
         
-        public void SubmitDataAsync(int id, int projectid, int userid, string data, string location) {
-            this.SubmitDataAsync(id, projectid, userid, data, location, null);
+        public void SubmitDataAsync(int id, int projectid, int userid, string data, string location, int point) {
+            this.SubmitDataAsync(id, projectid, userid, data, location, point, null);
         }
         
-        public void SubmitDataAsync(int id, int projectid, int userid, string data, string location, object userState) {
+        public void SubmitDataAsync(int id, int projectid, int userid, string data, string location, int point, object userState) {
             if ((this.onBeginSubmitDataDelegate == null)) {
                 this.onBeginSubmitDataDelegate = new BeginOperationDelegate(this.OnBeginSubmitData);
             }
@@ -531,7 +519,8 @@ namespace MyScience.MyScienceService {
                         projectid,
                         userid,
                         data,
-                        location}, this.onEndSubmitDataDelegate, this.onSubmitDataCompletedDelegate, userState);
+                        location,
+                        point}, this.onEndSubmitDataDelegate, this.onSubmitDataCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -626,53 +615,6 @@ namespace MyScience.MyScienceService {
                         phoneID}, this.onEndGetUserProfileDelegate, this.onGetUserProfileCompletedDelegate, userState);
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult MyScience.MyScienceService.MyScienceService.BeginUpdateScore(int userID, int point, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginUpdateScore(userID, point, callback, asyncState);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        void MyScience.MyScienceService.MyScienceService.EndUpdateScore(System.IAsyncResult result) {
-            base.Channel.EndUpdateScore(result);
-        }
-        
-        private System.IAsyncResult OnBeginUpdateScore(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            int userID = ((int)(inValues[0]));
-            int point = ((int)(inValues[1]));
-            return ((MyScience.MyScienceService.MyScienceService)(this)).BeginUpdateScore(userID, point, callback, asyncState);
-        }
-        
-        private object[] OnEndUpdateScore(System.IAsyncResult result) {
-            ((MyScience.MyScienceService.MyScienceService)(this)).EndUpdateScore(result);
-            return null;
-        }
-        
-        private void OnUpdateScoreCompleted(object state) {
-            if ((this.UpdateScoreCompleted != null)) {
-                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.UpdateScoreCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
-            }
-        }
-        
-        public void UpdateScoreAsync(int userID, int point) {
-            this.UpdateScoreAsync(userID, point, null);
-        }
-        
-        public void UpdateScoreAsync(int userID, int point, object userState) {
-            if ((this.onBeginUpdateScoreDelegate == null)) {
-                this.onBeginUpdateScoreDelegate = new BeginOperationDelegate(this.OnBeginUpdateScore);
-            }
-            if ((this.onEndUpdateScoreDelegate == null)) {
-                this.onEndUpdateScoreDelegate = new EndOperationDelegate(this.OnEndUpdateScore);
-            }
-            if ((this.onUpdateScoreCompletedDelegate == null)) {
-                this.onUpdateScoreCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnUpdateScoreCompleted);
-            }
-            base.InvokeAsync(this.onBeginUpdateScoreDelegate, new object[] {
-                        userID,
-                        point}, this.onEndUpdateScoreDelegate, this.onUpdateScoreCompletedDelegate, userState);
-        }
-        
         private System.IAsyncResult OnBeginOpen(object[] inValues, System.AsyncCallback callback, object asyncState) {
             return ((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(callback, asyncState);
         }
@@ -761,13 +703,14 @@ namespace MyScience.MyScienceService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginSubmitData(int id, int projectid, int userid, string data, string location, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[5];
+            public System.IAsyncResult BeginSubmitData(int id, int projectid, int userid, string data, string location, int point, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[6];
                 _args[0] = id;
                 _args[1] = projectid;
                 _args[2] = userid;
                 _args[3] = data;
                 _args[4] = location;
+                _args[5] = point;
                 System.IAsyncResult _result = base.BeginInvoke("SubmitData", _args, callback, asyncState);
                 return _result;
             }
@@ -802,19 +745,6 @@ namespace MyScience.MyScienceService {
                 object[] _args = new object[0];
                 System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.User> _result = ((System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.User>)(base.EndInvoke("GetUserProfile", _args, result)));
                 return _result;
-            }
-            
-            public System.IAsyncResult BeginUpdateScore(int userID, int point, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[2];
-                _args[0] = userID;
-                _args[1] = point;
-                System.IAsyncResult _result = base.BeginInvoke("UpdateScore", _args, callback, asyncState);
-                return _result;
-            }
-            
-            public void EndUpdateScore(System.IAsyncResult result) {
-                object[] _args = new object[0];
-                base.EndInvoke("UpdateScore", _args, result);
             }
         }
     }

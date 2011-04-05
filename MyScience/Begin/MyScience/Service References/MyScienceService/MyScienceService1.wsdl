@@ -49,15 +49,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="UpdateScore">
-      <soap12:operation soapAction="urn:MyScienceService/UpdateScore" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="MyScienceService">
     <wsdl:port name="CustomBinding_MyScienceService" binding="tns:CustomBinding_MyScienceService">
