@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="85f996d2-36c2-4e0e-b411-7a7a4220933f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="1d8b6cb7-2c3c-422d-8ed7-361d4c81d722" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
     <EnableDataBinding>true</EnableDataBinding>
@@ -20,15 +20,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:49227/MyScienceService.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:9766/MyScienceService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="MyScienceService.xsd" MetadataType="Schema" ID="3f2939a1-b520-4e21-8cfc-974f93a937f7" SourceId="1" SourceUrl="http://localhost:49227/MyScienceService.svc?xsd=xsd1" />
-    <MetadataFile FileName="MyScienceService.wsdl" MetadataType="Wsdl" ID="379f9d38-0794-474c-9267-fad9f1d1abf1" SourceId="1" SourceUrl="http://localhost:49227/MyScienceService.svc?wsdl" />
-    <MetadataFile FileName="MyScienceService1.xsd" MetadataType="Schema" ID="89810578-49c8-4f88-becd-f019a60ad5e3" SourceId="1" SourceUrl="http://localhost:49227/MyScienceService.svc?xsd=xsd0" />
-    <MetadataFile FileName="MyScienceService1.wsdl" MetadataType="Wsdl" ID="0404755d-5086-47f9-a659-bb40d9d19e1c" SourceId="1" SourceUrl="http://localhost:49227/MyScienceService.svc?wsdl=wsdl0" />
-    <MetadataFile FileName="MyScienceService2.xsd" MetadataType="Schema" ID="8ca15de6-83b5-49e6-846f-59d02e0789a4" SourceId="1" SourceUrl="http://localhost:49227/MyScienceService.svc?xsd=xsd2" />
-    <MetadataFile FileName="MyScienceService.disco" MetadataType="Disco" ID="69e8587b-891d-499b-900b-f892b52824b8" SourceId="1" SourceUrl="http://localhost:49227/MyScienceService.svc?disco" />
+    <MetadataFile FileName="MyScienceService.xsd" MetadataType="Schema" ID="80ecb7d6-534f-4574-b66f-4f8a99d1e5f5" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?xsd=xsd2" />
+    <MetadataFile FileName="MyScienceService.wsdl" MetadataType="Wsdl" ID="de0571f5-6fb5-4b1d-85cc-7922c21812cf" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="MyScienceService1.wsdl" MetadataType="Wsdl" ID="4e8f4de5-a207-45ea-b677-e3bdcdbe329a" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?wsdl" />
+    <MetadataFile FileName="MyScienceService1.xsd" MetadataType="Schema" ID="48c20352-56e9-4cae-a91e-aaec894c42db" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?xsd=xsd1" />
+    <MetadataFile FileName="MyScienceService.disco" MetadataType="Disco" ID="13ce505a-56b5-42d7-93f7-98f88763a806" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?disco" />
+    <MetadataFile FileName="MyScienceService2.xsd" MetadataType="Schema" ID="d7c5d510-906a-415f-8b15-3999e408f5fa" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

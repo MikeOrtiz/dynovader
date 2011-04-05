@@ -12,3 +12,10 @@ C:\Users\anotheraccount\Desktop\DynovaderMerged\PhoneCloud\TierWebLayer\bin\Tier
 C:\Users\anotheraccount\Desktop\DynovaderMerged\PhoneCloud\TierWebLayer\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\anotheraccount\Desktop\DynovaderMerged\PhoneCloud\TierWebLayer\obj\Debug\TierWebLayer.dll
 C:\Users\anotheraccount\Desktop\DynovaderMerged\PhoneCloud\TierWebLayer\obj\Debug\TierWebLayer.pdb
+C:\Users\Lu Li\Documents\cs210\PhoneCloud\TierWebLayer\bin\TierWebLayer.dll
+C:\Users\Lu Li\Documents\cs210\PhoneCloud\TierWebLayer\bin\TierWebLayer.pdb
+C:\Users\Lu Li\Documents\cs210\PhoneCloud\TierWebLayer\bin\TierDataLayer.dll
+C:\Users\Lu Li\Documents\cs210\PhoneCloud\TierWebLayer\bin\TierDataLayer.pdb
+C:\Users\Lu Li\Documents\cs210\PhoneCloud\TierWebLayer\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lu Li\Documents\cs210\PhoneCloud\TierWebLayer\obj\Debug\TierWebLayer.dll
+C:\Users\Lu Li\Documents\cs210\PhoneCloud\TierWebLayer\obj\Debug\TierWebLayer.pdb

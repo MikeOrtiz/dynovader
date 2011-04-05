@@ -78,6 +78,16 @@ namespace TierWebLayer
             return query.ToList<User>();
         }
 
+        [OperationContract]
+        public void UpdateScore(int userID, int point)
+        {
+            MyScienceEntities db = new MyScienceEntities();
+            user curUser = (from auser in db.users
+                            where auser.ID == userID
+                            select auser).First();
+            curUser.score = curUser.score + point;
+            db.SaveChanges();
+        }
     }
 
 }

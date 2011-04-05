@@ -53,7 +53,7 @@ namespace MyScience
                 List<User> users = e.Result.ToList<User>();
                 if (users.Count() == 1)
                 {
-                    App.currentUser = users.ElementAt<User>(0);
+                    App.currentUser = users[0];
                     App.userVerified = true;
                     tryAgainBlock.Text = "";
                     NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));

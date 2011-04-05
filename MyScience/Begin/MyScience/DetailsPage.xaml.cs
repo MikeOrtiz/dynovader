@@ -129,11 +129,14 @@ namespace MyScience
             String data = GetJsonString(fields);
             MyScienceServiceClient client = new MyScienceServiceClient();
             client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
-            client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, 0, data, lat.ToString()+","+lng.ToString());
+            client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString()+","+lng.ToString());
+
+            client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
         }
 
         void client_SubmitDataCompleted(object sender, SubmitDataCompletedEventArgs e)
         {
+            
             //throw new NotImplementedException();
         }
 
