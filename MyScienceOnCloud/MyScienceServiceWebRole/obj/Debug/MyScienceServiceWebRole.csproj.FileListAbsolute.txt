@@ -7,3 +7,12 @@ c:\users\lu li\documents\visual studio 2010\Projects\MyScienceOnCloud\MyScienceS
 c:\users\lu li\documents\visual studio 2010\Projects\MyScienceOnCloud\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
 c:\users\lu li\documents\visual studio 2010\Projects\MyScienceOnCloud\MyScienceServiceWebRole\obj\Debug\MyScienceServiceWebRole.dll
 c:\users\lu li\documents\visual studio 2010\Projects\MyScienceOnCloud\MyScienceServiceWebRole\obj\Debug\MyScienceServiceWebRole.pdb
+C:\Users\naranb\dynovader\MyScienceOnCloud\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.dll
+C:\Users\naranb\dynovader\MyScienceOnCloud\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.pdb
+C:\Users\naranb\dynovader\MyScienceOnCloud\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\naranb\dynovader\MyScienceOnCloud\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\naranb\dynovader\MyScienceOnCloud\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\naranb\dynovader\MyScienceOnCloud\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\naranb\dynovader\MyScienceOnCloud\MyScienceServiceWebRole\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\naranb\dynovader\MyScienceOnCloud\MyScienceServiceWebRole\obj\Debug\MyScienceServiceWebRole.dll
+C:\Users\naranb\dynovader\MyScienceOnCloud\MyScienceServiceWebRole\obj\Debug\MyScienceServiceWebRole.pdb

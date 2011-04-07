@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MyScienceOnCloud" generation="1" functional="0" release="0" Id="f192397d-a11f-4dc6-b470-4277f124a7cc" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MyScienceOnCloud" generation="1" functional="0" release="0" Id="bee70a2d-d704-4ea3-a2ad-f9baaa9dcaa3" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="MyScienceOnCloudGroup" generation="1" functional="0" release="0">
       <componentports>
@@ -72,7 +72,7 @@
       </maps>
       <components>
         <groupHascomponents>
-          <role name="MyScienceServiceWebRole" generation="1" functional="0" release="0" software="c:\users\lu li\documents\visual studio 2010\Projects\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole" entryPoint="base\x86\WaHostBootstrapper.exe" parameters="base\x86\WaIISHost.exe " memIndex="1792" hostingEnvironment="frontendadmin" hostingEnvironmentVersion="2">
+          <role name="MyScienceServiceWebRole" generation="1" functional="0" release="0" software="C:\Users\naranb\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaIISHost.exe " memIndex="1792" hostingEnvironment="frontendadmin" hostingEnvironmentVersion="2">
             <componentports>
               <inPort name="Endpoint1" protocol="http" portRanges="80" />
             </componentports>
@@ -100,9 +100,9 @@
     </group>
   </groups>
   <implements>
-    <implementation Id="efe40628-e9e5-48c6-9b0a-f33f1ee5a899" ref="Microsoft.RedDog.Contract\ServiceContract\MyScienceOnCloudContract@ServiceDefinition.build">
+    <implementation Id="99a14795-f722-425c-aaf4-0cf8867652d7" ref="Microsoft.RedDog.Contract\ServiceContract\MyScienceOnCloudContract@ServiceDefinition.build">
       <interfacereferences>
-        <interfaceReference Id="03615748-a1e4-4c4b-bb11-dd755fc4f1e5" ref="Microsoft.RedDog.Contract\Interface\MyScienceServiceWebRole:Endpoint1@ServiceDefinition.build">
+        <interfaceReference Id="55bc728d-3fb7-4ea8-8791-454c163cb24e" ref="Microsoft.RedDog.Contract\Interface\MyScienceServiceWebRole:Endpoint1@ServiceDefinition.build">
           <inPort>
             <inPortMoniker name="/MyScienceOnCloud/MyScienceOnCloudGroup/MyScienceServiceWebRole:Endpoint1" />
           </inPort>

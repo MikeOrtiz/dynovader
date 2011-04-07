@@ -38,7 +38,7 @@ namespace MyScience
 
             /*Parse the fields list into Json String*/
             //String data = GetJsonString(fields);
-            MyScienceServiceClient client = new MyScienceServiceClient();
+            Service1Client client = new Service1Client();
             client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
             client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
         }

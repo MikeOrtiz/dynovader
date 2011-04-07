@@ -24,5 +24,8 @@ namespace MyScienceServiceWebRole
         [OperationContract]
         List<User> GetUserProfile(String username, String phoneID);
 
+        [OperationContract]
+        user RegisterUser(int id, String phoneid, String name);
+
     }
 }

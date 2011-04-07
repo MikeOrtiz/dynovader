@@ -65,7 +65,7 @@ namespace MyScienceServiceWebRole
         {
             MyScienceEntities db = new MyScienceEntities();
             var query = (from user in db.users
-                         where user.name.ToLower() == username.ToLower()// && user.phoneid == phoneID
+                         where user.name.ToLower() == username.ToLower() && user.phoneid == phoneID
                          select new User
                          {
                              ID = user.ID,
@@ -75,15 +75,27 @@ namespace MyScienceServiceWebRole
             return query.ToList<User>();
         }
 
-        //[OperationContract]
-        //public void UpdateScore(int userID, int point)
-        //{
-        //    MyScienceEntities db = new MyScienceEntities();
-        //    user curUser = (from auser in db.users
-        //                    where auser.ID == userID
-        //                    select auser).First();
-        //    curUser.score = curUser.score + point;
-        //    db.SaveChanges();
-        //}
+        public user RegisterUser(int id, String phoneid, String name)
+        {
+            //check to see if the user is in the database
+            MyScienceEntities db = new MyScienceEntities();
+            var query = (from userobj in db.users
+                         where userobj.name.ToLower() == name.ToLower()// && userobj.phoneid == phoneid
+                         select new User
+                         {
+                             ID = userobj.ID,
+                             Name = userobj.name,
+                             Score = (int)userobj.score
+                         });
+            if (query.Count<User>() != 0)
+                return null; //username already taken
+
+            int idx = db.users.Count<user>() + 1;
+            user userinfo = user.Createuser(idx, phoneid, name);
+            userinfo.score = 0;
+            db.users.AddObject(userinfo);
+            int changes = db.SaveChanges();
+            return userinfo;
+        }
     }
 }
