@@ -119,7 +119,7 @@ namespace MyScience
             }
             /*Parse the fields list into Json String*/
             String data = GetJsonString(fields);
-            MyScienceServiceClient client = new MyScienceServiceClient();
+            Service1Client client = new Service1Client();
             client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
             client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString()+","+lng.ToString(),1);
 

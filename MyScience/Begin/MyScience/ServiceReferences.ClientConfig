@@ -1,17 +1,17 @@
 ﻿<configuration>
     <system.serviceModel>
         <bindings>
-            <customBinding>
-                <binding name="CustomBinding_MyScienceService">
-                    <binaryMessageEncoding />
-                    <httpTransport maxReceivedMessageSize="2147483647" maxBufferSize="2147483647" />
+            <basicHttpBinding>
+                <binding name="BasicHttpBinding_IService1" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
                 </binding>
-            </customBinding>
+            </basicHttpBinding>
         </bindings>
         <client>
-            <endpoint address="http://localhost:9766/MyScienceService.svc"
-                binding="customBinding" bindingConfiguration="CustomBinding_MyScienceService"
-                contract="MyScienceService.MyScienceService" name="CustomBinding_MyScienceService" />
+            <endpoint address="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc" binding="basicHttpBinding"
+                bindingConfiguration="BasicHttpBinding_IService1" contract="MyScienceService.IService1"
+                name="BasicHttpBinding_IService1" />
         </client>
     </system.serviceModel>
 </configuration>

@@ -69,7 +69,7 @@ namespace MyScience
                     App.ViewModel.LoadData();
                 }
 
-                MyScienceServiceClient client = new MyScienceServiceClient();
+                Service1Client client = new Service1Client();
                 client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
                 client.GetProjectsAsync();
                 userName.Text = App.currentUser.Name;
@@ -84,7 +84,7 @@ namespace MyScience
 
         private void TopScorers_Loaded(object sender, RoutedEventArgs e)
         {
-            MyScienceServiceClient client = new MyScienceServiceClient();
+            Service1Client client = new Service1Client();
             client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
             client.GetTopScorersAsync();
         }

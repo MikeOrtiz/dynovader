@@ -40,7 +40,7 @@ namespace MyScience
                 result = (byte[]) uniqueId;
             String phoneID = BitConverter.ToString(result);
             
-            MyScienceServiceClient client = new MyScienceServiceClient();
+            Service1Client client = new Service1Client();
             client.GetUserProfileCompleted += new EventHandler<GetUserProfileCompletedEventArgs>(client_GetUserProfileCompleted);
             client.GetUserProfileAsync(userNameBox.Text, phoneID);
         }
