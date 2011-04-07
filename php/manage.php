@@ -1,30 +1,37 @@
 <?php
-include "connect.php";
+include "connect_ms.php";
 $formhtml = "";
 $projname = "";
 if(isset($_GET['projname']))
 {
-	$projectquery = "SELECT name from projects WHERE id='".$_GET['projname']."'";
-	$result = mysql_query($projectquery);
-	$arr = mysql_fetch_array($result);
+	$projectquery = "SELECT name from projects WHERE ID='".$_GET['projname']."'";
+	$result = sqlsrv_query($conn,$projectquery);
+	$arr = sqlsrv_fetch_array($result);
 	$projname = $arr['name'];
 	if(!isset($_GET['action'])){
 				$formhtml = "<a href=\"manage.php?projname=".$_GET['projname']."&action=data\">Data</a><br/><a href=\"manage.php?projname=".$_GET['projname']."&action=modify\">Layout</a>";
 	}
 	else{
 	if($_GET['action']=="data"){
-		$fieldsquery = "SELECT * from projectfields WHERE projectid='".$_GET['projname']."'";
-		$result = mysql_query($fieldsquery);
 		$dataquery = "SELECT * from data WHERE projectid='".$_GET['projname']."'";
-		$result = mysql_query($dataquery);
-
-		while($row = mysql_fetch_array($result))
+		$result = sqlsrv_query($conn,$dataquery);
+        $formhtml .="<table><tr><td>Time</td><td>Location</td><td>Data</td></tr>";
+		while($row = sqlsrv_fetch_array($result))
 		{
+		    /*
 			$mapsurl = "http://maps.google.com/maps/api/staticmap?center=".$row['data']."&zoom=19&size=400x400&maptype=hybrid
 	&markers=color:blue%7Clabel:Bunker%7C".$row['data']."&sensor=false";
-			$formhtml .= "<span>".$row['data']."</span> at <span>".$row['time']."</span> <br/><img src=\"".$mapsurl."\"/><br/>";
+	*/
+			$processed = "[".str_replace("}{","},{",$row['data'])."]";
+			$arr=json_decode($processed,true);
+			$formhtml .= "<tr>";
+			$formhtml .="<td>".$row['time']->format('Y-m-d H:i:s')."</td><td>".$row['location']."</td><td>";
+			foreach($arr as $val){
+				$formhtml .= "[".$val['label'].":".$val['value']."] ";
+			}
+			$formhtml .= "</td></tr>";
 		}
-		$formhtml .= "<br/>";
+		$formhtml .= "</table><br/>";
 	}
 	if($_GET['action']=="modify"){
 		$formhtml = "<ul id=\"sortable\">
@@ -38,13 +45,13 @@ if(isset($_GET['projname']))
 }
 else
 {
-	$formhtml = "<form action='manage.php' method = 'GET'><select name='projname'>";
+	$formhtml = "<form action='manage.php' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
 	$list = array();
 	$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id";
-	$result = mysql_query($query);
-	if(mysql_num_rows($result)>0)
+	$result = sqlsrv_query($conn,$query);
+	if(sqlsrv_has_rows($result))
 	{
-		while($row = mysql_fetch_array($result))
+		while($row = sqlsrv_fetch_array($result))
 		{
 			$formhtml .= "<option value=".$row['projid'].">".$row['projname']." (".$row['coordname'].")</option>";
 		}
@@ -106,11 +113,16 @@ float: left;
 	text-align:left;
 }
 .formbox{
-	width:400px;
+	width:800px;
 	padding:50px;
 	margin:auto;
+	text-align:center;
 	height:500px;
 }
+
+table{
+	width:100%;
+	}
 .content{
 	margin:auto;
 	font-family: "Century Gothic", Arial, sans-serif;
@@ -149,8 +161,7 @@ body{
 </div>
 <div class="content">
 <div class="formbox">
-<h1>
-<? 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h1><? 
 	if(!isset($_GET['projname'])){
 		echo "Choose a Project";
 	}
@@ -162,9 +173,8 @@ body{
 			echo "Modify Layout for Project <i>".$projname."</i>";
 		}
 	}
-	
 ?>	
-</h1>
+</h1><br/>
 <? echo $formhtml; ?>
 </div>
 </div>

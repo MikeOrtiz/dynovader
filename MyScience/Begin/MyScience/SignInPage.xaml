@@ -28,19 +28,20 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Margin="12,91,12,70" Grid.RowSpan="2">
-            <Canvas Name="SignInCanvas" Margin="6,0,12,253" Height="354">
+            <Canvas Name="SignInCanvas" Margin="6,0,12,303" Height="304">
                 <!--TextBlock Canvas.Left="20" Canvas.Top="6" Height="54" Name="signInBlock" Text="Sign In Here!" Width="161" FontSize="32"/-->
                 <TextBlock Canvas.Left="6" Canvas.Top="70" Height="63" Name="userNameBlock" Text="Enter username:" Width="233" FontSize="32"/>
                 <TextBox Canvas.Left="0" Canvas.Top="140" Height="73" Name="userNameBox" Text="Naran B." Width="250" FontSize="32"/>
                 <Button Canvas.Left="272" Canvas.Top="178" Content="Verify" Height="73" Name="signInButton" Width="160" Click="signInButton_Click" FontSize="28"/>
-                <TextBlock Canvas.Left="45" Canvas.Top="272" Height="76" Name="tryAgainBlock" Text="" Width="352" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <TextBlock Canvas.Left="44" Canvas.Top="252" Height="76" Name="tryAgainBlock" Text="" Width="352" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             </Canvas>
-            <!--Canvas Name="RegisterCanvas" Margin="1,280,0,53">
-                <TextBlock Canvas.Left="17" Canvas.Top="17" Height="30" Name="registerBlock" Text="Never used myScience before?" />
-                <TextBlock Canvas.Left="17" Canvas.Top="87" Height="30" Name="registerNameBlock" Text="Register username:" />
-                <TextBox Canvas.Left="8" Canvas.Top="123" Height="73" Name="registerNameBox" Text="Username" Width="251" />
-                <Button Canvas.Left="277" Canvas.Top="195" Content="Register" Height="73" Name="registerButton" Width="160" Click="registerButton_Click" />
-            </Canvas-->
+            <Canvas Name="RegisterCanvas" Margin="1,310,0,23" Height="274">
+                <!--TextBlock Canvas.Left="17" Canvas.Top="32" Height="30" Name="registerBlock" Text="Never used myScience before?" FontSize="20"/-->
+                <TextBlock Canvas.Left="11" Canvas.Top="23" Height="52" Name="registerNameBlock" Text="Register username:" FontSize="32"/>
+                <TextBox Canvas.Left="11" Canvas.Top="82" Height="73" Name="registerNameBox" Text="Username" Width="251" FontSize="32"/>
+                <Button Canvas.Left="277" Canvas.Top="155" Content="Register" Height="79" Name="registerButton" Width="172" Click="registerButton_Click" FontSize="28"/>
+                <TextBlock Canvas.Left="49" Canvas.Top="249" Height="73" Name="registerAgainBlock" Text="" Width="352" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            </Canvas>
         </Grid>
 
     </Grid>

@@ -1,5 +1,5 @@
 <?php
-include "connect.php";
+include "connect_ms.php";
 $msg = "";
 if(isset($_POST['coordname']))
 {
@@ -7,46 +7,49 @@ if(isset($_POST['coordname']))
 	}
 	else{
 		$query = "SELECT * FROM coordinators WHERE email='".$_POST['coordemail']."'";
-		$result = mysql_query($query);
+		$result = sqlsrv_query($conn, $query);
 		$coordid;
-		if(mysql_num_rows($result) > 0){
-			$arr = mysql_fetch_array($result);
-			$coordid = $arr['id'];
+		if(sqlsrv_has_rows($result)){
+			$arr = sqlsrv_fetch_array($result);
+			$coordid = $arr['ID'];
 		}
 		else {
 			$query = "INSERT INTO coordinators(name, email) VALUES('".$_POST['coordname']."', '".$_POST['coordemail']."')";
-			$result = mysql_query($query);
-			$coordid = mysql_insert_id();
+			$result = sqlsrv_query($conn, $query);
+			//echo $query."<br/>";
+			$query = "SELECT * FROM coordinators WHERE email='".$_POST['coordemail']."'";
+			$result = sqlsrv_query($conn, $query);
+			$arr = sqlsrv_fetch_array($result);
+			$coordid = $arr['ID'];
 		}
 		$query = "SELECT * FROM projects WHERE name='".$_POST['appname']."' AND owner = $coordid";
-		$result = mysql_query($query);
-		if(mysql_num_rows($result) > 0){
+		$result = sqlsrv_query($conn, $query);
+		//echo sqlsrv_num_rows($result)."<br/>";
+		if(sqlsrv_has_rows($result)){
+		     
 			//return error, since it exists already
 		}
 		else{
-			$query = "INSERT INTO projects(name, description, owner) VALUES('".$_POST['appname']."','".$_POST['description']."',$coordid)";
-			$result = mysql_query($query);
-			$projid = mysql_insert_id();
-			$values = "";
-			if($_POST['photo']=="on"){
+		    $values = "[";
+			/*if($_POST['photo']=="on"){
 				$values .= "('".$_POST['photoinstructions']."',2,".$projid."),";
+			}*/
+			if($_POST['text1instructions']!=""){
+				$values .= "{\"type\":\"Question\",\"label\":\"".$_POST['text1instructions']."\"}";
 			}
-			if($_POST['textfield1']=="on"){
-				$values .= "('".$_POST['text1instructions']."',3,".$projid."),";
+			if($_POST['text2instructions']!=""){
+				$values .= ",{\"type\":\"Question\",\"label\":\"".$_POST['text2instructions']."\"}";
 			}
-			if($_POST['textfield2']=="on"){
-				$values .= "('".$_POST['text2instructions']."',3,".$projid."),";
+			if($_POST['text3instructions']!=""){
+				$values .= ",{\"type\":\"Question\",\"label\":\"".$_POST['text3instructions']."\"}";
 			}
-			if($_POST['textfield3']=="on"){
-				$values .= "('".$_POST['text3instructions']."',3,".$projid."),";
-			}
-			
-			$query = "INSERT INTO projectfields(name, type, projectid) VALUES".$values.";";
-			//echo $values;
-				//$msg = "Project Added Successfully!";
+			$values .= "]";
+			$query = "INSERT INTO projects(name, description, owner, form) VALUES('".$_POST['appname']."','".$_POST['description']."',$coordid,'".$values."')";
+			$result = sqlsrv_query($conn, $query);
+			//echo $query;
+			echo "Your project <i>".$_POST['appname']."</i> was added successfully!";
 		}
 	}
-	
 }
 ?>
 <html>

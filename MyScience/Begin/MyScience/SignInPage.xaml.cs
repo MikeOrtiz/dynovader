@@ -24,12 +24,23 @@ namespace MyScience
 
         private void SignInPage_Loaded(object sender, RoutedEventArgs e)
         {
+
         }
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
-            App.userVerified = true;
-            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            /* Get phoneid */
+            byte[] result = null;
+            object uniqueId;
+            if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
+                result = (byte[])uniqueId;
+            String phoneID = BitConverter.ToString(result);
+
+            /*Parse the fields list into Json String*/
+            //String data = GetJsonString(fields);
+            MyScienceServiceClient client = new MyScienceServiceClient();
+            client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
+            client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
         }
 
         private void signInButton_Click(object sender, RoutedEventArgs e)
@@ -60,9 +71,29 @@ namespace MyScience
                 }
                 else
                 {
-                    tryAgainBlock.Text = "Username not found...";
                     //tell the user to retry
+                    tryAgainBlock.Text = "Username not found...";
                 }
+            }
+        }
+
+        //for now, just accepts a correct user, and moves to main page
+        void client_RegisterUserCompleted(object sender, RegisterUserCompletedEventArgs e)
+        {
+            if (e.Result != null)
+            {
+                App.currentUser = new User();
+                App.currentUser.ID = e.Result.ID;
+                App.currentUser.Name = e.Result.name;
+                App.currentUser.Score = (int) e.Result.score;
+                App.userVerified = true;
+                tryAgainBlock.Text = "";
+                NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            }
+            else
+            {
+                //tell the user to retry
+                registerAgainBlock.Text = "Please try a different user name";
             }
         }
     }
