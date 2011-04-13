@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MyScienceOnCloud" generation="1" functional="0" release="0" Id="bee70a2d-d704-4ea3-a2ad-f9baaa9dcaa3" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MyScienceOnCloud" generation="1" functional="0" release="0" Id="530d97f0-02fb-4887-9626-ad131a49b625" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="MyScienceOnCloudGroup" generation="1" functional="0" release="0">
       <componentports>
@@ -23,6 +23,16 @@
         <aCS name="MyScienceServiceWebRole:?StartupTaskDebugger?" defaultValue="">
           <maps>
             <mapMoniker name="/MyScienceOnCloud/MyScienceOnCloudGroup/MapMyScienceServiceWebRole:?StartupTaskDebugger?" />
+          </maps>
+        </aCS>
+        <aCS name="MyScienceServiceWebRole:BlobConnection" defaultValue="">
+          <maps>
+            <mapMoniker name="/MyScienceOnCloud/MyScienceOnCloudGroup/MapMyScienceServiceWebRole:BlobConnection" />
+          </maps>
+        </aCS>
+        <aCS name="MyScienceServiceWebRole:ContainerName" defaultValue="">
+          <maps>
+            <mapMoniker name="/MyScienceOnCloud/MyScienceOnCloudGroup/MapMyScienceServiceWebRole:ContainerName" />
           </maps>
         </aCS>
         <aCS name="MyScienceServiceWebRole:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="">
@@ -59,6 +69,16 @@
             <aCSMoniker name="/MyScienceOnCloud/MyScienceOnCloudGroup/MyScienceServiceWebRole/?StartupTaskDebugger?" />
           </setting>
         </map>
+        <map name="MapMyScienceServiceWebRole:BlobConnection" kind="Identity">
+          <setting>
+            <aCSMoniker name="/MyScienceOnCloud/MyScienceOnCloudGroup/MyScienceServiceWebRole/BlobConnection" />
+          </setting>
+        </map>
+        <map name="MapMyScienceServiceWebRole:ContainerName" kind="Identity">
+          <setting>
+            <aCSMoniker name="/MyScienceOnCloud/MyScienceOnCloudGroup/MyScienceServiceWebRole/ContainerName" />
+          </setting>
+        </map>
         <map name="MapMyScienceServiceWebRole:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" kind="Identity">
           <setting>
             <aCSMoniker name="/MyScienceOnCloud/MyScienceOnCloudGroup/MyScienceServiceWebRole/Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
@@ -72,7 +92,7 @@
       </maps>
       <components>
         <groupHascomponents>
-          <role name="MyScienceServiceWebRole" generation="1" functional="0" release="0" software="C:\Users\naranb\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaIISHost.exe " memIndex="1792" hostingEnvironment="frontendadmin" hostingEnvironmentVersion="2">
+          <role name="MyScienceServiceWebRole" generation="1" functional="0" release="0" software="C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole" entryPoint="base\x86\WaHostBootstrapper.exe" parameters="base\x86\WaIISHost.exe " memIndex="1792" hostingEnvironment="frontendadmin" hostingEnvironmentVersion="2">
             <componentports>
               <inPort name="Endpoint1" protocol="http" portRanges="80" />
             </componentports>
@@ -80,6 +100,8 @@
               <aCS name="?IsSimulationEnvironment?" defaultValue="" />
               <aCS name="?RoleHostDebugger?" defaultValue="" />
               <aCS name="?StartupTaskDebugger?" defaultValue="" />
+              <aCS name="BlobConnection" defaultValue="" />
+              <aCS name="ContainerName" defaultValue="" />
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
               <aCS name="__ModelData" defaultValue="&lt;m role=&quot;MyScienceServiceWebRole&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;MyScienceServiceWebRole&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
             </settings>
@@ -100,9 +122,9 @@
     </group>
   </groups>
   <implements>
-    <implementation Id="99a14795-f722-425c-aaf4-0cf8867652d7" ref="Microsoft.RedDog.Contract\ServiceContract\MyScienceOnCloudContract@ServiceDefinition.build">
+    <implementation Id="8a1eca22-ea07-4b34-a9f8-10b5ae13b453" ref="Microsoft.RedDog.Contract\ServiceContract\MyScienceOnCloudContract@ServiceDefinition.build">
       <interfacereferences>
-        <interfaceReference Id="55bc728d-3fb7-4ea8-8791-454c163cb24e" ref="Microsoft.RedDog.Contract\Interface\MyScienceServiceWebRole:Endpoint1@ServiceDefinition.build">
+        <interfaceReference Id="3b15e546-0444-4322-aa99-63da56bfb767" ref="Microsoft.RedDog.Contract\Interface\MyScienceServiceWebRole:Endpoint1@ServiceDefinition.build">
           <inPort>
             <inPortMoniker name="/MyScienceOnCloud/MyScienceOnCloudGroup/MyScienceServiceWebRole:Endpoint1" />
           </inPort>

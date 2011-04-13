@@ -9,9 +9,9 @@
             </basicHttpBinding>
         </bindings>
         <client>
-            <endpoint address="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc" binding="basicHttpBinding"
-                bindingConfiguration="BasicHttpBinding_IService1" contract="MyScienceService.IService1"
-                name="BasicHttpBinding_IService1" />
+            <endpoint address="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_IService1"
+                contract="MyScienceService.IService1" name="BasicHttpBinding_IService1" />
         </client>
     </system.serviceModel>
 </configuration>

@@ -22,9 +22,10 @@
     <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="projectid" Type="int" Nullable="false" />
     <Property Name="userid" Type="int" Nullable="false" />
-    <Property Name="data" Type="varchar" Nullable="false" MaxLength="256" />
+    <Property Name="data" Type="varchar(max)" Nullable="false" />
     <Property Name="time" Type="datetime" Nullable="false" />
     <Property Name="location" Type="varchar" Nullable="false" MaxLength="256" />
+    <Property Name="picture" Type="image" />
   </EntityType>
   <EntityType Name="projectfields">
     <Key>

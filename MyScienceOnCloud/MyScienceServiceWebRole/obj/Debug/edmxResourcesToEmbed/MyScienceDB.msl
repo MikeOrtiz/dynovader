@@ -19,6 +19,7 @@
           <ScalarProperty Name="data" ColumnName="data" />
           <ScalarProperty Name="time" ColumnName="time" />
           <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="picture" ColumnName="picture" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

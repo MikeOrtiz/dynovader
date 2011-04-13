@@ -85,7 +85,7 @@ namespace MyScience
                 App.currentUser = new User();
                 App.currentUser.ID = e.Result.ID;
                 App.currentUser.Name = e.Result.name;
-                App.currentUser.Score = (int) e.Result.score;
+                App.currentUser.Score = (int)e.Result.score;
                 App.userVerified = true;
                 tryAgainBlock.Text = "";
                 NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));

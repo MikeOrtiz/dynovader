@@ -4,6 +4,8 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="BlobConnection" value="DefaultEndpointsProtocol=https;AccountName=myscience;AccountKey=Xrmrjz/8FFnf+x+Pz3VpRm51+KgqkkBDkzK1YJVWQTBK213HNyEqJpdUGY/LxzhnqLOVWWqRl78opbDaGkpJbg==" />
+      <Setting name="ContainerName" value="images" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

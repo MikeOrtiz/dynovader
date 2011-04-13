@@ -5,6 +5,10 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.ServiceRuntime;
+using Microsoft.WindowsAzure.StorageClient;
+using System.Collections.Specialized;
 
 namespace MyScienceServiceWebRole
 {
@@ -26,8 +30,21 @@ namespace MyScienceServiceWebRole
             return query.ToList<Project>();
         }
 
-        public int SubmitData(int id, int projectid, int userid, String data, String location, int point)
+        public Uri SubmitData(int id, int projectid, int userid, String data, String location, int point, String contentType, byte[] imagedata)
         {
+            EnsureContainerExists();
+            String imagename = userid.ToString() + "-" + id.ToString();
+            var blob = this.GetContainer().GetBlobReference(imagename);
+            blob.Properties.ContentType = contentType;
+
+            var metadata = new NameValueCollection();
+            metadata["SubmissionID"] = id.ToString();
+            metadata["ProjectID"] = projectid.ToString();
+            metadata["UserID"] = userid.ToString();
+            metadata["Time"] = DateTime.Now.ToString();
+
+            blob.Metadata.Add(metadata);
+            blob.UploadByteArray(imagedata);
 
             using (var db = new MyScienceEntities())
             {
@@ -38,11 +55,13 @@ namespace MyScienceServiceWebRole
                                 select auser).First();
                 curUser.score = curUser.score + point;
                 int changes = db.SaveChanges();
-                return changes;
+                //return changes;
             }
+
+            return blob.Uri;
         }
 
-        
+
         public List<TopScorer> GetTopScorers()
         {
             MyScienceEntities db = new MyScienceEntities();
@@ -60,12 +79,12 @@ namespace MyScienceServiceWebRole
         }
 
 
-     
+
         public List<User> GetUserProfile(String username, String phoneID)
         {
             MyScienceEntities db = new MyScienceEntities();
             var query = (from user in db.users
-                         where user.name.ToLower() == username.ToLower() && user.phoneid == phoneID
+                         where user.name.ToLower() == username.ToLower()// && user.phoneid == phoneID
                          select new User
                          {
                              ID = user.ID,
@@ -75,12 +94,24 @@ namespace MyScienceServiceWebRole
             return query.ToList<User>();
         }
 
+        //[OperationContract]
+        //public void UpdateScore(int userID, int point)
+        //{
+        //    MyScienceEntities db = new MyScienceEntities();
+        //    user curUser = (from auser in db.users
+        //                    where auser.ID == userID
+        //                    select auser).First();
+        //    curUser.score = curUser.score + point;
+        //    db.SaveChanges();
+        //}
+
+
         public user RegisterUser(int id, String phoneid, String name)
         {
             //check to see if the user is in the database
             MyScienceEntities db = new MyScienceEntities();
             var query = (from userobj in db.users
-                         where userobj.name.ToLower() == name.ToLower()// && userobj.phoneid == phoneid
+                         where userobj.name.ToLower() == name.ToLower() && userobj.phoneid == phoneid
                          select new User
                          {
                              ID = userobj.ID,
@@ -97,5 +128,53 @@ namespace MyScienceServiceWebRole
             int changes = db.SaveChanges();
             return userinfo;
         }
+
+        public List<Submission> GetProjectData(int projectid)
+        {
+            MyScienceEntities db = new MyScienceEntities();
+            var query = (from sub in db.data
+                         where sub.projectid == projectid
+                         select new Submission
+                         {
+                             ID = sub.ID,
+                             ProjectID = sub.projectid,
+                             UserID = sub.userid,
+                             Data = sub.data,
+                             Location = sub.location
+                         });
+            return query.ToList<Submission>();
+        }
+
+        private CloudBlobContainer GetContainer()
+        {
+            var account = CloudStorageAccount.FromConfigurationSetting("BlobConnection");
+            var client = account.CreateCloudBlobClient();
+            return client.GetContainerReference(RoleEnvironment.GetConfigurationSettingValue("ContainerName"));
+        }
+
+        private void EnsureContainerExists()
+        {
+            var container = GetContainer();
+            container.CreateIfNotExist();
+            var permissions = container.GetPermissions();
+            permissions.PublicAccess = BlobContainerPublicAccessType.Blob;
+            container.SetPermissions(permissions);
+        }
+
+        //public void UploadImage(int submissionid, int projectid, int userid, DateTime time, String contentType, byte[] data)
+        //{
+        //    string name = userid.ToString() + " " + time.ToString();
+        //    var blob = this.GetContainer().GetBlobReference(name);
+        //    blob.Properties.ContentType = contentType;
+
+        //    var metadata = new NameValueCollection();
+        //    metadata["SubmissionID"] = submissionid.ToString();
+        //    metadata["ProjectID"] = projectid.ToString();
+        //    metadata["UserID"] = userid.ToString();
+        //    metadata["Time"] = time.ToString();
+
+        //    blob.Metadata.Add(metadata);
+        //    blob.UploadByteArray(data);
+        //}
     }
 }

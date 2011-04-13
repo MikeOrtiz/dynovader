@@ -6,6 +6,8 @@
       <LocalStorage name="MyScienceServiceWebRole.svclog" sizeInMB="1000" cleanOnRoleRecycle="false" />
     </LocalResources>
     <ConfigurationSettings>
+      <Setting name="BlobConnection" />
+      <Setting name="ContainerName" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
     </ConfigurationSettings>
     <Endpoints>

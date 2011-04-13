@@ -22,9 +22,10 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="projectid" Type="Int32" Nullable="false" />
     <Property Name="userid" Type="Int32" Nullable="false" />
-    <Property Name="data" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
+    <Property Name="data" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="time" Type="DateTime" Nullable="false" />
     <Property Name="location" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
+    <Property Name="picture" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="projectfield">
     <Key>

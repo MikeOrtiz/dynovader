@@ -27,9 +27,10 @@
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="projectid" Type="int" Nullable="false" />
           <Property Name="userid" Type="int" Nullable="false" />
-          <Property Name="data" Type="varchar" Nullable="false" MaxLength="256" />
+          <Property Name="data" Type="varchar(max)" Nullable="false" />
           <Property Name="time" Type="datetime" Nullable="false" />
           <Property Name="location" Type="varchar" Nullable="false" MaxLength="256" />
+          <Property Name="picture" Type="image" />
         </EntityType>
         <EntityType Name="projectfields">
           <Key>
@@ -87,9 +88,10 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="projectid" Type="Int32" Nullable="false" />
           <Property Name="userid" Type="Int32" Nullable="false" />
-          <Property Name="data" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
+          <Property Name="data" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="time" Type="DateTime" Nullable="false" />
           <Property Name="location" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
+          <Property Name="picture" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="projectfield">
           <Key>
@@ -138,6 +140,7 @@
             <ScalarProperty Name="data" ColumnName="data" />
             <ScalarProperty Name="time" ColumnName="time" />
             <ScalarProperty Name="location" ColumnName="location" />
+            <ScalarProperty Name="picture" ColumnName="picture" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="projectfields"><EntityTypeMapping TypeName="MyScienceModel.projectfield"><MappingFragment StoreEntitySet="projectfields">
             <ScalarProperty Name="ID" ColumnName="ID" />
@@ -181,10 +184,10 @@
     <Diagrams>
       <Diagram Name="MyScienceDB">
         <EntityTypeShape EntityType="MyScienceModel.coordinator" Width="1.5" PointX="0.75" PointY="0.75" Height="1.59568359375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyScienceModel.datum" Width="1.5" PointX="2.75" PointY="0.75" Height="2.1725878906249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyScienceModel.projectfield" Width="1.5" PointX="0.75" PointY="3.75" Height="1.9802864583333322" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyScienceModel.project" Width="1.5" PointX="2.75" PointY="3.75" Height="1.9802864583333335" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyScienceModel.user" Width="1.5" PointX="4.75" PointY="0.75" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyScienceModel.datum" Width="1.5" PointX="2.75" PointY="0.75" Height="2.3648893229166665" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyScienceModel.projectfield" Width="1.5" PointX="4.75" PointY="0.75" Height="1.9802864583333326" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyScienceModel.project" Width="1.5" PointX="0.75" PointY="4.75" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyScienceModel.user" Width="1.5" PointX="2.75" PointY="4.75" Height="1.7879850260416674" IsExpanded="true" />
       </Diagram>
     </Diagrams>
   </Designer>

@@ -4,40 +4,36 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True" Loaded="DetailsPage_Loaded">
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="False" Loaded="DetailsPage_Loaded">
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <!--LayoutRoot contains the root grid where all other page content is placed-->
+    <Grid x:Name="LayoutRoot">
+        <controls:Panorama Name ="ProjectPanorama">
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="myScience" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
+            <!--Panorama item one-->
+            <controls:PanoramaItem Header="About">
+                <Grid x:Name="ContentPanel0" Grid.Row="1" Margin="12,0,12,0">
+                    <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="InfoPanel" VerticalAlignment="Top" Width="400"></StackPanel>
+                </Grid>
+            </controls:PanoramaItem>
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="DynamicPanel" VerticalAlignment="Top" Width="450"></StackPanel>
-        </Grid>
+            <!--Panorama item two-->
+            <controls:PanoramaItem Header="Submission">
+                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+                    <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="DynamicPanel" VerticalAlignment="Top" Width="400"></StackPanel>
+                </Grid>
+            </controls:PanoramaItem>
+        </controls:Panorama>
     </Grid>
 
-    <!--phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton x:Name ="homeButton" IconUri="/Images/home.png" Text="Home" Click="homeButton_Click"/>
-            <shell:ApplicationBarIconButton x:Name ="profileButton" IconUri="/Images/people.png" Text="Profile" Click="profileButton_Click"/>
-            <shell:ApplicationBarIconButton x:Name ="rankButton" IconUri="/Images/rank.png" Text="Rank" Click="rankButton_Click"/>
-            <shell:ApplicationBarIconButton x:Name ="settingsButton" IconUri="/Images/setting.png" Text="Setting" Click="settingsButton_Click"/>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar-->
+    <!--Panorama-based applications should not show an ApplicationBar-->
+
 </phone:PhoneApplicationPage>

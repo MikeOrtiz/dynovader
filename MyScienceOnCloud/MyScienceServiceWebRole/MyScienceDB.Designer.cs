@@ -479,6 +479,30 @@ namespace MyScienceServiceWebRole
         private global::System.String _location;
         partial void OnlocationChanging(global::System.String value);
         partial void OnlocationChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.Byte[] picture
+        {
+            get
+            {
+                return StructuralObject.GetValidValue(_picture);
+            }
+            set
+            {
+                OnpictureChanging(value);
+                ReportPropertyChanging("picture");
+                _picture = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("picture");
+                OnpictureChanged();
+            }
+        }
+        private global::System.Byte[] _picture;
+        partial void OnpictureChanging(global::System.Byte[] value);
+        partial void OnpictureChanged();
 
         #endregion
     
