@@ -27,8 +27,9 @@
 
             <!--Panorama item two-->
             <controls:PanoramaItem Header="Submission">
-                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-                    <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="DynamicPanel" VerticalAlignment="Top" Width="400"></StackPanel>
+                <Grid x:Name="ContentPanel" Grid.Row="2" Margin="12,0,12,0">
+                    <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="DynamicPanel" VerticalAlignment="Top" Width="400">
+                    </StackPanel>
                 </Grid>
             </controls:PanoramaItem>
         </controls:Panorama>

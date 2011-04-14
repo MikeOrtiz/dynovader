@@ -84,18 +84,21 @@ namespace MyScience
 
                 }
 
-                var cameraButton = new Button { Name = "CameraButton", Content = "Take Photo", Width = DynamicPanel.Width / 4 };
+                var cameraButton = new Button { Name = "CameraButton", Content = "Take Photo", Width = DynamicPanel.Width };
                 cameraButton.Click += new RoutedEventHandler(cameraButton_Click);
                 var photo = new Image { Name = "Picture", Height = 80, Width = 80 };
                 DynamicPanel.Children.Add(cameraButton);
+
+
+                var albumButton = new Button { Name = "AlbumButton", Content = "Choose Photo", Width = DynamicPanel.Width };
+                albumButton.Click += new RoutedEventHandler(albumButton_Click);
+                DynamicPanel.Children.Add(albumButton);
                 DynamicPanel.Children.Add(photo);
 
                 //add button and event handler here
                 var newButton = new Button { Name = "SubmitButton", Content = "Submit" };
                 newButton.Click += new RoutedEventHandler(newButton_Click);
                 DynamicPanel.Children.Add(newButton);
-
-
             }
         }
 
@@ -112,51 +115,38 @@ namespace MyScience
             }
         }
 
+        void albumButton_Click(object sender, RoutedEventArgs e)
+        {
+            var albumTask = new PhotoChooserTask();
+            albumTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+            try
+            {
+                albumTask.Show();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
         void cameraTask_Completed(object sender, PhotoResult e)
         {
-            //if (e.TaskResult == TaskResult.OK)
-            //{
-
-            //    //here I save the image to Isolated Storage.  Also I am changing the size of it to not waste space!
-            //    WriteableBitmap writeableBitmap = new WriteableBitmap(200, 200);
-            //    writeableBitmap.LoadJpeg(e.ChosenPhoto);
-
-            //    string imageFolder = "Images";
-            //    string imageFileName = DateTime.Now.ToString()+"_"+App.currentUser.ID.ToString()+".jpg";
-            //    using (var isoFile = IsolatedStorageFile.GetUserStoreForApplication())
-            //    {
-
-            //        if (!isoFile.DirectoryExists(imageFolder))
-            //        {
-            //            isoFile.CreateDirectory(imageFolder);
-            //        }
-
-            //        string filePath = System.IO.Path.Combine(imageFolder, imageFileName);
-            //        using (var stream = isoFile.CreateFile(filePath))
-            //        {
-            //            writeableBitmap.SaveJpeg(stream, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight, 0, 100);
-            //        }
-            //    }
-
-            //    //now read the image back from storage to show it worked...
-            //    BitmapImage imageFromStorage = new BitmapImage();
-
-            //    using (var isoFile = IsolatedStorageFile.GetUserStoreForApplication())
-            //    {
-            //        string filePath = System.IO.Path.Combine(imageFolder, imageFileName);
-            //        using (var imageStream = isoFile.OpenFile(
-            //            filePath, FileMode.Open, FileAccess.Read))
-            //        {
-            //            imageFromStorage.SetSource(imageStream);
-            //        }
-            //    }
-            //    Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
-            //    photo.Source = imageFromStorage;
-            //}
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(200, 200);
+                WriteableBitmap image = new WriteableBitmap(50, 50);
                 image.LoadJpeg(e.ChosenPhoto);
+                Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
+                photo.Source = image;
+            }
+        }
+
+        void photoChooserTask_Completed(object sender, PhotoResult e)
+        {
+            if (e.TaskResult == TaskResult.OK)
+            {
+                WriteableBitmap image = new WriteableBitmap(50, 50);
+                //image.SetSource(e.ChosenPhoto);
+                image.LoadJpeg(e.ChosenPhoto);
+
                 Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
                 photo.Source = image;
             }
@@ -170,7 +160,6 @@ namespace MyScience
                 dataCount.Text = "Current Data in Total: " + e.Result.ToList<Submission>().Count;
                 InfoPanel.Children.Add(dataCount);
             }
-
         }
 
 
@@ -194,6 +183,7 @@ namespace MyScience
             }
             Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
             WriteableBitmap image = (WriteableBitmap)photo.Source;
+
             MemoryStream ms = new MemoryStream();
             image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
             byte[] imageData = ms.ToArray();
