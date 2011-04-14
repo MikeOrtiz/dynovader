@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MyScienceModelStoreContainer" CdmEntityContainer="MyScienceEntities">
+    <EntitySetMapping Name="coordinators">
+      <EntityTypeMapping TypeName="MyScienceModel.coordinator">
+        <MappingFragment StoreEntitySet="coordinators">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="email" ColumnName="email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="data">
+      <EntityTypeMapping TypeName="MyScienceModel.datum">
+        <MappingFragment StoreEntitySet="data">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="projectid" ColumnName="projectid" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="data" ColumnName="data" />
+          <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="picture" ColumnName="picture" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="projectfields">
+      <EntityTypeMapping TypeName="MyScienceModel.projectfield">
+        <MappingFragment StoreEntitySet="projectfields">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="projectid" ColumnName="projectid" />
+          <ScalarProperty Name="order" ColumnName="order" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="projects">
+      <EntityTypeMapping TypeName="MyScienceModel.project">
+        <MappingFragment StoreEntitySet="projects">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="owner" ColumnName="owner" />
+          <ScalarProperty Name="form" ColumnName="form" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="MyScienceModel.user">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="phoneid" ColumnName="phoneid" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="score" ColumnName="score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

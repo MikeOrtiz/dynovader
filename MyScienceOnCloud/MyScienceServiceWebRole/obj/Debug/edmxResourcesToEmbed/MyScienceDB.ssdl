@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyScienceModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="MyScienceModelStoreContainer">
+    <EntitySet Name="coordinators" EntityType="MyScienceModel.Store.coordinators" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="data" EntityType="MyScienceModel.Store.data" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="projectfields" EntityType="MyScienceModel.Store.projectfields" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="projects" EntityType="MyScienceModel.Store.projects" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="users" EntityType="MyScienceModel.Store.users" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="coordinators">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="varchar" MaxLength="256" />
+    <Property Name="email" Type="varchar" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="data">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="projectid" Type="int" Nullable="false" />
+    <Property Name="userid" Type="int" Nullable="false" />
+    <Property Name="data" Type="varchar(max)" Nullable="false" />
+    <Property Name="time" Type="datetime" Nullable="false" />
+    <Property Name="location" Type="varchar" Nullable="false" MaxLength="256" />
+    <Property Name="picture" Type="image" />
+  </EntityType>
+  <EntityType Name="projectfields">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="256" />
+    <Property Name="type" Type="int" />
+    <Property Name="projectid" Type="int" />
+    <Property Name="order" Type="int" />
+  </EntityType>
+  <EntityType Name="projects">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="varchar" Nullable="false" MaxLength="256" />
+    <Property Name="description" Type="varchar" Nullable="false" MaxLength="256" />
+    <Property Name="owner" Type="int" Nullable="false" />
+    <Property Name="form" Type="varchar" Nullable="false" MaxLength="1024" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="phoneid" Type="varchar" Nullable="false" MaxLength="64" />
+    <Property Name="name" Type="varchar" Nullable="false" MaxLength="256" />
+    <Property Name="score" Type="int" />
+  </EntityType>
+</Schema>

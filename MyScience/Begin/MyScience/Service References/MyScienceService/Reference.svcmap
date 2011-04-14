@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="1d8b6cb7-2c3c-422d-8ed7-361d4c81d722" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="1a18e167-671f-47c3-a694-cee1b570fbc1" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>true</GenerateAsynchronousMethods>
     <EnableDataBinding>true</EnableDataBinding>
@@ -20,15 +20,16 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:9766/MyScienceService.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/service1.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="MyScienceService.xsd" MetadataType="Schema" ID="80ecb7d6-534f-4574-b66f-4f8a99d1e5f5" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?xsd=xsd2" />
-    <MetadataFile FileName="MyScienceService.wsdl" MetadataType="Wsdl" ID="de0571f5-6fb5-4b1d-85cc-7922c21812cf" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?wsdl=wsdl0" />
-    <MetadataFile FileName="MyScienceService1.wsdl" MetadataType="Wsdl" ID="4e8f4de5-a207-45ea-b677-e3bdcdbe329a" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?wsdl" />
-    <MetadataFile FileName="MyScienceService1.xsd" MetadataType="Schema" ID="48c20352-56e9-4cae-a91e-aaec894c42db" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?xsd=xsd1" />
-    <MetadataFile FileName="MyScienceService.disco" MetadataType="Disco" ID="13ce505a-56b5-42d7-93f7-98f88763a806" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?disco" />
-    <MetadataFile FileName="MyScienceService2.xsd" MetadataType="Schema" ID="d7c5d510-906a-415f-8b15-3999e408f5fa" SourceId="1" SourceUrl="http://localhost:9766/MyScienceService.svc?xsd=xsd0" />
+    <MetadataFile FileName="Service1.xsd" MetadataType="Schema" ID="27441a61-dfe2-4e19-9877-96ba9200646d" SourceId="1" SourceUrl="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd2" />
+    <MetadataFile FileName="Service1.wsdl" MetadataType="Wsdl" ID="1724b736-32bc-4483-a7fe-c51f867b1b07" SourceId="1" SourceUrl="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?wsdl" />
+    <MetadataFile FileName="Service1.disco" MetadataType="Disco" ID="edb8ad77-ee77-4f6e-97da-7557d7f40841" SourceId="1" SourceUrl="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?disco" />
+    <MetadataFile FileName="Service11.xsd" MetadataType="Schema" ID="be42780c-d64a-43aa-b607-f43a847b0a7e" SourceId="1" SourceUrl="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd4" />
+    <MetadataFile FileName="Service12.xsd" MetadataType="Schema" ID="b09c9af9-78c2-40f4-be0c-bf57898328d0" SourceId="1" SourceUrl="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd1" />
+    <MetadataFile FileName="Service13.xsd" MetadataType="Schema" ID="39bb2fb0-75f3-411e-adbe-960f30eb40da" SourceId="1" SourceUrl="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd0" />
+    <MetadataFile FileName="Service14.xsd" MetadataType="Schema" ID="777eccc8-821b-4b3c-be9f-6ab987a51215" SourceId="1" SourceUrl="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd3" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

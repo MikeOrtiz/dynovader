@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service1" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MyScienceServiceWebRole" />
+      <xsd:import schemaLocation="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System.Data.Objects.DataClasses" />
+      <xsd:import schemaLocation="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/System.Data" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IService1_GetProjects_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjects" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetProjects_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjectsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_SubmitData_InputMessage">
+    <wsdl:part name="parameters" element="tns:SubmitData" />
+  </wsdl:message>
+  <wsdl:message name="IService1_SubmitData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubmitDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetTopScorers_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTopScorers" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetTopScorers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTopScorersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetUserProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfile" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetUserProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_RegisterUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUser" />
+  </wsdl:message>
+  <wsdl:message name="IService1_RegisterUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetProjectData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjectData" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetProjectData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjectDataResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IService1">
+    <wsdl:operation name="GetProjects">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetProjects" message="tns:IService1_GetProjects_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetProjectsResponse" message="tns:IService1_GetProjects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SubmitData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/SubmitData" message="tns:IService1_SubmitData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/SubmitDataResponse" message="tns:IService1_SubmitData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTopScorers">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetTopScorers" message="tns:IService1_GetTopScorers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetTopScorersResponse" message="tns:IService1_GetTopScorers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetUserProfile" message="tns:IService1_GetUserProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetUserProfileResponse" message="tns:IService1_GetUserProfile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/RegisterUser" message="tns:IService1_RegisterUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/RegisterUserResponse" message="tns:IService1_RegisterUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProjectData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetProjectData" message="tns:IService1_GetProjectData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetProjectDataResponse" message="tns:IService1_GetProjectData_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetProjects">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetProjects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitData">
+      <soap:operation soapAction="http://tempuri.org/IService1/SubmitData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTopScorers">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetTopScorers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserProfile">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetUserProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <soap:operation soapAction="http://tempuri.org/IService1/RegisterUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProjectData">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetProjectData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="BasicHttpBinding_IService1" binding="tns:BasicHttpBinding_IService1">
+      <soap:address location="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

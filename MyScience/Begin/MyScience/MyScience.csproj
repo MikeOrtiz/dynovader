@@ -141,8 +141,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
+    <None Include="Properties\DataSources\System.Uri.datasource" />
     <None Include="Properties\WMAppManifest.xml" />
     <None Include="Service References\MyScienceService\MyScience.MyScienceService.Project.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MyScienceService\MyScience.MyScienceService.Submission.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\MyScienceService\MyScience.MyScienceService.TopScorer.datasource">
@@ -151,26 +155,36 @@
     <None Include="Service References\MyScienceService\MyScience.MyScienceService.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\MyScienceService\MyScienceService.wsdl" />
-    <None Include="Service References\MyScienceService\MyScienceService.xsd">
+    <None Include="Service References\MyScienceService\MyScience.MyScienceService.user1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\MyScienceService\Service1.wsdl" />
+    <None Include="Service References\MyScienceService\Service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\MyScienceService1.wsdl" />
-    <None Include="Service References\MyScienceService\MyScienceService1.xsd">
+    <None Include="Service References\MyScienceService\Service11.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\MyScienceService2.xsd">
+    <None Include="Service References\MyScienceService\Service12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\MyScienceService\Service13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\MyScienceService\Service14.xsd">
       <SubType>Designer</SubType>
     </None>
     <Resource Include="Images\naran.png" />
-    <None Include="Service References\MyScienceService\MyScienceService.disco" />
+    <None Include="Service References\MyScienceService\Service1.disco" />
     <None Include="Service References\MyScienceService\configuration91.svcinfo" />
     <None Include="Service References\MyScienceService\configuration.svcinfo" />
     <None Include="Service References\MyScienceService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="ServiceReferences.ClientConfig" />
+    <Content Include="ServiceReferences.ClientConfig">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png">

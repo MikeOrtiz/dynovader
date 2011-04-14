@@ -20,43 +20,21 @@ using MyScience.MyScienceService;
 using System.Runtime.Serialization.Json;
 using System.IO;
 using System.Windows.Controls.Primitives;
-
+using Microsoft.Phone.Tasks;
+using System.Windows.Media.Imaging;
+using System.IO.IsolatedStorage;
 namespace MyScience
 {
-    
-
     public partial class DetailsPage : PhoneApplicationPage
     {
         private double lat;
         private double lng;
-        private double blah;
 
         public DetailsPage()
         {
             InitializeComponent();
             OnLoaded();
-            blah = 0.22;
         }
-
-        //void settingsButton_Click(object sender, EventArgs e)
-        //{
-        //    NavigationService.Navigate(new Uri("/SettingPage.xaml", UriKind.Relative));
-        //}
-
-        //void rankButton_Click(object sender, EventArgs e)
-        //{
-        //    NavigationService.Navigate(new Uri("/RankPage.xaml", UriKind.Relative));
-        //}
-
-        //void profileButton_Click(object sender, EventArgs e)
-        //{
-        //    NavigationService.Navigate(new Uri("/ProfilePage.xaml", UriKind.Relative));
-        //}
-
-        //void homeButton_Click(object sender, EventArgs e)
-        //{
-        //    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
-        //}
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -64,21 +42,27 @@ namespace MyScience
             {
                 App.currentIndex = Convert.ToInt32(NavigationContext.QueryString["selectedItem"]);
                 Project currentApp = App.applist[App.currentIndex];
-                PageTitle.Text = currentApp.Name;
-                DynamicPanel.Children.Clear();
+                //PageTitle.Text = currentApp.Name;
+                ProjectPanorama.Title = currentApp.Name;
+                InfoPanel.Children.Clear();
                 var DescriptionBlock = new TextBlock();
                 DescriptionBlock.Text = currentApp.Description;
+                DescriptionBlock.TextWrapping = TextWrapping.Wrap;
                 var LatBlock = new TextBlock();
                 LatBlock.Text = "Lat: " + lat.ToString();
                 var LngBlock = new TextBlock();
                 LngBlock.Text = "Lng:" + lng.ToString();
-                DynamicPanel.Children.Add(DescriptionBlock);
-                DynamicPanel.Children.Add(LatBlock);
-                DynamicPanel.Children.Add(LngBlock);
+                InfoPanel.Children.Add(DescriptionBlock);
+                InfoPanel.Children.Add(LatBlock);
+                InfoPanel.Children.Add(LngBlock);
+
+                Service1Client client = new Service1Client();
+                client.GetProjectDataCompleted += new EventHandler<GetProjectDataCompletedEventArgs>(client_GetProjectDataCompleted);
+                client.GetProjectDataAsync(App.applist[App.currentIndex].ID);
 
                 List<Field> fields = GetFormField(currentApp.Form);
-                /*When submission page loaded, it will generate controls dynamically*/
-                //DynamicPanel.Children.Clear();
+                /*When submission page l oaded, it will generate controls dynamically*/
+                DynamicPanel.Children.Clear();
                 for (int i = 0; i < fields.Count; i++)
                 {
                     switch (fields[i].type)
@@ -89,22 +73,113 @@ namespace MyScience
                             DynamicPanel.Children.Add(newTextBlock);
                             DynamicPanel.Children.Add(newTextBox);
                             break;
+                        case "Photo":
+                            //var cameraButton = new Button { Name = "CameraButton", Content = "Take Photo", Width = DynamicPanel.Width / 4 };
+                            //cameraButton.Click += new RoutedEventHandler(cameraButton_Click);
+                            //var photo = new Image { Name = "Picture" };
+                            //DynamicPanel.Children.Add(cameraButton);
+                            //DynamicPanel.Children.Add(photo);
+                            break;
                     }
 
                 }
+
+                var cameraButton = new Button { Name = "CameraButton", Content = "Take Photo", Width = DynamicPanel.Width / 4 };
+                cameraButton.Click += new RoutedEventHandler(cameraButton_Click);
+                var photo = new Image { Name = "Picture", Height = 80, Width = 80 };
+                DynamicPanel.Children.Add(cameraButton);
+                DynamicPanel.Children.Add(photo);
+
                 //add button and event handler here
                 var newButton = new Button { Name = "SubmitButton", Content = "Submit" };
                 newButton.Click += new RoutedEventHandler(newButton_Click);
                 DynamicPanel.Children.Add(newButton);
+
+
             }
         }
+
+        void cameraButton_Click(object sender, RoutedEventArgs e)
+        {
+            var cameraTask = new CameraCaptureTask();
+            cameraTask.Completed += new EventHandler<PhotoResult>(cameraTask_Completed);
+            try
+            {
+                cameraTask.Show();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        void cameraTask_Completed(object sender, PhotoResult e)
+        {
+            //if (e.TaskResult == TaskResult.OK)
+            //{
+
+            //    //here I save the image to Isolated Storage.  Also I am changing the size of it to not waste space!
+            //    WriteableBitmap writeableBitmap = new WriteableBitmap(200, 200);
+            //    writeableBitmap.LoadJpeg(e.ChosenPhoto);
+
+            //    string imageFolder = "Images";
+            //    string imageFileName = DateTime.Now.ToString()+"_"+App.currentUser.ID.ToString()+".jpg";
+            //    using (var isoFile = IsolatedStorageFile.GetUserStoreForApplication())
+            //    {
+
+            //        if (!isoFile.DirectoryExists(imageFolder))
+            //        {
+            //            isoFile.CreateDirectory(imageFolder);
+            //        }
+
+            //        string filePath = System.IO.Path.Combine(imageFolder, imageFileName);
+            //        using (var stream = isoFile.CreateFile(filePath))
+            //        {
+            //            writeableBitmap.SaveJpeg(stream, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight, 0, 100);
+            //        }
+            //    }
+
+            //    //now read the image back from storage to show it worked...
+            //    BitmapImage imageFromStorage = new BitmapImage();
+
+            //    using (var isoFile = IsolatedStorageFile.GetUserStoreForApplication())
+            //    {
+            //        string filePath = System.IO.Path.Combine(imageFolder, imageFileName);
+            //        using (var imageStream = isoFile.OpenFile(
+            //            filePath, FileMode.Open, FileAccess.Read))
+            //        {
+            //            imageFromStorage.SetSource(imageStream);
+            //        }
+            //    }
+            //    Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
+            //    photo.Source = imageFromStorage;
+            //}
+            if (e.TaskResult == TaskResult.OK)
+            {
+                WriteableBitmap image = new WriteableBitmap(200, 200);
+                image.LoadJpeg(e.ChosenPhoto);
+                Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
+                photo.Source = image;
+            }
+        }
+
+        void client_GetProjectDataCompleted(object sender, GetProjectDataCompletedEventArgs e)
+        {
+            if (e.Result != null)
+            {
+                TextBlock dataCount = new TextBlock();
+                dataCount.Text = "Current Data in Total: " + e.Result.ToList<Submission>().Count;
+                InfoPanel.Children.Add(dataCount);
+            }
+
+        }
+
 
         void newButton_Click(object sender, RoutedEventArgs e)
         {
             Project app = App.applist[App.currentIndex];
             List<Field> fields = GetFormField(app.Form);
             /*Get the values of all the fields*/
-            int cur = 3;
+            int cur = 0;
             for (int i = 0; i < fields.Count; i++)
             {
                 switch (fields[i].type)
@@ -117,21 +192,26 @@ namespace MyScience
                 }
 
             }
+            Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
+            WriteableBitmap image = (WriteableBitmap)photo.Source;
+            MemoryStream ms = new MemoryStream();
+            image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
+            byte[] imageData = ms.ToArray();
             /*Parse the fields list into Json String*/
             String data = GetJsonString(fields);
-            MyScienceServiceClient client = new MyScienceServiceClient();
+            Service1Client client = new Service1Client();
             client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
-            client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString()+","+lng.ToString(),1);
+            client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString() + "," + lng.ToString(), 1, "JPEG", imageData);
 
             //client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
         }
 
         void client_SubmitDataCompleted(object sender, SubmitDataCompletedEventArgs e)
         {
-            
+            String url = e.Result.ToString();
             Popup messagePopup = new Popup();
             TextBlock message = new TextBlock();
-            message.Text = "Congratulation! Data Submitted Successfully!";
+            message.Text = "Congratulation! Data Submitted Successfully!\n" + url;
             messagePopup.Child = message;
             messagePopup.IsOpen = true;
             DynamicPanel.Children.Add(messagePopup);
@@ -188,25 +268,5 @@ namespace MyScience
 
             //Map.Center = location;
         }
-
-
-        //private void SubmitButton_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //    //WebClient client = new WebClient();
-
-        //    ////client.UploadStringAsync(new Uri("http://128.12.62.142/dynovader/json.php?action=submit&projectid=7&latitude=37.430299&longitude=-122.173349"),"GET");
-        //    //client.UploadStringAsync(new Uri("http://128.12.62.142/dynovader/json.php?action=submit&projectid=" + App.applist[App.currentIndex].ID + "&latitude=37.430299&longitude=-122.173349"), "GET");
-
-        //    //client.UploadStringCompleted += (s, ev) =>
-        //    //{
-        //    //    String result = ev.Result;
-        //    //};
-
-        //   NavigationService.Navigate(new Uri("/SubmissionPage.xaml", UriKind.Relative));
-
-        //}
-
-
     }
 }
