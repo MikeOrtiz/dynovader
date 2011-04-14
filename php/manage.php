@@ -41,6 +41,28 @@ if(isset($_GET['projname']))
 	<li class=\"ui-state-default\"><span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>Text Field 3</li>
 </ul><br/><button>Submit Changes</button>";
 	}
+	if($_GET['action']=="download"){
+	$dataquery = "SELECT * from data WHERE projectid='".$_GET['projname']."'";
+	$result = sqlsrv_query($conn,$dataquery);
+	header("Content-type: application/csv");
+	header("Content-Disposition: attachment; filename=$projname.csv");
+	header("Pragma: no-cache");
+	header("Expires: 0");
+	while($row = sqlsrv_fetch_array($result))
+		{
+		    
+			$processed = "[".str_replace("}{","},{",$row['data'])."]";
+			$arr=json_decode($processed,true);
+			$outputstr =$row['time']->format('Y-m-d H:i:s').",";
+			foreach($arr as $val){
+				$outputstr .= $val['label'].":".$val['value'].",";
+			}
+			$outputstr .= $row['location']."\r\n";
+			echo $outputstr;
+		}
+		exit();
+	}
+	
 	}
 }
 else
@@ -167,7 +189,7 @@ body{
 	}
 	else if(isset($_GET['action'])){
 		if($_GET['action']=='data'){
-			echo "Data for Project <i>".$projname."</i>";
+			echo "Data for Project <i>".$projname."</i>: <a href=\"manage.php?projname=".$_GET['projname']."&action=download\">Download</a>";
 		}
 		else{
 			echo "Modify Layout for Project <i>".$projname."</i>";
