@@ -29,11 +29,14 @@ namespace MyScience
     {
         private double lat;
         private double lng;
+        private TextBlock LatBlock, LngBlock;
 
         public DetailsPage()
         {
             InitializeComponent();
             OnLoaded();
+            LatBlock = new TextBlock();
+            LngBlock = new TextBlock();
         }
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
@@ -48,9 +51,7 @@ namespace MyScience
                 var DescriptionBlock = new TextBlock();
                 DescriptionBlock.Text = currentApp.Description;
                 DescriptionBlock.TextWrapping = TextWrapping.Wrap;
-                var LatBlock = new TextBlock();
                 LatBlock.Text = "Lat: " + lat.ToString();
-                var LngBlock = new TextBlock();
                 LngBlock.Text = "Lng:" + lng.ToString();
                 InfoPanel.Children.Add(DescriptionBlock);
                 InfoPanel.Children.Add(LatBlock);
@@ -184,14 +185,26 @@ namespace MyScience
             Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
             WriteableBitmap image = (WriteableBitmap)photo.Source;
 
-            MemoryStream ms = new MemoryStream();
-            image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
-            byte[] imageData = ms.ToArray();
-            /*Parse the fields list into Json String*/
-            String data = GetJsonString(fields);
-            Service1Client client = new Service1Client();
-            client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
-            client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString() + "," + lng.ToString(), 1, "JPEG", imageData);
+            if (image != null)
+            {
+                MemoryStream ms = new MemoryStream();
+                image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
+                byte[] imageData = ms.ToArray();
+                /*Parse the fields list into Json String*/
+                String data = GetJsonString(fields);
+                Service1Client client = new Service1Client();
+                client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
+                client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString() + "," + lng.ToString(), 1, "JPEG", imageData);
+            }
+            else
+            {
+                Popup messagePopup = new Popup();
+                TextBlock message = new TextBlock();
+                message.Text = "Oops, forgot to submit a pic!\n";
+                messagePopup.Child = message;
+                messagePopup.IsOpen = true;
+                DynamicPanel.Children.Add(messagePopup);
+            }
 
             //client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
         }
@@ -255,7 +268,8 @@ namespace MyScience
         {
             lat = location.Latitude;
             lng = location.Longitude;
-
+            LatBlock.Text = "Lat: " + lat.ToString();
+            LngBlock.Text = "Lng:" + lng.ToString();
             //Map.Center = location;
         }
     }
