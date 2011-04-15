@@ -46,7 +46,7 @@ namespace MyScience
                 App.currentIndex = Convert.ToInt32(NavigationContext.QueryString["selectedItem"]);
                 Project currentApp = App.applist[App.currentIndex];
                 //PageTitle.Text = currentApp.Name;
-                ProjectPanorama.Title = currentApp.Name;
+                ProjectPivot.Title = currentApp.Name;
                 InfoPanel.Children.Clear();
                 var DescriptionBlock = new TextBlock();
                 DescriptionBlock.Text = currentApp.Description;

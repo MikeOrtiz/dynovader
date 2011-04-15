@@ -16,12 +16,23 @@
  
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">       
+    <Grid x:Name="LayoutRoot" Background="Transparent">
 
         <!--Pivot Control-->
-        <controls:Pivot Title="My Science">
+        <controls:Panorama Title="myScience">
+            <controls:Panorama.Background>
+                <ImageBrush ImageSource="Images/sunshine2.jpg"/>
+            </controls:Panorama.Background>
+            
+            
+            <controls:Panorama.TitleTemplate>
+                <DataTemplate>
+                    <TextBlock FontSize="120" Margin="0,50,0,0" Text="myScience" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                </DataTemplate>
+            </controls:Panorama.TitleTemplate>
+
             <!--Pivot item one-->
-            <controls:PivotItem Header="Projects">
+            <controls:PanoramaItem Header="Projects">
                 <ListBox x:Name="MainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="MainListBox_SelectionChanged">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -32,10 +43,10 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </controls:PivotItem>
+            </controls:PanoramaItem>
 
             <!--Pivot item two-->
-            <controls:PivotItem Header="Hall of Fame">
+            <controls:PanoramaItem Header="Hall of Fame">
                 <!--ContentPanel - place additional content here-->
                 <ListBox x:Name="HallOfFameBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="MainListBox_SelectionChanged">
                     <ListBox.ItemTemplate>
@@ -47,10 +58,10 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </controls:PivotItem>
+            </controls:PanoramaItem>
             
             <!--Pivot item three-->
-            <controls:PivotItem Header="Profile">
+            <controls:PanoramaItem Header="Profile">
                 <!--ContentPanel - place additional content here-->
                 <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
                     <Grid.RowDefinitions>
@@ -92,8 +103,8 @@
                         </ListBox>
                     </Grid>
                 </Grid>
-            </controls:PivotItem>
-        </controls:Pivot>
+            </controls:PanoramaItem>
+        </controls:Panorama>
     </Grid>
     
     <!--Sample code showing usage of ApplicationBar-->

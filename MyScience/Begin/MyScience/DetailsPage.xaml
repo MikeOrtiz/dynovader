@@ -16,23 +16,30 @@
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
-        <controls:Panorama Name ="ProjectPanorama">
+        <controls:Pivot Name ="ProjectPivot">
 
             <!--Panorama item one-->
-            <controls:PanoramaItem Header="About">
-                <Grid x:Name="ContentPanel0" Grid.Row="1" Margin="12,0,12,0">
+            <controls:PivotItem Header="About">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="InfoPanel" VerticalAlignment="Top" Width="400"></StackPanel>
-                </Grid>
-            </controls:PanoramaItem>
-
+                </ScrollViewer>
+            </controls:PivotItem>
+            
             <!--Panorama item two-->
-            <controls:PanoramaItem Header="Submission">
+            <controls:PivotItem Header="Submission">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="DynamicPanel" VerticalAlignment="Top" Width="400">
+                    </StackPanel>
+                </ScrollViewer>
+                </controls:PivotItem>
+
+            <!--controls:PanoramaItem Header="Submission">
                 <Grid x:Name="ContentPanel" Grid.Row="2" Margin="12,0,12,0">
                     <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="DynamicPanel" VerticalAlignment="Top" Width="400">
                     </StackPanel>
                 </Grid>
-            </controls:PanoramaItem>
-        </controls:Panorama>
+            </controls:PanoramaItem-->
+        </controls:Pivot>
     </Grid>
 
     <!--Panorama-based applications should not show an ApplicationBar-->
