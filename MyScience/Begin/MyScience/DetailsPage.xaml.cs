@@ -29,11 +29,14 @@ namespace MyScience
     {
         private double lat;
         private double lng;
+        private TextBlock LatBlock, LngBlock;
 
         public DetailsPage()
         {
             InitializeComponent();
             OnLoaded();
+            LatBlock = new TextBlock();
+            LngBlock = new TextBlock();
         }
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
@@ -43,14 +46,12 @@ namespace MyScience
                 App.currentIndex = Convert.ToInt32(NavigationContext.QueryString["selectedItem"]);
                 Project currentApp = App.applist[App.currentIndex];
                 //PageTitle.Text = currentApp.Name;
-                ProjectPanorama.Title = currentApp.Name;
+                ProjectPivot.Title = currentApp.Name;
                 InfoPanel.Children.Clear();
                 var DescriptionBlock = new TextBlock();
                 DescriptionBlock.Text = currentApp.Description;
                 DescriptionBlock.TextWrapping = TextWrapping.Wrap;
-                var LatBlock = new TextBlock();
                 LatBlock.Text = "Lat: " + lat.ToString();
-                var LngBlock = new TextBlock();
                 LngBlock.Text = "Lng:" + lng.ToString();
                 InfoPanel.Children.Add(DescriptionBlock);
                 InfoPanel.Children.Add(LatBlock);
@@ -68,34 +69,75 @@ namespace MyScience
                     switch (fields[i].type)
                     {
                         case "Question":
+                            //TODO:add a numerical checker for number answers
                             var newTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
                             var newTextBox = new TextBox { Name = "Answer" + i.ToString() };
                             DynamicPanel.Children.Add(newTextBlock);
                             DynamicPanel.Children.Add(newTextBox);
                             break;
-                        case "Photo":
+                        //case "Photo":
+                            //TODO: A button with a camera icon on top of it, when user finishes photo taking,
+                            //      substitute the camera icon with the photo
                             //var cameraButton = new Button { Name = "CameraButton", Content = "Take Photo", Width = DynamicPanel.Width / 4 };
                             //cameraButton.Click += new RoutedEventHandler(cameraButton_Click);
                             //var photo = new Image { Name = "Picture" };
                             //DynamicPanel.Children.Add(cameraButton);
                             //DynamicPanel.Children.Add(photo);
+                           // break;
+                        case "RadioButton":
+                            //TODO: type is RadioButton, label is question, value is options
+                            //      In value, different options are seperated by "|"
+                            var RBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
+                            DynamicPanel.Children.Add(RBTextBlock);
+                            string[] Options = fields[i].value.Split('|');
+                            RadioButton[] RadioButtons = new RadioButton[Options.Length];
+                            for (int j = 0; j < Options.Length; j++)
+                            {
+                                RadioButtons[j] = new RadioButton { Content = Options[j] };
+                                DynamicPanel.Children.Add(RadioButtons[j]);
+                            }
+                            break;
+                        case "CheckBox":
+                            //TODO: same as RadioButton
+                             var CBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
+                            DynamicPanel.Children.Add(CBTextBlock);
+                            string[] Choices = fields[i].value.Split('|');
+                            CheckBox[] CheckBoxes = new CheckBox[Choices.Length];
+                            for (int j = 0; j < Choices.Length; j++)
+                            {
+                                CheckBoxes[j] = new CheckBox { Content = Choices[j] };
+                                DynamicPanel.Children.Add(CheckBoxes[j]);
+                            }
+                            break;
+                        case "SliderBar":
+                            //TODO: same as RadioButton except value is the max and min values
+                            var SBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
+                            String[] Values = fields[i].value.Split('|');
+                            var SliderBar = new Slider { Minimum = double.Parse(Values[0]), Maximum = double.Parse(Values[1]) };
+                            DynamicPanel.Children.Add(SBTextBlock);
+                            DynamicPanel.Children.Add(SliderBar);
                             break;
                     }
 
                 }
 
-                var cameraButton = new Button { Name = "CameraButton", Content = "Take Photo", Width = DynamicPanel.Width / 4 };
+                //var PhoBlock = new TextBlock { Text = "Please take a photo:" };
+                //ImageBrush photo = new ImageBrush { ImageSource = new BitmapImage(new Uri("/Images/BillGates.jpg", UriKind.Relative)), Stretch =Stretch.Fill };
+                var cameraButton = new Button { Name = "CameraButton", Content = "Take a photo" };
                 cameraButton.Click += new RoutedEventHandler(cameraButton_Click);
                 var photo = new Image { Name = "Picture", Height = 80, Width = 80 };
                 DynamicPanel.Children.Add(cameraButton);
+
+
+                var albumButton = new Button { Name = "AlbumButton", Content = "Choose Photo", Width = DynamicPanel.Width };
+                albumButton.Click += new RoutedEventHandler(albumButton_Click);
+                DynamicPanel.Children.Add(albumButton);
                 DynamicPanel.Children.Add(photo);
 
                 //add button and event handler here
                 var newButton = new Button { Name = "SubmitButton", Content = "Submit" };
                 newButton.Click += new RoutedEventHandler(newButton_Click);
                 DynamicPanel.Children.Add(newButton);
-
-
             }
         }
 
@@ -112,51 +154,38 @@ namespace MyScience
             }
         }
 
+        void albumButton_Click(object sender, RoutedEventArgs e)
+        {
+            var albumTask = new PhotoChooserTask();
+            albumTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+            try
+            {
+                albumTask.Show();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
         void cameraTask_Completed(object sender, PhotoResult e)
         {
-            //if (e.TaskResult == TaskResult.OK)
-            //{
-
-            //    //here I save the image to Isolated Storage.  Also I am changing the size of it to not waste space!
-            //    WriteableBitmap writeableBitmap = new WriteableBitmap(200, 200);
-            //    writeableBitmap.LoadJpeg(e.ChosenPhoto);
-
-            //    string imageFolder = "Images";
-            //    string imageFileName = DateTime.Now.ToString()+"_"+App.currentUser.ID.ToString()+".jpg";
-            //    using (var isoFile = IsolatedStorageFile.GetUserStoreForApplication())
-            //    {
-
-            //        if (!isoFile.DirectoryExists(imageFolder))
-            //        {
-            //            isoFile.CreateDirectory(imageFolder);
-            //        }
-
-            //        string filePath = System.IO.Path.Combine(imageFolder, imageFileName);
-            //        using (var stream = isoFile.CreateFile(filePath))
-            //        {
-            //            writeableBitmap.SaveJpeg(stream, writeableBitmap.PixelWidth, writeableBitmap.PixelHeight, 0, 100);
-            //        }
-            //    }
-
-            //    //now read the image back from storage to show it worked...
-            //    BitmapImage imageFromStorage = new BitmapImage();
-
-            //    using (var isoFile = IsolatedStorageFile.GetUserStoreForApplication())
-            //    {
-            //        string filePath = System.IO.Path.Combine(imageFolder, imageFileName);
-            //        using (var imageStream = isoFile.OpenFile(
-            //            filePath, FileMode.Open, FileAccess.Read))
-            //        {
-            //            imageFromStorage.SetSource(imageStream);
-            //        }
-            //    }
-            //    Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
-            //    photo.Source = imageFromStorage;
-            //}
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(200, 200);
+                WriteableBitmap image = new WriteableBitmap(50, 50);
                 image.LoadJpeg(e.ChosenPhoto);
+                Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
+                photo.Source = image;
+            }
+        }
+
+        void photoChooserTask_Completed(object sender, PhotoResult e)
+        {
+            if (e.TaskResult == TaskResult.OK)
+            {
+                WriteableBitmap image = new WriteableBitmap(50, 50);
+                //image.SetSource(e.ChosenPhoto);
+                image.LoadJpeg(e.ChosenPhoto);
+
                 Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
                 photo.Source = image;
             }
@@ -170,7 +199,6 @@ namespace MyScience
                 dataCount.Text = "Current Data in Total: " + e.Result.ToList<Submission>().Count;
                 InfoPanel.Children.Add(dataCount);
             }
-
         }
 
 
@@ -189,19 +217,71 @@ namespace MyScience
                         fields[i].value = newTextBox.Text;
                         cur += 2;
                         break;
+                    case "RadioButton":
+                        String[] Options = fields[i].value.Split('|');
+                        cur = cur + 1;
+                        for (int j = 0; j < Options.Length; j++)
+                        {
+                            RadioButton RButton = DynamicPanel.Children[cur] as RadioButton;
+                            if (RButton.IsChecked == true)
+                            {
+                                fields[i].value = RButton.Content.ToString();
+                            }
+                            cur++;
+                        }
+                        break;
+                    case "CheckBox":
+                        String[] Choices = fields[i].value.Split('|');
+                        fields[i].value = "";
+                        cur = cur + 1;
+                        for (int j = 0; j < Choices.Length; j++)
+                        {
+                            CheckBox CBox = DynamicPanel.Children[cur] as CheckBox;
+                            if (CBox.IsChecked == true)
+                            {
+                                if (fields[i].value == "")
+                                {
+                                    fields[i].value = CBox.Content.ToString();
+                                }
+                                else
+                                {
+                                    fields[i].value = fields[i].value + "|" + CBox.Content.ToString();
+                                }
+                            }
+                            cur++;
+                        }
+                        break;
+                    case "SliderBar":
+                        cur = cur + 1;
+                        Slider SliderBar = DynamicPanel.Children[cur] as Slider;
+                        fields[i].value = SliderBar.Value.ToString();
+                        break;
                 }
 
             }
             Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
             WriteableBitmap image = (WriteableBitmap)photo.Source;
-            MemoryStream ms = new MemoryStream();
-            image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
-            byte[] imageData = ms.ToArray();
-            /*Parse the fields list into Json String*/
-            String data = GetJsonString(fields);
-            Service1Client client = new Service1Client();
-            client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
-            client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString() + "," + lng.ToString(), 1, "JPEG", imageData);
+
+            if (image != null)
+            {
+                MemoryStream ms = new MemoryStream();
+                image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
+                byte[] imageData = ms.ToArray();
+                /*Parse the fields list into Json String*/
+                String data = GetJsonString(fields);
+                Service1Client client = new Service1Client();
+                client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
+                client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString() + "," + lng.ToString(), 1, "JPEG", imageData);
+            }
+            else
+            {
+                Popup messagePopup = new Popup();
+                TextBlock message = new TextBlock();
+                message.Text = "Oops, forgot to submit a pic!\n";
+                messagePopup.Child = message;
+                messagePopup.IsOpen = true;
+                DynamicPanel.Children.Add(messagePopup);
+            }
 
             //client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
         }
@@ -265,7 +345,8 @@ namespace MyScience
         {
             lat = location.Latitude;
             lng = location.Longitude;
-
+            LatBlock.Text = "Lat: " + lat.ToString();
+            LngBlock.Text = "Lng:" + lng.ToString();
             //Map.Center = location;
         }
     }

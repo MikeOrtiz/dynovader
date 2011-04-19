@@ -17,6 +17,7 @@ namespace MyScience
 {
     public partial class SignIn : PhoneApplicationPage
     {
+        private bool alreadyClicked = false;
         public SignIn()
         {
             InitializeComponent();
@@ -29,6 +30,9 @@ namespace MyScience
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
+            if (alreadyClicked)
+                return;
+            alreadyClicked = true;
             /* Get phoneid */
             byte[] result = null;
             object uniqueId;
@@ -45,6 +49,9 @@ namespace MyScience
 
         private void signInButton_Click(object sender, RoutedEventArgs e)
         {
+            if (alreadyClicked)
+                return;
+            alreadyClicked = true;
             byte[] result = null;
             object uniqueId;
             if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
@@ -59,6 +66,7 @@ namespace MyScience
         //for now, just accepts a correct user, and moves to main page
         void client_GetUserProfileCompleted(object sender, GetUserProfileCompletedEventArgs e)
         {
+            alreadyClicked = false;
             if (e.Result != null)
             {
                 List<User> users = e.Result.ToList<User>();
@@ -80,6 +88,7 @@ namespace MyScience
         //for now, just accepts a correct user, and moves to main page
         void client_RegisterUserCompleted(object sender, RegisterUserCompletedEventArgs e)
         {
+            alreadyClicked = false;
             if (e.Result != null)
             {
                 App.currentUser = new User();
