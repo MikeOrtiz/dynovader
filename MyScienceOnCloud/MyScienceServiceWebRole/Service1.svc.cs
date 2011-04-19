@@ -33,7 +33,8 @@ namespace MyScienceServiceWebRole
         public Uri SubmitData(int id, int projectid, int userid, String data, String location, int point, String contentType, byte[] imagedata)
         {
             EnsureContainerExists();
-            String imagename = userid.ToString() + "-" + id.ToString();
+            DateTime time = DateTime.Now;
+            String imagename = userid.ToString() + "-" + time.ToFileTime().ToString() + ".jpg";
             var blob = this.GetContainer().GetBlobReference(imagename);
             blob.Properties.ContentType = contentType;
 
@@ -157,7 +158,7 @@ namespace MyScienceServiceWebRole
             var container = GetContainer();
             container.CreateIfNotExist();
             var permissions = container.GetPermissions();
-            permissions.PublicAccess = BlobContainerPublicAccessType.Blob;
+            permissions.PublicAccess = BlobContainerPublicAccessType.Container;
             container.SetPermissions(permissions);
         }
 

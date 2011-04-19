@@ -15,7 +15,7 @@
     shell:SystemTray.IsVisible="False" Loaded="DetailsPage_Loaded">
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Height="1000">
         <controls:Pivot Name ="ProjectPivot">
 
             <!--Panorama item one-->
@@ -27,10 +27,10 @@
             
             <!--Panorama item two-->
             <controls:PivotItem Header="Submission">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="DynamicPanel" VerticalAlignment="Top" Width="400">
-                    </StackPanel>
-                </ScrollViewer>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" >
+                        <StackPanel Height="1500" HorizontalAlignment="Left" Margin="0,6,0,0" Name="DynamicPanel" VerticalAlignment="Top" Width="400" >
+                        </StackPanel>
+                    </ScrollViewer>
                 </controls:PivotItem>
 
             <!--controls:PanoramaItem Header="Submission">

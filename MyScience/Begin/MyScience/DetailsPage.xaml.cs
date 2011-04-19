@@ -69,23 +69,61 @@ namespace MyScience
                     switch (fields[i].type)
                     {
                         case "Question":
+                            //TODO:add a numerical checker for number answers
                             var newTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
                             var newTextBox = new TextBox { Name = "Answer" + i.ToString() };
                             DynamicPanel.Children.Add(newTextBlock);
                             DynamicPanel.Children.Add(newTextBox);
                             break;
-                        case "Photo":
+                        //case "Photo":
+                            //TODO: A button with a camera icon on top of it, when user finishes photo taking,
+                            //      substitute the camera icon with the photo
                             //var cameraButton = new Button { Name = "CameraButton", Content = "Take Photo", Width = DynamicPanel.Width / 4 };
                             //cameraButton.Click += new RoutedEventHandler(cameraButton_Click);
                             //var photo = new Image { Name = "Picture" };
                             //DynamicPanel.Children.Add(cameraButton);
                             //DynamicPanel.Children.Add(photo);
+                           // break;
+                        case "RadioButton":
+                            //TODO: type is RadioButton, label is question, value is options
+                            //      In value, different options are seperated by "|"
+                            var RBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
+                            DynamicPanel.Children.Add(RBTextBlock);
+                            string[] Options = fields[i].value.Split('|');
+                            RadioButton[] RadioButtons = new RadioButton[Options.Length];
+                            for (int j = 0; j < Options.Length; j++)
+                            {
+                                RadioButtons[j] = new RadioButton { Content = Options[j] };
+                                DynamicPanel.Children.Add(RadioButtons[j]);
+                            }
+                            break;
+                        case "CheckBox":
+                            //TODO: same as RadioButton
+                             var CBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
+                            DynamicPanel.Children.Add(CBTextBlock);
+                            string[] Choices = fields[i].value.Split('|');
+                            CheckBox[] CheckBoxes = new CheckBox[Choices.Length];
+                            for (int j = 0; j < Choices.Length; j++)
+                            {
+                                CheckBoxes[j] = new CheckBox { Content = Choices[j] };
+                                DynamicPanel.Children.Add(CheckBoxes[j]);
+                            }
+                            break;
+                        case "SliderBar":
+                            //TODO: same as RadioButton except value is the max and min values
+                            var SBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
+                            String[] Values = fields[i].value.Split('|');
+                            var SliderBar = new Slider { Minimum = double.Parse(Values[0]), Maximum = double.Parse(Values[1]) };
+                            DynamicPanel.Children.Add(SBTextBlock);
+                            DynamicPanel.Children.Add(SliderBar);
                             break;
                     }
 
                 }
 
-                var cameraButton = new Button { Name = "CameraButton", Content = "Take Photo", Width = DynamicPanel.Width };
+                //var PhoBlock = new TextBlock { Text = "Please take a photo:" };
+                //ImageBrush photo = new ImageBrush { ImageSource = new BitmapImage(new Uri("/Images/BillGates.jpg", UriKind.Relative)), Stretch =Stretch.Fill };
+                var cameraButton = new Button { Name = "CameraButton", Content = "Take a photo" };
                 cameraButton.Click += new RoutedEventHandler(cameraButton_Click);
                 var photo = new Image { Name = "Picture", Height = 80, Width = 80 };
                 DynamicPanel.Children.Add(cameraButton);
@@ -178,6 +216,45 @@ namespace MyScience
                         TextBox newTextBox = DynamicPanel.Children[cur + 1] as TextBox;
                         fields[i].value = newTextBox.Text;
                         cur += 2;
+                        break;
+                    case "RadioButton":
+                        String[] Options = fields[i].value.Split('|');
+                        cur = cur + 1;
+                        for (int j = 0; j < Options.Length; j++)
+                        {
+                            RadioButton RButton = DynamicPanel.Children[cur] as RadioButton;
+                            if (RButton.IsChecked == true)
+                            {
+                                fields[i].value = RButton.Content.ToString();
+                            }
+                            cur++;
+                        }
+                        break;
+                    case "CheckBox":
+                        String[] Choices = fields[i].value.Split('|');
+                        fields[i].value = "";
+                        cur = cur + 1;
+                        for (int j = 0; j < Choices.Length; j++)
+                        {
+                            CheckBox CBox = DynamicPanel.Children[cur] as CheckBox;
+                            if (CBox.IsChecked == true)
+                            {
+                                if (fields[i].value == "")
+                                {
+                                    fields[i].value = CBox.Content.ToString();
+                                }
+                                else
+                                {
+                                    fields[i].value = fields[i].value + "|" + CBox.Content.ToString();
+                                }
+                            }
+                            cur++;
+                        }
+                        break;
+                    case "SliderBar":
+                        cur = cur + 1;
+                        Slider SliderBar = DynamicPanel.Children[cur] as Slider;
+                        fields[i].value = SliderBar.Value.ToString();
                         break;
                 }
 
