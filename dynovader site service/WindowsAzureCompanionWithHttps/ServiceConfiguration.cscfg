@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<ServiceConfiguration serviceName="WindowsAzureCompanion" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="1" osVersion="*">
+  <Role name="AdminWebSite">
+    <!-- Do not increase the instance count. Windows Azure Companion does not support more than 1 instances -->
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <!-- Application Details. Title and Welcome text -->
+      <Setting name="ApplicationTitle" value="Windows Azure Companion" />
+      <Setting name="ApplicationDescription" value="&lt;p&gt;The &lt;span class=&quot;textlink&quot;&gt;&lt;a href=&quot;http://www.microsoft.com/windowsazure/windowsazure&quot;&gt;Windows Azure platform&lt;/a&gt;&lt;/span&gt; is a cloud platform that allows applications to &#xD;&#xA;      be hosted and run at Microsoft datacenters. It provides a cloud operating system called Windows Azure that serves as the &#xD;&#xA;      runtime for the applications and provides a set of services that allow development, management and hosting of applications.&lt;/p&gt;&#xD;&#xA;      &#xD;&#xA;      &lt;p&gt;With its standards-based and interoperable approach, the Windows Azure platform supports multiple Internet protocols including &#xD;&#xA;      HTTP, XML, SOAP and REST. As an open platform, the Windows Azure platform allows developers to use multiples languages &#xD;&#xA;      (.NET, Java, and PHP &amp; other dynamic languages ) to build applications which run on Windows Azure and/or consume any of the &#xD;&#xA;      Windows Azure platform offerings.&lt;/p&gt;&#xD;&#xA;      &#xD;&#xA;      &lt;p&gt;The Windows Azure Companion aims to provide a seamless experience for deploying platform-level components as well as applications &#xD;&#xA;      on to Windows Azure. The first community preview of the Windows Azure Companion has been tested with PHP runtimes, frameworks, &#xD;&#xA;      and applications. However, the system may be extended to be used for deploying any component or application that has been tested &#xD;&#xA;      to run on Windows Azure.&lt;/p&gt;" />
+      <!-- Windows Azure Storage Account Details. -->
+      <Setting name="WindowsAzureStorageAccountName" value="*****" />
+      <Setting name="WindowsAzureStorageAccountKey" value="*****" />
+      <!-- Admin user name, password and e-mail. Please user strong username and password -->
+      <Setting name="AdminUserName" value="*****" />
+      <Setting name="AdminPassword" value="*****" />
+      <!-- Atom Feed for Product items to be installed. This URL should be internet addressable -->
+      <Setting name="ProductListXmlFeed" value="*****" />
+      <!-- Settings for Windows Azure Drive used for durability -->
+      <Setting name="PHPApplicationsBackupContainerName" value="companion" />
+      <Setting name="InstallationStatusConfigFileBlob" value="status.xml" />
+      <Setting name="ProgressInformationFileBlob" value="progress.xml" />
+      <Setting name="XDrivePageBlobName" value="backup.vhd" />
+      <Setting name="XDriveSizeInMB" value="5000" />
+      <!-- Max value is defined as 500 in ServiceDefinition.csdef file (XDriveLocalCache Local Resource) -->
+      <!-- Windows Azure Drive size is defined in ServiceDefinition.csdef. Look for ApplicationsAndRuntimeResource -->
+      <Setting name="XDriveCacheSizeInMB" value="2500" />
+      <!-- Diagnostics and Performance Counter Capture Frequency in minutes -->
+      <Setting name="DiagnosticsAndPerformanceCounterCaptureFrequencyInMinutes" value="1" />
+      <!-- Thumbprint for SSL certificate, for all web sites and WCF service. This should be same as that
+      of thumbprint provided as SSLCertificate certificate thumbprint in Certificates section -->
+      <Setting name="SSLCertificateSHA1Thumbprint" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF" />
+    </ConfigurationSettings>
+    <Certificates>
+      <!-- Use valid certificate thumbprint -->
+      <Certificate name="SSLCertificate" thumbprint="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

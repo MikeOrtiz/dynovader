@@ -1,0 +1,121 @@
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<%@ Import Namespace="Helpers" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title><asp:ContentPlaceHolder ID="ContentPlaceHolder_Title" runat="server" /></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <link href="../../Content/Styles/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+
+    <meta name="application-name" content="<%= "" + ViewData["ApplicationTitle"]%>" />
+    <meta name="msapplication-tooltip" content="<%= "" + ViewData["ApplicationTitle"]%>" />
+    <meta name="msapplication-window" content="width=1024;height=768" />
+    <meta name="msapplication-task" content="name=Administration;action-uri=/Admin/Admin;icon-uri=/favicon.ico" />
+
+    <%
+    // Add applications tabs based on tab names specified in application feed                                                         
+    string currentTab = ViewData["CurrentTab"] as string;
+    string[] productTabs = ViewData["ProductTabs"] as string[];
+
+    // Show tabs as defined in applications feed
+    if (productTabs != null)
+    {
+        foreach (string tabName in productTabs)
+        {
+            %>
+            <meta id="meta<%= "" + tabName%>" name="msapplication-task" content="<%= "" + "name=" 
+                + tabName + " Components;action-uri=/Applications/Applications/" 
+                + tabName + ";icon-uri=/favicon.ico"%>" />
+            <%
+        }
+    }
+    %>
+    
+    <meta name="msapplication-navbutton-color" content="#FDA050" />
+    <meta name="msapplication-starturl" content="/" /> 
+</head>
+
+<body>
+    <div class="mainContainer">
+        <div class="boxTL">
+            <div class="boxTR">
+                <div class="boxTM">
+                </div>
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        <div class="padContainer">
+            <!-- Header Starts -->
+            <div>
+                <div class="header">
+                    <div class="heading"><%= ViewData["ApplicationTitle"]%></div>
+                    <div class="topLinks">
+                        <% Html.RenderPartial("LogOnUserControl"); %>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+                <!-- Header Ends -->
+                <!-- Primary Navigation Starts -->
+                <div class="navLeft-bg">
+                    <div class="clear">
+                    </div>
+                </div>
+                <div class="nav-menu">
+                    <ul id="nav-menu">                        
+                        <%
+                            // Add applications tabs based on tab names specified in application feed
+                            string currentTab = ViewData["CurrentTab"] as string;
+                            string[] productTabs = ViewData["ProductTabs"] as string[];
+
+                            %>
+                            <li><a <% if (currentTab.Equals("Home")) { %>class="current"
+                            <% } %> href="/Home">Home</a></li>
+                            <%
+                                
+                            // Show tabs as defined in applications feed
+                            if (productTabs != null)
+                            {
+                                foreach (string tabName in productTabs)
+                                {
+                                    %>
+                                    <li class="divder"><a <% if (currentTab.Equals(tabName)) { %>class="current"
+                                        <% } %> href="/Applications/Applications/<%= tabName%>">
+                                        <%= tabName%></a></li>
+                                    <%
+                                }
+                            }                            
+                            %>                        
+                            <li class="divder"><a <% if (currentTab.Equals("Admin")) { %>class="current"
+                            <% } %> href="/Admin/Admin">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="navRight-bg">
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+            <!-- Primary Navigation Ends -->
+            <!-- Body Content Starts -->
+            <div class="body-block">
+                <div class="clear">
+                </div>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder_Body" runat="server" />
+            </div>
+            <div class="clear">
+            </div>
+            <!-- Body Content Ends -->
+            <!-- Footer Starts -->
+        </div>
+        <div class="footer">
+        </div>
+    </div>
+</body>
+</html>

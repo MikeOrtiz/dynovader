@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RoleModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="AdminWebSite" version="1.4.20227.1419" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition">
+  <Startup>
+    <Task commandLine="RemoteAccessAgent.exe" executionContext="elevated" taskType="background" relativePath="plugins\RemoteAccess">
+      <Environment>
+        <Variable name="WaRoleType" value="IISWebRole" />
+      </Environment>
+    </Task>
+    <Task commandLine="RemoteAccessAgent.exe /blockStartup" executionContext="elevated" relativePath="plugins\RemoteAccess">
+      <Environment>
+        <Variable name="WaRoleType" value="IISWebRole" />
+      </Environment>
+    </Task>
+    <Task commandLine="RemoteForwarderAgent.exe" executionContext="elevated" relativePath="plugins\RemoteForwarder">
+      <Environment>
+        <Variable name="WaRoleType" value="IISWebRole" />
+      </Environment>
+    </Task>
+  </Startup>
+  <Runtime executionContext="elevated" />
+  <ConfigurationSettings>
+    <Setting name="Enabled" nameSpace="Microsoft.WindowsAzure.Plugins.RemoteAccess" />
+    <Setting name="AccountUsername" nameSpace="Microsoft.WindowsAzure.Plugins.RemoteAccess" />
+    <Setting name="AccountEncryptedPassword" nameSpace="Microsoft.WindowsAzure.Plugins.RemoteAccess" />
+    <Setting name="AccountExpiration" nameSpace="Microsoft.WindowsAzure.Plugins.RemoteAccess" />
+    <Setting name="Enabled" nameSpace="Microsoft.WindowsAzure.Plugins.RemoteForwarder" />
+  </ConfigurationSettings>
+  <Properties>
+    <Property name="RoleType" value="Web" />
+    <Property name="RoleName" value="AdminWebSite" />
+    <Property name="ProjectName" value="AdminWebSite" />
+    <Property name="Configuration" value="Debug" />
+    <Property name="Platform" value="AnyCPU" />
+    <Property name="OutputDir" value="C:\Users\cs210student\Desktop\dynovader site\WindowsAzureCompanion\obj\Debug\AdminWebSite\" />
+    <Property name="EntryPoint" value="AdminWebSite.dll" />
+    <Property name="SourceDir" value="C:\Users\cs210student\Desktop\dynovader site\AdminWebSite\" />
+    <Property name="RoleTargetFramework" value="v4.0" />
+    <Property name="SitePhysicalPath" value="C:\Users\cs210student\Desktop\dynovader site\WindowsAzureCompanion\obj\Debug\AdminWebSite\" />
+    <Property name="OriginalItemSpec" value="C:\Users\cs210student\Desktop\dynovader site\WindowsAzureCompanion\WindowsAzureCompanion.ccproj" />
+    <Property name="MSBuildSourceProjectFile" value="C:\Users\cs210student\Desktop\dynovader site\WindowsAzureCompanion\WindowsAzureCompanion.ccproj" />
+    <Property name="MSBuildSourceTargetName" value="ResolveSingleWebRoleReference" />
+    <Property name="TargetFrameworkVersion" value="v4.0" />
+    <Property name="TargetRuntimeVersion" value="v4.0" />
+  </Properties>
+  <Sites>
+    <Site name="Web" physicalDirectory="C:\Users\cs210student\Desktop\dynovader site\WindowsAzureCompanion\obj\Debug\AdminWebSite\">
+      <Bindings>
+        <Binding name="WindowsAzureCompanionHttpIn" endpointName="WindowsAzureCompanionHttpIn" />
+      </Bindings>
+    </Site>
+  </Sites>
+</RoleModel>

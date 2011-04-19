@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="WindowsAzureCompanion" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="1" osVersion="*">
+  <Role name="AdminWebSite">
+    <!-- Do not increase the instance count. Windows Azure Companion does not support more than 1 instances -->
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <!-- Application Details. Title and Welcome text -->
+      <Setting name="ApplicationTitle" value="Windows Azure Companion" />
+      <Setting name="ApplicationDescription" value="&lt;p&gt;The &lt;span class=&quot;textlink&quot;&gt;&lt;a href=&quot;http://www.microsoft.com/windowsazure/windowsazure&quot;&gt;Windows Azure platform&lt;/a&gt;&lt;/span&gt; is a cloud platform that allows applications to &#xD;&#xA;      be hosted and run at Microsoft datacenters. It provides a cloud operating system called Windows Azure that serves as the &#xD;&#xA;      runtime for the applications and provides a set of services that allow development, management and hosting of applications.&lt;/p&gt;&#xD;&#xA;      &#xD;&#xA;      &lt;p&gt;With its standards-based and interoperable approach, the Windows Azure platform supports multiple Internet protocols including &#xD;&#xA;      HTTP, XML, SOAP and REST. As an open platform, the Windows Azure platform allows developers to use multiples languages &#xD;&#xA;      (.NET, Java, and PHP &amp; other dynamic languages ) to build applications which run on Windows Azure and/or consume any of the &#xD;&#xA;      Windows Azure platform offerings.&lt;/p&gt;&#xD;&#xA;      &#xD;&#xA;      &lt;p&gt;The Windows Azure Companion aims to provide a seamless experience for deploying platform-level components as well as applications &#xD;&#xA;      on to Windows Azure. The first community preview of the Windows Azure Companion has been tested with PHP runtimes, frameworks, &#xD;&#xA;      and applications. However, the system may be extended to be used for deploying any component or application that has been tested &#xD;&#xA;      to run on Windows Azure.&lt;/p&gt;" />
+      <!-- Windows Azure Storage Account Details. -->
+      <Setting name="WindowsAzureStorageAccountName" value="dynovadersite" />
+      <Setting name="WindowsAzureStorageAccountKey" value="5krdw7z9ee+xme8h8wMWhgxLfSeXrRUOQnzGH3Sj5EMzQ1U7rc4PROVNsPV+6W9/9PBnpfIzx0bZq8sNm5znfg==" />
+      <!-- Admin user name, password and e-mail. Please user strong username and password -->
+      <Setting name="AdminUserName" value="dynovader" />
+      <Setting name="AdminPassword" value="Cs210student" />
+      <!-- Atom Feed for Product items to be installed. This URL should be internet addressable -->
+      <Setting name="ProductListXmlFeed" value="http://wazstorage.blob.core.windows.net/azurecompanion/default/WindowsAzureCompanionFeed.xml" />
+      <!-- Settings for Windows Azure Drive used for durability -->
+      <Setting name="PHPApplicationsBackupContainerName" value="companion" />
+      <Setting name="InstallationStatusConfigFileBlob" value="status.xml" />
+      <Setting name="ProgressInformationFileBlob" value="progress.xml" />
+      <Setting name="XDrivePageBlobName" value="backup.vhd" />
+      <Setting name="XDriveSizeInMB" value="5000" />
+      <!-- Max value is defined as 500 in ServiceDefinition.csdef file (XDriveLocalCache Local Resource) -->
+      <!-- Windows Azure Drive size is defined in ServiceDefinition.csdef. Look for ApplicationsAndRuntimeResource -->
+      <Setting name="XDriveCacheSizeInMB" value="2500" />
+      <!-- Diagnostics and Performance Counter Capture Frequency in minutes -->
+      <Setting name="DiagnosticsAndPerformanceCounterCaptureFrequencyInMinutes" value="1" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="dynovader" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEEiH0viGlq20Sf631iIGLacwDQYJKoZIhvcNAQEBBQAEggEAcXCyYwD7afBP/fk2KLXk58Vk5fVWOZmtyFsB/jUWH4oTNGLKRTAfBJOh+3dVAgBbOBJAs52YJ/miE92lBXUdE8LrALra52FVT9F7tDgb3oAnzxvQkuXMkzaAA23OmzLgPL7CenXsgu+CxQXWSuWl1OfG4Ldx9iBk9iiW6pyssWEAzZTSrsGi4rdoOLmZrAiGptm8wBI4k3cb6tl/QrIk+695Rfp0qh1SQ5ADw6tvSua/bRJT1PhHfLA1vdNwGBv1Q6XKEXwI9MRGkXXAhHDk9HEbGm/GFWoDCM8L9fSlZwV2sMS+fJdi7BUg0bn6mnibMpIXI4T941u15wVTWK4ADzAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECIU2A6KdLMw8gBDZUcUDnIgSDZqHyl5jfM8L" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2012-05-19T23:59:59.0000000-07:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="336C3A936F8E7105CE85268093C521DB5B3309F6" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="WindowsAzureCompanion" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition">
+  <WebRole name="AdminWebSite">
+    <LocalResources>
+      <LocalStorage name="ApplicationsAndRuntimeResource" sizeInMB="2000" />
+      <LocalStorage name="ApplicationsDownloadResource" sizeInMB="500" />
+      <LocalStorage name="DiagnosticStore" sizeInMB="4096" cleanOnRoleRecycle="false" />
+      <LocalStorage name="XDriveLocalCache" sizeInMB="2600" />
+    </LocalResources>
+    <ConfigurationSettings>
+      <Setting name="AdminPassword" />
+      <Setting name="AdminUserName" />
+      <Setting name="ApplicationDescription" />
+      <Setting name="ApplicationTitle" />
+      <Setting name="DiagnosticsAndPerformanceCounterCaptureFrequencyInMinutes" />
+      <Setting name="InstallationStatusConfigFileBlob" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" />
+      <Setting name="PHPApplicationsBackupContainerName" />
+      <Setting name="ProductListXmlFeed" />
+      <Setting name="ProgressInformationFileBlob" />
+      <Setting name="WindowsAzureStorageAccountKey" />
+      <Setting name="WindowsAzureStorageAccountName" />
+      <Setting name="XDriveCacheSizeInMB" />
+      <Setting name="XDrivePageBlobName" />
+      <Setting name="XDriveSizeInMB" />
+    </ConfigurationSettings>
+    <Endpoints>
+      <InputEndpoint name="HttpIn" protocol="http" port="80" localPort="80" />
+      <InputEndpoint name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput" protocol="tcp" port="3389" localPort="*" ignoreRoleInstanceStatus="true" />
+      <InputEndpoint name="VMManagerServiceExternalHttpPort" protocol="http" port="8081" localPort="8081" />
+      <InputEndpoint name="WindowsAzureCompanionHttpIn" protocol="http" port="8080" localPort="8080" />
+      <InternalEndpoint name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Rdp" protocol="tcp">
+        <FixedPortRange min="3389" max="3389" />
+      </InternalEndpoint>
+      <InternalEndpoint name="MySQLBasedDBPort" protocol="tcp">
+        <FixedPortRange min="3306" max="3306" />
+      </InternalEndpoint>
+    </Endpoints>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" storeLocation="LocalMachine" storeName="My" />
+    </Certificates>
+  </WebRole>
+</ServiceDefinition>
