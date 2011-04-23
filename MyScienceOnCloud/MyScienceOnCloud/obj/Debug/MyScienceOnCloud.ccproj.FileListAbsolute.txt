@@ -168,9 +168,3 @@ C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\M
 C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
 C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.dll
 C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.pdb
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\Global.asax
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\Service1.svc
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\Web.config
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\Global.asax
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\Service1.svc
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\Web.config

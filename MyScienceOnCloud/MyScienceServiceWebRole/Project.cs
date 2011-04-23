@@ -24,5 +24,7 @@ namespace MyScienceServiceWebRole
         [DataMember]
         public int Owner;
 
+        //[DataMember]
+        //public String status;
     }
 }

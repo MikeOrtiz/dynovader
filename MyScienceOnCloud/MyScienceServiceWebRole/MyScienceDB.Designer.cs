@@ -485,11 +485,11 @@ namespace MyScienceServiceWebRole
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Byte[] picture
+        public global::System.String picture
         {
             get
             {
-                return StructuralObject.GetValidValue(_picture);
+                return _picture;
             }
             set
             {
@@ -500,8 +500,8 @@ namespace MyScienceServiceWebRole
                 OnpictureChanged();
             }
         }
-        private global::System.Byte[] _picture;
-        partial void OnpictureChanging(global::System.Byte[] value);
+        private global::System.String _picture;
+        partial void OnpictureChanging(global::System.String value);
         partial void OnpictureChanged();
 
         #endregion
@@ -662,6 +662,30 @@ namespace MyScienceServiceWebRole
         private global::System.String _form;
         partial void OnformChanging(global::System.String value);
         partial void OnformChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                OnstatusChanging(value);
+                ReportPropertyChanging("status");
+                _status = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("status");
+                OnstatusChanged();
+            }
+        }
+        private global::System.String _status;
+        partial void OnstatusChanging(global::System.String value);
+        partial void OnstatusChanged();
 
         #endregion
     
@@ -944,6 +968,30 @@ namespace MyScienceServiceWebRole
         private Nullable<global::System.Int32> _score;
         partial void OnscoreChanging(Nullable<global::System.Int32> value);
         partial void OnscoreChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> hasImage
+        {
+            get
+            {
+                return _hasImage;
+            }
+            set
+            {
+                OnhasImageChanging(value);
+                ReportPropertyChanging("hasImage");
+                _hasImage = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("hasImage");
+                OnhasImageChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _hasImage;
+        partial void OnhasImageChanging(Nullable<global::System.Int32> value);
+        partial void OnhasImageChanged();
 
         #endregion
     

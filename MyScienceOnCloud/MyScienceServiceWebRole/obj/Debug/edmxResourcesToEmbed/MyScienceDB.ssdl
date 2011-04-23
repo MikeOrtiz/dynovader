@@ -25,7 +25,7 @@
     <Property Name="data" Type="varchar(max)" Nullable="false" />
     <Property Name="time" Type="datetime" Nullable="false" />
     <Property Name="location" Type="varchar" Nullable="false" MaxLength="256" />
-    <Property Name="picture" Type="image" />
+    <Property Name="picture" Type="varchar" MaxLength="256" />
   </EntityType>
   <EntityType Name="projectfields">
     <Key>
@@ -45,7 +45,8 @@
     <Property Name="name" Type="varchar" Nullable="false" MaxLength="256" />
     <Property Name="description" Type="varchar" Nullable="false" MaxLength="256" />
     <Property Name="owner" Type="int" Nullable="false" />
-    <Property Name="form" Type="varchar" Nullable="false" MaxLength="1024" />
+    <Property Name="form" Type="varchar(max)" Nullable="false" />
+    <Property Name="status" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="users">
     <Key>
@@ -55,5 +56,6 @@
     <Property Name="phoneid" Type="varchar" Nullable="false" MaxLength="64" />
     <Property Name="name" Type="varchar" Nullable="false" MaxLength="256" />
     <Property Name="score" Type="int" />
+    <Property Name="hasImage" Type="int" />
   </EntityType>
 </Schema>

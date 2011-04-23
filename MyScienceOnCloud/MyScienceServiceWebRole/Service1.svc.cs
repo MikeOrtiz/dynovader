@@ -19,6 +19,7 @@ namespace MyScienceServiceWebRole
         {
             MyScienceEntities db = new MyScienceEntities();
             var query = (from app in db.projects
+                         where app.status == "active"
                          select new Project
                          {
                              ID = app.ID,
@@ -122,8 +123,8 @@ namespace MyScienceServiceWebRole
             if (query.Count<User>() != 0)
                 return null; //username already taken
 
-            int idx = db.users.Count<user>() + 1;
-            user userinfo = user.Createuser(idx, phoneid, name);
+            //int idx = db.users.Count<user>() + 1;
+            user userinfo = user.Createuser(0, phoneid, name);
             userinfo.score = 0;
             db.users.AddObject(userinfo);
             int changes = db.SaveChanges();
