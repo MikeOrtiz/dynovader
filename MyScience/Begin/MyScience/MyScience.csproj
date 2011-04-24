@@ -158,20 +158,20 @@
     <None Include="Service References\MyScienceService\MyScience.MyScienceService.user1.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\MyScienceService\Service1.wsdl" />
-    <None Include="Service References\MyScienceService\service1.xsd">
+    <None Include="Service References\MyScienceService\Service11.wsdl" />
+    <None Include="Service References\MyScienceService\service15.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\service11.xsd">
+    <None Include="Service References\MyScienceService\service151.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\service12.xsd">
+    <None Include="Service References\MyScienceService\service152.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\service13.xsd">
+    <None Include="Service References\MyScienceService\service153.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\service14.xsd">
+    <None Include="Service References\MyScienceService\service154.xsd">
       <SubType>Designer</SubType>
     </None>
     <Resource Include="Images\naran.png" />
@@ -185,7 +185,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\MyScienceService\service1.disco" />
+    <None Include="Service References\MyScienceService\service11.disco" />
     <Content Include="ServiceReferences.ClientConfig">
       <SubType>Designer</SubType>
     </Content>
