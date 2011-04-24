@@ -57,6 +57,9 @@
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Phone.Reactive" />
+    <Reference Include="PhonePerformance">
+      <HintPath>.\PhonePerformance.dll</HintPath>
+    </Reference>
     <Reference Include="System.Device" />
     <Reference Include="System.Observable" />
     <Reference Include="System.Runtime.Serialization" />
@@ -179,6 +182,8 @@
     <Resource Include="Images\sunshine2.jpg" />
     <Resource Include="Images\sunshine3.jpg" />
     <Resource Include="Images\unknownuser.jpg" />
+    <Resource Include="Images\camera_icon_1.gif" />
+    <None Include="Service References\MyScienceService\Service1.disco" />
     <None Include="Service References\MyScienceService\configuration91.svcinfo" />
     <None Include="Service References\MyScienceService\configuration.svcinfo" />
     <None Include="Service References\MyScienceService\Reference.svcmap">

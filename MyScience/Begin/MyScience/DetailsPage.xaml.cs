@@ -57,9 +57,9 @@ namespace MyScience
                 InfoPanel.Children.Add(LatBlock);
                 InfoPanel.Children.Add(LngBlock);
 
-                Service1Client client = new Service1Client();
-                client.GetProjectDataCompleted += new EventHandler<GetProjectDataCompletedEventArgs>(client_GetProjectDataCompleted);
-                client.GetProjectDataAsync(App.applist[App.currentIndex].ID);
+                Service1Client client = new Service1Client();//Method Changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                client.GetProjectDataNumCompleted += new EventHandler<GetProjectDataNumCompletedEventArgs>(client_GetProjectDataNumCompleted);
+                client.GetProjectDataNumAsync(App.applist[App.currentIndex].ID);
 
                 List<Field> fields = GetFormField(currentApp.Form);
                 /*When submission page l oaded, it will generate controls dynamically*/
@@ -191,14 +191,14 @@ namespace MyScience
             }
         }
 
-        void client_GetProjectDataCompleted(object sender, GetProjectDataCompletedEventArgs e)
+        void client_GetProjectDataNumCompleted(object sender, GetProjectDataNumCompletedEventArgs e)
         {
-            if (e.Result != null)
-            {
+            //if (e.Result != null)
+            //{
                 TextBlock dataCount = new TextBlock();
-                dataCount.Text = "Current Data in Total: " + e.Result.ToList<Submission>().Count;
+                dataCount.Text = "Current Data in Total: " + (int)e.Result;
                 InfoPanel.Children.Add(dataCount);
-            }
+            //}
         }
 
 
@@ -284,7 +284,7 @@ namespace MyScience
             }
 
             //client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
-        }
+        } 
 
         void client_SubmitDataCompleted(object sender, SubmitDataCompletedEventArgs e)
         {

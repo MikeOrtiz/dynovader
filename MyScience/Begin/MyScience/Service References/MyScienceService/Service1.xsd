@@ -50,6 +50,7 @@
       <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/System.Data.Objects.DataClasses" base="q1:EntityObject">
         <xs:sequence>
           <xs:element minOccurs="0" name="ID" type="xs:int" />
+          <xs:element minOccurs="0" name="hasImage" nillable="true" type="xs:int" />
           <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="phoneid" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="score" nillable="true" type="xs:int" />
@@ -68,8 +69,12 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="Data" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" name="ImageData" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="ImageName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Location" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="ProjectID" type="xs:int" />
+      <xs:element minOccurs="0" name="ProjectName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Time" type="xs:dateTime" />
       <xs:element minOccurs="0" name="UserID" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
