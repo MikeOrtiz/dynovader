@@ -13,6 +13,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Xml;
 using System.IO;
+using Delay;
 
 using MyScience.MyScienceService;
 
@@ -79,6 +80,18 @@ namespace MyScience
                 client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
                 client.GetTopScorersAsync();
                 //this.Loaded += new RoutedEventHandler(TopScorers_Loaded);
+
+                client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
+                client.GetUserSubmissionAsync(App.currentUser.ID);
+            }
+        }
+
+        void client_GetUserSubmissionCompleted(object sender, GetUserSubmissionCompletedEventArgs e)
+        {
+            if (e.Result != null)
+            {
+                SubmissionListBox.ItemsSource = e.Result;
+                PictureWall.ItemsSource = e.Result;
             }
         }
 

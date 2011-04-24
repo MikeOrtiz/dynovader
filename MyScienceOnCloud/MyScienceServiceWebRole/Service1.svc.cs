@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
 using System.Collections.Specialized;
+using System.IO;
 
 namespace MyScienceServiceWebRole
 {
@@ -50,7 +51,7 @@ namespace MyScienceServiceWebRole
 
             using (var db = new MyScienceEntities())
             {
-                datum submission = datum.Createdatum(id, projectid, userid, data, DateTime.Now, location);
+                datum submission = datum.Createdatum(id, projectid, userid, data, DateTime.Now, location, blob.Uri.ToString());
                 db.data.AddObject(submission);
                 user curUser = (from auser in db.users
                                 where auser.ID == userid
@@ -131,7 +132,7 @@ namespace MyScienceServiceWebRole
             return userinfo;
         }
 
-        public List<Submission> GetProjectData(int projectid)
+        public int GetProjectDataNum(int projectid)
         {
             MyScienceEntities db = new MyScienceEntities();
             var query = (from sub in db.data
@@ -142,9 +143,10 @@ namespace MyScienceServiceWebRole
                              ProjectID = sub.projectid,
                              UserID = sub.userid,
                              Data = sub.data,
-                             Location = sub.location
+                             Location = sub.location,
+                             Time = sub.time
                          });
-            return query.ToList<Submission>();
+            return query.ToList<Submission>().Count;
         }
 
         private CloudBlobContainer GetContainer()
@@ -161,6 +163,37 @@ namespace MyScienceServiceWebRole
             var permissions = container.GetPermissions();
             permissions.PublicAccess = BlobContainerPublicAccessType.Container;
             container.SetPermissions(permissions);
+        }
+
+        public List<Submission> GetUserSubmission(int userid)
+        {
+            MyScienceEntities db = new MyScienceEntities();
+            var query = (from d in db.data
+                         from p in db.projects
+                         where d.userid == userid && d.projectid == p.ID
+                         select new Submission
+                         {
+                             ID = d.ID,
+                             UserID = userid,
+                             ProjectID = p.ID,
+                             ProjectName = p.name,
+                             Data = d.data,
+                             Location = d.location,
+                             Time = d.time,
+                             ImageName = d.picture
+                         });
+            List<Submission> result = query.ToList<Submission>();
+            //EnsureContainerExists();
+            //CloudBlobContainer container = this.GetContainer();
+            //for (int i = 0; i < result.Count; i++)
+            //{
+            //    CloudBlob blob = container.GetBlobReference(result[i].ImageName);
+            //    BlobStream blobstream = blob.OpenRead();
+            //    MemoryStream ms = new MemoryStream();
+            //    blobstream.CopyTo(ms);
+            //    result[i].ImageData = ms.ToArray();
+            //}
+            return result;
         }
 
         //public void UploadImage(int submissionid, int projectid, int userid, DateTime time, String contentType, byte[] data)

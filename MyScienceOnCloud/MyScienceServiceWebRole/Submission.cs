@@ -14,6 +14,9 @@ namespace MyScienceServiceWebRole
      
         [DataMember]
         public int ProjectID;
+
+        [DataMember(IsRequired=false)]
+        public String ProjectName;
         
         [DataMember]
         public int UserID;
@@ -23,5 +26,14 @@ namespace MyScienceServiceWebRole
 
         [DataMember]
         public String Location;
+
+        [DataMember]
+        public DateTime Time;
+
+        [DataMember(IsRequired = false)]
+        public String ImageName;
+
+        [DataMember(IsRequired = false)]
+        public byte[] ImageData;
     }
 }

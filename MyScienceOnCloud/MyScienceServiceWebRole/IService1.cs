@@ -28,7 +28,10 @@ namespace MyScienceServiceWebRole
         user RegisterUser(int id, String phoneid, String name);
 
         [OperationContract]
-        List<Submission> GetProjectData(int projectid);
+        int GetProjectDataNum(int projectid);
+
+        [OperationContract]
+        List<Submission> GetUserSubmission(int userid);
 
     }
 }

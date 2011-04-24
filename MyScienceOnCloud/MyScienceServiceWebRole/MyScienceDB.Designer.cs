@@ -330,6 +330,18 @@ namespace MyScienceServiceWebRole
             return datum;
         }
 
+        public static datum Createdatum(global::System.Int32 id, global::System.Int32 projectid, global::System.Int32 userid, global::System.String data, global::System.DateTime time, global::System.String location,global::System.String picture)
+        {
+            datum datum = new datum();
+            datum.ID = id;
+            datum.projectid = projectid;
+            datum.userid = userid;
+            datum.data = data;
+            datum.time = time;
+            datum.location = location;
+            datum.picture = picture;
+            return datum;
+        }
         #endregion
         #region Primitive Properties
     
