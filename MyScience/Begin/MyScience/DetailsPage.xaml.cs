@@ -171,7 +171,7 @@ namespace MyScience
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(50, 50);
+                WriteableBitmap image = new WriteableBitmap(1920, 2560);
                 image.LoadJpeg(e.ChosenPhoto);
                 Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
                 photo.Source = image;
@@ -182,7 +182,7 @@ namespace MyScience
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(50, 50);
+                WriteableBitmap image = new WriteableBitmap(1920, 2560);
                 //image.SetSource(e.ChosenPhoto);
                 image.LoadJpeg(e.ChosenPhoto);
 

@@ -159,29 +159,33 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\MyScienceService\Service1.wsdl" />
-    <None Include="Service References\MyScienceService\Service1.xsd">
+    <None Include="Service References\MyScienceService\service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\Service11.xsd">
+    <None Include="Service References\MyScienceService\service11.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\Service12.xsd">
+    <None Include="Service References\MyScienceService\service12.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\Service13.xsd">
+    <None Include="Service References\MyScienceService\service13.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\Service14.xsd">
+    <None Include="Service References\MyScienceService\service14.xsd">
       <SubType>Designer</SubType>
     </None>
     <Resource Include="Images\naran.png" />
-    <None Include="Service References\MyScienceService\Service1.disco" />
+    <Resource Include="Images\sunshine.jpg" />
+    <Resource Include="Images\sunshine2.jpg" />
+    <Resource Include="Images\sunshine3.jpg" />
+    <Resource Include="Images\unknownuser.jpg" />
     <None Include="Service References\MyScienceService\configuration91.svcinfo" />
     <None Include="Service References\MyScienceService\configuration.svcinfo" />
     <None Include="Service References\MyScienceService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Service References\MyScienceService\service1.disco" />
     <Content Include="ServiceReferences.ClientConfig">
       <SubType>Designer</SubType>
     </Content>
