@@ -38,5 +38,8 @@ namespace MyScienceServiceWebRole
 
         [OperationContract]
         byte[] GetUserImage(String username, String contentType);
+
+        [OperationContract]
+        int UploadUserImage(String username, String contentType, byte[] imagedata);
     }
 }

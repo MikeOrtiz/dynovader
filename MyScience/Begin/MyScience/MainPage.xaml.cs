@@ -161,9 +161,21 @@ namespace MyScience
             {
                 WriteableBitmap image = new WriteableBitmap(200, 200);
                 image.LoadJpeg(e.ChosenPhoto);
-                //Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
                 userPic.Source = image;
+                MemoryStream ms = new MemoryStream();
+                image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
+                byte[] imageData = ms.ToArray();
+
+                //upload new user pic
+                Service1Client client = new Service1Client();
+                client.UploadUserImageCompleted += new EventHandler<UploadUserImageCompletedEventArgs>(client_UploadUserImageCompleted);
+                client.UploadUserImageAsync(App.currentUser.Name, "JPEG", imageData);
             }
+        }
+
+        void client_UploadUserImageCompleted(object sender, UploadUserImageCompletedEventArgs e)
+        {
+
         }
     }
 }

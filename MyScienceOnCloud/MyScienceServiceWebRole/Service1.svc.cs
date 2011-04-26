@@ -199,8 +199,8 @@ namespace MyScienceServiceWebRole
             blob.Properties.ContentType = contentType;
 
             var metadata = new NameValueCollection();
-            metadata["PhoneID"] = phoneid.ToString();
-            metadata["UserID"] = idx.ToString();
+            //metadata["PhoneID"] = phoneid.ToString();
+            //metadata["UserID"] = idx.ToString();
             metadata["Time"] = DateTime.Now.ToString();
 
             blob.Metadata.Add(metadata);
@@ -243,6 +243,24 @@ namespace MyScienceServiceWebRole
             byte[] imagedata = blob.DownloadByteArray();
 
             return imagedata;
+        }
+
+        public int UploadUserImage(String username, String contentType, byte[] imagedata)
+        {
+            /* Handle image submission */
+            EnsureUserImagesContainerExists();
+            String imagename = username + ".jpg";
+            var blob = this.GetUserImagesContainer().GetBlobReference(imagename);
+            blob.Properties.ContentType = contentType;
+
+            var metadata = new NameValueCollection();
+            //metadata["PhoneID"] = phoneid.ToString();
+            //metadata["UserID"] = idx.ToString();
+            metadata["Time"] = DateTime.Now.ToString();
+
+            blob.Metadata.Add(metadata);
+            blob.UploadByteArray(imagedata);
+            return 1;
         }
 
         private CloudBlobContainer GetContainer()

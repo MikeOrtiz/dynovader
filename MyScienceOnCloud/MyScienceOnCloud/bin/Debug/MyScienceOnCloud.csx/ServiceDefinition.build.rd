@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MyScienceOnCloud" generation="1" functional="0" release="0" Id="ca262243-f75b-47e8-a7f6-7e68ff79ad18" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MyScienceOnCloud" generation="1" functional="0" release="0" Id="b8202163-3889-449c-89a2-b4efe177f1e8" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="MyScienceOnCloudGroup" generation="1" functional="0" release="0">
       <componentports>
@@ -133,9 +133,9 @@
     </group>
   </groups>
   <implements>
-    <implementation Id="0763eaa6-69d6-4680-b33c-bcd1cf626832" ref="Microsoft.RedDog.Contract\ServiceContract\MyScienceOnCloudContract@ServiceDefinition.build">
+    <implementation Id="d035523c-ca88-4917-8d16-3ca4150ee380" ref="Microsoft.RedDog.Contract\ServiceContract\MyScienceOnCloudContract@ServiceDefinition.build">
       <interfacereferences>
-        <interfaceReference Id="f2832c03-77b3-4171-b541-e1667f49fef6" ref="Microsoft.RedDog.Contract\Interface\MyScienceServiceWebRole:Endpoint1@ServiceDefinition.build">
+        <interfaceReference Id="597d66c3-0cfd-4223-9834-f125f80b71e4" ref="Microsoft.RedDog.Contract\Interface\MyScienceServiceWebRole:Endpoint1@ServiceDefinition.build">
           <inPort>
             <inPortMoniker name="/MyScienceOnCloud/MyScienceOnCloudGroup/MyScienceServiceWebRole:Endpoint1" />
           </inPort>
