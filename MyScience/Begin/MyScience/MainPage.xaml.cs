@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -8,13 +9,13 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml;
+using Delay;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using System.Xml;
-using System.IO;
-using Delay;
-
+using Microsoft.Phone.Tasks;
 using MyScience.MyScienceService;
 
 namespace MyScience
@@ -83,6 +84,9 @@ namespace MyScience
 
                 client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
                 client.GetUserSubmissionAsync(App.currentUser.ID);
+
+                client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
+                client.GetUserImageAsync(App.currentUser.Name, "JPEG");
             }
         }
 
@@ -121,6 +125,45 @@ namespace MyScience
                 App.topscorerslist = e.Result.ToList<TopScorer>();
             }
             this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        void client_GetUserImageCompleted(object sender, GetUserImageCompletedEventArgs e)
+        {
+            if (e.Result != null)
+            {
+                WriteableBitmap image = new WriteableBitmap(600, 800);
+                MemoryStream ms = new MemoryStream(e.Result);
+                image.LoadJpeg(ms);
+                //Image userImage = DynamicPanel.Children.OfType<Image>().First() as Image;
+                userPic.Source = image;
+            }
+        }
+
+        private void userPic_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e != null)
+            {
+                var photoChooserTask = new PhotoChooserTask();
+                photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+                try
+                {
+                    photoChooserTask.Show();
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+
+        void photoChooserTask_Completed(object sender, PhotoResult e)
+        {
+            if (e.TaskResult == TaskResult.OK)
+            {
+                WriteableBitmap image = new WriteableBitmap(200, 200);
+                image.LoadJpeg(e.ChosenPhoto);
+                //Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
+                userPic.Source = image;
+            }
         }
     }
 }

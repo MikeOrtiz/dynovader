@@ -107,12 +107,6 @@ namespace MyScience
             alreadyClicked = false;
             if (e.Result != null)
             {
-                /*App.currentUser = new User();
-                App.currentUser.ID = e.Result.ID;
-                App.currentUser.Name = e.Result.Name;
-                App.currentUser.Score = (int)e.Result.Score;
-                App.currentUser.PhoneID = e.Result.PhoneID;
-                App.currentUser.hasImage = e.Result.hasImage;*/
                 App.currentUser = e.Result;
                 App.userVerified = true;
                 tryAgainBlock.Text = "";
@@ -131,12 +125,6 @@ namespace MyScience
             alreadyClicked = false;
             if (e.Result != null)
             {
-                /*App.currentUser = new User();
-                App.currentUser.ID = e.Result.ID;
-                App.currentUser.Name = e.Result.Name;
-                App.currentUser.Score = (int)e.Result.Score;
-                App.currentUser.PhoneID = e.Result.PhoneID;
-                App.currentUser.hasImage = e.Result.hasImage;*/
                 App.currentUser = e.Result;
                 App.userVerified = true;
                 tryAgainBlock.Text = "";
@@ -179,7 +167,7 @@ namespace MyScience
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(200, 200);
+                WriteableBitmap image = new WriteableBitmap(600, 800);
                 image.LoadJpeg(e.ChosenPhoto);
                 userImage.Source = image;
                 canvas1.Background = null;
@@ -190,7 +178,7 @@ namespace MyScience
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(200, 200);
+                WriteableBitmap image = new WriteableBitmap(600, 800);
                 image.LoadJpeg(e.ChosenPhoto);
                 userImage.Source = image;
                 canvas1.Background = null;
