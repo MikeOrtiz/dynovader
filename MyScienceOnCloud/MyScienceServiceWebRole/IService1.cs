@@ -25,7 +25,10 @@ namespace MyScienceServiceWebRole
         List<User> GetUserProfile(String username, String phoneID);
 
         [OperationContract]
-        user RegisterUser(int id, String phoneid, String name);
+        User RegisterUser(int id, String phoneid, String name);
+
+        [OperationContract]
+        User RegisterUserWithImage(int id, String phoneid, String name, String contentType, byte[] imagedata);
 
         [OperationContract]
         int GetProjectDataNum(int projectid);
@@ -33,5 +36,7 @@ namespace MyScienceServiceWebRole
         [OperationContract]
         List<Submission> GetUserSubmission(int userid);
 
+        [OperationContract]
+        byte[] GetUserImage(String username, String contentType);
     }
 }

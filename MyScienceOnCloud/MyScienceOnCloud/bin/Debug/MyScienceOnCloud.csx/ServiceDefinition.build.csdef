@@ -9,9 +9,10 @@
       <Setting name="BlobConnection" />
       <Setting name="ContainerName" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="UserImagesContainerName" />
     </ConfigurationSettings>
     <Endpoints>
-      <InputEndpoint name="Endpoint1" protocol="http" port="80" localPort="80" />
+      <InputEndpoint name="Endpoint1" protocol="http" port="49152" localPort="49152" />
     </Endpoints>
     <Certificates />
   </WebRole>

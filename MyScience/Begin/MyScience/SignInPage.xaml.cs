@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -8,9 +9,11 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Microsoft.Phone.Info;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Info;
+using Microsoft.Phone.Tasks;
 using MyScience.MyScienceService;
 
 namespace MyScience
@@ -41,10 +44,23 @@ namespace MyScience
             String phoneID = BitConverter.ToString(result);
 
             /*Parse the fields list into Json String*/
-            //String data = GetJsonString(fields);
-            Service1Client client = new Service1Client();
-            client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
-            client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
+            WriteableBitmap image = (WriteableBitmap)userImage.Source;
+
+            if (image != null)
+            {
+                MemoryStream ms = new MemoryStream();
+                image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
+                byte[] imageData = ms.ToArray();
+                Service1Client client = new Service1Client();
+                client.RegisterUserWithImageCompleted += new EventHandler<RegisterUserWithImageCompletedEventArgs>(client_RegisterUserWithImageCompleted);
+                client.RegisterUserWithImageAsync(0, phoneID, registerNameBox.Text, "JPEG", imageData);
+            }
+            else
+            {
+                Service1Client client = new Service1Client();
+                client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
+                client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
+            }
         }
 
         private void signInButton_Click(object sender, RoutedEventArgs e)
@@ -91,10 +107,13 @@ namespace MyScience
             alreadyClicked = false;
             if (e.Result != null)
             {
-                App.currentUser = new User();
+                /*App.currentUser = new User();
                 App.currentUser.ID = e.Result.ID;
-                App.currentUser.Name = e.Result.name;
-                App.currentUser.Score = (int)e.Result.score;
+                App.currentUser.Name = e.Result.Name;
+                App.currentUser.Score = (int)e.Result.Score;
+                App.currentUser.PhoneID = e.Result.PhoneID;
+                App.currentUser.hasImage = e.Result.hasImage;*/
+                App.currentUser = e.Result;
                 App.userVerified = true;
                 tryAgainBlock.Text = "";
                 NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
@@ -105,5 +124,88 @@ namespace MyScience
                 registerAgainBlock.Text = "Please try a different user name";
             }
         }
+
+        //for now, just accepts a correct user, and moves to main page
+        void client_RegisterUserWithImageCompleted(object sender, RegisterUserWithImageCompletedEventArgs e)
+        {
+            alreadyClicked = false;
+            if (e.Result != null)
+            {
+                /*App.currentUser = new User();
+                App.currentUser.ID = e.Result.ID;
+                App.currentUser.Name = e.Result.Name;
+                App.currentUser.Score = (int)e.Result.Score;
+                App.currentUser.PhoneID = e.Result.PhoneID;
+                App.currentUser.hasImage = e.Result.hasImage;*/
+                App.currentUser = e.Result;
+                App.userVerified = true;
+                tryAgainBlock.Text = "";
+                NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            }
+            else
+            {
+                //tell the user to retry
+                registerAgainBlock.Text = "Please try a different user name";
+            }
+        }
+
+        private void choosePhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            var photoChooserTask = new PhotoChooserTask();
+            photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+            try
+            {
+                photoChooserTask.Show();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void takePhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            var cameraCaptureTask = new CameraCaptureTask();
+            cameraCaptureTask.Completed += new EventHandler<PhotoResult>(cameraCaptureTask_Completed);
+            try
+            {
+                cameraCaptureTask.Show();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        void photoChooserTask_Completed(object sender, PhotoResult e)
+        {
+            if (e.TaskResult == TaskResult.OK)
+            {
+                WriteableBitmap image = new WriteableBitmap(200, 200);
+                image.LoadJpeg(e.ChosenPhoto);
+                userImage.Source = image;
+                canvas1.Background = null;
+            }
+        }
+
+        void cameraCaptureTask_Completed(object sender, PhotoResult e)
+        {
+            if (e.TaskResult == TaskResult.OK)
+            {
+                WriteableBitmap image = new WriteableBitmap(200, 200);
+                image.LoadJpeg(e.ChosenPhoto);
+                userImage.Source = image;
+                canvas1.Background = null;
+            }
+        }
+
+        private void registerNameBox_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        {
+            registerNameBox.Text = "";
+        }
+
+        private void userNameBox_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        {
+            userNameBox.Text = "";
+        }
+
     }
 }

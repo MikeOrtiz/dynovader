@@ -20,6 +20,7 @@
     <ConfigurationSettings>
       <Setting name="BlobConnection" />
       <Setting name="ContainerName" />
+      <Setting name="UserImagesContainerName" />
     </ConfigurationSettings>
   </WebRole>
 </ServiceDefinition>

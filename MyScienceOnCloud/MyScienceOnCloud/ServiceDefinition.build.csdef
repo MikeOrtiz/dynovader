@@ -18,7 +18,7 @@
       </Site>
     </Sites>
     <Endpoints>
-      <InputEndpoint name="Endpoint1" protocol="http" port="80" />
+      <InputEndpoint name="Endpoint1" protocol="http" port="49152" />
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />
@@ -29,6 +29,7 @@
     <ConfigurationSettings>
       <Setting name="BlobConnection" />
       <Setting name="ContainerName" />
+      <Setting name="UserImagesContainerName" />
     </ConfigurationSettings>
   </WebRole>
 </ServiceDefinition>

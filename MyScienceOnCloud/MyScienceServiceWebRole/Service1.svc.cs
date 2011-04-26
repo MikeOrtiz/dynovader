@@ -109,9 +109,9 @@ namespace MyScienceServiceWebRole
         //}
 
 
-        public user RegisterUser(int id, String phoneid, String name)
+        public User RegisterUser(int id, String phoneid, String name)
         {
-            //check to see if the user is in the database
+            /*//check to see if the user is in the database
             MyScienceEntities db = new MyScienceEntities();
             var query = (from userobj in db.users
                          where userobj.name.ToLower() == name.ToLower() && userobj.phoneid == phoneid
@@ -129,7 +129,84 @@ namespace MyScienceServiceWebRole
             userinfo.score = 0;
             db.users.AddObject(userinfo);
             int changes = db.SaveChanges();
-            return userinfo;
+            return userinfo;*/
+
+            //check to see if the user is in the database
+            MyScienceEntities db = new MyScienceEntities();
+            var query = (from userobj in db.users
+                         where userobj.name.ToLower() == name.ToLower()// && userobj.phoneid == phoneid
+                         select new User
+                         {
+                             ID = userobj.ID,
+                             Name = userobj.name,
+                             Score = (int)userobj.score
+                         });
+            if (query.Count<User>() != 0)
+                return null; //username already taken
+
+            int idx = db.users.Count<user>() + 1;
+            user userinfo = user.Createuser(idx, phoneid, name);
+            userinfo.score = 0;
+            //userinfo.hasImage = 0; //without user profile pic
+            db.users.AddObject(userinfo);
+            int changes = db.SaveChanges();
+            User result = new User
+            {
+                ID = userinfo.ID,
+                Name = userinfo.name,
+                Score = (int)userinfo.score,
+                PhoneID = userinfo.phoneid,
+                hasImage = 0
+            };
+            return result;
+        }
+
+        public User RegisterUserWithImage(int id, String phoneid, String name, String contentType, byte[] imagedata)
+        {
+            /* Handle new user creation */
+            //check to see if the user is in the database
+            MyScienceEntities db = new MyScienceEntities();
+            var query = (from userobj in db.users
+                         where userobj.name.ToLower() == name.ToLower()// && userobj.phoneid == phoneid
+                         select new User
+                         {
+                             ID = userobj.ID,
+                             Name = userobj.name,
+                             Score = (int)userobj.score
+                         });
+            if (query.Count<User>() != 0)
+                return null; //username already taken
+
+            int idx = db.users.Count<user>() + 1;
+            user userinfo = user.Createuser(idx, phoneid, name);
+            userinfo.score = 0;
+            //userinfo.hasImage = 1; //has user profile pic
+            db.users.AddObject(userinfo);
+            int changes = db.SaveChanges();
+            User result = new User
+            {
+                ID = userinfo.ID,
+                Name = userinfo.name,
+                Score = (int)userinfo.score,
+                PhoneID = userinfo.phoneid,
+                hasImage = 1
+            };
+
+            /* Handle image submission */
+            EnsureUserImagesContainerExists();
+            String imagename = name + ".jpg";
+            var blob = this.GetUserImagesContainer().GetBlobReference(imagename);
+            blob.Properties.ContentType = contentType;
+
+            var metadata = new NameValueCollection();
+            metadata["PhoneID"] = phoneid.ToString();
+            metadata["UserID"] = idx.ToString();
+            metadata["Time"] = DateTime.Now.ToString();
+
+            blob.Metadata.Add(metadata);
+            blob.UploadByteArray(imagedata);
+
+            return result;
         }
 
         public int GetProjectDataNum(int projectid)
@@ -147,6 +224,25 @@ namespace MyScienceServiceWebRole
                              Time = sub.time
                          });
             return query.ToList<Submission>().Count;
+        }
+
+        public byte[] GetUserImage(String username, String contentType)
+        {
+            /* Handle image submission */
+            EnsureUserImagesContainerExists();
+            String imagename = username + ".jpg";
+            var blob = this.GetUserImagesContainer().GetBlobReference(imagename);
+            try
+            {
+                blob.FetchAttributes();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            byte[] imagedata = blob.DownloadByteArray();
+
+            return imagedata;
         }
 
         private CloudBlobContainer GetContainer()
@@ -194,6 +290,22 @@ namespace MyScienceServiceWebRole
             //    result[i].ImageData = ms.ToArray();
             //}
             return result;
+        }
+
+        private CloudBlobContainer GetUserImagesContainer()
+        {
+            var account = CloudStorageAccount.FromConfigurationSetting("BlobConnection");
+            var client = account.CreateCloudBlobClient();
+            return client.GetContainerReference(RoleEnvironment.GetConfigurationSettingValue("UserImagesContainerName"));
+        }
+
+        private void EnsureUserImagesContainerExists()
+        {
+            var container = GetUserImagesContainer();
+            container.CreateIfNotExist();
+            var permissions = container.GetPermissions();
+            permissions.PublicAccess = BlobContainerPublicAccessType.Container;
+            container.SetPermissions(permissions);
         }
 
         //public void UploadImage(int submissionid, int projectid, int userid, DateTime time, String contentType, byte[] data)
