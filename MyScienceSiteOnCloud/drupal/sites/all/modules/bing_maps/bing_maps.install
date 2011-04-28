@@ -1,0 +1,77 @@
+<?php
+// $Id: 
+
+/**
+ * Install, update and uninstall functions for the bing_maps module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function bing_maps_uninstall() {
+
+  module_load_include('inc', 'bing_maps', 'bingConfiguration');
+
+  deleteConfig();
+  deletePins();
+  deletePositions();
+  
+  // Remove settings variables.
+  variable_del('bing_maps_httpauth_method');
+  variable_del('bing_maps_httpauth_username');
+  variable_del('bing_maps_httpauth_password');
+  variable_del('bing_maps_clear_results');
+  variable_del('bing_maps_verbose');
+
+  variable_del('bing_maps_bing_id');
+  variable_del('bing_maps_location');
+
+  variable_del('bing_maps_width');
+  variable_del('bing_maps_height');
+  variable_del('bing_maps_zoomlevel');
+
+  variable_del('bing_maps_content_types');
+  
+  $moduleToRemove = $_SERVER['DOCUMENT_ROOT'] . '\sites\all\modules\bing_maps';
+  removedirbingmaps($moduleToRemove);
+
+}
+
+  function removedirbingmaps($dir) 
+  {
+   	if (is_dir($dir)) {
+    	$instances = scandir($dir);
+     	foreach ($instances as $instance) {
+       		if ($instance != "." && $instance != "..") {
+         		if (filetype($dir."/".$instance) == "dir") 
+         			removedirbingmaps($dir."/".$instance); 
+         		else 
+         			unlink($dir."/".$instance);
+       		}
+     	}
+     	reset($instances);
+     	rmdir($dir);
+   	}
+  }
+
+function bing_maps_disable() {
+ 
+  // Remove settings variables.
+  variable_del('bing_maps_httpauth_method');
+  variable_del('bing_maps_httpauth_username');
+  variable_del('bing_maps_httpauth_password');
+  variable_del('bing_maps_clear_results');
+  variable_del('bing_maps_verbose');
+
+  variable_del('bing_maps_bing_id');
+  variable_del('bing_maps_location');
+
+  variable_del('bing_maps_width');
+  variable_del('bing_maps_height');
+  variable_del('bing_maps_zoomlevel');
+
+  variable_del('bing_maps_content_types');
+  
+  
+}
+

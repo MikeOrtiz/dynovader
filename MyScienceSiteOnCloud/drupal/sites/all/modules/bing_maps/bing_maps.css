@@ -1,0 +1,72 @@
+/* $Id: Exp $ */
+
+.eachline{
+height: 30px;
+}
+
+.forlabel{
+float: left;
+text-align: right;
+margin-left: 75px;
+}
+
+.frmmain{
+width: 100%;
+}
+
+.forinput{
+text-align: left;
+margin-left: 170px;
+}
+
+.ulclass{
+	text-align: left; 
+	width: 140px; 
+	margin-top: 8px; 
+	margin-bottom: 8px; 
+	padding-right: 10px;
+	padding-left: 10px;
+	]padding-left: 10px;
+	]padding-right: 0px;
+	]margin-left:5px;
+}
+.forbutton{
+margin-top: 70px;
+margin-left: 168px;
+}
+
+.MapContextMenu div{
+font-size:12px;
+font-weight:normal;
+color:#333333;
+padding:2px;
+color:#333333;
+}
+
+.MapContextMenu a{
+font-size:12px;
+font-weight:normal;
+color:#333333;
+text-decoration:none;
+}
+
+ul a:hover{
+font-size:12px;
+font-weight:normal;
+background:blue;
+color:white;
+text-decoration:none;
+}
+
+.seperator{
+	border-top: 1px solid #333333;
+	width: 126px;
+	height: 1px;
+	vertical-align:top;
+	]margin-top: -2px;
+	]margin-bottom: -15px;
+}
+	
+.MapContextMenu li{
+list-style:none outside none;
+}
