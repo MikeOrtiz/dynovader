@@ -1,0 +1,829 @@
+<?php
+// $Id$
+
+function bing_maps_enable() {
+   
+  $return = db_merge('filter')->key(array('format' => 'full_html',
+  										  'name' => 'filter_bingmap',						
+  										))->fields(array(
+														'format' => 'full_html',
+													     'module' => 'bing_maps',
+													     'name' => 'filter_bingmap',
+													     'weight' => '0',
+													     'status' => '1',
+														)
+													)->execute();
+													
+  $field_name = 'bing_map';  
+  $field = field_read_field($field_name, array('include_inactive' => 1));  
+  if (!isset($field['id'])) {
+    // @see https://drupal.org/node/906668 - cache _might_ be stale (Drupal bug #727876)
+    cache_clear_all('field_info_types:', 'cache_field', TRUE);
+
+    field_create_field(array(
+          'field_name' => $field_name,
+          'type' => 'bing_maps_button',
+          'cardinality' => 1,
+          ));  
+  $instance = array(
+      'field_name' => $field_name,
+      'entity_type' => 'node',
+      'label' => t('Bing Map'),
+      'description' => t('Attach Bing Maps or driving directions'),
+      );
+  
+  // attach the field to all 'node' types
+  $bundles = array_keys(field_info_bundles('node'));
+  $content_types = array();
+  foreach ($bundles as $bundle) {
+    $instance['bundle'] = $bundle;
+    if (field_info_instance('node', $field_name, $bundle)) {
+      field_update_instance($instance);
+    } 
+    else {
+      field_create_instance($instance);
+    }
+    $content_types[$bundle] = $bundle;
+  }
+  variable_set('bing_maps_content_types', $content_types);
+  }		
+}
+
+function bing_maps_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#bing_maps':
+      return 'Allows embedding Bing Maps location information and driving directions within Drupal content';
+  }
+}
+
+function bing_maps_filter_info() {
+  $filters['filter_bingmap'] = array(
+      'title' => t('Recognize Bing Maps Macro'),
+      'process callback' => '_filter_bingmap',
+       'cache' => FALSE
+      );
+
+  return $filters;
+}
+
+
+function _filter_bingmap  ($text, $filter) {	
+  global $bingMapDefLocation, $bingMapWidth, $bingMapHeight, $bingMapZoomLevel, $bingMapPushPin, $bingMapDirection;
+
+  preg_match_all('/{bingmap.*?\}/is', $text, $result);
+  if (isset($result['0']['0'])) {
+    $bingMapTag = $result['0']['0'];
+    $bingMapId = "BingMap";
+    $bingMapDefLocation = getAttribute('defaultlocation', $bingMapTag);
+    $bingMapWidth       = getAttribute('width', $bingMapTag);
+    $bingMapHeight      = getAttribute('height', $bingMapTag);
+    $bingMapZoomLevel   = getAttribute('zoomlevel', $bingMapTag);
+    $bingMapPushPin     = getAttribute('pushpins', $bingMapTag);
+    $bingMapDirection   = getAttribute('direction', $bingMapTag);
+
+    $bingMapDiv = getBingmapDiv($bingMapWidth, $bingMapHeight, $bingMapZoomLevel, $bingMapDefLocation);
+    $text = preg_replace('/{bingmap.*?\}/is', $bingMapDiv, $text);
+  }
+
+  return $text;
+}
+
+function bing_maps_node_view ($node, $view_mode) {
+
+  global $adminMapSettings, $bingObj;
+  
+  $path = drupal_get_path('module', 'bing_maps');
+  if (!isset($node->body['und'][0]['value']))
+  	return;
+  	
+  $text = $node->body['und'][0]['value'];
+  	
+  // don't show the map unless we're looking at the full node
+  if ($view_mode != 'full') {
+    $node->content['body'][0]['#markup'] = preg_replace('/\{bingmap.*?\}/is', '', $text);
+    return;
+  }
+  
+  if (isset($text))
+	preg_match_all  ('/\{bingmap.*?\}/is', $text, $result);
+		  
+  if (isset($result['0']['0'])) {
+  
+  	$def_js = "var defaultPositionNotSaved = 0;";
+  	
+    $bingMapTag = $result['0']['0'];
+    $bingMapId = "BingMap";
+    $bingMapDefLocation = getAttribute('defaultlocation', $bingMapTag);
+    $bingMapWidth       = getAttribute('width', $bingMapTag);
+    $bingMapHeight      = getAttribute('height', $bingMapTag);
+    $bingMapZoomLevel   = getAttribute('zoomlevel', $bingMapTag);
+    $bingMapPushPin     = getAttribute('pushpins', $bingMapTag);
+    $bingMapDirection   = getAttribute('direction', $bingMapTag);
+
+  	
+  	$nodeid = $node->nid;
+	$position = variable_get('nodedefaultposition', '');
+	
+	if ($nodeid == '' && $nodeid == null) {
+		$position = variable_get('nodedefaultposition', '');
+	}
+	else {
+	  	if (!class_exists('Msft_Bing_Map')) {
+	    	require "$path/BingMapsPHPSDK/lib/Msft/Bing/Map/Map.php";
+	    	require "$path/DrupalPersistenceHandler.php";
+	  	}
+	  
+	  	$bingObj = new Msft_Bing_Map('BingMap');
+		$handler = new DrupalPersistenceHandler();
+		$bingObj->registerPersistenceHandler($handler);
+	  	
+	  	$configResult = $bingObj->loadConfiguration();
+	  	$configDetails = $bingObj->getconfigDetails();
+	  	$prop = $bingObj->getProperties();
+	  	
+	  	$admindefposition = $prop ->getDefaultPosition();
+	  	$nodeposition = $bingObj->getDefaultNodePosition($nodeid);
+	  	
+	  	if($prop->getDefaultLocation() != $bingMapDefLocation && ($admindefposition == $nodeposition || empty($nodeposition)) ){
+	  		$def_js .= "defaultPositionNotSaved = 1;";
+	  	}
+	  	
+	  	if($nodeposition == '' && $nodeposition == null) {
+	  		$position = $admindefposition;
+	  	}
+	  	else {
+	  		$position = $nodeposition;
+	  	}
+	}
+	  	  	
+  	$macrostring = "var defaultLocation='{$bingMapDefLocation}'; var width='{$bingMapWidth}px'; var height='{$bingMapHeight}px'; " .
+            " var zoomlevel='{$bingMapZoomLevel}'; var pushpins='{$bingMapPushPin}'; var direction='{$bingMapDirection}'; " .
+            "var position = '{$position}';".
+            " (function ($) { $(document).ready(function () { showMap(); }); })(jQuery);";
+    drupal_add_js($macrostring, 'inline');
+    drupal_add_js($def_js, 'inline');
+
+    $bingMapDiv = getBingmapDiv($bingMapWidth, $bingMapHeight, $bingMapZoomLevel, $bingMapDefLocation);
+    require_once "$path/addBingMap.php";
+  }
+  return $node;
+}
+
+function initBingmap() {
+  global $adminMapSettings, $bingObj;
+
+  $path = drupal_get_path('module', 'bing_maps');
+
+  if (!class_exists('Msft_Bing_Map')) {
+    require "$path/BingMapsPHPSDK/lib/Msft/Bing/Map/Map.php";
+    require "$path/DrupalPersistenceHandler.php";
+  }
+
+  $bingObj = new Msft_Bing_Map('BingMap');
+  $handler = new DrupalPersistenceHandler();
+  $bingObj->registerPersistenceHandler($handler);
+
+  $configResult = $bingObj->loadConfiguration();
+  $configDetails = $bingObj->getconfigDetails();
+
+  $adminMapSettings =new stdClass();
+  $adminMapSettings->adminwidth = isset($configDetails[0]->width) ? $configDetails[0]->width : '';
+  $adminMapSettings->adminheight = isset($configDetails[0]->height) ? $configDetails[0]->height : '';
+  $adminMapSettings->adminZoomLevel = isset($configDetails[0]->zoomLevel) ? $configDetails[0]->zoomLevel : '';
+  $adminMapSettings->adminDefaultLocation = isset($configDetails[0]->location) ? $configDetails[0]->location : '';
+
+  return $adminMapSettings;
+
+}
+
+function getBingmapDiv($width, $height, $zlevel, $def_location) {
+  global $adminMapSettings, $bingObj;
+
+  initBingmap();
+
+  if (!empty($width)) {
+    $mapWidth = $width;
+  } 
+  elseif (!empty($adminMapSettings->adminwidth)) {
+    $mapWidth = $adminMapSettings->adminwidth;
+  } 
+  else {
+    $mapWidth = 640;
+  }
+
+  if (!empty($height)) {
+    $mapHeight = $height;
+  } 
+  elseif (!empty($adminMapSettings->adminheight)) {
+    $mapHeight = $adminMapSettings->adminheight;
+  } 
+  else {
+    $mapHeight = 480;
+  }
+
+  if (!empty($def_location)) {
+    $mapDefLocation = $def_location;
+  } 
+  elseif (!empty($adminMapSettings->adminDefaultLocation)) {
+    $mapDefLocation = $adminMapSettings->adminDefaultLocation;
+  } 
+  else {
+    $mapDefLocation = 'seattle, wa';
+  }
+
+  if (!empty($zlevel)) {
+    $mapZoomLevel = $zlevel;
+  } 
+  elseif (!empty($adminMapSettings->adminZoomLevel)) {
+    $mapZoomLevel = $adminMapSettings->adminZoomLevel;
+  } 
+  else {
+    $mapZoomLevel = 10;
+  }
+
+  $properties = new Msft_Bing_MapProperties($mapWidth, $mapHeight, $mapZoomLevel);
+  $bingObj->setProperties($properties);
+  $bingObj->getProperties()->setDefaultLocation($mapDefLocation);
+  
+  $bingMapDiv = "<div id='BingMap' style='position:relative; width:{$mapWidth}px; height:{$mapHeight}px'></div>";
+  return $bingMapDiv;
+}
+
+function getAttribute($attrib, $tag) {
+  //get attribute from html tag
+  $re = '/' . preg_quote($attrib) . '=([\'"])?((?(1).+?|[^\s>]+))(?(1)\1)/is';
+  if (preg_match($re, $tag, $match)) {
+    return urldecode($match[2]);
+  }
+  return FALSE;
+}
+	
+	
+function bing_maps_node_submit($node, $form, &$form_state)
+{
+	$nodedefpos = $form_state['input']['nodedefaultPosition'];
+	$nodepreview = $form_state['input']['op'];
+	
+	if ($nodepreview == 'Preview') {
+		variable_set('nodepreview', $nodepreview);
+	}
+		
+	variable_set('nodedefaultposition', $nodedefpos);
+}
+
+
+		
+function bing_maps_node_insert($node)
+{
+	$path = drupal_get_path('module', 'bing_maps');
+	$nodeid = $node->nid;
+	$pos = '';
+	$position = '';
+	
+	if (!class_exists('Msft_Bing_Map')) {
+			
+	    	require "$path/BingMapsPHPSDK/lib/Msft/Bing/Map/Map.php";
+	    	require "$path/DrupalPersistenceHandler.php";
+	  	}
+	  
+  	$bingObj = new Msft_Bing_Map('BingMap');
+	$handler = new DrupalPersistenceHandler();
+	$bingObj->registerPersistenceHandler($handler);
+  	
+  	$configResult = $bingObj->loadConfiguration();
+  	$configDetails = $bingObj->getconfigDetails();
+  	$prop = $bingObj->getProperties();
+  	
+  	$admindefposition = $prop ->getDefaultPosition();
+  	$pos = variable_get('nodedefaultposition', '');
+  	
+	if ($pos == '' || $pos == NULL) {
+		$position == $admindefposition; 
+	}  	
+	else {
+		$position = $pos;
+	}
+	
+	$bingObj->saveDefaultPosition($nodeid, $position);
+  	variable_del('nodedefaultposition');
+}
+
+function bing_maps_node_update($node)
+{	
+	$nodeid = '';
+  	if (arg(0) == 'node' && is_numeric(arg(1)))
+    	$nodeid = arg(1);
+    	
+	$position = '';
+	
+	$path = drupal_get_path('module', 'bing_maps');
+  	if (!class_exists('Msft_Bing_Map')) {
+    	require "$path/BingMapsPHPSDK/lib/Msft/Bing/Map/Map.php";
+    	require "$path/DrupalPersistenceHandler.php";
+  	}
+
+  	$bingObj = new Msft_Bing_Map('BingMap');
+	$handler = new DrupalPersistenceHandler();
+  	$bingObj->registerPersistenceHandler($handler);
+  	$prop = $bingObj->getProperties();
+  	
+  	$admindefposition = $prop ->getDefaultPosition();
+  	$nodeposition = variable_get('nodedefaultposition', '');
+  	
+  	if($nodeposition == '' && $nodeposition == null)
+  		$position = $admindefposition;
+  	else
+  		$position = $nodeposition;
+  	    	    
+  	$bingObj->saveDefaultPosition($nodeid, $position);
+  	variable_del('nodedefaultposition');
+}		
+		
+
+
+/**
+ * Valid permissions for this module
+ * @return array An array of valid permissions for the bing_maps module
+ */
+function bing_maps_permission() {
+  return array('administer bing_maps' => array(
+        'title' => t('Administer Bing maps'),
+        ),
+      );
+}
+
+function bing_maps_menu() {
+ 
+  global $flag;
+  $flag = 'FAlSE';
+  
+  $items['user/1/maps/bing'] = array(
+      'title' => '',
+      'page callback' =>  'page_example_description',
+      'access callback' => 'user_access',
+      'access arguments' => array('administer bing_maps'),
+      );
+
+
+  $items['user/1/maps/bing/addmaps'] = array(
+      'title' => 'Add Bing Map details here',
+      'page callback' =>  'add_maps',
+      'access arguments' => array('administer bing_maps'),
+      );
+
+  return $items;
+}
+
+
+function add_maps() {
+  if (isset($_POST['pin_details']))
+  {
+    module_load_include('inc', 'bing_maps', 'bingConfiguration');
+
+    $pin_details = $_POST['pin_details'];
+    $result = savePushPins($pin_details);
+
+    exit;
+  }
+
+  $output = theme('add_map', '', '', '');
+
+  $path = drupal_get_path('module', 'bing_maps');
+  drupal_add_css("$path/bing_maps.css", "theme");
+
+  return $output;
+}
+
+function page_example_description() {
+  $path = drupal_get_path('module', 'bing_maps');
+  drupal_add_css("$path/bing_maps.css");
+
+  return drupal_get_form('bing_maps_settings_form');
+}
+
+function add_code($form_element, &$form_state) {
+  module_load_include('php', 'bing_maps', 'bing-maps-html');
+  return $form_element;
+}
+
+function bing_maps_settings_form($form, &$form_state) {
+  global $firstTime;
+  module_load_include('inc', 'bing_maps', 'bingConfiguration');
+
+  $entities = array();
+  $header = array();
+  $options = array();
+
+  $header = array(
+      'field' => 'Associate with content type(s)',
+      );
+
+  for ($a=1;$a<=19;$a++)
+  {
+    $zoomValues[$a] = $a;
+  }
+
+  $nodetype = node_type_get_types();
+  $counter = 0;
+  foreach($nodetype as $key => $val)
+    foreach($val as $k =>$v)
+    {
+      $counter++;
+      if ($k == 'name')
+        $options[$v] = array('field' => $v);
+    }
+
+  
+  $checkFlag = variable_get('bing_maps_bing_id', '');
+  $savedEntities = variable_get('bing_maps_content_types', array());
+
+  if (!empty($options)) {
+  	 if ($checkFlag == '' && $checkFlag == null) {
+	  	$defaultValues = array();
+	      foreach($options as $k=>$v) {
+	            $defaultValues[$k] = array('field' => $k); 
+	      }
+	 }
+	 else {
+	    if (!empty($savedEntities) || $savedEntities != '') {
+	      $defaultValues = array();
+	      foreach($options as $k=>$v) {
+	        foreach($savedEntities as $key=>$val) {
+	          if ($val == $k) {
+	            $defaultValues[$val] = array('field' => $val);
+	          }
+	        }
+	      }
+	    }
+	 }
+  }
+
+  $form = array(
+      'bing_maps_key' => array(
+        '#type' => 'textfield',
+        '#name' => 'bingid',
+        '#id' => 'bingid',
+        '#title' => t('Bing Maps Key:'),
+        '#description' => t("<a style='text-decoration: underline;' target='_blank' href='https://www.bingmapsportal.com/'>Don't have a Bing ID? Register here</a>"),
+        '#required' => TRUE,
+        '#value' => variable_get('bing_maps_bing_id', ''),
+        ),
+      'default_location' => array(
+        '#type' => 'textfield',
+        '#name' => 'location',
+        '#id' => 'location',
+        '#title' => t('Default Location:'),
+        '#description' => t('The default location to be set. E.g. Seattle, wa'),
+        '#required' => TRUE,
+        '#value' => variable_get('bing_maps_location', ''),
+        ),
+      'map_width' => array(
+        '#type' => 'textfield',
+        '#name' => 'width',
+        '#id' => 'width',
+        '#title' => t('Map Width:'),
+        '#description' => t('Width of the map.'),
+        '#size' => '5',
+        '#required' => TRUE,
+        '#value' => variable_get('bing_maps_width', '640'),
+        ),
+      'map_height' => array(
+          '#type' => 'textfield',
+          '#name' => 'height',
+          '#id' => 'height',
+          '#title' => t('Map Height:'),
+          '#description' => t('Height of the map.'),
+          '#size' => '5',
+          '#required' => TRUE,
+          '#value' => variable_get('bing_maps_height', '480'),
+          ),
+      'zoom_level' => array(
+          '#type' => 'select',
+          '#name' => 'zoomlevel',
+          '#id' => 'zoomlevel',
+          '#options' => $zoomValues,
+          '#title' => t('Zoom Level:'),
+          '#description' => t('Zoom Level to be set.'),
+          '#required' => TRUE,
+          '#value' => variable_get('bing_maps_zoomlevel', '10'),
+          ),
+
+      'content_types' => array(
+          '#type' => 'tableselect',
+          '#header' => $header,
+          '#options' => $options,
+          '#title' => t('Associate with content type(s)'),
+          '#description' => t('Associate with content type(s).'),
+          '#required' => TRUE,
+          '#default_value' => $defaultValues,
+          ),
+
+      'resultBox' => array(
+          '#type' => 'hidden',
+          '#name' => 'resultBox',
+          '#attributes' => array('id' => 'resultBox'),
+          ),
+
+      'latitude' => array(
+          '#type' => 'hidden',
+          '#name' => 'latitude',
+          '#attributes' => array('id' => 'latitude'),
+          ),
+
+      'longitude' => array(
+          '#type' => 'hidden',
+          '#name' => 'longitude',
+          '#attributes' => array('id' => 'longitude'),
+          ),
+
+      'latLongResult' => array(
+          '#type' => 'hidden',
+          '#name' => 'latLongResult',
+          '#attributes' => array('id' => 'latLongResult'),
+          '#value' => variable_get('bing_maps_defaultposition', ''),
+          ),
+
+      'save_det' => array(
+          '#type' => 'hidden',
+          '#name' => 'save_det',
+          '#attributes' => array('id' => 'save_det'),
+          ),
+
+      'submit' => array(
+          '#type' => 'submit',
+          '#name' => 'save_details',
+          '#id' => 'save_details',
+          '#value' => t('Save'),
+          '#attributes' => array('onClick' => 'return saveDetails()'),
+          '#suffix' => '<div id="adminMap" style="position:relative; width:640px;height:480px;" onmouseup="return bAlert(event);"></div>',
+          ),
+
+      '#submit' => array('bing_maps_configure_submit'),
+
+      );
+
+  $form['#post_render'] = array('add_code');
+
+  return $form;
+}
+
+function bing_maps_configure_submit($form, &$form_state) {
+  module_load_include('inc', 'bing_maps', 'bingConfiguration');
+
+  variable_set('bing_maps_bing_id', $form_state['input']['bingid']);
+  variable_set('bing_maps_location', $form_state['input']['location']);
+
+  variable_set('bing_maps_width', $form_state['input']['width']);
+  variable_set('bing_maps_height', $form_state['input']['height']);
+  variable_set('bing_maps_zoomlevel', $form_state['input']['zoomlevel']);
+  variable_set('bing_maps_defaultposition', $form_state['input']['latLongResult']);
+
+  foreach ($form_state['input']['content_types'] as $key => $name) {
+    $content_types[$name] = $name;
+  }
+  variable_set('bing_maps_content_types', $content_types);
+
+  $bingid = variable_get('bing_maps_bing_id', '');
+  $defaultLocation = variable_get('bing_maps_location', '');
+
+  $width = variable_get('bing_maps_width', '');
+  $height = variable_get('bing_maps_height', '');
+  $zoomLevel = variable_get('bing_maps_zoomlevel', '');
+  $bing_maps_defaultposition = variable_get('bing_maps_defaultposition', '');
+
+  $savedEntities = variable_get('bing_maps_content_types', array());
+
+  $cont_types = '';
+
+  if (!empty($savedEntities) || $savedEntities != '')
+  {
+    foreach($savedEntities as $key=>$val)
+      $cont_types .= $val.',';
+  }
+  $contentTypes = rtrim($cont_types, ",");
+
+  $result = false;
+  $result = saveConfigurationDetails($bingid, $defaultLocation, $width, $height, $zoomLevel, $contentTypes, $bing_maps_defaultposition);
+
+  if ($result)
+    drupal_set_message(t('Settings saved.'), 'status');
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+
+function bing_maps_theme() {
+  return array(
+      // routes to file bingmapsModule/bing_maps_html.tpl.php
+      'show_map' => array('template' => 'bing_maps_html',
+        'arguments' => array(
+          'content' => NULL,
+          'show_blocks' => TRUE,
+          'show_messages' => TRUE,
+          ),
+        ),
+      'add_map' => array('template' => 'addmap_html'),
+      );
+}
+
+
+// pulled from bing_button.module
+/***************************************************************
+ * Field Type API hooks
+ ***************************************************************/
+
+/**
+ * Implements hook_field_info().
+ */
+function bing_maps_field_info() {
+  return array(
+      'bing_maps_button' => array(
+        'label' => t('Bing Map'),
+        'description' => t('Generate Bing Maps macro.'),
+        'default_widget' => 'bing_maps_button',
+        'default_formatter' => 'bing_maps_simple_button',
+        ),
+      );
+}
+
+/**
+ * Implements hook_field_schema().
+ *
+ */
+
+function bing_maps_field_schema($field) {
+  $columns = array(
+      'bingmapsbutton' => array('type' => 'varchar', 'length' => 25, 'not null' => FALSE),
+      );
+  $indexes = array(
+      'bingmapsbutton' => array('bingmapsbutton'),
+      );
+  return array(
+      'columns' => $columns,
+      'indexes' => $indexes,
+      );
+}
+
+
+/**
+ * Implements hook_field_is_empty().
+ */
+
+function bing_maps_field_is_empty($item, $field) {
+  return empty($item['bingmapsbutton']);
+}
+
+
+/***********************************************************************
+ *  Field Type API: Formatter
+ **********************************************************************/
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function bing_maps_field_formatter_info() {
+  return array(
+
+      'bing_maps_simple_button' => array(
+        'label' => t('Button formatter'),
+        'field types' => array('bing_maps_button'),
+        ),
+      );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function bing_maps_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  return $element;
+}
+
+
+/**************************************************************************
+ * Field Type API: Widget
+ **************************************************************************/
+
+/**
+ * Implements hook_field_widget_info().
+ *
+ */
+function bing_maps_field_widget_info() {
+  return array(
+      'bing_maps_button' => array(
+        'label' => t('Button'),
+        'field types' => array('bing_maps_button'),
+        ),
+      );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ *
+ */
+function bing_maps_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+    
+  $path = drupal_get_path('module', 'bing_maps');
+  $setBingId = variable_get('bing_maps_bing_id', '');
+  
+  if ($setBingId == '' || $setBingId == NULL) {
+  	$admin = t('Please ask the administrator to configure the "Bing Maps" module.');
+    if (user_access('configure pivot_viewer')) {
+      global $base_url;
+      $admin = t('You can set it <a href="@base_url/user/1/maps/bing">here</a>.',
+	              array('@base_url' => $base_url)
+	            );
+  	}
+	drupal_set_message(t('Bing Maps Key has not been set. ') . $admin , 'warning');
+  }
+
+  $value = isset($items[$delta]['bingmapsbutton']) ? $items[$delta]['bingmapsbutton'] : '';
+  $element += array(
+      '#delta' => $delta,
+      );
+  $element['bingmapsbutton'] = array();
+
+  $nodeid = '';
+  if (arg(0) == 'node' && is_numeric(arg(1)))
+    $nodeid = arg(1);
+  
+  $nodeposition = '';
+  $admindefposition = '';
+   
+  if($nodeid != '' && $nodeid != null) {
+	if (!class_exists('Msft_Bing_Map')) {
+    	require "$path/BingMapsPHPSDK/lib/Msft/Bing/Map/Map.php";
+    	require "$path/DrupalPersistenceHandler.php";
+  	}
+  
+  	$bingObj = new Msft_Bing_Map('chkMap');
+	$handler = new DrupalPersistenceHandler();
+	$bingObj->registerPersistenceHandler($handler);
+  	
+  	$configResult = $bingObj->loadConfiguration();
+  	$configDetails = $bingObj->getconfigDetails();
+  	$prop = $bingObj->getProperties();
+  	
+  	$admindefposition = $prop ->getDefaultPosition();
+  	$nodeposition = $bingObj->getDefaultNodePosition($nodeid);  	
+  }
+   
+  $position = '';
+  $nodepreview = '';
+  $nodepreview = variable_get('nodepreview', '');
+  
+  if ($nodeposition == '' && $nodeposition == null)
+  	if (isset($nodepreview) && $nodepreview == 'Preview') {
+  		$position = variable_get('nodedefaultposition', '');
+  		variable_del('nodepreview');
+  	}
+  	else
+  		$position = $admindefposition;
+  else
+  		$position = $nodeposition;
+  	  	
+  $buttonName = 'Generate Bing Maps Macro';
+
+  switch ($instance['widget']['type']) {
+
+    case 'bing_maps_button':
+      $element['bingmapsbutton'] += array(
+          '#type' => 'button',
+          '#default_value' => $buttonName,
+          '#name' => 'bingbutton',
+          '#id' => 'bingbutton',
+          '#attached' => array(
+            // Add javascript to trigger
+            'js' => array(drupal_get_path('module', 'bing_maps') . '/bing_button.js'),
+            )
+          );
+
+      $arr = array(
+      				'nodeId' => t('nodeId'),
+      				'nodedefaultPosition' => t('nodedefaultPosition'),
+      			  );
+
+      foreach ($arr as $key => $title) {
+        if ($key == 'nodeId') {
+          $element[$key] = array( '#type' => 'hidden',
+              '#name' => 'editNodeId',
+              '#id' => 'editNodeId',
+              '#default_value' => "$nodeid",
+              );
+        }        
+        if ($key == 'nodedefaultPosition') {
+          $element[$key] = array(  	'#type' => 'hidden',
+							          '#name' => 'nodedefaultPosition',
+							          '#attributes' => array('id' => 'nodedefaultPosition'),
+							          '#value' => "$position",
+					              	
+					              );
+        }
+      }
+
+      break;
+  }
+  return $element;
+}

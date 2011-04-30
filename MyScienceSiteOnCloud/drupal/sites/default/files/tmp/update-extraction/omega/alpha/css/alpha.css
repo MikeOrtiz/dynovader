@@ -1,0 +1,25 @@
+/* Clearfix fix to prevent padding at bottom of page. FML */
+.clearfix:after {
+  font-size: 0;
+}
+
+/* Give pagers and inline LI items simple styling without all the junk from core */
+ul.inline li,
+ul.tabs li {
+  display: inline;
+  margin-right: 1em;
+}
+
+ul.pager li {
+  display: inline;
+  margin-right: 0.25em;
+}
+
+img {
+  display: block;
+}
+
+ul.menu,
+ul.tabs {
+  list-style: none;
+}

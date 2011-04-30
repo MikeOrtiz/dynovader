@@ -1,0 +1,30 @@
+<?php
+// $Id: $
+
+/**
+ * @file
+ * Enable backup of files with backup and migrate.
+ */
+
+/* Drupal Hooks */
+
+/**
+ * Implementation of hook_backup_migrate_destination_types().
+ *
+ * Get the built in Backup and Migrate file source type.
+ */
+
+function backup_migrate_files_backup_migrate_destination_types() {
+  $out = array();
+  $out += array(
+    'filesource' => array(
+      'description' => t('A files directory which can be backed up from/restored to.'),
+      'type_name' => t('Files Directory'),
+      'file' => drupal_get_path('module', 'backup_migrate_files') .'/includes/destinations.filesource.inc',
+      'class' => 'backup_migrate_files_destination_filesource',
+      'can_create' => TRUE,
+    ),
+  );
+
+  return $out;
+}
