@@ -12,7 +12,7 @@
       <Setting name="UserImagesContainerName" />
     </ConfigurationSettings>
     <Endpoints>
-      <InputEndpoint name="Endpoint1" protocol="http" port="49152" localPort="49152" />
+      <InputEndpoint name="Endpoint1" protocol="http" port="80" localPort="80" />
     </Endpoints>
     <Certificates />
   </WebRole>

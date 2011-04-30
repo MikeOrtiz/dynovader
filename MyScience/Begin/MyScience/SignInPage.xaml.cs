@@ -71,9 +71,9 @@ namespace MyScience
             byte[] result = null;
             object uniqueId;
             if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
-                result = (byte[]) uniqueId;
+                result = (byte[])uniqueId;
             String phoneID = BitConverter.ToString(result);
-            
+
             Service1Client client = new Service1Client();
             client.GetUserProfileCompleted += new EventHandler<GetUserProfileCompletedEventArgs>(client_GetUserProfileCompleted);
             client.GetUserProfileAsync(userNameBox.Text, phoneID);

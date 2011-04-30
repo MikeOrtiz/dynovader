@@ -57,7 +57,7 @@ namespace MyScience
                 InfoPanel.Children.Add(LatBlock);
                 InfoPanel.Children.Add(LngBlock);
 
-                Service1Client client = new Service1Client();//Method Changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                Service1Client client = new Service1Client();
                 client.GetProjectDataNumCompleted += new EventHandler<GetProjectDataNumCompletedEventArgs>(client_GetProjectDataNumCompleted);
                 client.GetProjectDataNumAsync(App.applist[App.currentIndex].ID);
 
@@ -134,10 +134,62 @@ namespace MyScience
                 DynamicPanel.Children.Add(albumButton);
                 DynamicPanel.Children.Add(photo);
 
+                var saveButton = new Button { Name = "SaveButton", Content = "Save Only" };
+                saveButton.Click += new RoutedEventHandler(saveButton_Click);
+                DynamicPanel.Children.Add(saveButton);
+
                 //add button and event handler here
                 var newButton = new Button { Name = "SubmitButton", Content = "Submit" };
                 newButton.Click += new RoutedEventHandler(newButton_Click);
                 DynamicPanel.Children.Add(newButton);
+            }
+        }
+
+        void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            Submission newsubmission = getSubmission();
+            if (newsubmission == null) return;
+            Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
+            WriteableBitmap image = (WriteableBitmap)photo.Source;
+
+            try
+            {
+                IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
+                StreamWriter writeFile;
+
+                if (!myIsolatedStorage.DirectoryExists("MyScience/ToBeSubmit"))
+                {
+                    myIsolatedStorage.CreateDirectory("MyScience/ToBeSubmit");
+                }
+                if (myIsolatedStorage.FileExists("MyScience/ToBeSubmit/"+newsubmission.ImageName + ".txt"))
+                {
+                    myIsolatedStorage.DeleteFile("MyScience/ToBeSubmit/"+newsubmission.ImageName + ".txt");
+                }
+                writeFile = new StreamWriter(new IsolatedStorageFileStream("MyScience/ToBeSubmit/"+ newsubmission.ImageName+".txt", FileMode.CreateNew, myIsolatedStorage));
+                writeFile.WriteLine(newsubmission.ProjectID);
+                writeFile.WriteLine(newsubmission.ProjectName);
+                writeFile.WriteLine(newsubmission.Data);
+                writeFile.WriteLine(newsubmission.Location);
+                writeFile.WriteLine(newsubmission.Time);
+                writeFile.WriteLine(newsubmission.ImageName);
+                writeFile.Close();
+
+                if(!myIsolatedStorage.DirectoryExists("MyScience/Images"))
+                { 
+                    myIsolatedStorage.CreateDirectory("MyScience/Images");
+                }
+                if (myIsolatedStorage.FileExists("MyScience/Images/" + newsubmission.ImageName + ".jpg"))
+                {
+                    myIsolatedStorage.DeleteFile("MyScience/Images/" + newsubmission.ImageName + ".jpg");
+                }
+
+                IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + newsubmission.ImageName + ".jpg");
+                image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
+                fileStream.Close();
+            }
+            catch (Exception ex)
+            {
+                // do something with exception
             }
         }
 
@@ -171,7 +223,8 @@ namespace MyScience
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(1920, 2560);
+                //WriteableBitmap image = new WriteableBitmap(1920, 2560);
+                WriteableBitmap image = new WriteableBitmap(1000, 1000);
                 image.LoadJpeg(e.ChosenPhoto);
                 Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
                 photo.Source = image;
@@ -182,7 +235,7 @@ namespace MyScience
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(1920, 2560);
+                WriteableBitmap image = new WriteableBitmap(1000, 1000);
                 //image.SetSource(e.ChosenPhoto);
                 image.LoadJpeg(e.ChosenPhoto);
 
@@ -201,8 +254,7 @@ namespace MyScience
             //}
         }
 
-
-        void newButton_Click(object sender, RoutedEventArgs e)
+        Submission getSubmission()
         {
             Project app = App.applist[App.currentIndex];
             List<Field> fields = GetFormField(app.Form);
@@ -264,14 +316,48 @@ namespace MyScience
 
             if (image != null)
             {
+
+                /*Parse the fields list into Json String*/
+                String data = GetJsonString(fields);
+                DateTime time = DateTime.Now;
+                Submission newsubmission = new Submission
+                {
+                    ID = 0,
+                    ProjectID = App.applist[App.currentIndex].ID,
+                    ProjectName = App.applist[App.currentIndex].Name,
+                    UserID = App.currentUser.ID,
+                    Data = data,
+                    Location = lat.ToString() + "," + lng.ToString(),
+                    Time = time,
+                    ImageName = App.currentUser.ID.ToString() + "-" + time.ToFileTime().ToString()
+                };
+                return newsubmission;
+            }
+            else
+            {
+                Popup messagePopup = new Popup();
+                TextBlock message = new TextBlock();
+                message.Text = "Oops, forgot to submit a pic!\n";
+                messagePopup.Child = message;
+                messagePopup.IsOpen = true;
+                DynamicPanel.Children.Add(messagePopup);
+                return null;
+            }
+        }
+
+        void newButton_Click(object sender, RoutedEventArgs e)
+        {
+           Submission newsubmission = getSubmission();
+            if(newsubmission != null) {
+                Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
+                WriteableBitmap image = (WriteableBitmap)photo.Source;
                 MemoryStream ms = new MemoryStream();
                 image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
                 byte[] imageData = ms.ToArray();
-                /*Parse the fields list into Json String*/
-                String data = GetJsonString(fields);
+                newsubmission.ImageData = imageData;
                 Service1Client client = new Service1Client();
                 client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
-                client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString() + "," + lng.ToString(), 1, "JPEG", imageData);
+                client.SubmitDataAsync(newsubmission);
             }
             else
             {

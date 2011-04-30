@@ -7,13 +7,17 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter ="clr-namespace:MyScience"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
- 
+    <UserControl.Resources>
+        <converter:ImageConverter x:Key="ImageConverter" />
+        <converter:DateConverter x:Key="DateConverter" />
+    </UserControl.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -142,8 +146,31 @@
                 </ItemsControl>
             </controls:PanoramaItem>
 
+            <controls:PanoramaItem Header="To Submit">
+                <ListBox x:Name="ToBeSubmitBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" Visibility="Collapsed" SelectionChanged="ToBeSubmitBox_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation ="Horizontal" Height="80" Width="400">
+                                <Image Source="{Binding ImageName, Converter= {StaticResource ImageConverter}}" Width="80" Height="80"/>
+                                <StackPanel Orientation="Vertical" Height="80">
+                                    <StackPanel Orientation="Horizontal" Height="40">
+                                        <TextBlock Width="100" FontSize="22" Text="Project:" Height="40"/>
+                                        <TextBlock Width="200" FontSize="22" Text="{Binding Path=ProjectName}" Height="40" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Height="40">
+                                        <TextBlock Width="100" FontSize="22" Text="Date:" Height="40"/>
+                                        <TextBlock Width="200" FontSize="22" Text="{Binding Path=Time, Converter= {StaticResource DateConverter}}" Height="40"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </controls:PanoramaItem>
+            
         </controls:Panorama>
     </Grid>
+    
     
     <!--Sample code showing usage of ApplicationBar-->
     <!--phone:PhoneApplicationPage.ApplicationBar>

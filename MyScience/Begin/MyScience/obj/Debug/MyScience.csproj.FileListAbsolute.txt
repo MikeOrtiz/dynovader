@@ -103,3 +103,5 @@ C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\obj\Debug\MyScience.dll
 C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\obj\Debug\MyScience.pdb
 C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\obj\Debug\XapCacheFile.xml
 C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\Bin\Debug\PhonePerformance.dll
+C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\Bin\Debug\IsolatedStorageExplorer.dll
+C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\obj\Debug\SubmissionPage.g.i.cs

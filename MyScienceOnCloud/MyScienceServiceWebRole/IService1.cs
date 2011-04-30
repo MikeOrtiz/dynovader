@@ -16,7 +16,7 @@ namespace MyScienceServiceWebRole
         List<Project> GetProjects();
 
         [OperationContract]
-        Uri SubmitData(int id, int projectid, int userid, String data, String location, int point, String contentType, byte[] imagedata);
+        Uri SubmitData(Submission newsubmission);
 
         [OperationContract]
         List<TopScorer> GetTopScorers();

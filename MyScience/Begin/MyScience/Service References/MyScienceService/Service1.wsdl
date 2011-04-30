@@ -5,8 +5,6 @@
       <xsd:import schemaLocation="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MyScienceServiceWebRole" />
-      <xsd:import schemaLocation="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System.Data.Objects.DataClasses" />
-      <xsd:import schemaLocation="http://003ab726c2fd482fb00b873afcb995d3.cloudapp.net/Service1.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/System.Data" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IService1_GetProjects_InputMessage">
@@ -39,6 +37,12 @@
   <wsdl:message name="IService1_RegisterUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:RegisterUserResponse" />
   </wsdl:message>
+  <wsdl:message name="IService1_RegisterUserWithImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUserWithImage" />
+  </wsdl:message>
+  <wsdl:message name="IService1_RegisterUserWithImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUserWithImageResponse" />
+  </wsdl:message>
   <wsdl:message name="IService1_GetProjectDataNum_InputMessage">
     <wsdl:part name="parameters" element="tns:GetProjectDataNum" />
   </wsdl:message>
@@ -50,6 +54,18 @@
   </wsdl:message>
   <wsdl:message name="IService1_GetUserSubmission_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetUserSubmissionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetUserImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserImage" />
+  </wsdl:message>
+  <wsdl:message name="IService1_GetUserImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UploadUserImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:UploadUserImage" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UploadUserImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UploadUserImageResponse" />
   </wsdl:message>
   <wsdl:portType name="IService1">
     <wsdl:operation name="GetProjects">
@@ -72,6 +88,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/RegisterUser" message="tns:IService1_RegisterUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/RegisterUserResponse" message="tns:IService1_RegisterUser_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="RegisterUserWithImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/RegisterUserWithImage" message="tns:IService1_RegisterUserWithImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/RegisterUserWithImageResponse" message="tns:IService1_RegisterUserWithImage_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetProjectDataNum">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetProjectDataNum" message="tns:IService1_GetProjectDataNum_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetProjectDataNumResponse" message="tns:IService1_GetProjectDataNum_OutputMessage" />
@@ -79,6 +99,14 @@
     <wsdl:operation name="GetUserSubmission">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetUserSubmission" message="tns:IService1_GetUserSubmission_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetUserSubmissionResponse" message="tns:IService1_GetUserSubmission_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetUserImage" message="tns:IService1_GetUserImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetUserImageResponse" message="tns:IService1_GetUserImage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadUserImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/UploadUserImage" message="tns:IService1_UploadUserImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/UploadUserImageResponse" message="tns:IService1_UploadUserImage_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
@@ -128,6 +156,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="RegisterUserWithImage">
+      <soap:operation soapAction="http://tempuri.org/IService1/RegisterUserWithImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetProjectDataNum">
       <soap:operation soapAction="http://tempuri.org/IService1/GetProjectDataNum" style="document" />
       <wsdl:input>
@@ -139,6 +176,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetUserSubmission">
       <soap:operation soapAction="http://tempuri.org/IService1/GetUserSubmission" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserImage">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetUserImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadUserImage">
+      <soap:operation soapAction="http://tempuri.org/IService1/UploadUserImage" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

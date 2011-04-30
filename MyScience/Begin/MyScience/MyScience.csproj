@@ -48,6 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IsolatedStorageExplorer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Devices.Sensors" />
     <Reference Include="Microsoft.Expression.Controls.Fxg, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions, Version=3.7.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -78,10 +79,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DateConverter.cs" />
     <Compile Include="DetailsPage.xaml.cs">
       <DependentUpon>DetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Field.cs" />
+    <Compile Include="ImageConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,9 @@
     </Compile>
     <Compile Include="SignInPage.xaml.cs">
       <DependentUpon>SignInPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SubmissionPage.xaml.cs">
+      <DependentUpon>SubmissionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="User.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
@@ -141,11 +147,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SubmissionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\DataSources\System.Uri.datasource" />
-    <None Include="Properties\WMAppManifest.xml" />
+    <None Include="Properties\WMAppManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\MyScienceService\MyScience.MyScienceService.Project.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -158,30 +170,14 @@
     <None Include="Service References\MyScienceService\MyScience.MyScienceService.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\MyScienceService\Service11.wsdl" />
-    <None Include="Service References\MyScienceService\Service12.wsdl" />
-    <None Include="Service References\MyScienceService\service15.xsd">
+    <None Include="Service References\MyScienceService\Service1.wsdl" />
+    <None Include="Service References\MyScienceService\Service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\service151.xsd">
+    <None Include="Service References\MyScienceService\Service11.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\MyScienceService\service152.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MyScienceService\service153.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MyScienceService\service154.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MyScienceService\Service16.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MyScienceService\Service17.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\MyScienceService\Service18.xsd">
+    <None Include="Service References\MyScienceService\Service12.xsd">
       <SubType>Designer</SubType>
     </None>
     <Resource Include="Images\naran.png" />
@@ -190,14 +186,13 @@
     <Resource Include="Images\sunshine3.jpg" />
     <Resource Include="Images\unknownuser.jpg" />
     <Resource Include="Images\camera_icon_1.gif" />
+    <None Include="Service References\MyScienceService\Service1.disco" />
     <None Include="Service References\MyScienceService\configuration91.svcinfo" />
     <None Include="Service References\MyScienceService\configuration.svcinfo" />
     <None Include="Service References\MyScienceService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\MyScienceService\service11.disco" />
-    <None Include="Service References\MyScienceService\Service111.disco" />
     <Content Include="ServiceReferences.ClientConfig">
       <SubType>Designer</SubType>
     </Content>

@@ -17,6 +17,9 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using MyScience.MyScienceService;
+using System.IO.IsolatedStorage;
+using System.Windows.Data;
+using System.Globalization;
 
 namespace MyScience
 {
@@ -57,7 +60,18 @@ namespace MyScience
             ProjectListBox.SelectedIndex = -1;
         }
 
+        private void ToBeSubmitBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // If selected index is -1 (no selection) do nothing
+            if (ToBeSubmitBox.SelectedIndex == -1)
+                return;
 
+            // Navigate to the new page
+            NavigationService.Navigate(new Uri("/SubmissionPage.xaml?selectedItem=" + ToBeSubmitBox.SelectedIndex, UriKind.Relative));
+
+            // Reset selected index to -1 (no selection)
+            ToBeSubmitBox.SelectedIndex = -1;
+        }
 
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
@@ -66,6 +80,7 @@ namespace MyScience
                 NavigationService.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
             else
             {
+            
                 if (!App.ViewModel.IsDataLoaded)
                 {
                     App.ViewModel.LoadData();
@@ -87,6 +102,9 @@ namespace MyScience
 
                 client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
                 client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+
+                loadToBeSubmitPage();
+
             }
         }
 
@@ -177,5 +195,48 @@ namespace MyScience
         {
 
         }
+
+        private void loadToBeSubmitPage()
+        {
+            loadToBeSubmit();
+            //ToBeSubmitInfo.Text = App.toBeSubmit.Count.ToString() + " submissions to be uploaded";
+            if (App.toBeSubmit.Count != 0)
+            {
+                ToBeSubmitBox.ItemsSource = App.toBeSubmit;
+                ToBeSubmitBox.Visibility = System.Windows.Visibility.Visible;
+            }
+        }
+
+        /* Load all the submissions that haven't been uploaded yet */
+        private void loadToBeSubmit()
+        {
+            String txtDirectory = "MyScience/ToBeSubmit/";
+            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
+
+                String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory+ "*.txt");
+                foreach (String txtfile in txtfiles) {
+                    var fileStream = myIsolatedStorage.OpenFile(txtDirectory + txtfile, FileMode.Open, FileAccess.Read);
+                    using (StreamReader reader = new StreamReader(fileStream))
+                    {
+                        Submission submn = new Submission();
+                        submn.ID = 0;
+                        submn.ProjectID = Convert.ToInt32(reader.ReadLine());
+                        submn.ProjectName = reader.ReadLine();
+                        submn.UserID = App.currentUser.ID;
+                        submn.Data = reader.ReadLine();
+                        submn.Location = reader.ReadLine();
+                        submn.Time = Convert.ToDateTime(reader.ReadLine());
+                        submn.ImageName = reader.ReadLine();
+                        App.toBeSubmit.Add(submn);
+                    }
+                }
+            }
+        }
     }
+
+   
+
+  
 }

@@ -32,13 +32,22 @@ namespace MyScienceServiceWebRole
             return query.ToList<Project>();
         }
 
-        public Uri SubmitData(int id, int projectid, int userid, String data, String location, int point, String contentType, byte[] imagedata)
+        public Uri SubmitData(Submission newsubmission)
         {
+            int id = newsubmission.ID;
+            int projectid = newsubmission.ProjectID;
+            int userid = newsubmission.UserID;
+            String data = newsubmission.Data;
+            String location = newsubmission.Location;
+            byte[] imagedata = newsubmission.ImageData;
+            DateTime time = newsubmission.Time;
+            String imagename = newsubmission.ImageName;
+
             EnsureContainerExists();
-            DateTime time = DateTime.Now;
-            String imagename = userid.ToString() + "-" + time.ToFileTime().ToString() + ".jpg";
+            //DateTime time = DateTime.Now;
+            //String imagename = userid.ToString() + "-" + time.ToFileTime().ToString() + ".jpg";
             var blob = this.GetContainer().GetBlobReference(imagename);
-            blob.Properties.ContentType = contentType;
+            blob.Properties.ContentType = "JPEG";
 
             var metadata = new NameValueCollection();
             metadata["SubmissionID"] = id.ToString();
@@ -49,9 +58,10 @@ namespace MyScienceServiceWebRole
             blob.Metadata.Add(metadata);
             blob.UploadByteArray(imagedata);
 
+            int point = 1;//for each submission increase user score by 1
             using (var db = new MyScienceEntities())
             {
-                datum submission = datum.Createdatum(id, projectid, userid, data, DateTime.Now, location, blob.Uri.ToString());
+                datum submission = datum.Createdatum(id, projectid, userid, data, time, location, blob.Uri.ToString());
                 db.data.AddObject(submission);
                 user curUser = (from auser in db.users
                                 where auser.ID == userid

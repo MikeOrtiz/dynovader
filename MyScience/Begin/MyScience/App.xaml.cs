@@ -30,6 +30,8 @@ namespace MyScience
         public static double lat, lng;
         public static bool userVerified = false;
         public static User currentUser = null;
+        public static List<Submission> toBeSubmit = new List<Submission>();
+        public static int currentSubmissionIndex;
 
 
         /// <summary>
@@ -86,12 +88,14 @@ namespace MyScience
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            //IsolatedStorageExplorer.Explorer.Start("localhost");
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            //IsolatedStorageExplorer.Explorer.RestoreFromTombstone();
             // Ensure that application state is restored appropriately
             if (!App.ViewModel.IsDataLoaded)
             {
