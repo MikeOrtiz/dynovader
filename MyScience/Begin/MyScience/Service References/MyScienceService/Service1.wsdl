@@ -43,11 +43,11 @@
   <wsdl:message name="IService1_RegisterUserWithImage_OutputMessage">
     <wsdl:part name="parameters" element="tns:RegisterUserWithImageResponse" />
   </wsdl:message>
-  <wsdl:message name="IService1_GetProjectDataNum_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetProjectDataNum" />
+  <wsdl:message name="IService1_GetProjectData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjectData" />
   </wsdl:message>
-  <wsdl:message name="IService1_GetProjectDataNum_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetProjectDataNumResponse" />
+  <wsdl:message name="IService1_GetProjectData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjectDataResponse" />
   </wsdl:message>
   <wsdl:message name="IService1_GetUserSubmission_InputMessage">
     <wsdl:part name="parameters" element="tns:GetUserSubmission" />
@@ -92,9 +92,9 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/RegisterUserWithImage" message="tns:IService1_RegisterUserWithImage_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/RegisterUserWithImageResponse" message="tns:IService1_RegisterUserWithImage_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetProjectDataNum">
-      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetProjectDataNum" message="tns:IService1_GetProjectDataNum_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetProjectDataNumResponse" message="tns:IService1_GetProjectDataNum_OutputMessage" />
+    <wsdl:operation name="GetProjectData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetProjectData" message="tns:IService1_GetProjectData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetProjectDataResponse" message="tns:IService1_GetProjectData_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetUserSubmission">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetUserSubmission" message="tns:IService1_GetUserSubmission_InputMessage" />
@@ -165,8 +165,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetProjectDataNum">
-      <soap:operation soapAction="http://tempuri.org/IService1/GetProjectDataNum" style="document" />
+    <wsdl:operation name="GetProjectData">
+      <soap:operation soapAction="http://tempuri.org/IService1/GetProjectData" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

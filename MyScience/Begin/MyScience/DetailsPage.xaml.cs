@@ -15,6 +15,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.Device.Location;
 using Microsoft.Phone.Reactive;
+using Microsoft.Phone.Controls.Maps;
 
 using MyScience.MyScienceService;
 using System.Runtime.Serialization.Json;
@@ -57,9 +58,13 @@ namespace MyScience
                 InfoPanel.Children.Add(LatBlock);
                 InfoPanel.Children.Add(LngBlock);
 
+               
+                //map1.Center = mapCenter;
+                //map1.ZoomLevel = zoom;
+
                 Service1Client client = new Service1Client();
-                client.GetProjectDataNumCompleted += new EventHandler<GetProjectDataNumCompletedEventArgs>(client_GetProjectDataNumCompleted);
-                client.GetProjectDataNumAsync(App.applist[App.currentIndex].ID);
+                client.GetProjectDataCompleted += new EventHandler<GetProjectDataCompletedEventArgs>(client_GetProjectDataCompleted);
+                client.GetProjectDataAsync(App.applist[App.currentIndex].ID);
 
                 List<Field> fields = GetFormField(currentApp.Form);
                 /*When submission page l oaded, it will generate controls dynamically*/
@@ -142,6 +147,18 @@ namespace MyScience
                 var newButton = new Button { Name = "SubmitButton", Content = "Submit" };
                 newButton.Click += new RoutedEventHandler(newButton_Click);
                 DynamicPanel.Children.Add(newButton);
+
+                GeoCoordinate mapCenter;
+                int zoom = 15;
+                if (lat == 0 && lng == 0)
+                {
+                    mapCenter = new GeoCoordinate(37.434999, -122.182989);
+                }
+                else
+                {
+                    mapCenter = new GeoCoordinate(lat, lng);
+                }
+                map1.SetView(mapCenter, zoom);
             }
         }
 
@@ -244,14 +261,37 @@ namespace MyScience
             }
         }
 
-        void client_GetProjectDataNumCompleted(object sender, GetProjectDataNumCompletedEventArgs e)
+        void client_GetProjectDataCompleted(object sender, GetProjectDataCompletedEventArgs e)
         {
-            //if (e.Result != null)
-            //{
+            if (e.Result != null)
+            {
                 TextBlock dataCount = new TextBlock();
-                dataCount.Text = "Current Data in Total: " + (int)e.Result;
+                List<Submission> projectData = e.Result.ToList<Submission>();
+                dataCount.Text = "Current Data in Total: " + projectData.Count;
                 InfoPanel.Children.Add(dataCount);
-            //}
+
+                List<GeoCoordinate> datapoints = new List<GeoCoordinate>();
+                for (int i = 0; i < projectData.Count; i++)
+                {
+                    String[] location = projectData[i].Location.Split(',');
+                    if (location[0] != "0" || location[1] != "0")
+                    {
+                        Pushpin pin = new Pushpin();
+                        GeoCoordinate latlng = new GeoCoordinate(Convert.ToDouble(location[0]), Convert.ToDouble(location[1]));
+                        pin.Location = latlng;
+                        datapoints.Add(latlng);
+                        Image photo = new Image { Height = 50, Width = 50 };
+                        System.Windows.Data.Binding tmpBinding = new System.Windows.Data.Binding();
+                        tmpBinding.Source = new Uri(projectData[i].ImageName);
+                        photo.SetBinding(Image.SourceProperty, tmpBinding);
+                        //photo.Source = image;
+                        pin.Content =photo;
+                        map1.Children.Add(pin);
+                       
+                    }
+                }
+                map1.SetView(LocationRect.CreateLocationRect(datapoints));
+            } 
         }
 
         Submission getSubmission()
@@ -433,7 +473,7 @@ namespace MyScience
             lng = location.Longitude;
             LatBlock.Text = "Lat: " + lat.ToString();
             LngBlock.Text = "Lng:" + lng.ToString();
-            //Map.Center = location;
+            
         }
     }
 }

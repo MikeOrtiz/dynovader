@@ -12,7 +12,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="False" Loaded="DetailsPage_Loaded">
+    shell:SystemTray.IsVisible="False" Loaded="DetailsPage_Loaded" xmlns:my="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps">
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot" Height="1000">
@@ -32,6 +32,12 @@
                         </StackPanel>
                     </ScrollViewer>
                 </controls:PivotItem>
+
+            <controls:PivotItem Header="Data">
+                <Grid x:Name="ContentPanel">
+                    <my:Map Height="626" HorizontalAlignment="Left" Margin="12,6,0,0" Name="map1" VerticalAlignment="Top" Width="438" CredentialsProvider="Amxt8FQT2902fydA-nj-9kWMB0Fo08H2Z-TFZ7ZxtEuJyEgmwMblyG2KHhqv8H6l" />
+                </Grid>
+            </controls:PivotItem>
 
             <!--controls:PanoramaItem Header="Submission">
                 <Grid x:Name="ContentPanel" Grid.Row="2" Margin="12,0,12,0">

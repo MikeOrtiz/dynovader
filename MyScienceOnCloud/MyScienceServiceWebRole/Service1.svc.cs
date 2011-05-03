@@ -219,7 +219,7 @@ namespace MyScienceServiceWebRole
             return result;
         }
 
-        public int GetProjectDataNum(int projectid)
+        public List<Submission> GetProjectData(int projectid)
         {
             MyScienceEntities db = new MyScienceEntities();
             var query = (from sub in db.data
@@ -231,9 +231,10 @@ namespace MyScienceServiceWebRole
                              UserID = sub.userid,
                              Data = sub.data,
                              Location = sub.location,
+                             ImageName = sub.picture,
                              Time = sub.time
                          });
-            return query.ToList<Submission>().Count;
+            return query.ToList<Submission>();
         }
 
         public byte[] GetUserImage(String username, String contentType)
