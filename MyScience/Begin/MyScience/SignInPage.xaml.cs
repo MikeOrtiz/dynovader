@@ -15,6 +15,9 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
 using Microsoft.Phone.Tasks;
 using MyScience.MyScienceService;
+using System.IO.IsolatedStorage;
+using Microsoft.Phone.Net.NetworkInformation;
+
 
 namespace MyScience
 {
@@ -24,11 +27,16 @@ namespace MyScience
         public SignIn()
         {
             InitializeComponent();
+            bool hasNetwork = NetworkInterface.GetIsNetworkAvailable();
+            if (!hasNetwork)
+            {
+                registerButton.IsEnabled = false;
+            }
         }
 
         private void SignInPage_Loaded(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
@@ -74,9 +82,38 @@ namespace MyScience
                 result = (byte[])uniqueId;
             String phoneID = BitConverter.ToString(result);
 
-            Service1Client client = new Service1Client();
-            client.GetUserProfileCompleted += new EventHandler<GetUserProfileCompletedEventArgs>(client_GetUserProfileCompleted);
-            client.GetUserProfileAsync(userNameBox.Text, phoneID);
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                Service1Client client = new Service1Client();
+                client.GetUserProfileCompleted += new EventHandler<GetUserProfileCompletedEventArgs>(client_GetUserProfileCompleted);
+                client.GetUserProfileAsync(userNameBox.Text, phoneID);
+            } else {
+                String txtDirectory = "MyScience/UserProfile/";
+                using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    if (!myIsolatedStorage.DirectoryExists(txtDirectory) ||
+                        !myIsolatedStorage.FileExists(txtDirectory+userNameBox.Text+".txt")) {
+                        tryAgainBlock.Text = "No network and no user cache found.";
+                    }else {
+
+                        String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + userNameBox.Text + ".txt");
+
+                        var fileStream = myIsolatedStorage.OpenFile(txtDirectory + userNameBox.Text + ".txt", FileMode.Open, FileAccess.Read);
+                        using (StreamReader reader = new StreamReader(fileStream))
+                        {
+                            User user = new User();
+                            user.ID = Convert.ToInt32(reader.ReadLine());
+                            user.Name = reader.ReadLine();
+                            user.Score = Convert.ToInt32(reader.ReadLine());
+                            App.currentUser = user;
+                        }
+                        App.userVerified = true;
+                        tryAgainBlock.Text = "";
+                        NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                    }
+                }
+            }
+            
         }
 
         //for now, just accepts a correct user, and moves to main page
@@ -91,6 +128,29 @@ namespace MyScience
                     App.currentUser = users[0];
                     App.userVerified = true;
                     tryAgainBlock.Text = "";
+                    try
+                    {
+                        IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
+                        StreamWriter writeFile;
+
+                        if (!myIsolatedStorage.DirectoryExists("MyScience/UserProfile"))
+                        {
+                            myIsolatedStorage.CreateDirectory("MyScience/UserProfile");
+                        }
+                        if (myIsolatedStorage.FileExists("MyScience/UserProfile/" + App.currentUser.Name + ".txt"))
+                        {
+                            myIsolatedStorage.DeleteFile("MyScience/UserProfile/" + App.currentUser.Name+ ".txt");
+                        }
+                        writeFile = new StreamWriter(new IsolatedStorageFileStream("MyScience/UserProfile/" + App.currentUser.Name + ".txt", FileMode.CreateNew, myIsolatedStorage));
+                        writeFile.WriteLine(App.currentUser.ID);
+                        writeFile.WriteLine(App.currentUser.Name);
+                        writeFile.WriteLine(App.currentUser.Score);
+                        writeFile.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        // do something with exception
+                    }
                     NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                 }
                 else
