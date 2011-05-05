@@ -241,10 +241,12 @@ namespace MyScience
             if (e.TaskResult == TaskResult.OK)
             {
                 //WriteableBitmap image = new WriteableBitmap(1920, 2560);
-                WriteableBitmap image = new WriteableBitmap(1000, 1000);
+                WriteableBitmap image = new WriteableBitmap(2560, 1920);
                 image.LoadJpeg(e.ChosenPhoto);
                 Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
                 photo.Source = image;
+                photo.Height = 210;
+                photo.Width = 280;
             }
         }
 
@@ -252,12 +254,14 @@ namespace MyScience
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(1000, 1000);
+                WriteableBitmap image = new WriteableBitmap(2560, 1920);
                 //image.SetSource(e.ChosenPhoto);
                 image.LoadJpeg(e.ChosenPhoto);
 
                 Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
                 photo.Source = image;
+                photo.Height = 210;
+                photo.Width = 280;
             }
         }
 

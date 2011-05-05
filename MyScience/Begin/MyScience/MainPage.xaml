@@ -67,35 +67,36 @@
             <!--Pivot item three-->
             <controls:PanoramaItem Header="Profile">
                 <!--ContentPanel - place additional content here-->
-                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" Width="409">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="189"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Name="UserInfoPlusPic" Grid.Row="0" Height="189" HorizontalAlignment="Left" Margin="12,0,0,0" VerticalAlignment="Top" Width="444">
+                    <Grid Name="UserInfoPlusPic" Grid.Row="0" HorizontalAlignment="Left" Margin="12,0,0,0" VerticalAlignment="Top" Width="444">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Name="userPic" Grid.Column="0" Source="Images/unknownuser.jpg"  Height="170" Width="150" HorizontalAlignment="Left" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="userPic_MouseLeftButtonUp" />
-                        <Grid x:Name="UserInfoGrid" Grid.Column="1" Margin="12,0,0,0">
+                        <Image Name="userPic" Grid.Column="0" Source="Images/unknownuser.jpg"  Height="160" Width="160" HorizontalAlignment="Left" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="userPic_MouseLeftButtonUp" />
+                        <Grid x:Name="UserInfoGrid" Grid.Column="1" Margin="13,0,49,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="59*"/>
+                                <RowDefinition Height="59*" />
                             </Grid.RowDefinitions>
-                            <TextBlock Name="userName" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="253" FontSize="26" Margin="21,0,5,0" />
-                            <TextBlock Name="score" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="253" FontSize="26" Margin="22,38,6,0" Grid.RowSpan="2" />
-                            <TextBlock Grid.Row="1" Height="44" HorizontalAlignment="Center" Margin="20,35,5,0" Name="scientistLevel" Text="" VerticalAlignment="Top" Width="253" FontSize="26"/>
+                            <TextBlock Name="userName" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Margin="0,-1,-1,0" />
+                            <TextBlock Name="score" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Margin="0,37,-1,0" Grid.RowSpan="2" />
+                            <TextBlock Grid.Row="1" Height="44" HorizontalAlignment="Center" Margin="0,35,-1,0" Name="scientistLevel" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Grid.RowSpan="2" />
                         </Grid>
                     </Grid>
 
-                    <Grid Name="ActiveProjectsGrid" Grid.Row="1" HorizontalAlignment="Left" Margin="12,0,0,0" VerticalAlignment="Top" Width="444">
+                    <Grid Name="ActiveProjectsGrid" Grid.Row="1" HorizontalAlignment="Left" Margin="12,16,0,0" VerticalAlignment="Top" Width="444" Height="95">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock x:Name="UserProjectsText" Text="Active Projects" Margin="9,28,0,73" Style="{StaticResource PhoneTextExtraLargeStyle}" TextAlignment="Center" Grid.RowSpan="2" />
-                        <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" SelectionChanged="ProjectListBox_SelectionChanged" Margin="0,0,0,-195" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="246" Width="446">
+                        <TextBlock x:Name="UserProjectsText" Text="Active Projects" Style="{StaticResource PhoneTextExtraLargeStyle}" TextAlignment="Center" Grid.Row="0" />
+                        <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" SelectionChanged="ProjectListBox_SelectionChanged" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="246" Width="446">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="0,0,0,17" Width="432">
@@ -114,7 +115,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation ="Horizontal" Height="80" Width="400">
-                                <Image Source="{Binding Path=ImageName}" Width="80" Height="80"/>
+                                <Image Source="{Binding Path=ImageName}" Width="80" Height="60"/>
                                 <StackPanel Orientation="Vertical" Height="80">
                                 <StackPanel Orientation="Horizontal" Height="40">
                                     <TextBlock Width="100" FontSize="22" Text="Project:" Height="40"/>
@@ -135,12 +136,12 @@
                 <ItemsControl Name="PictureWall" ItemsSource="{Binding Items}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding Path=ImageName}" Width="77" Height="77"/>
+                            <Image Source="{Binding Path=ImageName}" Width="80" Height="60"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <toolkit:WrapPanel ItemWidth="80" ItemHeight="80"/>
+                            <toolkit:WrapPanel ItemWidth="82" ItemHeight="62"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>

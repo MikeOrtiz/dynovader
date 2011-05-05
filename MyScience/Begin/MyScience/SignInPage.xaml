@@ -38,7 +38,7 @@
             <Canvas Name="SignInCanvas" Margin="6,0,12,322" Height="285">
                 <!--TextBlock Canvas.Left="20" Canvas.Top="6" Height="54" Name="signInBlock" Text="Sign In Here!" Width="161" FontSize="32"/-->
                 <TextBlock Canvas.Left="6" Canvas.Top="70" Height="63" Name="userNameBlock" Text="Enter username:" Width="233" FontSize="32"/>
-                <TextBox Canvas.Left="0" Canvas.Top="140" Height="73" Name="userNameBox" Text="Naran B." Width="250" FontSize="32" ManipulationStarted="userNameBox_ManipulationStarted" />
+                <TextBox Canvas.Left="0" Canvas.Top="140" Height="73" Name="userNameBox" Text="Lu Li" Width="250" FontSize="32" ManipulationStarted="userNameBox_ManipulationStarted" />
                 <Button Canvas.Left="272" Canvas.Top="140" Content="Verify" Height="73" Name="signInButton" Width="160" Click="signInButton_Click" FontSize="28"/>
                 <TextBlock Canvas.Left="44" Canvas.Top="203" Height="76" Name="tryAgainBlock" Text="" Width="352" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             </Canvas>

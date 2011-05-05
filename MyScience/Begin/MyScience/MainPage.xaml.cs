@@ -149,11 +149,13 @@ namespace MyScience
         {
             if (e.Result != null)
             {
-                WriteableBitmap image = new WriteableBitmap(600, 800);
+                WriteableBitmap image = new WriteableBitmap(160, 120);
                 MemoryStream ms = new MemoryStream(e.Result);
                 image.LoadJpeg(ms);
                 //Image userImage = DynamicPanel.Children.OfType<Image>().First() as Image;
                 userPic.Source = image;
+                userPic.Height = image.PixelHeight;
+                userPic.Width = image.PixelWidth;
             }
         }
 
@@ -177,9 +179,11 @@ namespace MyScience
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(200, 200);
+                WriteableBitmap image = new WriteableBitmap(160, 120);
                 image.LoadJpeg(e.ChosenPhoto);
                 userPic.Source = image;
+                userPic.Height = image.PixelHeight;
+                userPic.Width = image.PixelWidth;
                 MemoryStream ms = new MemoryStream();
                 image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
                 byte[] imageData = ms.ToArray();
