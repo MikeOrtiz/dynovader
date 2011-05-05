@@ -115,7 +115,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation ="Horizontal" Height="80" Width="400">
-                                <Image Source="{Binding Path=LowResImageName}" Width="80" Height="60"/>
+                                <!--Image Source="{Binding Path=LowResImageName}" Width="80" Height="60"/-->
+                                <Image x:Name="{Binding LowResImageName}" Source="{Binding LowResImageName, Converter= {StaticResource ImageConverter}}" Width="80" Height="80" ImageOpened="Image_Opened"/>
                                 <StackPanel Orientation="Vertical" Height="80">
                                 <StackPanel Orientation="Horizontal" Height="40">
                                     <TextBlock Width="100" FontSize="22" Text="Project:" Height="40"/>
@@ -136,7 +137,8 @@
                 <ItemsControl Name="PictureWall" ItemsSource="{Binding Items}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding Path=LowResImageName}" Width="80" Height="60"/>
+                            <!--mage Source="{Binding Path=LowResImageName}" Width="80" Height="60"/-->
+                            <Image x:Name="{Binding LowResImageName}" Source="{Binding LowResImageName, Converter= {StaticResource ImageConverter}}" Width="77" Height="77" ImageOpened="Image_Opened"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemsPanel>

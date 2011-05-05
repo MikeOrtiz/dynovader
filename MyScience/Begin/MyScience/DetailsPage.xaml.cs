@@ -24,6 +24,7 @@ using System.Windows.Controls.Primitives;
 using Microsoft.Phone.Tasks;
 using System.Windows.Media.Imaging;
 using System.IO.IsolatedStorage;
+using Microsoft.Phone.Net.NetworkInformation;
 namespace MyScience
 {
     public partial class DetailsPage : PhoneApplicationPage
@@ -61,10 +62,7 @@ namespace MyScience
                
                 //map1.Center = mapCenter;
                 //map1.ZoomLevel = zoom;
-
-                Service1Client client = new Service1Client();
-                client.GetProjectDataCompleted += new EventHandler<GetProjectDataCompletedEventArgs>(client_GetProjectDataCompleted);
-                client.GetProjectDataAsync(App.applist[App.currentIndex].ID);
+               
 
                 List<Field> fields = GetFormField(currentApp.Form);
                 /*When submission page l oaded, it will generate controls dynamically*/
@@ -148,6 +146,19 @@ namespace MyScience
                 newButton.Click += new RoutedEventHandler(newButton_Click);
                 DynamicPanel.Children.Add(newButton);
 
+                if (NetworkInterface.GetIsNetworkAvailable())
+                {
+                    Service1Client client = new Service1Client();
+                    client.GetProjectDataCompleted += new EventHandler<GetProjectDataCompletedEventArgs>(client_GetProjectDataCompleted);
+                    client.GetProjectDataAsync(App.applist[App.currentIndex].ID);
+                }
+                else
+                {
+                    newButton.IsEnabled = false;
+                    TextBlock warningBlock = new TextBlock { Text = "No network, other people's submissions couldn't be fetched" };
+                    InfoPanel.Children.Add(warningBlock);
+                }
+
                 GeoCoordinate mapCenter;
                 int zoom = 15;
                 if (lat == 0 && lng == 0)
@@ -165,7 +176,9 @@ namespace MyScience
         void saveButton_Click(object sender, RoutedEventArgs e)
         {
             Submission newsubmission = getSubmission();
+            
             if (newsubmission == null) return;
+            App.toBeSubmit.Add(newsubmission);
             Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
             WriteableBitmap image = (WriteableBitmap)photo.Source;
 
@@ -203,6 +216,13 @@ namespace MyScience
                 IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + newsubmission.ImageName + ".jpg");
                 image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
                 fileStream.Close();
+
+                Popup messagePopup = new Popup();
+                TextBlock message = new TextBlock();
+                message.Text = "Image Saved!\n";
+                messagePopup.Child = message;
+                messagePopup.IsOpen = true;
+                DynamicPanel.Children.Add(messagePopup);
             }
             catch (Exception ex)
             {

@@ -20,16 +20,24 @@ namespace MyScience
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            String filename = value.ToString() + ".jpg";
-            BitmapImage image = new BitmapImage();
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            if (value.ToString().StartsWith("http"))
             {
-                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("MyScience/Images/" + filename, FileMode.Open, FileAccess.Read))
-                {
-                    image.SetSource(fileStream);
-                }
+                BitmapImage image = new BitmapImage(new Uri(value.ToString()));
+                return image;
             }
-            return image;
+            else
+            {
+                String filename = value.ToString() + ".jpg";
+                BitmapImage image = new BitmapImage();
+                using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("MyScience/Images/" + filename, FileMode.Open, FileAccess.Read))
+                    {
+                        image.SetSource(fileStream);
+                    }
+                }
+                return image;
+            }
 
         }
 

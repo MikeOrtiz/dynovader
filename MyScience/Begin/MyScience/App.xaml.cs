@@ -32,6 +32,7 @@ namespace MyScience
         public static User currentUser = null;
         public static List<Submission> toBeSubmit = new List<Submission>();
         public static int currentSubmissionIndex;
+        public static bool firstAccess = true;
 
 
         /// <summary>

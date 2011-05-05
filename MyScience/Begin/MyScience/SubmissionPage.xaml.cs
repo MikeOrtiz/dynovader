@@ -18,6 +18,7 @@ using System.IO;
 using System.Text;
 using System.Runtime.Serialization.Json;
 using System.Windows.Controls.Primitives;
+using Microsoft.Phone.Net.NetworkInformation;
 
 namespace MyScience
 {
@@ -98,6 +99,8 @@ namespace MyScience
                 var uploadButton = new Button { Name = "UploadButton", Content = "Submit Now" };
                 uploadButton.Click += new RoutedEventHandler(uploadButton_Click);
                 DynamicPanel.Children.Add(uploadButton);
+                if (!NetworkInterface.GetIsNetworkAvailable())
+                    uploadButton.IsEnabled = false;
             }
 
 
