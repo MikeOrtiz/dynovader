@@ -8,7 +8,9 @@
     <ConfigurationSettings>
       <Setting name="BlobConnection" />
       <Setting name="ContainerName" />
+      <Setting name="LowResImagesContainerName" />
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+      <Setting name="UserImagesContainerName" />
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="Endpoint1" protocol="http" port="80" localPort="80" />

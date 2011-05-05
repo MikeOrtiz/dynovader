@@ -15,6 +15,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.Device.Location;
 using Microsoft.Phone.Reactive;
+using Microsoft.Phone.Controls.Maps;
 
 using MyScience.MyScienceService;
 using System.Runtime.Serialization.Json;
@@ -23,6 +24,7 @@ using System.Windows.Controls.Primitives;
 using Microsoft.Phone.Tasks;
 using System.Windows.Media.Imaging;
 using System.IO.IsolatedStorage;
+using Microsoft.Phone.Net.NetworkInformation;
 namespace MyScience
 {
     public partial class DetailsPage : PhoneApplicationPage
@@ -57,9 +59,10 @@ namespace MyScience
                 InfoPanel.Children.Add(LatBlock);
                 InfoPanel.Children.Add(LngBlock);
 
-                Service1Client client = new Service1Client();
-                client.GetProjectDataCompleted += new EventHandler<GetProjectDataCompletedEventArgs>(client_GetProjectDataCompleted);
-                client.GetProjectDataAsync(App.applist[App.currentIndex].ID);
+               
+                //map1.Center = mapCenter;
+                //map1.ZoomLevel = zoom;
+               
 
                 List<Field> fields = GetFormField(currentApp.Form);
                 /*When submission page l oaded, it will generate controls dynamically*/
@@ -134,10 +137,96 @@ namespace MyScience
                 DynamicPanel.Children.Add(albumButton);
                 DynamicPanel.Children.Add(photo);
 
+                var saveButton = new Button { Name = "SaveButton", Content = "Save Only" };
+                saveButton.Click += new RoutedEventHandler(saveButton_Click);
+                DynamicPanel.Children.Add(saveButton);
+
                 //add button and event handler here
                 var newButton = new Button { Name = "SubmitButton", Content = "Submit" };
                 newButton.Click += new RoutedEventHandler(newButton_Click);
                 DynamicPanel.Children.Add(newButton);
+
+                if (NetworkInterface.GetIsNetworkAvailable())
+                {
+                    Service1Client client = new Service1Client();
+                    client.GetProjectDataCompleted += new EventHandler<GetProjectDataCompletedEventArgs>(client_GetProjectDataCompleted);
+                    client.GetProjectDataAsync(App.applist[App.currentIndex].ID);
+                }
+                else
+                {
+                    newButton.IsEnabled = false;
+                    TextBlock warningBlock = new TextBlock { Text = "No network, other people's submissions couldn't be fetched" };
+                    InfoPanel.Children.Add(warningBlock);
+                }
+
+                GeoCoordinate mapCenter;
+                int zoom = 15;
+                if (lat == 0 && lng == 0)
+                {
+                    mapCenter = new GeoCoordinate(37.434999, -122.182989);
+                }
+                else
+                {
+                    mapCenter = new GeoCoordinate(lat, lng);
+                }
+                map1.SetView(mapCenter, zoom);
+            }
+        }
+
+        void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            Submission newsubmission = getSubmission();
+            
+            if (newsubmission == null) return;
+            App.toBeSubmit.Add(newsubmission);
+            Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
+            WriteableBitmap image = (WriteableBitmap)photo.Source;
+
+            try
+            {
+                IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
+                StreamWriter writeFile;
+
+                if (!myIsolatedStorage.DirectoryExists("MyScience/ToBeSubmit"))
+                {
+                    myIsolatedStorage.CreateDirectory("MyScience/ToBeSubmit");
+                }
+                if (myIsolatedStorage.FileExists("MyScience/ToBeSubmit/"+newsubmission.ImageName + ".txt"))
+                {
+                    myIsolatedStorage.DeleteFile("MyScience/ToBeSubmit/"+newsubmission.ImageName + ".txt");
+                }
+                writeFile = new StreamWriter(new IsolatedStorageFileStream("MyScience/ToBeSubmit/"+ newsubmission.ImageName+".txt", FileMode.CreateNew, myIsolatedStorage));
+                writeFile.WriteLine(newsubmission.ProjectID);
+                writeFile.WriteLine(newsubmission.ProjectName);
+                writeFile.WriteLine(newsubmission.Data);
+                writeFile.WriteLine(newsubmission.Location);
+                writeFile.WriteLine(newsubmission.Time);
+                writeFile.WriteLine(newsubmission.ImageName);
+                writeFile.Close();
+
+                if(!myIsolatedStorage.DirectoryExists("MyScience/Images"))
+                { 
+                    myIsolatedStorage.CreateDirectory("MyScience/Images");
+                }
+                if (myIsolatedStorage.FileExists("MyScience/Images/" + newsubmission.ImageName + ".jpg"))
+                {
+                    myIsolatedStorage.DeleteFile("MyScience/Images/" + newsubmission.ImageName + ".jpg");
+                }
+
+                IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + newsubmission.ImageName + ".jpg");
+                image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
+                fileStream.Close();
+
+                Popup messagePopup = new Popup();
+                TextBlock message = new TextBlock();
+                message.Text = "Image Saved!\n";
+                messagePopup.Child = message;
+                messagePopup.IsOpen = true;
+                DynamicPanel.Children.Add(messagePopup);
+            }
+            catch (Exception ex)
+            {
+                // do something with exception
             }
         }
 
@@ -171,10 +260,13 @@ namespace MyScience
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(50, 50);
+                //WriteableBitmap image = new WriteableBitmap(1920, 2560);
+                WriteableBitmap image = new WriteableBitmap(2560, 1920);
                 image.LoadJpeg(e.ChosenPhoto);
                 Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
                 photo.Source = image;
+                photo.Height = 210;
+                photo.Width = 280;
             }
         }
 
@@ -182,12 +274,14 @@ namespace MyScience
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                WriteableBitmap image = new WriteableBitmap(50, 50);
+                WriteableBitmap image = new WriteableBitmap(2560, 1920);
                 //image.SetSource(e.ChosenPhoto);
                 image.LoadJpeg(e.ChosenPhoto);
 
                 Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
                 photo.Source = image;
+                photo.Height = 210;
+                photo.Width = 280;
             }
         }
 
@@ -196,13 +290,35 @@ namespace MyScience
             if (e.Result != null)
             {
                 TextBlock dataCount = new TextBlock();
-                dataCount.Text = "Current Data in Total: " + e.Result.ToList<Submission>().Count;
+                List<Submission> projectData = e.Result.ToList<Submission>();
+                dataCount.Text = "Current Data in Total: " + projectData.Count;
                 InfoPanel.Children.Add(dataCount);
-            }
+
+                List<GeoCoordinate> datapoints = new List<GeoCoordinate>();
+                for (int i = 0; i < projectData.Count; i++)
+                {
+                    String[] location = projectData[i].Location.Split(',');
+                    if (location[0] != "0" || location[1] != "0")
+                    {
+                        Pushpin pin = new Pushpin();
+                        GeoCoordinate latlng = new GeoCoordinate(Convert.ToDouble(location[0]), Convert.ToDouble(location[1]));
+                        pin.Location = latlng;
+                        datapoints.Add(latlng);
+                        Image photo = new Image { Height = 50, Width = 50 };
+                        System.Windows.Data.Binding tmpBinding = new System.Windows.Data.Binding();
+                        tmpBinding.Source = new Uri(projectData[i].ImageName);
+                        photo.SetBinding(Image.SourceProperty, tmpBinding);
+                        //photo.Source = image;
+                        pin.Content =photo;
+                        map1.Children.Add(pin);
+                       
+                    }
+                }
+                map1.SetView(LocationRect.CreateLocationRect(datapoints));
+            } 
         }
 
-
-        void newButton_Click(object sender, RoutedEventArgs e)
+        Submission getSubmission()
         {
             Project app = App.applist[App.currentIndex];
             List<Field> fields = GetFormField(app.Form);
@@ -264,14 +380,55 @@ namespace MyScience
 
             if (image != null)
             {
+
+                /*Parse the fields list into Json String*/
+                String data = GetJsonString(fields);
+                DateTime time = DateTime.Now;
+                Submission newsubmission = new Submission
+                {
+                    ID = 0,
+                    ProjectID = App.applist[App.currentIndex].ID,
+                    ProjectName = App.applist[App.currentIndex].Name,
+                    UserID = App.currentUser.ID,
+                    Data = data,
+                    Location = lat.ToString() + "," + lng.ToString(),
+                    Time = time,
+                    ImageName = App.currentUser.ID.ToString() + "-" + time.ToFileTime().ToString()
+                };
+                return newsubmission;
+            }
+            else
+            {
+                Popup messagePopup = new Popup();
+                TextBlock message = new TextBlock();
+                message.Text = "Oops, forgot to submit a pic!\n";
+                messagePopup.Child = message;
+                messagePopup.IsOpen = true;
+                DynamicPanel.Children.Add(messagePopup);
+                return null;
+            }
+        }
+
+        void newButton_Click(object sender, RoutedEventArgs e)
+        {
+            Submission newsubmission = getSubmission();
+            if(newsubmission != null) {
+                Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
+                WriteableBitmap image = (WriteableBitmap)photo.Source;
                 MemoryStream ms = new MemoryStream();
                 image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
                 byte[] imageData = ms.ToArray();
-                /*Parse the fields list into Json String*/
-                String data = GetJsonString(fields);
+                newsubmission.ImageData = imageData;
+
+                //Low Res Pic submission
+                MemoryStream lowresms = new MemoryStream();
+                image.SaveJpeg(lowresms, 80, 60, 0, 80);
+                byte[] lowResImageData = lowresms.ToArray();
+                newsubmission.LowResImageData = lowResImageData;
+
                 Service1Client client = new Service1Client();
                 client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
-                client.SubmitDataAsync(0, App.applist[App.currentIndex].ID, App.currentUser.ID, data, lat.ToString() + "," + lng.ToString(), 1, "JPEG", imageData);
+                client.SubmitDataAsync(newsubmission);
             }
             else
             {
@@ -282,9 +439,8 @@ namespace MyScience
                 messagePopup.IsOpen = true;
                 DynamicPanel.Children.Add(messagePopup);
             }
-
             //client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
-        }
+        } 
 
         void client_SubmitDataCompleted(object sender, SubmitDataCompletedEventArgs e)
         {
@@ -347,7 +503,7 @@ namespace MyScience
             lng = location.Longitude;
             LatBlock.Text = "Lat: " + lat.ToString();
             LngBlock.Text = "Lng:" + lng.ToString();
-            //Map.Center = location;
+            
         }
     }
 }

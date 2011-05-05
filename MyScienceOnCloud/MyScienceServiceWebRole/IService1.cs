@@ -16,7 +16,7 @@ namespace MyScienceServiceWebRole
         List<Project> GetProjects();
 
         [OperationContract]
-        Uri SubmitData(int id, int projectid, int userid, String data, String location, int point, String contentType, byte[] imagedata);
+        Uri SubmitData(Submission newsubmission);
 
         [OperationContract]
         List<TopScorer> GetTopScorers();
@@ -25,10 +25,21 @@ namespace MyScienceServiceWebRole
         List<User> GetUserProfile(String username, String phoneID);
 
         [OperationContract]
-        user RegisterUser(int id, String phoneid, String name);
+        User RegisterUser(int id, String phoneid, String name);
+
+        [OperationContract]
+        User RegisterUserWithImage(int id, String phoneid, String name, String contentType, byte[] imagedata);
 
         [OperationContract]
         List<Submission> GetProjectData(int projectid);
 
+        [OperationContract]
+        List<Submission> GetUserSubmission(int userid);
+
+        [OperationContract]
+        byte[] GetUserImage(String username, String contentType);
+
+        [OperationContract]
+        int UploadUserImage(String username, String contentType, byte[] imagedata);
     }
 }

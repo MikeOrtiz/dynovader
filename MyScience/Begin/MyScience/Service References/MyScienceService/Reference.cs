@@ -107,6 +107,156 @@ namespace MyScience.MyScienceService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Submission", Namespace="http://schemas.datacontract.org/2004/07/MyScienceServiceWebRole")]
+    public partial class Submission : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private string DataField;
+        
+        private int IDField;
+        
+        private byte[] ImageDataField;
+        
+        private string ImageNameField;
+        
+        private string LocationField;
+        
+        private int ProjectIDField;
+        
+        private string ProjectNameField;
+        
+        private System.DateTime TimeField;
+        
+        private int UserIDField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Data {
+            get {
+                return this.DataField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DataField, value) != true)) {
+                    this.DataField = value;
+                    this.RaisePropertyChanged("Data");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ID {
+            get {
+                return this.IDField;
+            }
+            set {
+                if ((this.IDField.Equals(value) != true)) {
+                    this.IDField = value;
+                    this.RaisePropertyChanged("ID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] ImageData {
+            get {
+                return this.ImageDataField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImageDataField, value) != true)) {
+                    this.ImageDataField = value;
+                    this.RaisePropertyChanged("ImageData");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ImageName {
+            get {
+                return this.ImageNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImageNameField, value) != true)) {
+                    this.ImageNameField = value;
+                    this.RaisePropertyChanged("ImageName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Location {
+            get {
+                return this.LocationField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LocationField, value) != true)) {
+                    this.LocationField = value;
+                    this.RaisePropertyChanged("Location");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ProjectID {
+            get {
+                return this.ProjectIDField;
+            }
+            set {
+                if ((this.ProjectIDField.Equals(value) != true)) {
+                    this.ProjectIDField = value;
+                    this.RaisePropertyChanged("ProjectID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ProjectName {
+            get {
+                return this.ProjectNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ProjectNameField, value) != true)) {
+                    this.ProjectNameField = value;
+                    this.RaisePropertyChanged("ProjectName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Time {
+            get {
+                return this.TimeField;
+            }
+            set {
+                if ((this.TimeField.Equals(value) != true)) {
+                    this.TimeField = value;
+                    this.RaisePropertyChanged("Time");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int UserID {
+            get {
+                return this.UserIDField;
+            }
+            set {
+                if ((this.UserIDField.Equals(value) != true)) {
+                    this.UserIDField = value;
+                    this.RaisePropertyChanged("UserID");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="TopScorer", Namespace="http://schemas.datacontract.org/2004/07/MyScienceServiceWebRole")]
     public partial class TopScorer : object, System.ComponentModel.INotifyPropertyChanged {
         
@@ -174,7 +324,11 @@ namespace MyScience.MyScienceService {
         
         private string NameField;
         
+        private string PhoneIDField;
+        
         private int ScoreField;
+        
+        private int hasImageField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public int ID {
@@ -203,6 +357,19 @@ namespace MyScience.MyScienceService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PhoneID {
+            get {
+                return this.PhoneIDField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PhoneIDField, value) != true)) {
+                    this.PhoneIDField = value;
+                    this.RaisePropertyChanged("PhoneID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public int Score {
             get {
                 return this.ScoreField;
@@ -215,315 +382,15 @@ namespace MyScience.MyScienceService {
             }
         }
         
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="StructuralObject", Namespace="http://schemas.datacontract.org/2004/07/System.Data.Objects.DataClasses", IsReference=true)]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MyScience.MyScienceService.EntityObject))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MyScience.MyScienceService.user1))]
-    public partial class StructuralObject : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="EntityObject", Namespace="http://schemas.datacontract.org/2004/07/System.Data.Objects.DataClasses", IsReference=true)]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MyScience.MyScienceService.user1))]
-    public partial class EntityObject : MyScience.MyScienceService.StructuralObject {
-        
-        private MyScience.MyScienceService.EntityKey EntityKeyField;
-        
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public MyScience.MyScienceService.EntityKey EntityKey {
+        public int hasImage {
             get {
-                return this.EntityKeyField;
+                return this.hasImageField;
             }
             set {
-                if ((object.ReferenceEquals(this.EntityKeyField, value) != true)) {
-                    this.EntityKeyField = value;
-                    this.RaisePropertyChanged("EntityKey");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="user", Namespace="http://schemas.datacontract.org/2004/07/MyScienceServiceWebRole", IsReference=true)]
-    public partial class user1 : MyScience.MyScienceService.EntityObject {
-        
-        private int IDField;
-        
-        private string nameField;
-        
-        private string phoneidField;
-        
-        private System.Nullable<int> scoreField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int ID {
-            get {
-                return this.IDField;
-            }
-            set {
-                if ((this.IDField.Equals(value) != true)) {
-                    this.IDField = value;
-                    this.RaisePropertyChanged("ID");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string name {
-            get {
-                return this.nameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.nameField, value) != true)) {
-                    this.nameField = value;
-                    this.RaisePropertyChanged("name");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string phoneid {
-            get {
-                return this.phoneidField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.phoneidField, value) != true)) {
-                    this.phoneidField = value;
-                    this.RaisePropertyChanged("phoneid");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> score {
-            get {
-                return this.scoreField;
-            }
-            set {
-                if ((this.scoreField.Equals(value) != true)) {
-                    this.scoreField = value;
-                    this.RaisePropertyChanged("score");
-                }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="EntityKey", Namespace="http://schemas.datacontract.org/2004/07/System.Data", IsReference=true)]
-    public partial class EntityKey : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        private string EntityContainerNameField;
-        
-        private System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.EntityKeyMember> EntityKeyValuesField;
-        
-        private string EntitySetNameField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string EntityContainerName {
-            get {
-                return this.EntityContainerNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.EntityContainerNameField, value) != true)) {
-                    this.EntityContainerNameField = value;
-                    this.RaisePropertyChanged("EntityContainerName");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.EntityKeyMember> EntityKeyValues {
-            get {
-                return this.EntityKeyValuesField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.EntityKeyValuesField, value) != true)) {
-                    this.EntityKeyValuesField = value;
-                    this.RaisePropertyChanged("EntityKeyValues");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string EntitySetName {
-            get {
-                return this.EntitySetNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.EntitySetNameField, value) != true)) {
-                    this.EntitySetNameField = value;
-                    this.RaisePropertyChanged("EntitySetName");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="EntityKeyMember", Namespace="http://schemas.datacontract.org/2004/07/System.Data")]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Project>))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MyScience.MyScienceService.Project))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.TopScorer>))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MyScience.MyScienceService.TopScorer))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.User>))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MyScience.MyScienceService.User))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MyScience.MyScienceService.user1))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission>))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MyScience.MyScienceService.Submission))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MyScience.MyScienceService.EntityKey))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.EntityKeyMember>))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MyScience.MyScienceService.EntityObject))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(MyScience.MyScienceService.StructuralObject))]
-    public partial class EntityKeyMember : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        private string KeyField;
-        
-        private object ValueField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Key {
-            get {
-                return this.KeyField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.KeyField, value) != true)) {
-                    this.KeyField = value;
-                    this.RaisePropertyChanged("Key");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public object Value {
-            get {
-                return this.ValueField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ValueField, value) != true)) {
-                    this.ValueField = value;
-                    this.RaisePropertyChanged("Value");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Submission", Namespace="http://schemas.datacontract.org/2004/07/MyScienceServiceWebRole")]
-    public partial class Submission : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        private string DataField;
-        
-        private int IDField;
-        
-        private string LocationField;
-        
-        private int ProjectIDField;
-        
-        private int UserIDField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Data {
-            get {
-                return this.DataField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.DataField, value) != true)) {
-                    this.DataField = value;
-                    this.RaisePropertyChanged("Data");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int ID {
-            get {
-                return this.IDField;
-            }
-            set {
-                if ((this.IDField.Equals(value) != true)) {
-                    this.IDField = value;
-                    this.RaisePropertyChanged("ID");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Location {
-            get {
-                return this.LocationField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.LocationField, value) != true)) {
-                    this.LocationField = value;
-                    this.RaisePropertyChanged("Location");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int ProjectID {
-            get {
-                return this.ProjectIDField;
-            }
-            set {
-                if ((this.ProjectIDField.Equals(value) != true)) {
-                    this.ProjectIDField = value;
-                    this.RaisePropertyChanged("ProjectID");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int UserID {
-            get {
-                return this.UserIDField;
-            }
-            set {
-                if ((this.UserIDField.Equals(value) != true)) {
-                    this.UserIDField = value;
-                    this.RaisePropertyChanged("UserID");
+                if ((this.hasImageField.Equals(value) != true)) {
+                    this.hasImageField = value;
+                    this.RaisePropertyChanged("hasImage");
                 }
             }
         }
@@ -548,7 +415,7 @@ namespace MyScience.MyScienceService {
         System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Project> EndGetProjects(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IService1/SubmitData", ReplyAction="http://tempuri.org/IService1/SubmitDataResponse")]
-        System.IAsyncResult BeginSubmitData(int id, int projectid, int userid, string data, string location, int point, string contentType, byte[] imagedata, System.AsyncCallback callback, object asyncState);
+        System.IAsyncResult BeginSubmitData(MyScience.MyScienceService.Submission newsubmission, System.AsyncCallback callback, object asyncState);
         
         System.Uri EndSubmitData(System.IAsyncResult result);
         
@@ -565,12 +432,32 @@ namespace MyScience.MyScienceService {
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IService1/RegisterUser", ReplyAction="http://tempuri.org/IService1/RegisterUserResponse")]
         System.IAsyncResult BeginRegisterUser(int id, string phoneid, string name, System.AsyncCallback callback, object asyncState);
         
-        MyScience.MyScienceService.user1 EndRegisterUser(System.IAsyncResult result);
+        MyScience.MyScienceService.User EndRegisterUser(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IService1/RegisterUserWithImage", ReplyAction="http://tempuri.org/IService1/RegisterUserWithImageResponse")]
+        System.IAsyncResult BeginRegisterUserWithImage(int id, string phoneid, string name, string contentType, byte[] imagedata, System.AsyncCallback callback, object asyncState);
+        
+        MyScience.MyScienceService.User EndRegisterUserWithImage(System.IAsyncResult result);
         
         [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IService1/GetProjectData", ReplyAction="http://tempuri.org/IService1/GetProjectDataResponse")]
         System.IAsyncResult BeginGetProjectData(int projectid, System.AsyncCallback callback, object asyncState);
         
         System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission> EndGetProjectData(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IService1/GetUserSubmission", ReplyAction="http://tempuri.org/IService1/GetUserSubmissionResponse")]
+        System.IAsyncResult BeginGetUserSubmission(int userid, System.AsyncCallback callback, object asyncState);
+        
+        System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission> EndGetUserSubmission(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IService1/GetUserImage", ReplyAction="http://tempuri.org/IService1/GetUserImageResponse")]
+        System.IAsyncResult BeginGetUserImage(string username, string contentType, System.AsyncCallback callback, object asyncState);
+        
+        byte[] EndGetUserImage(System.IAsyncResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern=true, Action="http://tempuri.org/IService1/UploadUserImage", ReplyAction="http://tempuri.org/IService1/UploadUserImageResponse")]
+        System.IAsyncResult BeginUploadUserImage(string username, string contentType, byte[] imagedata, System.AsyncCallback callback, object asyncState);
+        
+        int EndUploadUserImage(System.IAsyncResult result);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -664,10 +551,29 @@ namespace MyScience.MyScienceService {
             this.results = results;
         }
         
-        public MyScience.MyScienceService.user1 Result {
+        public MyScience.MyScienceService.User Result {
             get {
                 base.RaiseExceptionIfNecessary();
-                return ((MyScience.MyScienceService.user1)(this.results[0]));
+                return ((MyScience.MyScienceService.User)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class RegisterUserWithImageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public RegisterUserWithImageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public MyScience.MyScienceService.User Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((MyScience.MyScienceService.User)(this.results[0]));
             }
         }
     }
@@ -687,6 +593,63 @@ namespace MyScience.MyScienceService {
             get {
                 base.RaiseExceptionIfNecessary();
                 return ((System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission>)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetUserSubmissionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetUserSubmissionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission> Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission>)(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class GetUserImageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public GetUserImageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public byte[] Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((byte[])(this.results[0]));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class UploadUserImageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        public UploadUserImageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        public int Result {
+            get {
+                base.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
     }
@@ -725,11 +688,35 @@ namespace MyScience.MyScienceService {
         
         private System.Threading.SendOrPostCallback onRegisterUserCompletedDelegate;
         
+        private BeginOperationDelegate onBeginRegisterUserWithImageDelegate;
+        
+        private EndOperationDelegate onEndRegisterUserWithImageDelegate;
+        
+        private System.Threading.SendOrPostCallback onRegisterUserWithImageCompletedDelegate;
+        
         private BeginOperationDelegate onBeginGetProjectDataDelegate;
         
         private EndOperationDelegate onEndGetProjectDataDelegate;
         
         private System.Threading.SendOrPostCallback onGetProjectDataCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetUserSubmissionDelegate;
+        
+        private EndOperationDelegate onEndGetUserSubmissionDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetUserSubmissionCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginGetUserImageDelegate;
+        
+        private EndOperationDelegate onEndGetUserImageDelegate;
+        
+        private System.Threading.SendOrPostCallback onGetUserImageCompletedDelegate;
+        
+        private BeginOperationDelegate onBeginUploadUserImageDelegate;
+        
+        private EndOperationDelegate onEndUploadUserImageDelegate;
+        
+        private System.Threading.SendOrPostCallback onUploadUserImageCompletedDelegate;
         
         private BeginOperationDelegate onBeginOpenDelegate;
         
@@ -794,7 +781,15 @@ namespace MyScience.MyScienceService {
         
         public event System.EventHandler<RegisterUserCompletedEventArgs> RegisterUserCompleted;
         
+        public event System.EventHandler<RegisterUserWithImageCompletedEventArgs> RegisterUserWithImageCompleted;
+        
         public event System.EventHandler<GetProjectDataCompletedEventArgs> GetProjectDataCompleted;
+        
+        public event System.EventHandler<GetUserSubmissionCompletedEventArgs> GetUserSubmissionCompleted;
+        
+        public event System.EventHandler<GetUserImageCompletedEventArgs> GetUserImageCompleted;
+        
+        public event System.EventHandler<UploadUserImageCompletedEventArgs> UploadUserImageCompleted;
         
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> OpenCompleted;
         
@@ -845,8 +840,8 @@ namespace MyScience.MyScienceService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.IAsyncResult MyScience.MyScienceService.IService1.BeginSubmitData(int id, int projectid, int userid, string data, string location, int point, string contentType, byte[] imagedata, System.AsyncCallback callback, object asyncState) {
-            return base.Channel.BeginSubmitData(id, projectid, userid, data, location, point, contentType, imagedata, callback, asyncState);
+        System.IAsyncResult MyScience.MyScienceService.IService1.BeginSubmitData(MyScience.MyScienceService.Submission newsubmission, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginSubmitData(newsubmission, callback, asyncState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -855,15 +850,8 @@ namespace MyScience.MyScienceService {
         }
         
         private System.IAsyncResult OnBeginSubmitData(object[] inValues, System.AsyncCallback callback, object asyncState) {
-            int id = ((int)(inValues[0]));
-            int projectid = ((int)(inValues[1]));
-            int userid = ((int)(inValues[2]));
-            string data = ((string)(inValues[3]));
-            string location = ((string)(inValues[4]));
-            int point = ((int)(inValues[5]));
-            string contentType = ((string)(inValues[6]));
-            byte[] imagedata = ((byte[])(inValues[7]));
-            return ((MyScience.MyScienceService.IService1)(this)).BeginSubmitData(id, projectid, userid, data, location, point, contentType, imagedata, callback, asyncState);
+            MyScience.MyScienceService.Submission newsubmission = ((MyScience.MyScienceService.Submission)(inValues[0]));
+            return ((MyScience.MyScienceService.IService1)(this)).BeginSubmitData(newsubmission, callback, asyncState);
         }
         
         private object[] OnEndSubmitData(System.IAsyncResult result) {
@@ -879,11 +867,11 @@ namespace MyScience.MyScienceService {
             }
         }
         
-        public void SubmitDataAsync(int id, int projectid, int userid, string data, string location, int point, string contentType, byte[] imagedata) {
-            this.SubmitDataAsync(id, projectid, userid, data, location, point, contentType, imagedata, null);
+        public void SubmitDataAsync(MyScience.MyScienceService.Submission newsubmission) {
+            this.SubmitDataAsync(newsubmission, null);
         }
         
-        public void SubmitDataAsync(int id, int projectid, int userid, string data, string location, int point, string contentType, byte[] imagedata, object userState) {
+        public void SubmitDataAsync(MyScience.MyScienceService.Submission newsubmission, object userState) {
             if ((this.onBeginSubmitDataDelegate == null)) {
                 this.onBeginSubmitDataDelegate = new BeginOperationDelegate(this.OnBeginSubmitData);
             }
@@ -894,14 +882,7 @@ namespace MyScience.MyScienceService {
                 this.onSubmitDataCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSubmitDataCompleted);
             }
             base.InvokeAsync(this.onBeginSubmitDataDelegate, new object[] {
-                        id,
-                        projectid,
-                        userid,
-                        data,
-                        location,
-                        point,
-                        contentType,
-                        imagedata}, this.onEndSubmitDataDelegate, this.onSubmitDataCompletedDelegate, userState);
+                        newsubmission}, this.onEndSubmitDataDelegate, this.onSubmitDataCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1002,7 +983,7 @@ namespace MyScience.MyScienceService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        MyScience.MyScienceService.user1 MyScience.MyScienceService.IService1.EndRegisterUser(System.IAsyncResult result) {
+        MyScience.MyScienceService.User MyScience.MyScienceService.IService1.EndRegisterUser(System.IAsyncResult result) {
             return base.Channel.EndRegisterUser(result);
         }
         
@@ -1014,7 +995,7 @@ namespace MyScience.MyScienceService {
         }
         
         private object[] OnEndRegisterUser(System.IAsyncResult result) {
-            MyScience.MyScienceService.user1 retVal = ((MyScience.MyScienceService.IService1)(this)).EndRegisterUser(result);
+            MyScience.MyScienceService.User retVal = ((MyScience.MyScienceService.IService1)(this)).EndRegisterUser(result);
             return new object[] {
                     retVal};
         }
@@ -1044,6 +1025,60 @@ namespace MyScience.MyScienceService {
                         id,
                         phoneid,
                         name}, this.onEndRegisterUserDelegate, this.onRegisterUserCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult MyScience.MyScienceService.IService1.BeginRegisterUserWithImage(int id, string phoneid, string name, string contentType, byte[] imagedata, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginRegisterUserWithImage(id, phoneid, name, contentType, imagedata, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        MyScience.MyScienceService.User MyScience.MyScienceService.IService1.EndRegisterUserWithImage(System.IAsyncResult result) {
+            return base.Channel.EndRegisterUserWithImage(result);
+        }
+        
+        private System.IAsyncResult OnBeginRegisterUserWithImage(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int id = ((int)(inValues[0]));
+            string phoneid = ((string)(inValues[1]));
+            string name = ((string)(inValues[2]));
+            string contentType = ((string)(inValues[3]));
+            byte[] imagedata = ((byte[])(inValues[4]));
+            return ((MyScience.MyScienceService.IService1)(this)).BeginRegisterUserWithImage(id, phoneid, name, contentType, imagedata, callback, asyncState);
+        }
+        
+        private object[] OnEndRegisterUserWithImage(System.IAsyncResult result) {
+            MyScience.MyScienceService.User retVal = ((MyScience.MyScienceService.IService1)(this)).EndRegisterUserWithImage(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnRegisterUserWithImageCompleted(object state) {
+            if ((this.RegisterUserWithImageCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.RegisterUserWithImageCompleted(this, new RegisterUserWithImageCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void RegisterUserWithImageAsync(int id, string phoneid, string name, string contentType, byte[] imagedata) {
+            this.RegisterUserWithImageAsync(id, phoneid, name, contentType, imagedata, null);
+        }
+        
+        public void RegisterUserWithImageAsync(int id, string phoneid, string name, string contentType, byte[] imagedata, object userState) {
+            if ((this.onBeginRegisterUserWithImageDelegate == null)) {
+                this.onBeginRegisterUserWithImageDelegate = new BeginOperationDelegate(this.OnBeginRegisterUserWithImage);
+            }
+            if ((this.onEndRegisterUserWithImageDelegate == null)) {
+                this.onEndRegisterUserWithImageDelegate = new EndOperationDelegate(this.OnEndRegisterUserWithImage);
+            }
+            if ((this.onRegisterUserWithImageCompletedDelegate == null)) {
+                this.onRegisterUserWithImageCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnRegisterUserWithImageCompleted);
+            }
+            base.InvokeAsync(this.onBeginRegisterUserWithImageDelegate, new object[] {
+                        id,
+                        phoneid,
+                        name,
+                        contentType,
+                        imagedata}, this.onEndRegisterUserWithImageDelegate, this.onRegisterUserWithImageCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1090,6 +1125,150 @@ namespace MyScience.MyScienceService {
             }
             base.InvokeAsync(this.onBeginGetProjectDataDelegate, new object[] {
                         projectid}, this.onEndGetProjectDataDelegate, this.onGetProjectDataCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult MyScience.MyScienceService.IService1.BeginGetUserSubmission(int userid, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetUserSubmission(userid, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission> MyScience.MyScienceService.IService1.EndGetUserSubmission(System.IAsyncResult result) {
+            return base.Channel.EndGetUserSubmission(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetUserSubmission(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            int userid = ((int)(inValues[0]));
+            return ((MyScience.MyScienceService.IService1)(this)).BeginGetUserSubmission(userid, callback, asyncState);
+        }
+        
+        private object[] OnEndGetUserSubmission(System.IAsyncResult result) {
+            System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission> retVal = ((MyScience.MyScienceService.IService1)(this)).EndGetUserSubmission(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetUserSubmissionCompleted(object state) {
+            if ((this.GetUserSubmissionCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetUserSubmissionCompleted(this, new GetUserSubmissionCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetUserSubmissionAsync(int userid) {
+            this.GetUserSubmissionAsync(userid, null);
+        }
+        
+        public void GetUserSubmissionAsync(int userid, object userState) {
+            if ((this.onBeginGetUserSubmissionDelegate == null)) {
+                this.onBeginGetUserSubmissionDelegate = new BeginOperationDelegate(this.OnBeginGetUserSubmission);
+            }
+            if ((this.onEndGetUserSubmissionDelegate == null)) {
+                this.onEndGetUserSubmissionDelegate = new EndOperationDelegate(this.OnEndGetUserSubmission);
+            }
+            if ((this.onGetUserSubmissionCompletedDelegate == null)) {
+                this.onGetUserSubmissionCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetUserSubmissionCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetUserSubmissionDelegate, new object[] {
+                        userid}, this.onEndGetUserSubmissionDelegate, this.onGetUserSubmissionCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult MyScience.MyScienceService.IService1.BeginGetUserImage(string username, string contentType, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginGetUserImage(username, contentType, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        byte[] MyScience.MyScienceService.IService1.EndGetUserImage(System.IAsyncResult result) {
+            return base.Channel.EndGetUserImage(result);
+        }
+        
+        private System.IAsyncResult OnBeginGetUserImage(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            string username = ((string)(inValues[0]));
+            string contentType = ((string)(inValues[1]));
+            return ((MyScience.MyScienceService.IService1)(this)).BeginGetUserImage(username, contentType, callback, asyncState);
+        }
+        
+        private object[] OnEndGetUserImage(System.IAsyncResult result) {
+            byte[] retVal = ((MyScience.MyScienceService.IService1)(this)).EndGetUserImage(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnGetUserImageCompleted(object state) {
+            if ((this.GetUserImageCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.GetUserImageCompleted(this, new GetUserImageCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void GetUserImageAsync(string username, string contentType) {
+            this.GetUserImageAsync(username, contentType, null);
+        }
+        
+        public void GetUserImageAsync(string username, string contentType, object userState) {
+            if ((this.onBeginGetUserImageDelegate == null)) {
+                this.onBeginGetUserImageDelegate = new BeginOperationDelegate(this.OnBeginGetUserImage);
+            }
+            if ((this.onEndGetUserImageDelegate == null)) {
+                this.onEndGetUserImageDelegate = new EndOperationDelegate(this.OnEndGetUserImage);
+            }
+            if ((this.onGetUserImageCompletedDelegate == null)) {
+                this.onGetUserImageCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetUserImageCompleted);
+            }
+            base.InvokeAsync(this.onBeginGetUserImageDelegate, new object[] {
+                        username,
+                        contentType}, this.onEndGetUserImageDelegate, this.onGetUserImageCompletedDelegate, userState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult MyScience.MyScienceService.IService1.BeginUploadUserImage(string username, string contentType, byte[] imagedata, System.AsyncCallback callback, object asyncState) {
+            return base.Channel.BeginUploadUserImage(username, contentType, imagedata, callback, asyncState);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        int MyScience.MyScienceService.IService1.EndUploadUserImage(System.IAsyncResult result) {
+            return base.Channel.EndUploadUserImage(result);
+        }
+        
+        private System.IAsyncResult OnBeginUploadUserImage(object[] inValues, System.AsyncCallback callback, object asyncState) {
+            string username = ((string)(inValues[0]));
+            string contentType = ((string)(inValues[1]));
+            byte[] imagedata = ((byte[])(inValues[2]));
+            return ((MyScience.MyScienceService.IService1)(this)).BeginUploadUserImage(username, contentType, imagedata, callback, asyncState);
+        }
+        
+        private object[] OnEndUploadUserImage(System.IAsyncResult result) {
+            int retVal = ((MyScience.MyScienceService.IService1)(this)).EndUploadUserImage(result);
+            return new object[] {
+                    retVal};
+        }
+        
+        private void OnUploadUserImageCompleted(object state) {
+            if ((this.UploadUserImageCompleted != null)) {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.UploadUserImageCompleted(this, new UploadUserImageCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+        
+        public void UploadUserImageAsync(string username, string contentType, byte[] imagedata) {
+            this.UploadUserImageAsync(username, contentType, imagedata, null);
+        }
+        
+        public void UploadUserImageAsync(string username, string contentType, byte[] imagedata, object userState) {
+            if ((this.onBeginUploadUserImageDelegate == null)) {
+                this.onBeginUploadUserImageDelegate = new BeginOperationDelegate(this.OnBeginUploadUserImage);
+            }
+            if ((this.onEndUploadUserImageDelegate == null)) {
+                this.onEndUploadUserImageDelegate = new EndOperationDelegate(this.OnEndUploadUserImage);
+            }
+            if ((this.onUploadUserImageCompletedDelegate == null)) {
+                this.onUploadUserImageCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnUploadUserImageCompleted);
+            }
+            base.InvokeAsync(this.onBeginUploadUserImageDelegate, new object[] {
+                        username,
+                        contentType,
+                        imagedata}, this.onEndUploadUserImageDelegate, this.onUploadUserImageCompletedDelegate, userState);
         }
         
         private System.IAsyncResult OnBeginOpen(object[] inValues, System.AsyncCallback callback, object asyncState) {
@@ -1180,16 +1359,9 @@ namespace MyScience.MyScienceService {
                 return _result;
             }
             
-            public System.IAsyncResult BeginSubmitData(int id, int projectid, int userid, string data, string location, int point, string contentType, byte[] imagedata, System.AsyncCallback callback, object asyncState) {
-                object[] _args = new object[8];
-                _args[0] = id;
-                _args[1] = projectid;
-                _args[2] = userid;
-                _args[3] = data;
-                _args[4] = location;
-                _args[5] = point;
-                _args[6] = contentType;
-                _args[7] = imagedata;
+            public System.IAsyncResult BeginSubmitData(MyScience.MyScienceService.Submission newsubmission, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = newsubmission;
                 System.IAsyncResult _result = base.BeginInvoke("SubmitData", _args, callback, asyncState);
                 return _result;
             }
@@ -1235,9 +1407,26 @@ namespace MyScience.MyScienceService {
                 return _result;
             }
             
-            public MyScience.MyScienceService.user1 EndRegisterUser(System.IAsyncResult result) {
+            public MyScience.MyScienceService.User EndRegisterUser(System.IAsyncResult result) {
                 object[] _args = new object[0];
-                MyScience.MyScienceService.user1 _result = ((MyScience.MyScienceService.user1)(base.EndInvoke("RegisterUser", _args, result)));
+                MyScience.MyScienceService.User _result = ((MyScience.MyScienceService.User)(base.EndInvoke("RegisterUser", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginRegisterUserWithImage(int id, string phoneid, string name, string contentType, byte[] imagedata, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[5];
+                _args[0] = id;
+                _args[1] = phoneid;
+                _args[2] = name;
+                _args[3] = contentType;
+                _args[4] = imagedata;
+                System.IAsyncResult _result = base.BeginInvoke("RegisterUserWithImage", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public MyScience.MyScienceService.User EndRegisterUserWithImage(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                MyScience.MyScienceService.User _result = ((MyScience.MyScienceService.User)(base.EndInvoke("RegisterUserWithImage", _args, result)));
                 return _result;
             }
             
@@ -1251,6 +1440,48 @@ namespace MyScience.MyScienceService {
             public System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission> EndGetProjectData(System.IAsyncResult result) {
                 object[] _args = new object[0];
                 System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission> _result = ((System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission>)(base.EndInvoke("GetProjectData", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetUserSubmission(int userid, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[1];
+                _args[0] = userid;
+                System.IAsyncResult _result = base.BeginInvoke("GetUserSubmission", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission> EndGetUserSubmission(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission> _result = ((System.Collections.ObjectModel.ObservableCollection<MyScience.MyScienceService.Submission>)(base.EndInvoke("GetUserSubmission", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginGetUserImage(string username, string contentType, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[2];
+                _args[0] = username;
+                _args[1] = contentType;
+                System.IAsyncResult _result = base.BeginInvoke("GetUserImage", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public byte[] EndGetUserImage(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                byte[] _result = ((byte[])(base.EndInvoke("GetUserImage", _args, result)));
+                return _result;
+            }
+            
+            public System.IAsyncResult BeginUploadUserImage(string username, string contentType, byte[] imagedata, System.AsyncCallback callback, object asyncState) {
+                object[] _args = new object[3];
+                _args[0] = username;
+                _args[1] = contentType;
+                _args[2] = imagedata;
+                System.IAsyncResult _result = base.BeginInvoke("UploadUserImage", _args, callback, asyncState);
+                return _result;
+            }
+            
+            public int EndUploadUserImage(System.IAsyncResult result) {
+                object[] _args = new object[0];
+                int _result = ((int)(base.EndInvoke("UploadUserImage", _args, result)));
                 return _result;
             }
         }

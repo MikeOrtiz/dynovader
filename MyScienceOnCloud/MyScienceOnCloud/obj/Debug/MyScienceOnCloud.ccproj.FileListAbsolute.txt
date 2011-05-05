@@ -168,9 +168,185 @@ C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\M
 C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
 C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.dll
 C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.pdb
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\Global.asax
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\Service1.svc
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\Web.config
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\Global.asax
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\Service1.svc
-C:\Users\Lu Li\Documents\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\Web.config
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\ServiceConfiguration.cscfg
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\MyScienceServiceWebRole.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\MyScienceServiceWebRole.pdb
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\RuntimeSetup.Manifest
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\Diagnostics.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\IISConfigurator.exe
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\msshrtmi.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\mswasr.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\mswasri.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaHostBootstrapper.exe
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaIISHost.exe
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaRuntimeProxy.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaWebHost.exe
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaWorkerHost.exe
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\EtwListener.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\FileListener.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\MonAgent.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\MonAgentHost.exe
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\MonDiagnostics.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\MonEvents.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\MonNetTransport.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\MonQuery.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\MonTables.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\secutil.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\SysCounterListener.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\SystemEventsListener.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\schema\1.0\ma.xsd
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\schema\1.0\maStatic.xsd
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\schema\1.0\query.xsd
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x86\monitor\schema\1.0\shared.xsd
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\__entrypoint.txt
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaIISHost.exe.config
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\Diagnostics.csplugin
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\DiagnosticsAgent.exe
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\mswapd.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\RoleModel.xml
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\ServiceDefinition.build.rd
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\ServiceDefinition.build.rdsc
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\ServiceDefinition.build.csdef
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.dll
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.pdb
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\ServiceConfiguration.cscfg
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\MyScienceServiceWebRole.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\MyScienceServiceWebRole.pdb
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\RuntimeSetup.Manifest
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\Diagnostics.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\IISConfigurator.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\msshrtmi.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\mswasr.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\mswasri.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaHostBootstrapper.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaIISHost.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaRuntimeProxy.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaWebHost.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaWorkerHost.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\Diagnostics.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\IISConfigurator.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\msshrtmi.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\mswasr.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\mswasri.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaHostBootstrapper.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaIISHost.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaRuntimeProxy.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaWebHost.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaWorkerHost.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\EtwListener.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\FileListener.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonAgent.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonAgentHost.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonDiagnostics.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonEvents.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonNetTransport.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonQuery.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonTables.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\secutil.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\SysCounterListener.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\SystemEventsListener.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\schema\1.0\ma.xsd
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\schema\1.0\maStatic.xsd
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\schema\1.0\query.xsd
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\schema\1.0\shared.xsd
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\__entrypoint.txt
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaIISHost.exe.config
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\Diagnostics.csplugin
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\DiagnosticsAgent.exe
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\mswapd.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\RoleModel.xml
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\ServiceDefinition.build.rd
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\ServiceDefinition.build.rdsc
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\ServiceDefinition.build.csdef
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.dll
+C:\Users\naranb\Desktop\dynovaderv2\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.pdb
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\Global.asax
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\Service1.svc
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\Web.config
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\Global.asax
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\Service1.svc
+C:\Users\Lu Li\Documents\cs210\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\Web.config
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\ServiceConfiguration.cscfg
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\MyScienceServiceWebRole.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\approot\bin\MyScienceServiceWebRole.pdb
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\RuntimeSetup.Manifest
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\Diagnostics.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\IISConfigurator.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\msshrtmi.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\mswasr.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\mswasri.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaHostBootstrapper.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaIISHost.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaRuntimeProxy.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaWebHost.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaWorkerHost.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\Diagnostics.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\IISConfigurator.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\msshrtmi.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\mswasr.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\mswasri.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaHostBootstrapper.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaIISHost.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaRuntimeProxy.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaWebHost.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x86\WaWorkerHost.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\EtwListener.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\FileListener.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonAgent.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonAgentHost.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonDiagnostics.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonEvents.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonNetTransport.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonQuery.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\MonTables.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\secutil.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\SysCounterListener.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\SystemEventsListener.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\schema\1.0\ma.xsd
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\schema\1.0\maStatic.xsd
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\schema\1.0\query.xsd
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\diagnostics\x64\monitor\schema\1.0\shared.xsd
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\__entrypoint.txt
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\base\x64\WaIISHost.exe.config
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\Diagnostics.csplugin
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\DiagnosticsAgent.exe
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\plugins\Diagnostics\mswapd.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\roles\MyScienceServiceWebRole\RoleModel.xml
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\ServiceDefinition.build.rd
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\ServiceDefinition.build.rdsc
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\bin\Debug\MyScienceOnCloud.csx\ServiceDefinition.build.csdef
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.dll
+C:\Users\naranb\Desktop\dynovader\MyScienceOnCloud\MyScienceOnCloud\obj\Debug\MyScienceServiceWebRole\bin\MyScienceServiceWebRole.pdb

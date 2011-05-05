@@ -24,8 +24,11 @@ namespace MyScienceServiceWebRole
         //[DataMember]
         //public int[] projectIDs
 
-        //[DataMember]
-        //public String phoneID;
+        [DataMember]
+        public String PhoneID;
+
+        [DataMember]
+        public int hasImage;
 
     }
 }

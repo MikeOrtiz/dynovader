@@ -77,17 +77,31 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetProjectData">
+  <xs:element name="GetProjectDataNum">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="projectid" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetProjectDataResponse">
+  <xs:element name="GetProjectDataNumResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/MyScienceServiceWebRole" minOccurs="0" name="GetProjectDataResult" nillable="true" type="q5:ArrayOfSubmission" />
+        <xs:element minOccurs="0" name="GetProjectDataNumResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserSubmission">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userid" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserSubmissionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/MyScienceServiceWebRole" minOccurs="0" name="GetUserSubmissionResult" nillable="true" type="q5:ArrayOfSubmission" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

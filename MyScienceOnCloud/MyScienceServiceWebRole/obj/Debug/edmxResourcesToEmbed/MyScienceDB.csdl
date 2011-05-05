@@ -25,7 +25,8 @@
     <Property Name="data" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
     <Property Name="time" Type="DateTime" Nullable="false" />
     <Property Name="location" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
-    <Property Name="picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="picture" Type="String" MaxLength="256" Unicode="false" FixedLength="false" />
+    <Property Type="String" Name="lowrespic" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="projectfield">
     <Key>
@@ -45,7 +46,8 @@
     <Property Name="name" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
     <Property Name="description" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
     <Property Name="owner" Type="Int32" Nullable="false" />
-    <Property Name="form" Type="String" Nullable="false" MaxLength="1024" Unicode="false" FixedLength="false" />
+    <Property Name="form" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="status" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
   </EntityType>
   <EntityType Name="user">
     <Key>
@@ -55,5 +57,6 @@
     <Property Name="phoneid" Type="String" Nullable="false" MaxLength="64" Unicode="false" FixedLength="false" />
     <Property Name="name" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
     <Property Name="score" Type="Int32" />
+    <Property Name="hasImage" Type="Int32" />
   </EntityType>
 </Schema>

@@ -1,0 +1,9 @@
+<?php
+// $Id: $
+
+
+/**
+ * @file
+ * Install hooks for Backup and Migrate Files.
+ */
+

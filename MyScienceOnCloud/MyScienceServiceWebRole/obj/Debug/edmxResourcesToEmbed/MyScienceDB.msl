@@ -13,6 +13,7 @@
     <EntitySetMapping Name="data">
       <EntityTypeMapping TypeName="MyScienceModel.datum">
         <MappingFragment StoreEntitySet="data">
+          <ScalarProperty Name="lowrespic" ColumnName="lowrespic" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="projectid" ColumnName="projectid" />
           <ScalarProperty Name="userid" ColumnName="userid" />
@@ -42,6 +43,7 @@
           <ScalarProperty Name="description" ColumnName="description" />
           <ScalarProperty Name="owner" ColumnName="owner" />
           <ScalarProperty Name="form" ColumnName="form" />
+          <ScalarProperty Name="status" ColumnName="status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -52,6 +54,7 @@
           <ScalarProperty Name="phoneid" ColumnName="phoneid" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="score" ColumnName="score" />
+          <ScalarProperty Name="hasImage" ColumnName="hasImage" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

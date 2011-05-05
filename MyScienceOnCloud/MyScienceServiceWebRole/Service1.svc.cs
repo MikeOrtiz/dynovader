@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.StorageClient;
 using System.Collections.Specialized;
+using System.IO;
 
 namespace MyScienceServiceWebRole
 {
@@ -19,6 +20,7 @@ namespace MyScienceServiceWebRole
         {
             MyScienceEntities db = new MyScienceEntities();
             var query = (from app in db.projects
+                         where app.status == "active"
                          select new Project
                          {
                              ID = app.ID,
@@ -30,13 +32,27 @@ namespace MyScienceServiceWebRole
             return query.ToList<Project>();
         }
 
-        public Uri SubmitData(int id, int projectid, int userid, String data, String location, int point, String contentType, byte[] imagedata)
+        public Uri SubmitData(Submission newsubmission)
         {
+            int id = newsubmission.ID;
+            int projectid = newsubmission.ProjectID;
+            int userid = newsubmission.UserID;
+            String data = newsubmission.Data;
+            String location = newsubmission.Location;
+            byte[] imagedata = newsubmission.ImageData;
+            byte[] lowresimagedata = newsubmission.LowResImageData;
+            DateTime time = newsubmission.Time;
+            String imagename = newsubmission.ImageName;
+            //String lowresimagename = newsubmission.LowResImageName;
+
             EnsureContainerExists();
-            DateTime time = DateTime.Now;
-            String imagename = userid.ToString() + "-" + time.ToFileTime().ToString() + ".jpg";
+            EnsureLowResImagesContainerExists();
+            //DateTime time = DateTime.Now;
+            //String imagename = userid.ToString() + "-" + time.ToFileTime().ToString() + ".jpg";
             var blob = this.GetContainer().GetBlobReference(imagename);
-            blob.Properties.ContentType = contentType;
+            blob.Properties.ContentType = "JPEG";
+            var lowresblob = this.GetLowResImagesContainer().GetBlobReference(imagename);
+            lowresblob.Properties.ContentType = "JPEG";
 
             var metadata = new NameValueCollection();
             metadata["SubmissionID"] = id.ToString();
@@ -46,10 +62,13 @@ namespace MyScienceServiceWebRole
 
             blob.Metadata.Add(metadata);
             blob.UploadByteArray(imagedata);
+            lowresblob.Metadata.Add(metadata);
+            lowresblob.UploadByteArray(lowresimagedata);
 
+            int point = 1;//for each submission increase user score by 1
             using (var db = new MyScienceEntities())
             {
-                datum submission = datum.Createdatum(id, projectid, userid, data, DateTime.Now, location);
+                datum submission = datum.Createdatum(id, projectid, userid, data, time, location, blob.Uri.ToString(), lowresblob.Uri.ToString());
                 db.data.AddObject(submission);
                 user curUser = (from auser in db.users
                                 where auser.ID == userid
@@ -58,7 +77,6 @@ namespace MyScienceServiceWebRole
                 int changes = db.SaveChanges();
                 //return changes;
             }
-
             return blob.Uri;
         }
 
@@ -95,24 +113,12 @@ namespace MyScienceServiceWebRole
             return query.ToList<User>();
         }
 
-        //[OperationContract]
-        //public void UpdateScore(int userID, int point)
-        //{
-        //    MyScienceEntities db = new MyScienceEntities();
-        //    user curUser = (from auser in db.users
-        //                    where auser.ID == userID
-        //                    select auser).First();
-        //    curUser.score = curUser.score + point;
-        //    db.SaveChanges();
-        //}
-
-
-        public user RegisterUser(int id, String phoneid, String name)
+        public User RegisterUser(int id, String phoneid, String name)
         {
             //check to see if the user is in the database
             MyScienceEntities db = new MyScienceEntities();
             var query = (from userobj in db.users
-                         where userobj.name.ToLower() == name.ToLower() && userobj.phoneid == phoneid
+                         where userobj.name.ToLower() == name.ToLower()// && userobj.phoneid == phoneid
                          select new User
                          {
                              ID = userobj.ID,
@@ -125,9 +131,66 @@ namespace MyScienceServiceWebRole
             int idx = db.users.Count<user>() + 1;
             user userinfo = user.Createuser(idx, phoneid, name);
             userinfo.score = 0;
+            //userinfo.hasImage = 0; //without user profile pic
             db.users.AddObject(userinfo);
             int changes = db.SaveChanges();
-            return userinfo;
+            User result = new User
+            {
+                ID = userinfo.ID,
+                Name = userinfo.name,
+                Score = (int)userinfo.score,
+                PhoneID = userinfo.phoneid,
+                hasImage = 0
+            };
+            return result;
+        }
+
+        public User RegisterUserWithImage(int id, String phoneid, String name, String contentType, byte[] imagedata)
+        {
+            /* Handle new user creation */
+            //check to see if the user is in the database
+            MyScienceEntities db = new MyScienceEntities();
+            var query = (from userobj in db.users
+                         where userobj.name.ToLower() == name.ToLower()// && userobj.phoneid == phoneid
+                         select new User
+                         {
+                             ID = userobj.ID,
+                             Name = userobj.name,
+                             Score = (int)userobj.score
+                         });
+            if (query.Count<User>() != 0)
+                return null; //username already taken
+
+            int idx = db.users.Count<user>() + 1;
+            user userinfo = user.Createuser(idx, phoneid, name);
+            userinfo.score = 0;
+            //userinfo.hasImage = 1; //has user profile pic
+            db.users.AddObject(userinfo);
+            int changes = db.SaveChanges();
+            User result = new User
+            {
+                ID = userinfo.ID,
+                Name = userinfo.name,
+                Score = (int)userinfo.score,
+                PhoneID = userinfo.phoneid,
+                hasImage = 1
+            };
+
+            /* Handle image submission */
+            EnsureUserImagesContainerExists();
+            String imagename = name + ".jpg";
+            var blob = this.GetUserImagesContainer().GetBlobReference(imagename);
+            blob.Properties.ContentType = contentType;
+
+            var metadata = new NameValueCollection();
+            //metadata["PhoneID"] = phoneid.ToString();
+            //metadata["UserID"] = idx.ToString();
+            metadata["Time"] = DateTime.Now.ToString();
+
+            blob.Metadata.Add(metadata);
+            blob.UploadByteArray(imagedata);
+
+            return result;
         }
 
         public List<Submission> GetProjectData(int projectid)
@@ -141,9 +204,48 @@ namespace MyScienceServiceWebRole
                              ProjectID = sub.projectid,
                              UserID = sub.userid,
                              Data = sub.data,
-                             Location = sub.location
+                             Location = sub.location,
+                             ImageName = sub.picture,
+                             Time = sub.time
                          });
             return query.ToList<Submission>();
+        }
+
+        public byte[] GetUserImage(String username, String contentType)
+        {
+            /* Handle image submission */
+            EnsureUserImagesContainerExists();
+            String imagename = username + ".jpg";
+            var blob = this.GetUserImagesContainer().GetBlobReference(imagename);
+            try
+            {
+                blob.FetchAttributes();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            byte[] imagedata = blob.DownloadByteArray();
+
+            return imagedata;
+        }
+
+        public int UploadUserImage(String username, String contentType, byte[] imagedata)
+        {
+            /* Handle image submission */
+            EnsureUserImagesContainerExists();
+            String imagename = username + ".jpg";
+            var blob = this.GetUserImagesContainer().GetBlobReference(imagename);
+            blob.Properties.ContentType = contentType;
+
+            var metadata = new NameValueCollection();
+            //metadata["PhoneID"] = phoneid.ToString();
+            //metadata["UserID"] = idx.ToString();
+            metadata["Time"] = DateTime.Now.ToString();
+
+            blob.Metadata.Add(metadata);
+            blob.UploadByteArray(imagedata);
+            return 1;
         }
 
         private CloudBlobContainer GetContainer()
@@ -156,6 +258,70 @@ namespace MyScienceServiceWebRole
         private void EnsureContainerExists()
         {
             var container = GetContainer();
+            container.CreateIfNotExist();
+            var permissions = container.GetPermissions();
+            permissions.PublicAccess = BlobContainerPublicAccessType.Container;
+            container.SetPermissions(permissions);
+        }
+
+        public List<Submission> GetUserSubmission(int userid)
+        {
+            MyScienceEntities db = new MyScienceEntities();
+            var query = (from d in db.data
+                         from p in db.projects
+                         where d.userid == userid && d.projectid == p.ID
+                         select new Submission
+                         {
+                             ID = d.ID,
+                             UserID = userid,
+                             ProjectID = p.ID,
+                             ProjectName = p.name,
+                             Data = d.data,
+                             Location = d.location,
+                             Time = d.time,
+                             ImageName = d.picture,
+                             LowResImageName = d.lowrespic
+                         });
+            List<Submission> result = query.ToList<Submission>();
+            //EnsureContainerExists();
+            //CloudBlobContainer container = this.GetContainer();
+            //for (int i = 0; i < result.Count; i++)
+            //{
+            //    CloudBlob blob = container.GetBlobReference(result[i].ImageName);
+            //    BlobStream blobstream = blob.OpenRead();
+            //    MemoryStream ms = new MemoryStream();
+            //    blobstream.CopyTo(ms);
+            //    result[i].ImageData = ms.ToArray();
+            //}
+            return result;
+        }
+
+        private CloudBlobContainer GetUserImagesContainer()
+        {
+            var account = CloudStorageAccount.FromConfigurationSetting("BlobConnection");
+            var client = account.CreateCloudBlobClient();
+            return client.GetContainerReference(RoleEnvironment.GetConfigurationSettingValue("UserImagesContainerName"));
+        }
+
+        private void EnsureUserImagesContainerExists()
+        {
+            var container = GetUserImagesContainer();
+            container.CreateIfNotExist();
+            var permissions = container.GetPermissions();
+            permissions.PublicAccess = BlobContainerPublicAccessType.Container;
+            container.SetPermissions(permissions);
+        }
+
+        private CloudBlobContainer GetLowResImagesContainer()
+        {
+            var account = CloudStorageAccount.FromConfigurationSetting("BlobConnection");
+            var client = account.CreateCloudBlobClient();
+            return client.GetContainerReference(RoleEnvironment.GetConfigurationSettingValue("LowResImagesContainerName"));
+        }
+
+        private void EnsureLowResImagesContainerExists()
+        {
+            var container = GetLowResImagesContainer();
             container.CreateIfNotExist();
             var permissions = container.GetPermissions();
             permissions.PublicAccess = BlobContainerPublicAccessType.Container;

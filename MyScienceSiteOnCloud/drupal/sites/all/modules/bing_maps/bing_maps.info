@@ -1,0 +1,9 @@
+; $Id$
+name = Bing Maps
+description = Allows embedding Bing Maps location information and driving directions within Drupal content
+core = 7.x
+package = MindTree
+files[] = bing_maps.module
+files[] = bing_maps.install
+configure = user/1/maps/bing
+version = "7.x"
