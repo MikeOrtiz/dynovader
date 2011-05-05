@@ -1,6 +1,7 @@
-<?php
+<?php 
 include "connect_ms.php";
 $msg = "";
+
 if(isset($_POST['coordname']))
 {
 	if($_POST['coordname']==""){
@@ -22,40 +23,57 @@ if(isset($_POST['coordname']))
 			$arr = sqlsrv_fetch_array($result);
 			$coordid = $arr['ID'];
 		}
-		$query = "SELECT * FROM projects WHERE name='".$_POST['appname']."' AND owner = $coordid";
+		$query = "SELECT * FROM projects WHERE name='".$_POST['apptitle']."' AND owner = $coordid";
 		$result = sqlsrv_query($conn, $query);
 		//echo sqlsrv_num_rows($result)."<br/>";
 		if(sqlsrv_has_rows($result)){
-		     
 			//return error, since it exists already
 		}
-		else{
-		    $values = "[";
-			/*if($_POST['photo']=="on"){
-				$values .= "('".$_POST['photoinstructions']."',2,".$projid."),";
-			}*/
-			if($_POST['text1instructions']!=""){
-				$values .= "{\"type\":\"Question\",\"label\":\"".$_POST['text1instructions']."\"}";
+		else{ //build JSON string
+			$values = "[";
+			foreach($_POST as $key=>$value) {
+				if ($key!="apptitle" && $key!="description" && $key!="coordname" && $key!="coordemail") {
+					if (strpos($key, 'textq')) {
+						$values .= "{\"type\":\"Question\",\"label\":\"".$_POST[$key]."\"},";
+					}
+					else if (strpos($key, 'check')) { //later append # to end of checkq to know # of values
+						if (strpos($key, 'checkq')) {
+							$values .= "{\"type\":\"CheckBox\",\"label\":\"".$_POST[$key]."\",\"value\":\"";
+						} else {
+							$values .= $_POST[$key]."|";
+							if (strpos($key, 'checkA4')) {
+								$values = substr($values, 0, -1);
+								$values .= "\"},";
+							}
+						}
+					}
+					else if (strpos($key, 'radio')) {
+						if (strpos($key, 'radioq')) {
+							$values .= "{\"type\":\"RadioBox\",\"label\":\"".$_POST[$key]."\",\"value\":\"";
+						} else {
+							$values .= $_POST[$key]."|";
+							if (strpos($key, 'radioA4')) {
+								$values = substr($values, 0, -1);
+								$values .= "\"},";
+							}
+						}
+					}
+				}
 			}
-			if($_POST['text2instructions']!=""){
-				$values .= ",{\"type\":\"Question\",\"label\":\"".$_POST['text2instructions']."\"}";
-			}
-			if($_POST['text3instructions']!=""){
-				$values .= ",{\"type\":\"Question\",\"label\":\"".$_POST['text3instructions']."\"}";
-			}
+			$values = substr($values, 0, -1);
 			$values .= "]";
-			$query = "INSERT INTO projects(name, description, owner, form) VALUES('".$_POST['appname']."','".$_POST['description']."',$coordid,'".$values."')";
+			$query = "INSERT INTO projects(name, description, owner, form) VALUES('".$_POST['apptitle']."','".$_POST['description']."',$coordid,'".$values."')";
 			$result = sqlsrv_query($conn, $query);
 			//echo $query;
-			echo "Your project <i>".$_POST['appname']."</i> was added successfully!";
+			echo "Your project <i>".$_POST['apptitle']."</i> was added successfully!";
 		}
 	}
+	
 }
 ?>
-<html>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en:us'> 
 <head>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://code.jquery.com/jquery-1.5.2.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
   $("#text1").change(function() {
@@ -87,8 +105,52 @@ $(document).ready(function() {
 	}
   });
 });
+
+//form extension based off sample code at Quirksmode: http://www.quirksmode.org/dom/domform.html
+var counter = 0;
+
+function moreText() {
+	moreFields('textroot');
+}
+
+function moreCheck() {
+	moreFields('checkroot');
+}
+
+function moreRadio() {
+	moreFields('radioroot');
+}
+
+function morePicture() {
+	moreFields('pictureroot');
+}
+
+
+function moreFields(qtype) {
+	counter++;
+	var newFields = document.getElementById(qtype).cloneNode(true);
+	newFields.id = '';
+	newFields.style.display = 'block';
+	var newField = newFields.childNodes;
+	for (var i=0;i<newField.length;i++) {
+		var theName = newField[i].name
+		if (theName)
+			newField[i].name = counter + ' ' + theName;
+	}
+	var insertHere = document.getElementById('writeroot');
+	insertHere.parentNode.insertBefore(newFields,insertHere);
+}
+
+function starterFields() {
+	moreText();
+	moreCheck();
+}
+
+
+window.onload = starterFields;
+   
 </script>
-<style type="text/css">
+<style type="text/css" media="screen">
 .top-menu {
 	position: relative;
 	list-style: none;
@@ -101,6 +163,7 @@ $(document).ready(function() {
 position: relative;
 float: left;
 }
+
 .top-menu li a {
 	display: block;
 	padding: 10px;
@@ -128,18 +191,29 @@ float: left;
 	float:right;
 	text-align:left;
 }
-.formbox{
-	width:400px;
-	padding:50px;
-	margin:auto;
-	height:500px;
+
+#apptitle{
+	font-family: "Century Gothic", Arial, sans-serif;
+	color: #333
+	text-align:left;
+	font-size: 11px;
 }
+
 .content{
 	margin:auto;
+	position: relative;
+	top: 50px;
 	font-family: "Century Gothic", Arial, sans-serif;
 	color: #333;
 	font-size: 12px;
 }
+
+#dragcontent{
+	height: 374px;
+	width: 280px;
+	overflow-y: scroll;
+}
+
 .wrapper{
 	height:768px;
 	width:1024px;
@@ -154,13 +228,79 @@ float: left;
 #tf4{
 	display:none;
 }
+
+.gray{
+	color:gray;
+}
+
+#menubar{
+	text-align: left;
+	padding: 2px;
+	font-size: 38px;
+}
+	
 body{
 	margin:0;
 	padding:0;
-	text-align:center;
 }
+
+
+.phone
+{
+	position:absolute;
+	top:0px;
+	right: 100px;
+}
+
+.phone_content
+{
+	position:absolute;
+	top:44px;
+	left:25px;
+	width:262px;
+	height:444px;
+}
+
+.blend
+{
+	border:solid 2px white;
+}
+
+.remove
+{
+	float: right;
+}
+
+#photoalign1
+{
+	position: relative;
+	left: 85px;
+}
+
+#photoalign2
+{
+	position: relative;
+	left: 76px;
+}
+
+#cbutton
+{
+	margin-top: 20px;
+	text-align: center;
+}
+
+.moveleft
+{
+	position: absolute;
+	width: 295px;
+	right: 400px;
+	bottom: 165px;
+}
+
+
 </style>
 </head>
+
 <body>
 <div class="wrapper">
 <div>
@@ -176,9 +316,102 @@ body{
 	</li>
 </ul>
 </div>
+
 <div class="content">
-<div class="formbox">
+
+<div class="phone">
+	<img src="phone.png"/></img>
+	<form method="POST" action="admin.php">	
+		<div class="phone_content">
+			<input class="blend" id="apptitle" name="apptitle" size="30" value="Enter App Title Here">
+			<div id="menubar">
+				<span class="gray">Submission</span> Da
+			</div>
+			<div id="dragcontent">
+				<span id="writeroot"></span>
+				<span id="photoalign1"><input type="button" value="Take a Photo"></span><br />
+				<span id="photoalign2"><button type="button">Choose a Photo</button></span>
+				<div id="cbutton"><button type="button">Contribute</button></div>
+			</div> 
+		</div>
+	
+		<div class="moveleft">
+			<h1>Launch a Project</h1>
+			<span class="columnleft">Description: </span><span class="columnright"><input type="text" name="description"/></span><br/>
+			<span class="columnleft">Coordinator Name: </span><span class="columnright"><input type="text" name="coordname"/></span><br/>
+			<span class="columnleft">Coordinator Email: </span><span class="columnright"><input type="text" name="coordemail"/></span><br/>
+			<br /><br /><br />
+			<h3>Add Question:</h3>
+			<input type="button" value="Text Question" onclick="moreText()"/> <br />
+			<!--
+			Number of check options: 
+			<select id="numchecks" name="numchecks">
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+			</select>
+			-->
+			<input type="button" value="Check Question" onclick="moreCheck()"/> <br />
+			<input type="button" value="Radio Question" onclick="moreRadio()"/> <br />
+			<!--<input type="button" value="Add Picture Capture" onclick="morePicture()"/> <br /><br />-->
+			<br />
+			<input type="submit" value="Submit App!" />
+			<br /><br />
+			<h3>Instructions:</h3>
+			<ol>
+				<li>Add Application Title to Phone</li>
+				<li>Fill out Description, Name, and Email above</li>
+				<li>Add and remove questions with buttons above</li>
+				<li>Edit questions and options directly on phone</li>
+				<li>Press Submit App!</li>
+			</ol>		
+		</div>
+	</form>
+</div>
+
+
 <div><?=$msg?></div>
+
+<div id="textroot" style="display: none">
+	<input class="blend" name="textq" size="29" maxlength="35" value="Enter your question here.">
+	<span class="remove">
+		<input type="button" value="x" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" />
+	</span><br />
+	<input name="texta" value="User answers here.">
+</div>
+
+<div id="checkroot" style="display: none">
+	<input class="blend" name="checkq" size="29" maxlength="35" value="Enter your question here.">
+	<span class="remove">
+		<input type="button" value="x" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" />
+	</span><br />
+	<input type="checkbox" name="check1"/> <input class="blend" name="checkA1" size="30" maxlength="35" value="Enter check option 1."><br />
+	<input type="checkbox" name="check2"/> <input class="blend" name="checkA2" size="30" maxlength="35" value="Enter check option 2."><br />
+	<input type="checkbox" name="check3"/> <input class="blend" name="checkA3" size="30" maxlength="35" value="Enter check option 3."><br />
+	<input type="checkbox" name="check4"/> <input class="blend" name="checkA4" size="30" maxlength="35" value="Enter check option 4."><br />
+</div>
+ 
+<div id="radioroot" style="display: none">
+	<input class="blend" name="checkq" size="29" maxlength="35" value="Enter your question here.">
+	<span class="remove">
+		<input type="button" value="x" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" />
+	</span><br />
+	<input type="radio" name="radio1"/> <input class="blend" name="radioA1" size="30" maxlength="35" value="Enter radio option 1."><br />
+	<input type="radio" name="radio2"/> <input class="blend" name="radioA2" size="30" maxlength="35" value="Enter radio option 2."><br />
+	<input type="radio" name="radio3"/> <input class="blend" name="radioA3" size="30" maxlength="35" value="Enter radio option 3."><br />
+	<input type="radio" name="radio4"/> <input class="blend" name="radioA4" size="30" maxlength="35" value="Enter radio option 4."><br />
+</div>
+
+<div id="pictureroot" style="display: none">
+	<span id="photoalign1"><input type="button" value="Take a Photo"></span>
+	<span class="remove">
+		<input type="button" value="x" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" />
+	</span><br />
+	<span id="photoalign2"><button type="button">Choose a Photo</button></span>
+</div>
+
+
+<!-----
 <h1>Launch a Project</h1>
 <form action="admin.php" method="POST">
 <span class="columnleft">Project Name: </span><span class="columnright"><input type="text" name="appname"/></span><br/>
@@ -202,7 +435,7 @@ body{
 <span class="columnleft">Coordinator Email: </span><span class="columnright"><input type="text" name="coordemail"/></span><br/>
 <span class="columnright"><input type="submit" value="submit"/></span>
 </form>
-</div>
+-->
 </div>
 </div>
 </body>
