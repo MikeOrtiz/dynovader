@@ -330,7 +330,8 @@ namespace MyScienceServiceWebRole
             return datum;
         }
 
-        public static datum Createdatum(global::System.Int32 id, global::System.Int32 projectid, global::System.Int32 userid, global::System.String data, global::System.DateTime time, global::System.String location,global::System.String picture)
+        public static datum Createdatum(global::System.Int32 id, global::System.Int32 projectid, global::System.Int32 userid, global::System.String data, 
+                                        global::System.DateTime time, global::System.String location, global::System.String picture, global::System.String lowrespic)
         {
             datum datum = new datum();
             datum.ID = id;
@@ -340,8 +341,10 @@ namespace MyScienceServiceWebRole
             datum.time = time;
             datum.location = location;
             datum.picture = picture;
+            datum.lowrespic = lowrespic;
             return datum;
         }
+
         #endregion
         #region Primitive Properties
     
@@ -515,6 +518,30 @@ namespace MyScienceServiceWebRole
         private global::System.String _picture;
         partial void OnpictureChanging(global::System.String value);
         partial void OnpictureChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String lowrespic
+        {
+            get
+            {
+                return _lowrespic;
+            }
+            set
+            {
+                OnlowrespicChanging(value);
+                ReportPropertyChanging("lowrespic");
+                _lowrespic = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("lowrespic");
+                OnlowrespicChanged();
+            }
+        }
+        private global::System.String _lowrespic;
+        partial void OnlowrespicChanging(global::System.String value);
+        partial void OnlowrespicChanged();
 
         #endregion
     

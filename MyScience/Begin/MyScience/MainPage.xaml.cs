@@ -80,12 +80,10 @@ namespace MyScience
                 NavigationService.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
             else
             {
-            
                 if (!App.ViewModel.IsDataLoaded)
                 {
                     App.ViewModel.LoadData();
                 }
-
                 Service1Client client = new Service1Client();
                 client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
                 client.GetProjectsAsync();
@@ -104,7 +102,6 @@ namespace MyScience
                 client.GetUserImageAsync(App.currentUser.Name, "JPEG");
 
                 loadToBeSubmitPage();
-
             }
         }
 

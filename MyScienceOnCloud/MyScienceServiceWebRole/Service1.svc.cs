@@ -40,14 +40,19 @@ namespace MyScienceServiceWebRole
             String data = newsubmission.Data;
             String location = newsubmission.Location;
             byte[] imagedata = newsubmission.ImageData;
+            byte[] lowresimagedata = newsubmission.LowResImageData;
             DateTime time = newsubmission.Time;
             String imagename = newsubmission.ImageName;
+            //String lowresimagename = newsubmission.LowResImageName;
 
             EnsureContainerExists();
+            EnsureLowResImagesContainerExists();
             //DateTime time = DateTime.Now;
             //String imagename = userid.ToString() + "-" + time.ToFileTime().ToString() + ".jpg";
             var blob = this.GetContainer().GetBlobReference(imagename);
             blob.Properties.ContentType = "JPEG";
+            var lowresblob = this.GetLowResImagesContainer().GetBlobReference(imagename);
+            lowresblob.Properties.ContentType = "JPEG";
 
             var metadata = new NameValueCollection();
             metadata["SubmissionID"] = id.ToString();
@@ -57,11 +62,13 @@ namespace MyScienceServiceWebRole
 
             blob.Metadata.Add(metadata);
             blob.UploadByteArray(imagedata);
+            lowresblob.Metadata.Add(metadata);
+            lowresblob.UploadByteArray(lowresimagedata);
 
             int point = 1;//for each submission increase user score by 1
             using (var db = new MyScienceEntities())
             {
-                datum submission = datum.Createdatum(id, projectid, userid, data, time, location, blob.Uri.ToString());
+                datum submission = datum.Createdatum(id, projectid, userid, data, time, location, blob.Uri.ToString(), lowresblob.Uri.ToString());
                 db.data.AddObject(submission);
                 user curUser = (from auser in db.users
                                 where auser.ID == userid
@@ -70,7 +77,6 @@ namespace MyScienceServiceWebRole
                 int changes = db.SaveChanges();
                 //return changes;
             }
-
             return blob.Uri;
         }
 
@@ -107,40 +113,8 @@ namespace MyScienceServiceWebRole
             return query.ToList<User>();
         }
 
-        //[OperationContract]
-        //public void UpdateScore(int userID, int point)
-        //{
-        //    MyScienceEntities db = new MyScienceEntities();
-        //    user curUser = (from auser in db.users
-        //                    where auser.ID == userID
-        //                    select auser).First();
-        //    curUser.score = curUser.score + point;
-        //    db.SaveChanges();
-        //}
-
-
         public User RegisterUser(int id, String phoneid, String name)
         {
-            /*//check to see if the user is in the database
-            MyScienceEntities db = new MyScienceEntities();
-            var query = (from userobj in db.users
-                         where userobj.name.ToLower() == name.ToLower() && userobj.phoneid == phoneid
-                         select new User
-                         {
-                             ID = userobj.ID,
-                             Name = userobj.name,
-                             Score = (int)userobj.score
-                         });
-            if (query.Count<User>() != 0)
-                return null; //username already taken
-
-            //int idx = db.users.Count<user>() + 1;
-            user userinfo = user.Createuser(0, phoneid, name);
-            userinfo.score = 0;
-            db.users.AddObject(userinfo);
-            int changes = db.SaveChanges();
-            return userinfo;*/
-
             //check to see if the user is in the database
             MyScienceEntities db = new MyScienceEntities();
             var query = (from userobj in db.users
@@ -305,7 +279,8 @@ namespace MyScienceServiceWebRole
                              Data = d.data,
                              Location = d.location,
                              Time = d.time,
-                             ImageName = d.picture
+                             ImageName = d.picture,
+                             LowResImageName = d.lowrespic
                          });
             List<Submission> result = query.ToList<Submission>();
             //EnsureContainerExists();
@@ -331,6 +306,22 @@ namespace MyScienceServiceWebRole
         private void EnsureUserImagesContainerExists()
         {
             var container = GetUserImagesContainer();
+            container.CreateIfNotExist();
+            var permissions = container.GetPermissions();
+            permissions.PublicAccess = BlobContainerPublicAccessType.Container;
+            container.SetPermissions(permissions);
+        }
+
+        private CloudBlobContainer GetLowResImagesContainer()
+        {
+            var account = CloudStorageAccount.FromConfigurationSetting("BlobConnection");
+            var client = account.CreateCloudBlobClient();
+            return client.GetContainerReference(RoleEnvironment.GetConfigurationSettingValue("LowResImagesContainerName"));
+        }
+
+        private void EnsureLowResImagesContainerExists()
+        {
+            var container = GetLowResImagesContainer();
             container.CreateIfNotExist();
             var permissions = container.GetPermissions();
             permissions.PublicAccess = BlobContainerPublicAccessType.Container;

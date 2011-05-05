@@ -13,6 +13,7 @@
     <EntitySetMapping Name="data">
       <EntityTypeMapping TypeName="MyScienceModel.datum">
         <MappingFragment StoreEntitySet="data">
+          <ScalarProperty Name="lowrespic" ColumnName="lowrespic" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="projectid" ColumnName="projectid" />
           <ScalarProperty Name="userid" ColumnName="userid" />

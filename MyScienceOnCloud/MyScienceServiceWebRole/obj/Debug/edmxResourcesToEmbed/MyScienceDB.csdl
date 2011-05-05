@@ -26,6 +26,7 @@
     <Property Name="time" Type="DateTime" Nullable="false" />
     <Property Name="location" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
     <Property Name="picture" Type="String" MaxLength="256" Unicode="false" FixedLength="false" />
+    <Property Type="String" Name="lowrespic" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="projectfield">
     <Key>

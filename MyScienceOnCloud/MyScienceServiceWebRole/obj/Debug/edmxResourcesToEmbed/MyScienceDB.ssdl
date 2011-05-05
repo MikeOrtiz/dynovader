@@ -26,6 +26,7 @@
     <Property Name="time" Type="datetime" Nullable="false" />
     <Property Name="location" Type="varchar" Nullable="false" MaxLength="256" />
     <Property Name="picture" Type="varchar" MaxLength="256" />
+    <Property Name="lowrespic" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="projectfields">
     <Key>

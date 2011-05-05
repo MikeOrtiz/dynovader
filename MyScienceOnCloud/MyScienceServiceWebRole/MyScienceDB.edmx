@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MyScienceModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="MyScienceModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="MyScienceModelStoreContainer">
           <EntitySet Name="coordinators" EntityType="MyScienceModel.Store.coordinators" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="data" EntityType="MyScienceModel.Store.data" store:Type="Tables" Schema="dbo" />
@@ -31,6 +31,7 @@
           <Property Name="time" Type="datetime" Nullable="false" />
           <Property Name="location" Type="varchar" Nullable="false" MaxLength="256" />
           <Property Name="picture" Type="varchar" MaxLength="256" />
+          <Property Name="lowrespic" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="projectfields">
           <Key>
@@ -63,8 +64,7 @@
           <Property Name="score" Type="int" />
           <Property Name="hasImage" Type="int" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MyScienceModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -94,6 +94,7 @@
           <Property Name="time" Type="DateTime" Nullable="false" />
           <Property Name="location" Type="String" Nullable="false" MaxLength="256" Unicode="false" FixedLength="false" />
           <Property Name="picture" Type="String" MaxLength="256" Unicode="false" FixedLength="false" />
+          <Property Type="String" Name="lowrespic" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="projectfield">
           <Key>
@@ -138,7 +139,8 @@
             <ScalarProperty Name="email" ColumnName="email" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="data"><EntityTypeMapping TypeName="MyScienceModel.datum"><MappingFragment StoreEntitySet="data">
-            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="lowrespic" ColumnName="lowrespic" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
             <ScalarProperty Name="projectid" ColumnName="projectid" />
             <ScalarProperty Name="userid" ColumnName="userid" />
             <ScalarProperty Name="data" ColumnName="data" />
@@ -190,7 +192,7 @@
     <Diagrams>
       <Diagram Name="MyScienceDB">
         <EntityTypeShape EntityType="MyScienceModel.coordinator" Width="1.5" PointX="0.75" PointY="0.75" Height="1.59568359375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MyScienceModel.datum" Width="1.5" PointX="2.75" PointY="0.75" Height="2.3648893229166665" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyScienceModel.datum" Width="1.5" PointX="2.75" PointY="0.75" Height="2.5771907552083331" IsExpanded="true" />
         <EntityTypeShape EntityType="MyScienceModel.projectfield" Width="1.5" PointX="4.75" PointY="0.75" Height="1.9802864583333326" IsExpanded="true" />
         <EntityTypeShape EntityType="MyScienceModel.project" Width="1.5" PointX="0.75" PointY="4.75" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="MyScienceModel.user" Width="1.5" PointX="2.75" PointY="4.75" Height="1.9802864583333317" IsExpanded="true" />

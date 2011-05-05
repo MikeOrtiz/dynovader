@@ -21,6 +21,7 @@
       <Setting name="BlobConnection" />
       <Setting name="ContainerName" />
       <Setting name="UserImagesContainerName" />
+      <Setting name="LowResImagesContainerName" />
     </ConfigurationSettings>
   </WebRole>
 </ServiceDefinition>

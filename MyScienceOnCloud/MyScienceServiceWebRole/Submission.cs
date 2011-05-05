@@ -35,5 +35,11 @@ namespace MyScienceServiceWebRole
 
         [DataMember(IsRequired = false)]
         public byte[] ImageData;
+
+        [DataMember(IsRequired = false)]
+        public String LowResImageName;
+
+        [DataMember(IsRequired = false)]
+        public byte[] LowResImageData;
     }
 }

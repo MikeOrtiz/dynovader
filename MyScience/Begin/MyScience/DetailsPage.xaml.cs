@@ -391,7 +391,7 @@ namespace MyScience
 
         void newButton_Click(object sender, RoutedEventArgs e)
         {
-           Submission newsubmission = getSubmission();
+            Submission newsubmission = getSubmission();
             if(newsubmission != null) {
                 Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
                 WriteableBitmap image = (WriteableBitmap)photo.Source;
@@ -399,6 +399,13 @@ namespace MyScience
                 image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
                 byte[] imageData = ms.ToArray();
                 newsubmission.ImageData = imageData;
+
+                //Low Res Pic submission
+                MemoryStream lowresms = new MemoryStream();
+                image.SaveJpeg(lowresms, 80, 60, 0, 80);
+                byte[] lowResImageData = lowresms.ToArray();
+                newsubmission.LowResImageData = lowResImageData;
+
                 Service1Client client = new Service1Client();
                 client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
                 client.SubmitDataAsync(newsubmission);
@@ -412,7 +419,6 @@ namespace MyScience
                 messagePopup.IsOpen = true;
                 DynamicPanel.Children.Add(messagePopup);
             }
-
             //client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
         } 
 
