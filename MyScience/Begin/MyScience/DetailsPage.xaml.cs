@@ -420,7 +420,7 @@ namespace MyScience
                 byte[] imageData = ms.ToArray();
                 newsubmission.ImageData = imageData;
 
-                //Low Res Pic submission
+                //Low Res Pic submission   comment for now
                 MemoryStream lowresms = new MemoryStream();
                 image.SaveJpeg(lowresms, 80, 60, 0, 80);
                 byte[] lowResImageData = lowresms.ToArray();
@@ -447,7 +447,7 @@ namespace MyScience
             String url = e.Result.ToString();
             Popup messagePopup = new Popup();
             TextBlock message = new TextBlock();
-            message.Text = "Congratulation! Data Submitted Successfully!\n" + url;
+            message.Text = "Congratulation! Data Submitted Successfully!\n";
             messagePopup.Child = message;
             messagePopup.IsOpen = true;
             DynamicPanel.Children.Add(messagePopup);

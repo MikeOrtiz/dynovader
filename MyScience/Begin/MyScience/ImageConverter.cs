@@ -20,6 +20,7 @@ namespace MyScience
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null) return null;
             if (value.ToString().StartsWith("http"))
             {
                 BitmapImage image = new BitmapImage(new Uri(value.ToString()));

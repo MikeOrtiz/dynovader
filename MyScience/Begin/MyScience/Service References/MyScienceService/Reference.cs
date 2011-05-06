@@ -120,6 +120,10 @@ namespace MyScience.MyScienceService {
         
         private string LocationField;
         
+        private byte[] LowResImageDataField;
+        
+        private string LowResImageNameField;
+        
         private int ProjectIDField;
         
         private string ProjectNameField;
@@ -189,6 +193,32 @@ namespace MyScience.MyScienceService {
                 if ((object.ReferenceEquals(this.LocationField, value) != true)) {
                     this.LocationField = value;
                     this.RaisePropertyChanged("Location");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] LowResImageData {
+            get {
+                return this.LowResImageDataField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LowResImageDataField, value) != true)) {
+                    this.LowResImageDataField = value;
+                    this.RaisePropertyChanged("LowResImageData");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string LowResImageName {
+            get {
+                return this.LowResImageNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LowResImageNameField, value) != true)) {
+                    this.LowResImageNameField = value;
+                    this.RaisePropertyChanged("LowResImageName");
                 }
             }
         }

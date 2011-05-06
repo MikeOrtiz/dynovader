@@ -1,6 +1,6 @@
-﻿<xapCache source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\Bin\Debug\MyScience.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="5/4/2011 12:28:55 PM">
+﻿<xapCache source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\Bin\Debug\MyScience.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="5/5/2011 4:17:59 PM">
   <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="4/27/2011 2:53:24 AM" />
-  <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\obj\Debug\MyScience.dll" archivePath="MyScience.dll" lastWriteTime="5/4/2011 12:28:54 PM" />
+  <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\obj\Debug\MyScience.dll" archivePath="MyScience.dll" lastWriteTime="5/5/2011 4:17:58 PM" />
   <file source="C:\Program Files\WP7 Isolated Storage Explorer\Library\IsolatedStorageExplorer.dll" archivePath="IsolatedStorageExplorer.dll" lastWriteTime="2/24/2011 12:27:36 AM" />
   <file source="c:\Program Files\Microsoft SDKs\Expression\Extensions\FXG\Libraries\Windows Phone\v7.0\Microsoft.Expression.Controls.Fxg.dll" archivePath="Microsoft.Expression.Controls.Fxg.dll" lastWriteTime="9/1/2010 2:15:44 AM" />
   <file source="c:\Program Files\Microsoft SDKs\Expression\Blend\Windows Phone\v7.0\Libraries\Microsoft.Expression.Interactions.dll" archivePath="Microsoft.Expression.Interactions.dll" lastWriteTime="9/1/2010 1:41:46 AM" />
@@ -9,7 +9,7 @@
   <file source="C:\Program Files\Microsoft SDKs\Windows Phone\v7.0\Toolkit\Feb11\Bin\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="2/17/2011 3:27:04 PM" />
   <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\PhonePerformance.dll" archivePath="PhonePerformance.dll" lastWriteTime="3/2/2011 9:43:30 PM" />
   <file source="c:\Program Files\Microsoft SDKs\Expression\Blend\Windows Phone\v7.0\Libraries\System.Windows.Interactivity.dll" archivePath="System.Windows.Interactivity.dll" lastWriteTime="9/1/2010 1:41:46 AM" />
-  <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\ServiceReferences.ClientConfig" archivePath="ServiceReferences.ClientConfig" lastWriteTime="5/3/2011 1:49:52 AM" />
+  <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\ServiceReferences.ClientConfig" archivePath="ServiceReferences.ClientConfig" lastWriteTime="5/5/2011 3:24:17 PM" />
   <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\ApplicationIcon.png" archivePath="ApplicationIcon.png" lastWriteTime="4/17/2011 5:38:22 PM" />
   <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\Background.png" archivePath="Background.png" lastWriteTime="4/17/2011 5:38:22 PM" />
   <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\Images\home.png" archivePath="Images\home.png" lastWriteTime="4/14/2011 1:20:36 PM" />
@@ -17,5 +17,5 @@
   <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\Images\rank.png" archivePath="Images\rank.png" lastWriteTime="4/14/2011 1:20:36 PM" />
   <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\Images\setting.png" archivePath="Images\setting.png" lastWriteTime="4/14/2011 1:20:36 PM" />
   <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\SplashScreenImage.jpg" archivePath="SplashScreenImage.jpg" lastWriteTime="4/14/2011 1:20:36 PM" />
-  <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="5/3/2011 9:36:44 PM" />
+  <file source="C:\Users\Lu Li\Documents\cs210\MyScience\Begin\MyScience\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="5/5/2011 3:00:22 PM" />
 </xapCache>

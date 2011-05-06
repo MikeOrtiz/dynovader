@@ -106,17 +106,31 @@ namespace MyScience
                 }
                 else
                 {
+                //String txtDirectory = "MyScience/Submissions/"+App.currentUser.ID+"/";
+                //using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+                //{
+                //    if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
+
+                //    String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
+                //    foreach (String txtfile in txtfiles)
+                //    {
+                //        myIsolatedStorage.DeleteFile(txtDirectory + txtfile);
+                //    }
+                //}
                     loadProjectPage();
-                    MainListBox.ItemsSource = App.applist;
+                    if(App.applist != null && App.applist.Count != 0) MainListBox.ItemsSource = App.applist;
                     loadTopScorers();
-                    HallOfFameBox.ItemsSource = App.topscorerslist;
+                    if(App.topscorerslist != null && App.topscorerslist.Count != 0) HallOfFameBox.ItemsSource = App.topscorerslist;
                     loadUserProfilePic();
                     userName.Text = App.currentUser.Name;
                     score.Text = "Score: " + App.currentUser.Score.ToString();
-                    scientistLevel.Text = App.currentUser.Score < 5 ? "Newb" : "Aspiring Scientist";
+                    scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
                     List<Submission> submissions = loadCachedSubmission();
-                    SubmissionListBox.ItemsSource = submissions;
-                    PictureWall.ItemsSource = submissions;
+                    if (submissions.Count != 0)
+                    {
+                        SubmissionListBox.ItemsSource = submissions;
+                        PictureWall.ItemsSource = submissions;
+                    }
                     loadToBeSubmitPage();
                 }
             }
@@ -133,19 +147,19 @@ namespace MyScience
                 {
                     IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
                     StreamWriter writeFile;
-
-                    if (!myIsolatedStorage.DirectoryExists("MyScience/Submissions"))
+                    String txtDirectory = "MyScience/Submissions/" + App.currentUser.ID;
+                    if (!myIsolatedStorage.DirectoryExists(txtDirectory))
                     {
-                        myIsolatedStorage.CreateDirectory("MyScience/Submissions");
+                        myIsolatedStorage.CreateDirectory(txtDirectory);
                     }
                     foreach (Submission submn in submissions)
                     {
-                        String filename = submn.ImageName.Substring(submn.ImageName.LastIndexOf('/') + 1);
-                        if (myIsolatedStorage.FileExists("MyScience/Submissions/" + filename + ".txt"))
+                        String filename = submn.LowResImageName.Substring(submn.LowResImageName.LastIndexOf('/') + 1);
+                        if (myIsolatedStorage.FileExists(txtDirectory+"/" + filename + ".txt"))
                         {
-                            myIsolatedStorage.DeleteFile("MyScience/Submissions/" + filename + ".txt");
+                            myIsolatedStorage.DeleteFile(txtDirectory+"/"+ filename + ".txt");
                         }
-                        writeFile = new StreamWriter(new IsolatedStorageFileStream("MyScience/Submissions/" + filename + ".txt", FileMode.CreateNew, myIsolatedStorage));
+                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory+"/" + filename + ".txt", FileMode.CreateNew, myIsolatedStorage));
                         writeFile.WriteLine(submn.ProjectID);
                         writeFile.WriteLine(submn.ProjectName);
                         writeFile.WriteLine(submn.Data);
@@ -332,7 +346,7 @@ namespace MyScience
         /* Load all the submissions that haven't been uploaded yet */
         private void loadToBeSubmit()
         {
-            String txtDirectory = "MyScience/ToBeSubmit/";
+            String txtDirectory = "MyScience/ToBeSubmit/"+App.currentUser.ID+"/";
             loadSubmission(txtDirectory, App.toBeSubmit);
         }
 
@@ -460,7 +474,7 @@ namespace MyScience
                         submn.Data = reader.ReadLine();
                         submn.Location = reader.ReadLine();
                         submn.Time = Convert.ToDateTime(reader.ReadLine());
-                        submn.ImageName = reader.ReadLine();
+                        submn.LowResImageName = reader.ReadLine();
                         sublist.Add(submn);
                     }
                 }
@@ -469,7 +483,7 @@ namespace MyScience
 
         private List<Submission> loadCachedSubmission()
         {
-            String txtDirectory = "MyScience/Submissions/";
+            String txtDirectory = "MyScience/Submissions/"+App.currentUser.ID+"/";
             List<Submission> sublist = new List<Submission>();
             loadSubmission(txtDirectory, sublist);
             return sublist;
