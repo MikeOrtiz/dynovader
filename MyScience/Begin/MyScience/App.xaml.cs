@@ -32,7 +32,7 @@ namespace MyScience
         public static User currentUser = null;
         public static List<Submission> toBeSubmit = new List<Submission>();
         public static int currentSubmissionIndex;
-        public static bool firstAccess = true;
+        public static bool firstAccess = true; //repurposing it in general to refresh the main page, i.e. for when a new submission goes through, etc
 
 
         /// <summary>

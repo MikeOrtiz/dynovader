@@ -32,6 +32,7 @@ namespace MyScience
         private double lat;
         private double lng;
         private TextBlock LatBlock, LngBlock;
+        Popup submissionStatMsg;
 
         public DetailsPage()
         {
@@ -39,6 +40,7 @@ namespace MyScience
             OnLoaded();
             LatBlock = new TextBlock();
             LngBlock = new TextBlock();
+            submissionStatMsg = new Popup();
         }
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
@@ -170,6 +172,9 @@ namespace MyScience
                     mapCenter = new GeoCoordinate(lat, lng);
                 }
                 map1.SetView(mapCenter, zoom);
+
+                //Last to be added to Dynamic Panel
+                DynamicPanel.Children.Add(submissionStatMsg);
             }
         }
 
@@ -217,12 +222,13 @@ namespace MyScience
                 image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
                 fileStream.Close();
 
-                Popup messagePopup = new Popup();
+                //Popup messagePopup = new Popup();
+                //if (submissionStatMsg == null)
                 TextBlock message = new TextBlock();
                 message.Text = "Image Saved!\n";
-                messagePopup.Child = message;
-                messagePopup.IsOpen = true;
-                DynamicPanel.Children.Add(messagePopup);
+                submissionStatMsg.Child = message;
+                submissionStatMsg.IsOpen = true;
+                //DynamicPanel.Children.Add(submissionStatMsg);
             }
             catch (Exception ex)
             {
@@ -399,12 +405,17 @@ namespace MyScience
             }
             else
             {
-                Popup messagePopup = new Popup();
+                //Popup messagePopup = new Popup();
+                //TextBlock message = new TextBlock();
+                //message.Text = "Oops, forgot to submit a pic!\n";
+                //messagePopup.Child = message;
+                //messagePopup.IsOpen = true;
+                //DynamicPanel.Children.Add(messagePopup);
+                
                 TextBlock message = new TextBlock();
                 message.Text = "Oops, forgot to submit a pic!\n";
-                messagePopup.Child = message;
-                messagePopup.IsOpen = true;
-                DynamicPanel.Children.Add(messagePopup);
+                submissionStatMsg.Child = message;
+                submissionStatMsg.IsOpen = true;
                 return null;
             }
         }
@@ -432,12 +443,11 @@ namespace MyScience
             }
             else
             {
-                Popup messagePopup = new Popup();
                 TextBlock message = new TextBlock();
                 message.Text = "Oops, forgot to submit a pic!\n";
-                messagePopup.Child = message;
-                messagePopup.IsOpen = true;
-                DynamicPanel.Children.Add(messagePopup);
+                submissionStatMsg.Child = message;
+                submissionStatMsg.IsOpen = true;
+                //DynamicPanel.Children.Add(submissionStatMsg);
             }
             //client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
         } 
@@ -445,12 +455,13 @@ namespace MyScience
         void client_SubmitDataCompleted(object sender, SubmitDataCompletedEventArgs e)
         {
             String url = e.Result.ToString();
-            Popup messagePopup = new Popup();
+            //Popup messagePopup = new Popup();
             TextBlock message = new TextBlock();
             message.Text = "Congratulation! Data Submitted Successfully!\n";
-            messagePopup.Child = message;
-            messagePopup.IsOpen = true;
-            DynamicPanel.Children.Add(messagePopup);
+            submissionStatMsg.Child = message;
+            submissionStatMsg.IsOpen = true;
+            //DynamicPanel.Children.Add(messagePopup);
+            App.firstAccess = true;
             //throw new NotImplementedException();
         }
 
