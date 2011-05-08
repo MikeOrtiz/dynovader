@@ -317,7 +317,6 @@ namespace MyScience
                         //photo.Source = image;
                         pin.Content =photo;
                         map1.Children.Add(pin);
-                       
                     }
                 }
                 map1.SetView(LocationRect.CreateLocationRect(datapoints));
@@ -405,13 +404,6 @@ namespace MyScience
             }
             else
             {
-                //Popup messagePopup = new Popup();
-                //TextBlock message = new TextBlock();
-                //message.Text = "Oops, forgot to submit a pic!\n";
-                //messagePopup.Child = message;
-                //messagePopup.IsOpen = true;
-                //DynamicPanel.Children.Add(messagePopup);
-                
                 TextBlock message = new TextBlock();
                 message.Text = "Oops, forgot to submit a pic!\n";
                 submissionStatMsg.Child = message;

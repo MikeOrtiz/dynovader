@@ -109,7 +109,7 @@ namespace MyScience
         void uploadButton_Click(object sender, RoutedEventArgs e)
         {
             String filename = App.toBeSubmit[App.currentSubmissionIndex].ImageName + ".jpg";
-            WriteableBitmap image = new WriteableBitmap(1000, 1000);
+            WriteableBitmap image = new WriteableBitmap(2560, 1920);
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("MyScience/Images/" + filename, FileMode.Open, FileAccess.Read))
@@ -121,6 +121,13 @@ namespace MyScience
             image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
             byte[] imageData = ms.ToArray();
             App.toBeSubmit[App.currentSubmissionIndex].ImageData = imageData;
+
+            //Low Res Pic submission 
+            MemoryStream lowresms = new MemoryStream();
+            image.SaveJpeg(lowresms, 80, 60, 0, 80);
+            byte[] lowResImageData = lowresms.ToArray();
+            App.toBeSubmit[App.currentSubmissionIndex].LowResImageData = lowResImageData;
+
             Service1Client client = new Service1Client();
             client.SubmitDataCompleted += new EventHandler<SubmitDataCompletedEventArgs>(client_SubmitDataCompleted);
             client.SubmitDataAsync(App.toBeSubmit[App.currentSubmissionIndex]);
@@ -136,6 +143,7 @@ namespace MyScience
                 myIsolatedStorage.DeleteFile("MyScience/Images/" + imageFileName);
             }
             App.toBeSubmit.RemoveAt(App.currentSubmissionIndex);
+            App.firstAccess = true;
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
             
             //String url = e.Result.ToString();
