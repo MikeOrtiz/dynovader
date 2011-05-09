@@ -346,7 +346,7 @@ namespace MyScience
         /* Load all the submissions that haven't been uploaded yet */
         private void loadToBeSubmit()
         {
-            String txtDirectory = "MyScience/ToBeSubmit/"+App.currentUser.ID+"/";
+            String txtDirectory = "MyScience/ToBeSubmit/"+App.currentUser.ID;
             loadSubmission(txtDirectory, App.toBeSubmit); //TODO might be bug, since persistence across sessions does not happen
         }
 
@@ -460,6 +460,7 @@ namespace MyScience
             {
                 if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
 
+                txtDirectory += "/";
                 String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
                 foreach (String txtfile in txtfiles)
                 {
@@ -484,7 +485,7 @@ namespace MyScience
 
         private List<Submission> loadCachedSubmission()
         {
-            String txtDirectory = "MyScience/Submissions/"+App.currentUser.ID+"/";
+            String txtDirectory = "MyScience/Submissions/"+App.currentUser.ID;
             List<Submission> sublist = new List<Submission>();
             loadSubmission(txtDirectory, sublist);
             return sublist;

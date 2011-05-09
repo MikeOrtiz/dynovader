@@ -188,21 +188,22 @@ namespace MyScience
             App.toBeSubmit.Add(newsubmission);
             Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
             WriteableBitmap image = (WriteableBitmap)photo.Source;
-
+            String txtDirectory = "MyScience/ToBeSubmit/" + App.currentUser.ID;
             try
             {
                 IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
                 StreamWriter writeFile;
 
-                if (!myIsolatedStorage.DirectoryExists("MyScience/ToBeSubmit"))
+                if (!myIsolatedStorage.DirectoryExists(txtDirectory))
                 {
-                    myIsolatedStorage.CreateDirectory("MyScience/ToBeSubmit");
+                    myIsolatedStorage.CreateDirectory(txtDirectory);
                 }
-                if (myIsolatedStorage.FileExists("MyScience/ToBeSubmit/"+newsubmission.ImageName + ".txt"))
+                txtDirectory += "/";
+                if (myIsolatedStorage.FileExists(txtDirectory+newsubmission.ImageName + ".txt"))
                 {
-                    myIsolatedStorage.DeleteFile("MyScience/ToBeSubmit/"+newsubmission.ImageName + ".txt");
+                    myIsolatedStorage.DeleteFile(txtDirectory+newsubmission.ImageName + ".txt");
                 }
-                writeFile = new StreamWriter(new IsolatedStorageFileStream("MyScience/ToBeSubmit/"+ newsubmission.ImageName+".txt", FileMode.CreateNew, myIsolatedStorage));
+                writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory+ newsubmission.ImageName+".txt", FileMode.CreateNew, myIsolatedStorage));
                 writeFile.WriteLine(newsubmission.ProjectID);
                 writeFile.WriteLine(newsubmission.ProjectName);
                 writeFile.WriteLine(newsubmission.Data);
