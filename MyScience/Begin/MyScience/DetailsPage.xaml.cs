@@ -32,7 +32,7 @@ namespace MyScience
         private double lat;
         private double lng;
         private TextBlock LatBlock, LngBlock;
-        Popup submissionStatMsg;
+        private Popup submissionStatMsg;
 
         public DetailsPage()
         {
@@ -147,6 +147,8 @@ namespace MyScience
                 var newButton = new Button { Name = "SubmitButton", Content = "Submit" };
                 newButton.Click += new RoutedEventHandler(newButton_Click);
                 DynamicPanel.Children.Add(newButton);
+                if (!NetworkInterface.GetIsNetworkAvailable())
+                    newButton.IsEnabled = false;
 
                 if (NetworkInterface.GetIsNetworkAvailable())
                 {

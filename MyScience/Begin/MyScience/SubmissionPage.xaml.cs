@@ -24,17 +24,19 @@ namespace MyScience
 {
     public partial class SubmissionPage : PhoneApplicationPage
     {
+        private Popup messagePopup;
         public SubmissionPage()
         {
             InitializeComponent();
+            messagePopup = new Popup();
         }
 
         private void SubmissionPage_Loaded(object sender, RoutedEventArgs e)
         {
             if (NavigationContext.QueryString.ContainsKey("selectedItem"))
             {
-                
                 App.currentSubmissionIndex = Convert.ToInt32(NavigationContext.QueryString["selectedItem"]);
+                //if (App.currentSubmissionIndex >= App.toBeSubmit.Count()); TODO problem
                 Submission currentSub = App.toBeSubmit[App.currentSubmissionIndex];
                 PageTitle.Text = currentSub.ProjectName;
                 String filename = currentSub.ImageName + ".jpg";
@@ -101,6 +103,9 @@ namespace MyScience
                 DynamicPanel.Children.Add(uploadButton);
                 if (!NetworkInterface.GetIsNetworkAvailable())
                     uploadButton.IsEnabled = false;
+
+                //Add status message last:
+                DynamicPanel.Children.Add(messagePopup);
             }
 
 
@@ -144,16 +149,13 @@ namespace MyScience
             }
             App.toBeSubmit.RemoveAt(App.currentSubmissionIndex);
             App.firstAccess = true;
-            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
             
-            //String url = e.Result.ToString();
-            //Popup messagePopup = new Popup();
-            //TextBlock message = new TextBlock();
-            //message.Text = "Congratulation! Data Submitted Successfully!\n" + url;
-            //messagePopup.Child = message;
-            //messagePopup.IsOpen = true;
-            //DynamicPanel.Children.Add(messagePopup);
-            
+            String url = e.Result.ToString();
+            TextBlock message = new TextBlock();
+            message.Text = "Congratulation! Data Submitted Successfully!\n" + url;
+            messagePopup.Child = message;
+            messagePopup.IsOpen = true;
         }
 
         /*parsing Json to get fields required*/

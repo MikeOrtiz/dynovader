@@ -165,10 +165,10 @@ namespace MyScience
                         writeFile.WriteLine(submn.Data);
                         writeFile.WriteLine(submn.Location);
                         writeFile.WriteLine(submn.Time);
+                        writeFile.WriteLine(submn.ImageName);
+                        writeFile.WriteLine(submn.LowResImageName);
                         writeFile.WriteLine(filename);
                         writeFile.Close();
-
-                       
                     }
                 }
                 catch (Exception ex)
@@ -474,6 +474,7 @@ namespace MyScience
                         submn.Data = reader.ReadLine();
                         submn.Location = reader.ReadLine();
                         submn.Time = Convert.ToDateTime(reader.ReadLine());
+                        submn.ImageName = reader.ReadLine();
                         submn.LowResImageName = reader.ReadLine();
                         sublist.Add(submn);
                     }
