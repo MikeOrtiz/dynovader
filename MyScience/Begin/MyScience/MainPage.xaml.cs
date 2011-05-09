@@ -49,18 +49,18 @@ namespace MyScience
             MainListBox.SelectedIndex = -1;
         }
 
-        private void ProjectListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // If selected index is -1 (no selection) do nothing
-            if (ProjectListBox.SelectedIndex == -1)
-                return;
+        //private void ProjectListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    // If selected index is -1 (no selection) do nothing
+        //    if (ProjectListBox.SelectedIndex == -1)
+        //        return;
 
-            // Navigate to the new page
-            NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + ProjectListBox.SelectedIndex, UriKind.Relative));
+        //    // Navigate to the new page
+        //    NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + ProjectListBox.SelectedIndex, UriKind.Relative));
 
-            // Reset selected index to -1 (no selection)
-            ProjectListBox.SelectedIndex = -1;
-        }
+        //    // Reset selected index to -1 (no selection)
+        //    ProjectListBox.SelectedIndex = -1;
+        //}
 
         private void ToBeSubmitBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -126,8 +126,9 @@ namespace MyScience
                     score.Text = "Score: " + App.currentUser.Score.ToString();
                     scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
                     List<Submission> submissions = loadCachedSubmission();
+                    SubmissionListBox.ItemsSource = null;
                     if (submissions.Count != 0)
-                    {
+                    {                  
                         SubmissionListBox.ItemsSource = submissions;
                         PictureWall.ItemsSource = submissions;
                     }
@@ -169,6 +170,9 @@ namespace MyScience
                         writeFile.WriteLine(submn.LowResImageName);
                         writeFile.WriteLine(filename);
                         writeFile.Close();
+
+                       
+
                     }
                 }
                 catch (Exception ex)
@@ -293,16 +297,19 @@ namespace MyScience
 
         private void userPic_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (e != null)
+            if (NetworkInterface.GetIsNetworkAvailable())
             {
-                var photoChooserTask = new PhotoChooserTask();
-                photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
-                try
+                if (e != null)
                 {
-                    photoChooserTask.Show();
-                }
-                catch (Exception ex)
-                {
+                    var photoChooserTask = new PhotoChooserTask();
+                    photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+                    try
+                    {
+                        photoChooserTask.Show();
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                 }
             }
         }
@@ -311,6 +318,7 @@ namespace MyScience
         {
             if (e.TaskResult == TaskResult.OK)
             {
+                App.firstAccess = true;
                 WriteableBitmap image = new WriteableBitmap(160, 120);
                 image.LoadJpeg(e.ChosenPhoto);
                 userPic.Source = image;
@@ -414,6 +422,8 @@ namespace MyScience
             BitmapImage image = new BitmapImage();
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
+                if(!myIsolatedStorage.FileExists("MyScience/Images/" + filename)) return;
+
 
                 using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("MyScience/Images/" + filename, FileMode.Open, FileAccess.Read))
                 {
@@ -426,21 +436,8 @@ namespace MyScience
 
         private void Image_Opened(object sender, RoutedEventArgs e)
         {
-            var bw = new BackgroundWorker();
-            bw.DoWork += (s, a) =>
-            {
-                 if (!NetworkInterface.GetIsNetworkAvailable()) return;
-            Image image = sender as Image;
-
-            Dispatch(image);
-            };
-            bw.RunWorkerAsync();
-        }
-
-        private void Dispatch(Image image) {
-            
-            Dispatcher.BeginInvoke(() => {
-                String filename = image.Name.Substring(image.Name.LastIndexOf('/') + 1);
+            var image = sender as Image;
+            String filename = image.Name.Substring(image.Name.LastIndexOf('/') + 1);
             IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
             if (!myIsolatedStorage.DirectoryExists("MyScience/Images"))
             {
@@ -455,8 +452,9 @@ namespace MyScience
             IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + filename + ".jpg");
             photo.SaveJpeg(fileStream, photo.PixelWidth, photo.PixelHeight, 0, 100);
             fileStream.Close();
-            });
         }
+
+      
         
 
         private void loadSubmission(String txtDirectory, List<Submission> sublist)

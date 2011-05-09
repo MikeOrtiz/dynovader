@@ -182,10 +182,10 @@ namespace MyScience
 
         void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            var saveButton = DynamicPanel.Children.OfType<Button>().First() as Button;
-            var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
-            saveButton.IsEnabled = false;
-            submitButton.IsEnabled = false;
+            //var saveButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            //var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
+            //saveButton.IsEnabled = false;
+            //submitButton.IsEnabled = false;
             Submission newsubmission = getSubmission();
             
             if (newsubmission == null) return;
@@ -238,8 +238,8 @@ namespace MyScience
                 submissionStatMsg.IsOpen = true;
                 //DynamicPanel.Children.Add(submissionStatMsg);
                
-                saveButton.IsEnabled = true;
-                submitButton.IsEnabled = true;
+                //saveButton.IsEnabled = true;
+                //submitButton.IsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -426,8 +426,13 @@ namespace MyScience
 
         void newButton_Click(object sender, RoutedEventArgs e)
         {
-            var saveButton = DynamicPanel.Children.OfType<Button>().First() as Button;
-            var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
+            var takePhotoButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            var choosePhotoButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
+            var saveButton = DynamicPanel.Children.OfType<Button>().ElementAt(2) as Button;
+            var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(3) as Button;
+
+            takePhotoButton.IsEnabled = false;
+            choosePhotoButton.IsEnabled = false;
             saveButton.IsEnabled = false;
             submitButton.IsEnabled = false;
             Submission newsubmission = getSubmission();
@@ -451,6 +456,10 @@ namespace MyScience
             }
             else
             {
+                takePhotoButton.IsEnabled = true;
+                choosePhotoButton.IsEnabled = true;
+                saveButton.IsEnabled = true;
+                submitButton.IsEnabled = true;
                 TextBlock message = new TextBlock();
                 message.Text = "Oops, forgot to submit a pic!\n";
                 submissionStatMsg.Child = message;
@@ -462,8 +471,12 @@ namespace MyScience
 
         void client_SubmitDataCompleted(object sender, SubmitDataCompletedEventArgs e)
         {
-            var saveButton = DynamicPanel.Children.OfType<Button>().First() as Button;
-            var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
+            var takePhotoButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            var choosePhotoButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
+            var saveButton = DynamicPanel.Children.OfType<Button>().ElementAt(2) as Button;
+            var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(3) as Button;
+            takePhotoButton.IsEnabled = true;
+            choosePhotoButton.IsEnabled = true;
             saveButton.IsEnabled = true;
             submitButton.IsEnabled = true;
             String url = e.Result.ToString();
