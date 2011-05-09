@@ -113,6 +113,8 @@ namespace MyScience
 
         void uploadButton_Click(object sender, RoutedEventArgs e)
         {
+            var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            uploadButton.IsEnabled = false;
             String filename = App.toBeSubmit[App.currentSubmissionIndex].ImageName + ".jpg";
             WriteableBitmap image = new WriteableBitmap(2560, 1920);
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
@@ -153,9 +155,11 @@ namespace MyScience
             
             String url = e.Result.ToString();
             TextBlock message = new TextBlock();
-            message.Text = "Congratulation! Data Submitted Successfully!\n" + url;
+            message.Text = "Congratulation! Data Submitted Successfully!\n";
             messagePopup.Child = message;
             messagePopup.IsOpen = true;
+            var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            uploadButton.IsEnabled = true;
         }
 
         /*parsing Json to get fields required*/

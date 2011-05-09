@@ -182,6 +182,10 @@ namespace MyScience
 
         void saveButton_Click(object sender, RoutedEventArgs e)
         {
+            var saveButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
+            saveButton.IsEnabled = false;
+            submitButton.IsEnabled = false;
             Submission newsubmission = getSubmission();
             
             if (newsubmission == null) return;
@@ -233,6 +237,9 @@ namespace MyScience
                 submissionStatMsg.Child = message;
                 submissionStatMsg.IsOpen = true;
                 //DynamicPanel.Children.Add(submissionStatMsg);
+               
+                saveButton.IsEnabled = true;
+                submitButton.IsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -419,6 +426,10 @@ namespace MyScience
 
         void newButton_Click(object sender, RoutedEventArgs e)
         {
+            var saveButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
+            saveButton.IsEnabled = false;
+            submitButton.IsEnabled = false;
             Submission newsubmission = getSubmission();
             if(newsubmission != null) {
                 Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
@@ -451,6 +462,10 @@ namespace MyScience
 
         void client_SubmitDataCompleted(object sender, SubmitDataCompletedEventArgs e)
         {
+            var saveButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
+            saveButton.IsEnabled = true;
+            submitButton.IsEnabled = true;
             String url = e.Result.ToString();
             //Popup messagePopup = new Popup();
             TextBlock message = new TextBlock();

@@ -342,6 +342,10 @@ namespace MyScience
                 ToBeSubmitBox.ItemsSource = App.toBeSubmit;
                 ToBeSubmitBox.Visibility = System.Windows.Visibility.Visible;
             }
+            else
+            {
+                ToBeSubmitBox.ItemsSource = null;
+            }
         }
 
         /* Load all the submissions that haven't been uploaded yet */
