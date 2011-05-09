@@ -125,7 +125,6 @@ function morePicture() {
 	moreFields('pictureroot');
 }
 
-
 function moreFields(qtype) {
 	counter++;
 	var newFields = document.getElementById(qtype).cloneNode(true);
@@ -146,8 +145,14 @@ function starterFields() {
 	moreCheck();
 }
 
-
 window.onload = starterFields;
+
+//Updates Apptitle on phone on keypress
+function updateTitle(){
+	var userInput = document.getElementById('titleinput').value;
+	document.getElementById('apptitle').innerHTML = userInput;
+}
+
    
 </script>
 <style type="text/css" media="screen">
@@ -197,6 +202,7 @@ float: left;
 	color: #333
 	text-align:left;
 	font-size: 11px;
+	height: 12px;
 }
 
 .content{
@@ -209,7 +215,7 @@ float: left;
 }
 
 #dragcontent{
-	height: 374px;
+	height: 386px;
 	width: 280px;
 	overflow-y: scroll;
 }
@@ -263,7 +269,7 @@ body{
 
 .blend
 {
-	border:solid 2px white;
+	border-style: none;
 }
 
 .remove
@@ -323,7 +329,7 @@ body{
 	<img src="phone.png"/></img>
 	<form method="POST" action="admin.php">	
 		<div class="phone_content">
-			<input class="blend" id="apptitle" name="apptitle" size="30" value="Enter App Title Here">
+			<div id="apptitle" name="apptitle" size="30" value="Enter App Title Here"></div>
 			<div id="menubar">
 				<span class="gray">Submission</span> Da
 			</div>
@@ -337,6 +343,9 @@ body{
 	
 		<div class="moveleft">
 			<h1>Launch a Project</h1>
+			<span class="columnleft">App Title: </span><span class="columnright">
+				<input type="text" name="apptitle" id="titleinput" onkeyup="updateTitle()"/>
+			</span><br/>
 			<span class="columnleft">Description: </span><span class="columnright"><input type="text" name="description"/></span><br/>
 			<span class="columnleft">Coordinator Name: </span><span class="columnright"><input type="text" name="coordname"/></span><br/>
 			<span class="columnleft">Coordinator Email: </span><span class="columnright"><input type="text" name="coordemail"/></span><br/>
@@ -355,8 +364,7 @@ body{
 			<input type="button" value="Radio Question" onclick="moreRadio()"/> <br />
 			<!--<input type="button" value="Add Picture Capture" onclick="morePicture()"/> <br /><br />-->
 			<br />
-			<input type="submit" value="Submit App!" />
-			<br /><br />
+			<input type="submit" value="Submit App!" />	
 			<h3>Instructions:</h3>
 			<ol>
 				<li>Add Application Title to Phone</li>
@@ -364,7 +372,8 @@ body{
 				<li>Add and remove questions with buttons above</li>
 				<li>Edit questions and options directly on phone</li>
 				<li>Press Submit App!</li>
-			</ol>		
+			</ol>	
+			<br /><br />
 		</div>
 	</form>
 </div>
@@ -377,7 +386,7 @@ body{
 	<span class="remove">
 		<input type="button" value="x" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" />
 	</span><br />
-	<input name="texta" value="User answers here.">
+	<input name="texta" disabled="disabled" value="User answers here.">
 </div>
 
 <div id="checkroot" style="display: none">
@@ -385,10 +394,10 @@ body{
 	<span class="remove">
 		<input type="button" value="x" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" />
 	</span><br />
-	<input type="checkbox" name="check1"/> <input class="blend" name="checkA1" size="30" maxlength="35" value="Enter check option 1."><br />
-	<input type="checkbox" name="check2"/> <input class="blend" name="checkA2" size="30" maxlength="35" value="Enter check option 2."><br />
-	<input type="checkbox" name="check3"/> <input class="blend" name="checkA3" size="30" maxlength="35" value="Enter check option 3."><br />
-	<input type="checkbox" name="check4"/> <input class="blend" name="checkA4" size="30" maxlength="35" value="Enter check option 4."><br />
+	<input type="checkbox" name="check1" disabled="disabled"/> <input class="blend" name="checkA1" size="29" maxlength="35" value="Enter check option 1."><br />
+	<input type="checkbox" name="check2" disabled="disabled"/> <input class="blend" name="checkA2" size="30" maxlength="35" value="Enter check option 2."><br />
+	<input type="checkbox" name="check3" disabled="disabled"/> <input class="blend" name="checkA3" size="30" maxlength="35" value="Enter check option 3."><br />
+	<input type="checkbox" name="check4" disabled="disabled"/> <input class="blend" name="checkA4" size="30" maxlength="35" value="Enter check option 4."><br />
 </div>
  
 <div id="radioroot" style="display: none">
@@ -396,10 +405,10 @@ body{
 	<span class="remove">
 		<input type="button" value="x" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" />
 	</span><br />
-	<input type="radio" name="radio1"/> <input class="blend" name="radioA1" size="30" maxlength="35" value="Enter radio option 1."><br />
-	<input type="radio" name="radio2"/> <input class="blend" name="radioA2" size="30" maxlength="35" value="Enter radio option 2."><br />
-	<input type="radio" name="radio3"/> <input class="blend" name="radioA3" size="30" maxlength="35" value="Enter radio option 3."><br />
-	<input type="radio" name="radio4"/> <input class="blend" name="radioA4" size="30" maxlength="35" value="Enter radio option 4."><br />
+	<input type="radio" name="radio1" disabled="disabled"/> <input class="blend" name="radioA1" size="29" maxlength="35" value="Enter radio option 1."><br />
+	<input type="radio" name="radio2" disabled="disabled"/> <input class="blend" name="radioA2" size="30" maxlength="35" value="Enter radio option 2."><br />
+	<input type="radio" name="radio3" disabled="disabled"/> <input class="blend" name="radioA3" size="30" maxlength="35" value="Enter radio option 3."><br />
+	<input type="radio" name="radio4" disabled="disabled"/> <input class="blend" name="radioA4" size="30" maxlength="35" value="Enter radio option 4."><br />
 </div>
 
 <div id="pictureroot" style="display: none">
