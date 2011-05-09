@@ -462,6 +462,7 @@ namespace MyScience
 
                 txtDirectory += "/";
                 String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
+                sublist.Clear();
                 foreach (String txtfile in txtfiles)
                 {
                     var fileStream = myIsolatedStorage.OpenFile(txtDirectory + txtfile, FileMode.Open, FileAccess.Read);

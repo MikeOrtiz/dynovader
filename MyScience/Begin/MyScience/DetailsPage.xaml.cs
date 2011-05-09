@@ -185,7 +185,7 @@ namespace MyScience
             Submission newsubmission = getSubmission();
             
             if (newsubmission == null) return;
-            App.toBeSubmit.Add(newsubmission);
+            //App.toBeSubmit.Add(newsubmission);
             Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
             WriteableBitmap image = (WriteableBitmap)photo.Source;
             String txtDirectory = "MyScience/ToBeSubmit/" + App.currentUser.ID;
@@ -210,6 +210,7 @@ namespace MyScience
                 writeFile.WriteLine(newsubmission.Location);
                 writeFile.WriteLine(newsubmission.Time);
                 writeFile.WriteLine(newsubmission.ImageName);
+                writeFile.WriteLine(newsubmission.LowResImageName);
                 writeFile.Close();
 
                 if(!myIsolatedStorage.DirectoryExists("MyScience/Images"))
@@ -401,7 +402,8 @@ namespace MyScience
                     Data = data,
                     Location = lat.ToString() + "," + lng.ToString(),
                     Time = time,
-                    ImageName = App.currentUser.ID.ToString() + "-" + time.ToFileTime().ToString()
+                    ImageName = App.currentUser.ID.ToString() + "-" + time.ToFileTime().ToString(),
+                    LowResImageName = App.currentUser.ID.ToString() + "-" + time.ToFileTime().ToString()
                 };
                 return newsubmission;
             }

@@ -144,10 +144,10 @@ namespace MyScience
             String imageFileName = App.toBeSubmit[App.currentSubmissionIndex].ImageName + ".jpg";
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                myIsolatedStorage.DeleteFile("MyScience/ToBeSubmit/" + txtFileName);
-                myIsolatedStorage.DeleteFile("MyScience/Images/" + imageFileName);
+                myIsolatedStorage.DeleteFile("MyScience/ToBeSubmit/"+App.currentUser.ID+"/" + txtFileName);
+                myIsolatedStorage.DeleteFile("MyScience/Images/" +imageFileName);
             }
-            App.toBeSubmit.RemoveAt(App.currentSubmissionIndex);
+            //App.toBeSubmit.RemoveAt(App.currentSubmissionIndex);
             App.firstAccess = true;
             //NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
             
