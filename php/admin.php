@@ -64,17 +64,23 @@ if(isset($_POST['coordname']))
 			$values .= "]";
 			$query = "INSERT INTO projects(name, description, owner, form) VALUES('".$_POST['apptitle']."','".$_POST['description']."',$coordid,'".$values."')";
 			$result = sqlsrv_query($conn, $query);
-			//echo $query;
-			echo "Your project <i>".$_POST['apptitle']."</i> was added successfully!";
+			echo "Your project <i>".$_POST['apptitle']."</i> was added successfully! It is currently under review.";
 		}
 	}
 	
 }
 ?>
-<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en:us'> 
+<!DOCTYPE HTML>
+<html>
 <head>
-<script language="JavaScript" type="text/javascript" src="http://code.jquery.com/jquery-1.5.2.js"></script>
-<script type="text/javascript">
+<link rel="stylesheet" href="http://jqueryui.com/themes/base/jquery.ui.all.css"> 
+<script src="http://code.jquery.com/jquery-1.6.min.js"></script> 
+<script src="http://jqueryui.com/ui/jquery.ui.core.js"></script> 
+<script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script> 
+<script src="http://jqueryui.com/ui/jquery.ui.mouse.js"></script> 
+<script src="http://jqueryui.com/ui/jquery.ui.sortable.js"></script> 
+<link rel="stylesheet" href="http://jqueryui.com/demos/demos.css">
+<script>
 $(document).ready(function() {
   $("#text1").change(function() {
     if($("#text1").is(":checked")){
@@ -104,6 +110,11 @@ $(document).ready(function() {
 		$("#text2").attr("disabled","");
 	}
   });
+});
+
+$(function() {
+		$( "#sortable" ).sortable();
+		$( "#sortable" ).disableSelection();
 });
 
 //form extension based off sample code at Quirksmode: http://www.quirksmode.org/dom/domform.html
@@ -176,9 +187,11 @@ float: left;
 	color: #ccc;
 	outline: 0;
 }
+
 .top-menu li a: hover {    
 	color: #000;
 }
+
 .top-menu li.selected a {
 	font-weight: bold; 
 	color: #000;
@@ -289,6 +302,11 @@ body{
 	left: 76px;
 }
 
+.floatright
+{
+	float: right;
+}
+
 #cbutton
 {
 	margin-top: 20px;
@@ -300,7 +318,7 @@ body{
 	position: absolute;
 	width: 295px;
 	right: 400px;
-	bottom: 165px;
+	bottom: 0px;
 }
 
 
@@ -334,10 +352,15 @@ body{
 				<span class="gray">Submission</span> Da
 			</div>
 			<div id="dragcontent">
-				<span id="writeroot"></span>
+				<div id="sortable">
+					<div id="writeroot"></li>
+				</div>
 				<span id="photoalign1"><input type="button" value="Take a Photo"></span><br />
 				<span id="photoalign2"><button type="button">Choose a Photo</button></span>
-				<div id="cbutton"><button type="button">Contribute</button></div>
+				<div id="cbutton">
+					<button type="button">Save Only</button><br />
+					<button type="button">Submit</button>
+				</div>
 			</div> 
 		</div>
 	
@@ -383,18 +406,24 @@ body{
 
 <div id="textroot" style="display: none">
 	<input class="blend" name="textq" size="29" maxlength="35" value="Enter your question here.">
-	<span class="remove">
-		<input type="button" value="x" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" />
+	<span class="floatright">
+		<span class="ui-icon ui-icon-closethick" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" /></span>
 	</span><br />
 	<input name="texta" disabled="disabled" value="User answers here.">
+	<div class="floatright">
+		<span class="ui-icon ui-icon-arrowthick-2-n-s">
+	</div>
 </div>
 
 <div id="checkroot" style="display: none">
 	<input class="blend" name="checkq" size="29" maxlength="35" value="Enter your question here.">
-	<span class="remove">
-		<input type="button" value="x" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" />
+	<span class="floatright">
+		<span class="ui-icon ui-icon-closethick" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" /></span>
 	</span><br />
-	<input type="checkbox" name="check1" disabled="disabled"/> <input class="blend" name="checkA1" size="29" maxlength="35" value="Enter check option 1."><br />
+	<input type="checkbox" name="check1" disabled="disabled"/> <input class="blend" name="checkA1" size="29" maxlength="35" value="Enter check option 1.">
+	<div class="floatright">
+		<span class="ui-icon ui-icon-arrowthick-2-n-s">
+	</div><br />
 	<input type="checkbox" name="check2" disabled="disabled"/> <input class="blend" name="checkA2" size="30" maxlength="35" value="Enter check option 2."><br />
 	<input type="checkbox" name="check3" disabled="disabled"/> <input class="blend" name="checkA3" size="30" maxlength="35" value="Enter check option 3."><br />
 	<input type="checkbox" name="check4" disabled="disabled"/> <input class="blend" name="checkA4" size="30" maxlength="35" value="Enter check option 4."><br />
@@ -402,10 +431,13 @@ body{
  
 <div id="radioroot" style="display: none">
 	<input class="blend" name="checkq" size="29" maxlength="35" value="Enter your question here.">
-	<span class="remove">
-		<input type="button" value="x" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" />
+	<span class="floatright">
+		<span class="ui-icon ui-icon-closethick" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" /></span>
 	</span><br />
-	<input type="radio" name="radio1" disabled="disabled"/> <input class="blend" name="radioA1" size="29" maxlength="35" value="Enter radio option 1."><br />
+	<input type="radio" name="radio1" disabled="disabled"/> <input class="blend" name="radioA1" size="29" maxlength="35" value="Enter radio option 1.">
+	<div class="floatright">
+		<span class="ui-icon ui-icon-arrowthick-2-n-s">
+	</div><br />
 	<input type="radio" name="radio2" disabled="disabled"/> <input class="blend" name="radioA2" size="30" maxlength="35" value="Enter radio option 2."><br />
 	<input type="radio" name="radio3" disabled="disabled"/> <input class="blend" name="radioA3" size="30" maxlength="35" value="Enter radio option 3."><br />
 	<input type="radio" name="radio4" disabled="disabled"/> <input class="blend" name="radioA4" size="30" maxlength="35" value="Enter radio option 4."><br />
