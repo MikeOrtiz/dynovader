@@ -338,6 +338,7 @@ namespace MyScience
             //ToBeSubmitInfo.Text = App.toBeSubmit.Count.ToString() + " submissions to be uploaded";
             if (App.toBeSubmit.Count != 0)
             {
+                ToBeSubmitBox.ItemsSource = null;
                 ToBeSubmitBox.ItemsSource = App.toBeSubmit;
                 ToBeSubmitBox.Visibility = System.Windows.Visibility.Visible;
             }
