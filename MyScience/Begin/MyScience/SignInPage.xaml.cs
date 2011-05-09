@@ -254,6 +254,5 @@ namespace MyScience
         {
             userNameBox.Text = "";
         }
-
     }
 }

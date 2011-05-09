@@ -17,15 +17,8 @@
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot" Height="1000">
         <controls:Pivot Name ="ProjectPivot">
-
-            <!--Panorama item one-->
-            <controls:PivotItem Header="About">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="InfoPanel" VerticalAlignment="Top" Width="400"></StackPanel>
-                </ScrollViewer>
-            </controls:PivotItem>
             
-            <!--Panorama item two-->
+            <!--Panorama item one-->
             <controls:PivotItem Header="Submission">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" >
                         <StackPanel Height="1500" HorizontalAlignment="Left" Margin="0,6,0,0" Name="DynamicPanel" VerticalAlignment="Top" Width="400" >
@@ -33,10 +26,18 @@
                     </ScrollViewer>
                 </controls:PivotItem>
 
+            <!--Panorama item two-->
             <controls:PivotItem Header="Data">
                 <Grid x:Name="ContentPanel">
                     <my:Map Height="626" HorizontalAlignment="Left" Margin="12,6,0,0" Name="map1" VerticalAlignment="Top" Width="438" CredentialsProvider="Amxt8FQT2902fydA-nj-9kWMB0Fo08H2Z-TFZ7ZxtEuJyEgmwMblyG2KHhqv8H6l" />
                 </Grid>
+            </controls:PivotItem>
+
+            <!--Panorama item three-->
+            <controls:PivotItem Header="About">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="InfoPanel" VerticalAlignment="Top" Width="400"></StackPanel>
+                </ScrollViewer>
             </controls:PivotItem>
 
             <!--controls:PanoramaItem Header="Submission">
