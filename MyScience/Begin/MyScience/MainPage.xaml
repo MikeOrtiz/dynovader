@@ -23,26 +23,26 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
 
         <!--Pivot Control-->
-        <controls:Panorama Title="myScience">
+        <controls:Panorama Title=" " Foreground="#FF181515">
             <controls:Panorama.Background>
-                <ImageBrush ImageSource="Images/sunshine2.jpg"/>
+                <ImageBrush ImageSource="Images/myScienceOrange.png"/>
             </controls:Panorama.Background>
             
             
             <controls:Panorama.TitleTemplate>
                 <DataTemplate>
-                    <TextBlock FontSize="120" Margin="0,50,0,0" Text="myScience" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                    <TextBlock FontSize="120" Margin="0,50,0,0" Text=" " Style="{StaticResource PhoneTextExtraLargeStyle}"/>
                 </DataTemplate>
             </controls:Panorama.TitleTemplate>
 
             <!--Pivot item one-->
-            <controls:PanoramaItem Header="Projects">
-                <ListBox x:Name="MainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="MainListBox_SelectionChanged">
+            <controls:PanoramaItem Header="Projects" Foreground="#FF181515">
+                <ListBox x:Name="MainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17" Width="432">
-                                <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                                <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="#FF181515"/>
+                                <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FF181515"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -56,8 +56,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17" Width="432">
-                                <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                                <TextBlock Text="{Binding Path=Score}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="#FF181515"/>
+                                <TextBlock Text="{Binding Path=Score}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FF181515"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -119,12 +119,12 @@
                                 <Image x:Name="{Binding LowResImageName}" Source="{Binding LowResImageName, Converter= {StaticResource ImageConverter}}" Width="80" Height="80" ImageOpened="Image_Opened"/>
                                 <StackPanel Orientation="Vertical" Height="80">
                                 <StackPanel Orientation="Horizontal" Height="40">
-                                    <TextBlock Width="100" FontSize="22" Text="Project:" Height="40"/>
-                                    <TextBlock Width="200" FontSize="22" Text="{Binding Path=ProjectName}" Height="40" />
+                                    <TextBlock Width="100" FontSize="22" Text="Project:" Height="40" Foreground="#FF181515"/>
+                                    <TextBlock Width="200" FontSize="22" Text="{Binding Path=ProjectName}" Height="40" Foreground="#FF181515"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Height="40">
-                                    <TextBlock Width="100" FontSize="22" Text="Date:" Height="40"/>
-                                    <TextBlock Width="200" FontSize="22" Text="{Binding Path=Time}" Height="40"/>
+                                    <TextBlock Width="100" FontSize="22" Text="Date:" Height="40" Foreground="#FF181515"/>
+                                    <TextBlock Width="200" FontSize="22" Text="{Binding Path=Time}" Height="40" Foreground="#FF181515"/>
                                 </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -157,12 +157,12 @@
                                 <Image Source="{Binding ImageName, Converter= {StaticResource ImageConverter}}" Width="80" Height="80"/>
                                 <StackPanel Orientation="Vertical" Height="80">
                                     <StackPanel Orientation="Horizontal" Height="40">
-                                        <TextBlock Width="100" FontSize="22" Text="Project:" Height="40"/>
-                                        <TextBlock Width="200" FontSize="22" Text="{Binding Path=ProjectName}" Height="40" />
+                                        <TextBlock Width="100" FontSize="22" Text="Project:" Height="40" Foreground="#FF181515"/>
+                                        <TextBlock Width="200" FontSize="22" Text="{Binding Path=ProjectName}" Height="40" Foreground="#FF181515"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Height="40">
-                                        <TextBlock Width="100" FontSize="22" Text="Date:" Height="40"/>
-                                        <TextBlock Width="200" FontSize="22" Text="{Binding Path=Time, Converter= {StaticResource DateConverter}}" Height="40"/>
+                                        <TextBlock Width="100" FontSize="22" Text="Date:" Height="40" Foreground="#FF181515"/>
+                                        <TextBlock Width="200" FontSize="22" Text="{Binding Path=Time, Converter= {StaticResource DateConverter}}" Height="40" Foreground="#FF181515"/>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -173,39 +173,4 @@
             
         </controls:Panorama>
     </Grid>
-    
-    
-    <!--Sample code showing usage of ApplicationBar-->
-    <!--phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton x:Name ="homeButton" IconUri="/Images/home.png" Text="Home" Click="homeButton_Click"/>
-            <shell:ApplicationBarIconButton x:Name ="profileButton" IconUri="/Images/people.png" Text="Profile" Click="profileButton_Click"/>
-            <shell:ApplicationBarIconButton x:Name ="rankButton" IconUri="/Images/rank.png" Text="Rank" Click="rankButton_Click"/>
-            <shell:ApplicationBarIconButton x:Name ="settingsButton" IconUri="/Images/setting.png" Text="Setting" Click="settingsButton_Click"/>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar-->
-    <!--Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions-->
-
-    <!--TitlePanel contains the name of the application and page title-->
-    <!--StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="myScience" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="Projects" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" TextAlignment="Center" />
-        </StackPanel-->
-
-    <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
-    <!--Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ListBox x:Name="MainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="MainListBox_SelectionChanged">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Margin="0,0,0,17" Width="432">
-                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid-->
 </phone:PhoneApplicationPage>

@@ -51,24 +51,29 @@ namespace MyScience
                 result = (byte[])uniqueId;
             String phoneID = BitConverter.ToString(result);
 
-            /*Parse the fields list into Json String*/
-            WriteableBitmap image = (WriteableBitmap)userImage.Source;
+            Service1Client client = new Service1Client();
+            client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
+            client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
 
-            if (image != null)
-            {
-                MemoryStream ms = new MemoryStream();
-                image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
-                byte[] imageData = ms.ToArray();
-                Service1Client client = new Service1Client();
-                client.RegisterUserWithImageCompleted += new EventHandler<RegisterUserWithImageCompletedEventArgs>(client_RegisterUserWithImageCompleted);
-                client.RegisterUserWithImageAsync(0, phoneID, registerNameBox.Text, "JPEG", imageData);
-            }
-            else
-            {
-                Service1Client client = new Service1Client();
-                client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
-                client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
-            }
+            /*Parse the fields list into Json String*/
+            //WriteableBitmap image = (WriteableBitmap)userImage.Source;
+
+            //if (image != null)
+            //{
+            //    MemoryStream ms = new MemoryStream();
+            //    image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
+            //    byte[] imageData = ms.ToArray();
+            //    Service1Client client = new Service1Client();
+            //    client.RegisterUserWithImageCompleted += new EventHandler<RegisterUserWithImageCompletedEventArgs>(client_RegisterUserWithImageCompleted);
+            //    client.RegisterUserWithImageAsync(0, phoneID, registerNameBox.Text, "JPEG", imageData);
+            //}
+            //else
+            //{
+            //    Service1Client client = new Service1Client();
+            //    client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
+            //    client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
+            //}
+            
         }
 
         private void signInButton_Click(object sender, RoutedEventArgs e)
@@ -197,53 +202,53 @@ namespace MyScience
             }
         }
 
-        private void choosePhotoButton_Click(object sender, RoutedEventArgs e)
-        {
-            var photoChooserTask = new PhotoChooserTask();
-            photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
-            try
-            {
-                photoChooserTask.Show();
-            }
-            catch (Exception ex)
-            {
-            }
-        }
+        //private void choosePhotoButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var photoChooserTask = new PhotoChooserTask();
+        //    photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+        //    try
+        //    {
+        //        photoChooserTask.Show();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
+        //}
 
-        private void takePhotoButton_Click(object sender, RoutedEventArgs e)
-        {
-            var cameraCaptureTask = new CameraCaptureTask();
-            cameraCaptureTask.Completed += new EventHandler<PhotoResult>(cameraCaptureTask_Completed);
-            try
-            {
-                cameraCaptureTask.Show();
-            }
-            catch (Exception ex)
-            {
-            }
-        }
+        //private void takePhotoButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var cameraCaptureTask = new CameraCaptureTask();
+        //    cameraCaptureTask.Completed += new EventHandler<PhotoResult>(cameraCaptureTask_Completed);
+        //    try
+        //    {
+        //        cameraCaptureTask.Show();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
+        //}
 
-        void photoChooserTask_Completed(object sender, PhotoResult e)
-        {
-            if (e.TaskResult == TaskResult.OK)
-            {
-                WriteableBitmap image = new WriteableBitmap(600, 800);
-                image.LoadJpeg(e.ChosenPhoto);
-                userImage.Source = image;
-                canvas1.Background = null;
-            }
-        }
+        //void photoChooserTask_Completed(object sender, PhotoResult e)
+        //{
+        //    if (e.TaskResult == TaskResult.OK)
+        //    {
+        //        WriteableBitmap image = new WriteableBitmap(600, 800);
+        //        image.LoadJpeg(e.ChosenPhoto);
+        //        userImage.Source = image;
+        //        canvas1.Background = null;
+        //    }
+        //}
 
-        void cameraCaptureTask_Completed(object sender, PhotoResult e)
-        {
-            if (e.TaskResult == TaskResult.OK)
-            {
-                WriteableBitmap image = new WriteableBitmap(600, 800);
-                image.LoadJpeg(e.ChosenPhoto);
-                userImage.Source = image;
-                canvas1.Background = null;
-            }
-        }
+        //void cameraCaptureTask_Completed(object sender, PhotoResult e)
+        //{
+        //    if (e.TaskResult == TaskResult.OK)
+        //    {
+        //        WriteableBitmap image = new WriteableBitmap(600, 800);
+        //        image.LoadJpeg(e.ChosenPhoto);
+        //        userImage.Source = image;
+        //        canvas1.Background = null;
+        //    }
+        //}
 
         private void registerNameBox_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
         {

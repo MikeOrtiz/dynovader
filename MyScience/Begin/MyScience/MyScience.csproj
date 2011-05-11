@@ -193,6 +193,10 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Resource Include="Images\myScienceRed.png" />
+    <Resource Include="Images\myScienceOrange.png" />
+    <Resource Include="Images\myScienceGreen.png" />
+    <Resource Include="Images\myScienceOrange2.png" />
     <Content Include="ServiceReferences.ClientConfig">
       <SubType>Designer</SubType>
     </Content>
