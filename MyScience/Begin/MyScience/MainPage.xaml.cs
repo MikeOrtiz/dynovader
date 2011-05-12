@@ -168,11 +168,8 @@ namespace MyScience
                         writeFile.WriteLine(submn.Time);
                         writeFile.WriteLine(submn.ImageName);
                         writeFile.WriteLine(submn.LowResImageName);
-                        writeFile.WriteLine(filename);
+                        writeFile.WriteLine(filename);//TODO remove this or not
                         writeFile.Close();
-
-                       
-
                     }
                 }
                 catch (Exception ex)

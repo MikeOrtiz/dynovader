@@ -32,7 +32,8 @@ namespace MyScience
         private double lat;
         private double lng;
         private TextBlock LatBlock, LngBlock;
-        private Popup submissionStatMsg;
+        //private Popup submissionStatMsg;
+        private TextBlock submissionStatMsg;
 
         public DetailsPage()
         {
@@ -40,7 +41,8 @@ namespace MyScience
             OnLoaded();
             LatBlock = new TextBlock();
             LngBlock = new TextBlock();
-            submissionStatMsg = new Popup();
+            //submissionStatMsg = new Popup();
+            submissionStatMsg = new TextBlock();
         }
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
@@ -126,8 +128,6 @@ namespace MyScience
 
                 }
 
-                //var PhoBlock = new TextBlock { Text = "Please take a photo:" };
-                //ImageBrush photo = new ImageBrush { ImageSource = new BitmapImage(new Uri("/Images/BillGates.jpg", UriKind.Relative)), Stretch =Stretch.Fill };
                 var cameraButton = new Button { Name = "CameraButton", Content = "Take a photo" };
                 cameraButton.Click += new RoutedEventHandler(cameraButton_Click);
                 var photo = new Image { Name = "Picture", Height = 80, Width = 80 };
@@ -144,11 +144,13 @@ namespace MyScience
                 DynamicPanel.Children.Add(saveButton);
 
                 //add button and event handler here
-                var newButton = new Button { Name = "SubmitButton", Content = "Submit" };
-                newButton.Click += new RoutedEventHandler(newButton_Click);
-                DynamicPanel.Children.Add(newButton);
+                var submitButton = new Button { Name = "SubmitButton", Content = "Submit" };
+                submitButton.Click += new RoutedEventHandler(newButton_Click);
+                DynamicPanel.Children.Add(submitButton);
                 if (!NetworkInterface.GetIsNetworkAvailable())
-                    newButton.IsEnabled = false;
+                    submitButton.IsEnabled = false;
+                //Last to be added to Dynamic Panel
+                DynamicPanel.Children.Add(submissionStatMsg);
 
                 if (NetworkInterface.GetIsNetworkAvailable())
                 {
@@ -158,7 +160,7 @@ namespace MyScience
                 }
                 else
                 {
-                    newButton.IsEnabled = false;
+                    submitButton.IsEnabled = false;
                     TextBlock warningBlock = new TextBlock { Text = "No network, other people's submissions couldn't be fetched" };
                     InfoPanel.Children.Add(warningBlock);
                 }
@@ -174,9 +176,6 @@ namespace MyScience
                     mapCenter = new GeoCoordinate(lat, lng);
                 }
                 map1.SetView(mapCenter, zoom);
-
-                //Last to be added to Dynamic Panel
-                DynamicPanel.Children.Add(submissionStatMsg);
             }
         }
 
@@ -232,10 +231,10 @@ namespace MyScience
 
                 //Popup messagePopup = new Popup();
                 //if (submissionStatMsg == null)
-                TextBlock message = new TextBlock();
-                message.Text = "Image Saved!\n";
-                submissionStatMsg.Child = message;
-                submissionStatMsg.IsOpen = true;
+                //TextBlock message = new TextBlock();
+                submissionStatMsg.Text = "Submissions Saved!\n";
+                //submissionStatMsg.Child = message;
+                //submissionStatMsg.IsOpen = true;
                 //DynamicPanel.Children.Add(submissionStatMsg);
                
                 //saveButton.IsEnabled = true;
@@ -417,9 +416,9 @@ namespace MyScience
             else
             {
                 TextBlock message = new TextBlock();
-                message.Text = "Oops, forgot to submit a pic!\n";
-                submissionStatMsg.Child = message;
-                submissionStatMsg.IsOpen = true;
+                submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
+                //submissionStatMsg.Child = message;
+                //submissionStatMsg.IsOpen = true;
                 return null;
             }
         }
@@ -461,9 +460,9 @@ namespace MyScience
                 saveButton.IsEnabled = true;
                 submitButton.IsEnabled = true;
                 TextBlock message = new TextBlock();
-                message.Text = "Oops, forgot to submit a pic!\n";
-                submissionStatMsg.Child = message;
-                submissionStatMsg.IsOpen = true;
+                submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
+                //submissionStatMsg.Child = message;
+                //submissionStatMsg.IsOpen = true;
                 //DynamicPanel.Children.Add(submissionStatMsg);
             }
             //client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
@@ -482,9 +481,9 @@ namespace MyScience
             String url = e.Result.ToString();
             //Popup messagePopup = new Popup();
             TextBlock message = new TextBlock();
-            message.Text = "Congratulation! Data Submitted Successfully!\n";
-            submissionStatMsg.Child = message;
-            submissionStatMsg.IsOpen = true;
+            submissionStatMsg.Text = "Congratulation! Data Submitted Successfully!\n";
+            //submissionStatMsg.Child = message;
+            //submissionStatMsg.IsOpen = true;
             //DynamicPanel.Children.Add(messagePopup);
             App.firstAccess = true;
             //throw new NotImplementedException();
