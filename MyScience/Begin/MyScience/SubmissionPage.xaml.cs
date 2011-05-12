@@ -150,7 +150,7 @@ namespace MyScience
                 myIsolatedStorage.DeleteFile("MyScience/Images/" +imageFileName);
             }
             //App.toBeSubmit.RemoveAt(App.currentSubmissionIndex);
-            App.firstAccess = true;
+            //App.firstAccess = true;
             //NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
             
             String url = e.Result.ToString();

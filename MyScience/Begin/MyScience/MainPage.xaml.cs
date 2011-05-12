@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -14,14 +18,10 @@ using System.Windows.Shapes;
 using System.Xml;
 using Delay;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using MyScience.MyScienceService;
-using System.IO.IsolatedStorage;
-using System.Windows.Data;
-using System.Globalization;
-using Microsoft.Phone.Net.NetworkInformation;
-using System.ComponentModel;
 
 namespace MyScience
 {
@@ -85,23 +85,25 @@ namespace MyScience
                 if (NetworkInterface.GetIsNetworkAvailable() && App.firstAccess)
                 {
                     Service1Client client = new Service1Client();
+
+                    /* Get list of projects */
                     client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
                     client.GetProjectsAsync();
+                    /* Get Hall of Fame user list */
+                    client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+                    client.GetTopScorersAsync();
+                    /* Get User's past submissions */
+                    client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
+                    client.GetUserSubmissionAsync(App.currentUser.ID);
+                    /* Get user profile image */
+                    client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
+                    client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+                    /* Load tobe submitted list */
+                    loadToBeSubmitPage();
+
                     userName.Text = App.currentUser.Name;
                     score.Text = "Score: " + App.currentUser.Score.ToString();
                     scientistLevel.Text = App.currentUser.Score < 5 ? "Newb" : "Aspiring Scientist";
-
-                    client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
-                    client.GetTopScorersAsync();
-                    //this.Loaded += new RoutedEventHandler(TopScorers_Loaded);
-
-                    client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
-                    client.GetUserSubmissionAsync(App.currentUser.ID);
-
-                    client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
-                    client.GetUserImageAsync(App.currentUser.Name, "JPEG");
-                    loadToBeSubmitPage();
-
                     App.firstAccess = false;
                 }
                 else
@@ -193,6 +195,7 @@ namespace MyScience
             {
                 this.MainListBox.ItemsSource = e.Result;
                 App.applist = e.Result.ToList<Project>();
+                /* Write file to isolated storage */
                 try
                 {
                     IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
@@ -204,13 +207,13 @@ namespace MyScience
                     }
                     foreach (Project project in App.applist)
                     {
-                        String filename =project.ID.ToString();
-                        if (myIsolatedStorage.FileExists(txtDirectory+"/" +filename+ ".txt"))
+                        String filename = project.ID.ToString();
+                        if (myIsolatedStorage.FileExists(txtDirectory + "/" + filename + ".txt"))
                         {
-                            myIsolatedStorage.DeleteFile(txtDirectory+"/" +filename + ".txt");
+                            myIsolatedStorage.DeleteFile(txtDirectory + "/" + filename + ".txt");
                         }
-                        
-                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory+"/"+filename  + ".txt", FileMode.CreateNew, myIsolatedStorage));
+
+                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory + "/" + filename + ".txt", FileMode.CreateNew, myIsolatedStorage));
                         writeFile.WriteLine(project.ID);
                         writeFile.WriteLine(project.Name);
                         writeFile.WriteLine(project.Owner);
@@ -219,11 +222,7 @@ namespace MyScience
                         writeFile.Close();
                     }
                 }
-                catch (Exception ex)
-                {
-                    //do something
-                }
-
+                catch (Exception ex) { }
             }
             this.MainListBox.Visibility = System.Windows.Visibility.Visible;
         }
@@ -235,6 +234,7 @@ namespace MyScience
             {
                 this.HallOfFameBox.ItemsSource = e.Result;
                 App.topscorerslist = e.Result.ToList<TopScorer>();
+                /* Write file to isolated storage */
                 try
                 {
                     IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
@@ -246,26 +246,23 @@ namespace MyScience
                     }
                     foreach (TopScorer ts in App.topscorerslist)
                     {
-                        if (myIsolatedStorage.FileExists(txtDirectory+"/" + ts.ID + ".txt"))
+                        if (myIsolatedStorage.FileExists(txtDirectory + "/" + ts.ID + ".txt"))
                         {
-                            myIsolatedStorage.DeleteFile(txtDirectory+"/" + ts.ID + ".txt");
+                            myIsolatedStorage.DeleteFile(txtDirectory + "/" + ts.ID + ".txt");
                         }
-                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory +"/"+ ts.ID + ".txt", FileMode.CreateNew, myIsolatedStorage));
+                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory + "/" + ts.ID + ".txt", FileMode.CreateNew, myIsolatedStorage));
                         writeFile.WriteLine(ts.ID);
                         writeFile.WriteLine(ts.Name);
                         writeFile.WriteLine(ts.Score);
                         writeFile.Close();
                     }
                 }
-                catch (Exception ex)
-                {
-                    //do somthing
-                }
-
+                catch (Exception ex) { }
             }
             this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
         }
 
+        /* Fetch user's new profile image */
         void client_GetUserImageCompleted(object sender, GetUserImageCompletedEventArgs e)
         {
             if (e.Result != null)
@@ -444,7 +441,6 @@ namespace MyScience
             {
                 myIsolatedStorage.DeleteFile("MyScience/Images/" + filename + ".jpg");
             }
-            //BitmapImage photo = (BitmapImage)image.Source;
             WriteableBitmap photo = new WriteableBitmap((BitmapImage)image.Source);
             IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + filename + ".jpg");
             photo.SaveJpeg(fileStream, photo.PixelWidth, photo.PixelHeight, 0, 100);
@@ -492,9 +488,68 @@ namespace MyScience
             return sublist;
         }
 
+        #region Refresh buttons
+
+        private void refreshproject_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                Service1Client client = new Service1Client();
+                /* Get list of projects */
+                client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
+                client.GetProjectsAsync();
+            }
+            else
+            {
+                //popout notification
+            }
+        }
+
+
+        private void refreshprofile_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                Service1Client client = new Service1Client();
+                /* Get user profile image */
+                client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
+                client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+            }
+            else
+            {
+                //popout notification
+            }
+        }
+
+        private void refreshyourdata_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                Service1Client client = new Service1Client();
+                /* Get User's past submissions */
+                client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
+                client.GetUserSubmissionAsync(App.currentUser.ID);
+            }
+            else
+            {
+                //popout notification
+            }
+        }
+
+        private void refreshyourdata2_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                Service1Client client = new Service1Client();
+                /* Get User's past submissions */
+                client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
+                client.GetUserSubmissionAsync(App.currentUser.ID);
+            }
+            else
+            {
+                //popout notification
+            }
+        }
+        #endregion
     }
-
-   
-
-  
 }

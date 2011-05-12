@@ -41,6 +41,11 @@ namespace MyScience
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
+            /* manipulate colors */
+            registerButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
+            registerButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+
+            /* process button */
             if (alreadyClicked)
                 return;
             alreadyClicked = true;
@@ -73,11 +78,12 @@ namespace MyScience
             //    client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
             //    client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
             //}
-            
         }
 
         private void signInButton_Click(object sender, RoutedEventArgs e)
         {
+
+            /* process button */
             if (alreadyClicked)
                 return;
             alreadyClicked = true;
@@ -92,14 +98,19 @@ namespace MyScience
                 Service1Client client = new Service1Client();
                 client.GetUserProfileCompleted += new EventHandler<GetUserProfileCompletedEventArgs>(client_GetUserProfileCompleted);
                 client.GetUserProfileAsync(userNameBox.Text, phoneID);
-            } else {
+            }
+            else
+            {
                 String txtDirectory = "MyScience/UserProfile/";
                 using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
                 {
                     if (!myIsolatedStorage.DirectoryExists(txtDirectory) ||
-                        !myIsolatedStorage.FileExists(txtDirectory+userNameBox.Text+".txt")) {
+                        !myIsolatedStorage.FileExists(txtDirectory + userNameBox.Text + ".txt"))
+                    {
                         tryAgainBlock.Text = "No network and no user cache found.";
-                    }else {
+                    }
+                    else
+                    {
 
                         String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + userNameBox.Text + ".txt");
 
@@ -118,7 +129,6 @@ namespace MyScience
                     }
                 }
             }
-            
         }
 
         //for now, just accepts a correct user, and moves to main page
@@ -250,14 +260,60 @@ namespace MyScience
         //    }
         //}
 
-        private void registerNameBox_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        private void userNameBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            registerNameBox.Text = "";
+            userNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
+            userNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
         }
 
-        private void userNameBox_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        private void userNameBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            userNameBox.Text = "";
+            userNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+            userNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseInactiveBrush"];
         }
+
+        private void registerNameBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            registerNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
+            registerNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+        }
+
+        private void registerNameBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            registerNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+            registerNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseInactiveBrush"];
+        }
+
+        private void signInButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            /* manipulate colors */
+            signInButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+            signInButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
+            signInButton.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
+        }
+
+        private void registerButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            /* manipulate colors */
+            registerButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+            registerButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
+            registerButton.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
+        }
+
+        private void signInButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            /* manipulate colors */
+            signInButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+            signInButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
+            signInButton.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
+        }
+
+        private void signInButton_LostFocus(object sender, RoutedEventArgs e)
+        {
+            /* manipulate colors */
+            signInButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
+            signInButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+        }
+
     }
 }
