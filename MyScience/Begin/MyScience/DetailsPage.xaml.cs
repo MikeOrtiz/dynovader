@@ -228,15 +228,7 @@ namespace MyScience
                 IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + newsubmission.ImageName + ".jpg");
                 image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
                 fileStream.Close();
-
-                //Popup messagePopup = new Popup();
-                //if (submissionStatMsg == null)
-                //TextBlock message = new TextBlock();
-                submissionStatMsg.Text = "Submissions Saved!\n";
-                //submissionStatMsg.Child = message;
-                //submissionStatMsg.IsOpen = true;
-                //DynamicPanel.Children.Add(submissionStatMsg);
-               
+                submissionStatMsg.Text = "Submission Saved!\n";
                 //saveButton.IsEnabled = true;
                 //submitButton.IsEnabled = true;
             }
@@ -485,7 +477,7 @@ namespace MyScience
             //submissionStatMsg.Child = message;
             //submissionStatMsg.IsOpen = true;
             //DynamicPanel.Children.Add(messagePopup);
-            App.firstAccess = true;
+            //App.firstAccess = true;
             //throw new NotImplementedException();
         }
 
