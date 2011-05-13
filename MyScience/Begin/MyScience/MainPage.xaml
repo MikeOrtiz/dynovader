@@ -125,7 +125,7 @@
                 </Grid>
             </controls:PanoramaItem>
 
-            <controls:PanoramaItem Header="Your Data">
+            <!--<controls:PanoramaItem Header="Your Data">
                 <Grid x:Name="yourdatagrid" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -136,7 +136,6 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation ="Horizontal" Height="80" Width="400">
-                                    <!--Image Source="{Binding Path=LowResImageName}" Width="80" Height="60"/-->
                                     <Image x:Name="{Binding LowResImageName}" Source="{Binding LowResImageName, Converter= {StaticResource ImageConverter}}" Width="80" Height="80" ImageOpened="Image_Opened"/>
                                     <StackPanel Orientation="Vertical" Height="80">
                                         <StackPanel Orientation="Horizontal" Height="40">
@@ -153,7 +152,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
-            </controls:PanoramaItem>
+            </controls:PanoramaItem>-->
 
             <controls:PanoramaItem Header="Your Data">
                 <Grid x:Name="yourdatagrid2" Width="444" Height="630" Margin="0, -140, 0, 0">

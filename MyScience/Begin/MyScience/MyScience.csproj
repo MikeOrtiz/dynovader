@@ -110,6 +110,7 @@
     <Compile Include="SubmissionPage.xaml.cs">
       <DependentUpon>SubmissionPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TaskInfo.cs" />
     <Compile Include="User.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

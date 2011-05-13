@@ -22,6 +22,7 @@ using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using MyScience.MyScienceService;
+using System.Threading;
 
 namespace MyScience
 {
@@ -108,17 +109,7 @@ namespace MyScience
                 }
                 else
                 {
-                //String txtDirectory = "MyScience/Submissions/"+App.currentUser.ID+"/";
-                //using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-                //{
-                //    if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
-
-                //    String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
-                //    foreach (String txtfile in txtfiles)
-                //    {
-                //        myIsolatedStorage.DeleteFile(txtDirectory + txtfile);
-                //    }
-                //}
+               
                     loadProjectPage();
                     if(App.applist != null && App.applist.Count != 0) MainListBox.ItemsSource = App.applist;
                     loadTopScorers();
@@ -127,13 +118,13 @@ namespace MyScience
                     userName.Text = App.currentUser.Name;
                     score.Text = "Score: " + App.currentUser.Score.ToString();
                     scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
-                    List<Submission> submissions = loadCachedSubmission();
-                    SubmissionListBox.ItemsSource = null;
-                    if (submissions.Count != 0)
-                    {                  
-                        SubmissionListBox.ItemsSource = submissions;
-                        PictureWall.ItemsSource = submissions;
-                    }
+                    //List<Submission> submissions = loadCachedSubmission();
+                    //SubmissionListBox.ItemsSource = null;
+                    //if (submissions.Count != 0)
+                    //{                  
+                    //    SubmissionListBox.ItemsSource = submissions;
+                    //    PictureWall.ItemsSource = submissions;
+                    //}
                     loadToBeSubmitPage();
                 }
             }
@@ -143,7 +134,7 @@ namespace MyScience
         {
             if (e.Result != null)
             {
-                SubmissionListBox.ItemsSource = e.Result;
+                //SubmissionListBox.ItemsSource = e.Result;
                 PictureWall.ItemsSource = e.Result;
                 List<Submission> submissions = e.Result.ToList<Submission>();
                 try
@@ -432,6 +423,29 @@ namespace MyScience
         {
             var image = sender as Image;
             String filename = image.Name.Substring(image.Name.LastIndexOf('/') + 1);
+            //IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
+            //if (!myIsolatedStorage.DirectoryExists("MyScience/Images"))
+            //{
+            //    myIsolatedStorage.CreateDirectory("MyScience/Images");
+            //}
+            //if (myIsolatedStorage.FileExists("MyScience/Images/" + filename + ".jpg"))
+            //{
+            //    myIsolatedStorage.DeleteFile("MyScience/Images/" + filename + ".jpg");
+            //}
+            WriteableBitmap photo = new WriteableBitmap((BitmapImage)image.Source);
+            //IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + filename + ".jpg");
+            //photo.SaveJpeg(fileStream, photo.PixelWidth, photo.PixelHeight, 0, 100);
+            //fileStream.Close();
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(saveImageInCache), new TaskInfo(photo, filename));
+        }
+
+        private void saveImageInCache(Object stateInfo)
+        {
+            TaskInfo info = (TaskInfo)stateInfo;
+            WriteableBitmap photo = info.photo;
+            String filename = info.filename;
+           
             IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
             if (!myIsolatedStorage.DirectoryExists("MyScience/Images"))
             {
@@ -441,13 +455,11 @@ namespace MyScience
             {
                 myIsolatedStorage.DeleteFile("MyScience/Images/" + filename + ".jpg");
             }
-            WriteableBitmap photo = new WriteableBitmap((BitmapImage)image.Source);
+            
             IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + filename + ".jpg");
             photo.SaveJpeg(fileStream, photo.PixelWidth, photo.PixelHeight, 0, 100);
             fileStream.Close();
         }
-
-      
         
 
         private void loadSubmission(String txtDirectory, List<Submission> sublist)

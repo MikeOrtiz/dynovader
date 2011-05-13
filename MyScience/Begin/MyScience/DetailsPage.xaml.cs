@@ -34,6 +34,7 @@ namespace MyScience
         private TextBlock LatBlock, LngBlock;
         //private Popup submissionStatMsg;
         private TextBlock submissionStatMsg;
+        private PerformanceProgressBar progressbar;
 
         public DetailsPage()
         {
@@ -43,6 +44,7 @@ namespace MyScience
             LngBlock = new TextBlock();
             //submissionStatMsg = new Popup();
             submissionStatMsg = new TextBlock();
+            progressbar = new PerformanceProgressBar();
         }
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
@@ -151,6 +153,9 @@ namespace MyScience
                     submitButton.IsEnabled = false;
                 //Last to be added to Dynamic Panel
                 DynamicPanel.Children.Add(submissionStatMsg);
+                progressbar.IsIndeterminate = false;
+                progressbar.Visibility = System.Windows.Visibility.Visible;
+                DynamicPanel.Children.Add(progressbar);
 
                 if (NetworkInterface.GetIsNetworkAvailable())
                 {
@@ -417,6 +422,10 @@ namespace MyScience
 
         void newButton_Click(object sender, RoutedEventArgs e)
         {
+            submissionStatMsg.Text = "Submitting...";
+            progressbar.IsIndeterminate = true;
+            progressbar.Visibility = System.Windows.Visibility.Visible;
+
             var takePhotoButton = DynamicPanel.Children.OfType<Button>().First() as Button;
             var choosePhotoButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
             var saveButton = DynamicPanel.Children.OfType<Button>().ElementAt(2) as Button;
@@ -471,8 +480,9 @@ namespace MyScience
             saveButton.IsEnabled = true;
             submitButton.IsEnabled = true;
             String url = e.Result.ToString();
-            //Popup messagePopup = new Popup();
-            TextBlock message = new TextBlock();
+            //Popup messagePopup = new Popup()
+            progressbar.IsIndeterminate = false;
+            progressbar.Visibility = System.Windows.Visibility.Collapsed;
             submissionStatMsg.Text = "Congratulation! Data Submitted Successfully!\n";
             //submissionStatMsg.Child = message;
             //submissionStatMsg.IsOpen = true;
