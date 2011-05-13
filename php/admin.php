@@ -32,7 +32,7 @@ if(isset($_POST['coordname']))
 		else{ //build JSON string
 			$values = "[";
 			foreach($_POST as $key=>$value) {
-				if ($key!="apptitle" && $key!="description" && $key!="coordname" && $key!="coordemail") {
+				if ($key!="apptitle" && $key!="description" && $key!="coordname" && $key!="coordemail" && $key!="numchecks" && $key!="numradios") {
 					if (strpos($key, 'textq')) {
 						$values .= "{\"type\":\"Question\",\"label\":\"".$_POST[$key]."\"},";
 					}
@@ -41,7 +41,7 @@ if(isset($_POST['coordname']))
 							$values .= "{\"type\":\"CheckBox\",\"label\":\"".$_POST[$key]."\",\"value\":\"";
 						} else {
 							$values .= $_POST[$key]."|";
-							if (strpos($key, 'checkA4')) {
+							if (strpos($key, 'END')) {
 								$values = substr($values, 0, -1);
 								$values .= "\"},";
 							}
@@ -52,7 +52,7 @@ if(isset($_POST['coordname']))
 							$values .= "{\"type\":\"RadioBox\",\"label\":\"".$_POST[$key]."\",\"value\":\"";
 						} else {
 							$values .= $_POST[$key]."|";
-							if (strpos($key, 'radioA4')) {
+							if (strpos($key, 'END')) {
 								$values = substr($values, 0, -1);
 								$values .= "\"},";
 							}
@@ -105,17 +105,46 @@ function morePicture() {
 	moreFields('pictureroot');
 }
 
+function killTheUnwantedChildren(newField, num) {
+	for (i=newField.length-1; i>num; i--) {
+		newField[i].parentNode.removeChild(newField[i]);
+	}
+}
+
 function moreFields(qtype) {
 	counter++;
 	var newFields = document.getElementById(qtype).cloneNode(true);
 	newFields.id = '';
 	newFields.style.display = 'block';
 	var newField = newFields.childNodes;
+	var numOptions;
+	if (qtype == 'checkroot') {
+		numOptions = document.getElementById('numchecks').options[document.getElementById('numchecks').selectedIndex].value;
+	}
+	if (qtype == 'radioroot') {
+		numOptions = document.getElementById('numradios').options[document.getElementById('numradios').selectedIndex].value;
+	}
+	var removeChildren = false;
+	
 	for (var i=0;i<newField.length;i++) {
 		var theName = newField[i].name
-		if (theName)
-			newField[i].name = counter + ' ' + theName;
+		if (removeChildren) { //Case: past the last option
+			killTheUnwantedChildren(newField, i);
+			break;
+		} else { 
+			if (theName && numOptions) {
+				if (theName.charAt(theName.length-1) == numOptions.charAt(0) && theName.charAt(theName.length-2) == 'A') { //Case: the last option
+					newField[i].name = counter + ' ' + theName + ' END';
+					removeChildren = true;
+				} else { //Case: before the last option
+					newField[i].name = counter + ' ' + theName; 
+				}
+			} else { //text question
+				newField[i].name = counter + ' ' + theName;
+			}
+		}
 	}
+	
 	var insertHere = document.getElementById('writeroot');
 	insertHere.parentNode.insertBefore(newFields,insertHere);
 }
@@ -349,21 +378,25 @@ input
 			<span class="columnleft">Coordinator Name: </span><span class="columnright"><input type="text" name="coordname"/></span><br/>
 			<span class="columnleft">Coordinator Email: </span><span class="columnright"><input type="text" name="coordemail"/></span><br/>
 			<br /><br /><br />
+			
 			<h3>Add Question:</h3>
 			<input type="button" value="Text Question" onclick="moreText()"/> <br />
-			<!--
-			Number of check options: 
+			<input type="button" value="Check Question" onclick="moreCheck()"/> 
 			<select id="numchecks" name="numchecks">
 				<option value="2">2</option>
 				<option value="3">3</option>
 				<option value="4">4</option>
-			</select>
-			-->
-			<input type="button" value="Check Question" onclick="moreCheck()"/> <br />
-			<input type="button" value="Radio Question" onclick="moreRadio()"/> <br />
+			</select><br />
+			<input type="button" value="Radio Question " onclick="moreRadio()"/> 
+			<select id="numradios" name="numchecks">
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+			</select><br />
 			<input id="picturequestion" type="button" value="Remove Picture Capture" onclick="updatePhotoOption()"/> <br /><br />
 			<input type="text" id="photopost" name="photo" value="Y" style="display:none">
 			<input type="submit" value="Submit App!" />	
+			
 			<h3>Instructions:</h3>
 			<ol>
 				<li>Add Application Title to Phone</li>
@@ -433,7 +466,7 @@ input
 </div>
  
 <div class="question" id="radioroot" style="display: none">
-	<input class="blend" name="checkq" size="29" maxlength="35" value="Enter your question here."
+	<input class="blend" name="radioq" size="29" maxlength="35" value="Enter your question here."
 	onFocus="if(this.value == 'Enter your question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your question here.';}">
 	<span class="floatright">
 		<span class="ui-icon ui-icon-closethick" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" /></span>

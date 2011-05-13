@@ -69,7 +69,7 @@ else
 {
 	$formhtml = "<form action='manage.php' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
 	$list = array();
-	$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id";
+	$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id AND projects.status = 'active'";
 	$result = sqlsrv_query($conn,$query);
 	if(sqlsrv_has_rows($result))
 	{
@@ -195,7 +195,7 @@ body{
 			echo "Modify Layout for Project <i>".$projname."</i>";
 		}
 	}
-?>	
+?>
 </h1><br/>
 <? echo $formhtml; ?>
 </div>
