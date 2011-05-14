@@ -50,8 +50,8 @@ namespace MyScience
                 }
                 Photo.Source = image;
 
-                TimeBlock.Text = currentSub.Time.ToString();
-                LocationBlock.Text = currentSub.Location;
+                TimeBlock.Text ="   "+ currentSub.Time.ToString();
+                LocationBlock.Text = "  "+currentSub.Location;
 
                 List<Field> fields = GetFormField(currentSub.Data);
 
@@ -62,7 +62,7 @@ namespace MyScience
                         case "Question":
                             //TODO:add a numerical checker for number answers
                             var QBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
-                            var ABlock = new TextBlock { Name = "Answer" + i.ToString(), Text = fields[i].value };
+                            var ABlock = new TextBlock { Name = "Answer" + i.ToString(), Text ="    "+ fields[i].value };
                             DynamicPanel.Children.Add(QBlock);
                             DynamicPanel.Children.Add(ABlock);
                             break;
@@ -74,7 +74,7 @@ namespace MyScience
                             string[] Options = fields[i].value.Split('|');
                             for (int j = 0; j < Options.Length; j++)
                             {
-                                var RBABlock = new TextBlock { Text = Options[j] };
+                                var RBABlock = new TextBlock { Text ="  "+ Options[j] };
                                 DynamicPanel.Children.Add(RBABlock);
                             }
                             break;
@@ -85,7 +85,7 @@ namespace MyScience
                             string[] Choices = fields[i].value.Split('|');
                             for (int j = 0; j < Choices.Length; j++)
                             {
-                                var CBABlock = new TextBlock { Text = Choices[j] };
+                                var CBABlock = new TextBlock { Text ="  "+ Choices[j] };
                                 DynamicPanel.Children.Add(CBABlock);
                             }
                             break;
