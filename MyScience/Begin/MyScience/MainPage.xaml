@@ -58,18 +58,33 @@
             </controls:PanoramaItem>
 
             <!--Pivot item two-->
-            <controls:PanoramaItem Header="Hall of Fame">
+            <controls:PanoramaItem Header="Hall of Fame" Foreground="#FF181515">
                 <!--ContentPanel - place additional content here-->
-                <ListBox x:Name="HallOfFameBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="MainListBox_SelectionChanged">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,0,0,17" Width="432">
-                                <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="#FF181515"/>
-                                <TextBlock Text="{Binding Path=Score}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FF181515"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <Grid x:Name="famegrid" Width="444" Height="630">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--<Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshhalloffame" Stretch="Fill" VerticalAlignment="Top" />-->
+                    <ListBox x:Name="HallOfFameBox" Grid.Row="0" Margin="0,0,-12,0" ItemsSource="{Binding Items}" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation ="Horizontal" Height="80" Width="400">
+                                    <Image x:Name="{Binding ImageName}" Source="{Binding ImageName, Converter= {StaticResource ImageConverter}}" Width="80" Height="80" ImageOpened="Image_Opened" ImageFailed="Image_Failed"/>
+                                    <StackPanel Orientation="Vertical" Height="80">
+                                        <StackPanel Orientation="Horizontal" Height="50">
+                                            <TextBlock Text="{Binding Path=Name}" Height="50" Foreground="#FF181515" Style="{StaticResource PhoneTextExtraLargeStyle}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="30">
+                                            <TextBlock Width="100" FontSize="22" Text="{Binding Path=Score}" Height="30"  Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FF181515"/>
+                                            <TextBlock Width="200" FontSize="22" Text="{Binding Path=title}" Height="30"  Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FF181515"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
             </controls:PanoramaItem>
             
             <!--Pivot item three-->

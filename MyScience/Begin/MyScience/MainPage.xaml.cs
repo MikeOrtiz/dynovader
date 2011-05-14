@@ -118,13 +118,13 @@ namespace MyScience
                     userName.Text = App.currentUser.Name;
                     score.Text = "Score: " + App.currentUser.Score.ToString();
                     scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
-                    //List<Submission> submissions = loadCachedSubmission();
+                    List<Submission> submissions = loadCachedSubmission();
                     //SubmissionListBox.ItemsSource = null;
-                    //if (submissions.Count != 0)
-                    //{                  
-                    //    SubmissionListBox.ItemsSource = submissions;
-                    //    PictureWall.ItemsSource = submissions;
-                    //}
+                    if (submissions.Count != 0)
+                    {
+                        //SubmissionListBox.ItemsSource = submissions;
+                        PictureWall.ItemsSource = submissions;
+                    }
                     loadToBeSubmitPage();
                 }
             }
@@ -223,8 +223,14 @@ namespace MyScience
         {
             if (e.Result != null)
             {
-                this.HallOfFameBox.ItemsSource = e.Result;
                 App.topscorerslist = e.Result.ToList<TopScorer>();
+                for (int i = 0; i < App.topscorerslist.Count; i++)
+                {
+                    App.topscorerslist[i].title = App.topscorerslist[i].Score > 50 ? "Aspiring Scientist":"Newb";
+                    App.topscorerslist[i].ImageName = "http://myscience.blob.core.windows.net/userimages/"+App.topscorerslist[i].Name + ".jpg";
+                }
+                this.HallOfFameBox.ItemsSource = App.topscorerslist;
+                
                 /* Write file to isolated storage */
                 try
                 {
@@ -394,6 +400,8 @@ namespace MyScience
                         ts.ID = Convert.ToInt32(reader.ReadLine());
                         ts.Name = reader.ReadLine();
                         ts.Score = Convert.ToInt32(reader.ReadLine());
+                        ts.title = ts.Score > 50 ? "Aspiring Scientist" : "Newb";
+                        ts.ImageName = ts.Name + ".jpg";
                         App.topscorerslist.Add(ts);
                     }
                 }
@@ -440,23 +448,31 @@ namespace MyScience
             ThreadPool.QueueUserWorkItem(new WaitCallback(saveImageInCache), new TaskInfo(photo, filename));
         }
 
+        private void Image_Failed(object sender, RoutedEventArgs e)
+        {
+            var image = sender as Image;
+            ImageSource source = new BitmapImage(new Uri("./Images/unknownuser.jpg", UriKind.Relative));
+            image.Source = source;
+        }
+
         private void saveImageInCache(Object stateInfo)
         {
             TaskInfo info = (TaskInfo)stateInfo;
             WriteableBitmap photo = info.photo;
             String filename = info.filename;
+            if (!filename.EndsWith(".jpg")) filename += ".jpg";
            
             IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
             if (!myIsolatedStorage.DirectoryExists("MyScience/Images"))
             {
                 myIsolatedStorage.CreateDirectory("MyScience/Images");
             }
-            if (myIsolatedStorage.FileExists("MyScience/Images/" + filename + ".jpg"))
+            if (myIsolatedStorage.FileExists("MyScience/Images/" + filename ))
             {
-                myIsolatedStorage.DeleteFile("MyScience/Images/" + filename + ".jpg");
+                myIsolatedStorage.DeleteFile("MyScience/Images/" + filename);
             }
             
-            IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + filename + ".jpg");
+            IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + filename );
             photo.SaveJpeg(fileStream, photo.PixelWidth, photo.PixelHeight, 0, 100);
             fileStream.Close();
         }

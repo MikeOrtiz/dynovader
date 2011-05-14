@@ -187,6 +187,11 @@
     <Resource Include="Images\sunshine3.jpg" />
     <Resource Include="Images\unknownuser.jpg" />
     <Resource Include="Images\camera_icon_1.gif" />
+    <Resource Include="Images\myScienceRed.png" />
+    <Resource Include="Images\myScienceOrange.png" />
+    <Resource Include="Images\myScienceGreen.png" />
+    <Resource Include="Images\myScienceOrange2.png" />
+    <Resource Include="Images\refresh-icon.png" />
     <None Include="Service References\MyScienceService\Service1.disco" />
     <None Include="Service References\MyScienceService\configuration91.svcinfo" />
     <None Include="Service References\MyScienceService\configuration.svcinfo" />
@@ -194,11 +199,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Resource Include="Images\myScienceRed.png" />
-    <Resource Include="Images\myScienceOrange.png" />
-    <Resource Include="Images\myScienceGreen.png" />
-    <Resource Include="Images\myScienceOrange2.png" />
-    <Resource Include="Images\refresh-icon.png" />
     <Content Include="ServiceReferences.ClientConfig">
       <SubType>Designer</SubType>
     </Content>
