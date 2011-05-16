@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Reactive;
-
+using System.Windows.Controls.Primitives;
 using MyScience.MyScienceService;
 
 namespace MyScience
@@ -33,6 +33,7 @@ namespace MyScience
         public static List<Submission> toBeSubmit = new List<Submission>();
         public static int currentSubmissionIndex;
         public static bool firstAccess = true; //repurposing it in general to refresh the main page, i.e. for when a new submission goes through, etc
+        public static Popup popup;
 
 
         /// <summary>
@@ -46,7 +47,6 @@ namespace MyScience
                 // Delay creation of the view model until necessary
                 if (viewModel == null)
                     viewModel = new MainViewModel();
-
                 return viewModel;
             }
         }
@@ -83,6 +83,9 @@ namespace MyScience
 
             // Phone-specific initialization
             InitializePhoneApplication();
+
+            //initialize popup
+            popup = new Popup();
         }
 
         // Code to execute when the application is launching (eg, from Start)

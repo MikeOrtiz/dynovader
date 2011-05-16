@@ -23,17 +23,26 @@ using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using MyScience.MyScienceService;
 using System.Threading;
+using System.Windows.Controls.Primitives;
 
 namespace MyScience
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        private PopupMessageControl msg;
         // Constructor
         public MainPage()
         {
             InitializeComponent();
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+
+            msg = new PopupMessageControl();
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
+            //this.MouseLeftButtonUp += new MouseButtonEventHandler(wpDatePicker_MouseLeftButtonUp);
+            //this.calendar.onDateSelect += new EventHandler(onDateSelected);
+            //this.IsReadOnly = true;
         }
 
         // Handle selection changed on ListBox
@@ -529,7 +538,7 @@ namespace MyScience
             }
             else
             {
-                //popout notification
+                displayPopup();
             }
         }
 
@@ -545,7 +554,7 @@ namespace MyScience
             }
             else
             {
-                //popout notification
+                displayPopup();
             }
         }
 
@@ -560,7 +569,7 @@ namespace MyScience
             }
             else
             {
-                //popout notification
+                displayPopup();
             }
         }
 
@@ -575,9 +584,22 @@ namespace MyScience
             }
             else
             {
-                //popout notification
+                displayPopup();
             }
         }
         #endregion
+
+        public void displayPopup()
+        {
+            App.popup.Height = msg.Height;
+            App.popup.Width = msg.Width;
+            App.popup.HorizontalAlignment = HorizontalAlignment.Center;
+            App.popup.VerticalAlignment = VerticalAlignment.Center;
+            App.popup.HorizontalOffset = 0;
+            App.popup.VerticalOffset = 0;
+            App.popup.MinHeight = msg.Height;
+            App.popup.MinWidth = msg.Width;
+            App.popup.IsOpen = true;
+        }
     }
 }

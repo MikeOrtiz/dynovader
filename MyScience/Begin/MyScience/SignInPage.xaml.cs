@@ -284,35 +284,12 @@ namespace MyScience
             registerNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseInactiveBrush"];
         }
 
-        private void signInButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            /* manipulate colors */
-            signInButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
-            signInButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-            signInButton.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-        }
-
         private void registerButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             /* manipulate colors */
             registerButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
             registerButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
             registerButton.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-        }
-
-        private void signInButton_GotFocus(object sender, RoutedEventArgs e)
-        {
-            /* manipulate colors */
-            signInButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
-            signInButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-            signInButton.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-        }
-
-        private void signInButton_LostFocus(object sender, RoutedEventArgs e)
-        {
-            /* manipulate colors */
-            signInButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
-            signInButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
         }
 
     }

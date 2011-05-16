@@ -24,11 +24,16 @@ namespace MyScience
 {
     public partial class SubmissionPage : PhoneApplicationPage
     {
+        private PopupMessageControl msg;
         private Popup messagePopup;
+
         public SubmissionPage()
         {
             InitializeComponent();
             messagePopup = new Popup();
+            msg = new PopupMessageControl();
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
         }
 
         private void SubmissionPage_Loaded(object sender, RoutedEventArgs e)
@@ -113,6 +118,11 @@ namespace MyScience
 
         void uploadButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!NetworkInterface.GetIsNetworkAvailable())
+            {
+                displayPopup();
+                return;
+            }
             var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
             uploadButton.IsEnabled = false;
             String filename = App.toBeSubmit[App.currentSubmissionIndex].ImageName + ".jpg";
@@ -183,6 +193,19 @@ namespace MyScience
             stream.Close();
             return (List<Field>)fields;
 
+        }
+
+        public void displayPopup()
+        {
+            App.popup.Height = msg.Height;
+            App.popup.Width = msg.Width;
+            App.popup.HorizontalAlignment = HorizontalAlignment.Center;
+            App.popup.VerticalAlignment = VerticalAlignment.Center;
+            App.popup.HorizontalOffset = 0;
+            App.popup.VerticalOffset = 0;
+            App.popup.MinHeight = msg.Height;
+            App.popup.MinWidth = msg.Width;
+            App.popup.IsOpen = true;
         }
     }
 }

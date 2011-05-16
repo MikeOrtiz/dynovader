@@ -35,6 +35,7 @@ namespace MyScience
         //private Popup submissionStatMsg;
         private TextBlock submissionStatMsg;
         private PerformanceProgressBar progressbar;
+        private PopupMessageControl msg;
 
         public DetailsPage()
         {
@@ -45,6 +46,10 @@ namespace MyScience
             //submissionStatMsg = new Popup();
             submissionStatMsg = new TextBlock();
             progressbar = new PerformanceProgressBar();
+            //popup message content
+            msg = new PopupMessageControl();
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
         }
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
@@ -422,6 +427,11 @@ namespace MyScience
 
         void newButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!NetworkInterface.GetIsNetworkAvailable())
+            {
+                displayPopup();
+                return;
+            }
             submissionStatMsg.Text = "Submitting...";
             progressbar.IsIndeterminate = true;
             progressbar.Visibility = System.Windows.Visibility.Visible;
@@ -462,11 +472,7 @@ namespace MyScience
                 submitButton.IsEnabled = true;
                 TextBlock message = new TextBlock();
                 submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
-                //submissionStatMsg.Child = message;
-                //submissionStatMsg.IsOpen = true;
-                //DynamicPanel.Children.Add(submissionStatMsg);
             }
-            //client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
         } 
 
         void client_SubmitDataCompleted(object sender, SubmitDataCompletedEventArgs e)
@@ -541,6 +547,19 @@ namespace MyScience
             LatBlock.Text = "Lat: " + lat.ToString();
             LngBlock.Text = "Lng:" + lng.ToString();
             
+        }
+
+        public void displayPopup()
+        {
+            App.popup.Height = msg.Height;
+            App.popup.Width = msg.Width;
+            App.popup.HorizontalAlignment = HorizontalAlignment.Center;
+            App.popup.VerticalAlignment = VerticalAlignment.Center;
+            App.popup.HorizontalOffset = 0;
+            App.popup.VerticalOffset = 0;
+            App.popup.MinHeight = msg.Height;
+            App.popup.MinWidth = msg.Width;
+            App.popup.IsOpen = true;
         }
     }
 }
