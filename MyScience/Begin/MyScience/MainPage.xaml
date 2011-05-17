@@ -38,13 +38,13 @@
 
             <!--Pivot item one-->
             <controls:PanoramaItem Header="Projects" Foreground="#FF181515">
-                <Grid x:Name="projectsgrid" Width="444" Height="630" Margin="0, -140, 0, 0">
+                <Grid x:Name="projectsgrid" Width="444" Height="Auto" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshproject" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshproject_MouseLeftButtonUp" GotFocus="refreshproject_GotFocus" />
-                    <ListBox Grid.Row="1" x:Name="MainListBox" Margin="0,30,-12,0" ItemsSource="{Binding Items}" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515">
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshproject" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshproject_MouseLeftButtonUp"  />
+                    <ListBox Grid.Row="1" x:Name="MainListBox" Margin="0,30,-12,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="432">
@@ -67,7 +67,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <!--<Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshhalloffame" Stretch="Fill" VerticalAlignment="Top" />-->
-                    <ListBox x:Name="HallOfFameBox" Grid.Row="0" Margin="0,0,-12,0" ItemsSource="{Binding Items}" >
+                    <ListBox x:Name="HallOfFameBox" Grid.Row="0" Margin="0,0,-12,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500" >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation ="Horizontal" Height="80" Width="400">
