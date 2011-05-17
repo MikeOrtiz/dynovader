@@ -43,7 +43,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshproject" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshproject_MouseLeftButtonUp" GotFocus="refreshproject_GotFocus" />
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshproject" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshproject_MouseLeftButtonUp" />
                     <ListBox Grid.Row="1" x:Name="MainListBox" Margin="0,30,-12,0" ItemsSource="{Binding Items}" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515">
                         <ListBox.ItemTemplate>
                             <DataTemplate>

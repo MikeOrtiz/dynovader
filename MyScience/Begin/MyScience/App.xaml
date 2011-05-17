@@ -15,28 +15,38 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid Background="Transparent">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <Storyboard>
-                                            <ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonBackground" d:IsOptimized="True"/>
-                                            <ColorAnimation Duration="0" To="Black" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonBackground" d:IsOptimized="True"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="MouseOver"/>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ColorAnimation Duration="0" To="Black" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonBackground" d:IsOptimized="True"/>
-                                            <ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="ContentContainer" d:IsOptimized="True"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled"/>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Border x:Name="ButtonBackground" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0" Margin="{StaticResource PhoneTouchTargetOverhang}" Background="Black" BorderBrush="Black">
-                                <ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Border>
-                        </Grid>
+                    		<VisualStateManager.VisualStateGroups>
+                    			<VisualStateGroup x:Name="CommonStates">
+                    				<VisualState x:Name="Normal">
+                    					<Storyboard>
+                    						<ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonBackground" d:IsOptimized="True"/>
+                    						<ColorAnimation Duration="0" To="Black" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonBackground" d:IsOptimized="True"/>
+                    					</Storyboard>
+                    				</VisualState>
+                    				<VisualState x:Name="MouseOver"/>
+                    				<VisualState x:Name="Pressed">
+                    					<Storyboard>
+                    						<ColorAnimation Duration="0" To="Black" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonBackground" d:IsOptimized="True"/>
+                    						<ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="ContentContainer" d:IsOptimized="True"/>
+                    					</Storyboard>
+                    				</VisualState>
+                    				<VisualState x:Name="Disabled">
+										<Storyboard>
+                    						<ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonBackground" d:IsOptimized="True"/>
+                    						<ColorAnimation Duration="0" To="DimGray" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonBackground" d:IsOptimized="True"/>
+                    						<ColorAnimation Duration="0" To="DimGray" Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="ContentContainer" d:IsOptimized="True"/>
+                    					</Storyboard>
+                    				</VisualState>
+                    			</VisualStateGroup>
+                    			<VisualStateGroup x:Name="FocusStates">
+                    				<VisualState x:Name="Focused"/>
+                    				<VisualState x:Name="Unfocused"/>
+                    			</VisualStateGroup>
+                    		</VisualStateManager.VisualStateGroups>
+                    		<Border x:Name="ButtonBackground" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0" Margin="{StaticResource PhoneTouchTargetOverhang}" Background="Black" BorderBrush="Black">
+                    			<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    		</Border>
+                    	</Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

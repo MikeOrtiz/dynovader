@@ -40,9 +40,6 @@ namespace MyScience
             msg = new PopupMessageControl();
             App.popup.Child = msg;
             App.popup.Margin = new Thickness(0);
-            //this.MouseLeftButtonUp += new MouseButtonEventHandler(wpDatePicker_MouseLeftButtonUp);
-            //this.calendar.onDateSelect += new EventHandler(onDateSelected);
-            //this.IsReadOnly = true;
         }
 
         // Handle selection changed on ListBox
@@ -58,19 +55,6 @@ namespace MyScience
             // Reset selected index to -1 (no selection)
             MainListBox.SelectedIndex = -1;
         }
-
-        //private void ProjectListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    // If selected index is -1 (no selection) do nothing
-        //    if (ProjectListBox.SelectedIndex == -1)
-        //        return;
-
-        //    // Navigate to the new page
-        //    NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + ProjectListBox.SelectedIndex, UriKind.Relative));
-
-        //    // Reset selected index to -1 (no selection)
-        //    ProjectListBox.SelectedIndex = -1;
-        //}
 
         private void ToBeSubmitBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -179,15 +163,7 @@ namespace MyScience
                     //do something here
                 }
             }
-            
         }
-
-        //private void TopScorers_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    Service1Client client = new Service1Client();
-        //    client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
-        //    client.GetTopScorersAsync();
-        //}
 
         void client_GetProjectsCompleted(object sender, GetProjectsCompletedEventArgs e)
         {
