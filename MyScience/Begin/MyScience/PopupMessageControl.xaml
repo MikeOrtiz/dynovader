@@ -14,8 +14,7 @@
     		<SolidColorBrush Color="#DFFFFFFF"/>
     	</Grid.Background>
         <Button Content="close" Height="72" HorizontalAlignment="Left" Margin="36,248,0,0" Name="close" VerticalAlignment="Top" Width="160" Foreground="Black" BorderBrush="Black" Style="{StaticResource WhiteBackgroundButtonStyle}" Click="close_Click" Background="Transparent" />
-        <TextBlock Height="42" Margin="48,35,48,0" Name="textBlock1" Text="myscience error" VerticalAlignment="Top" FontSize="29.333" FontWeight="Bold" Foreground="Black" />
-        <TextBlock x:Name="textBlock3" Margin="48,96,60,0" TextWrapping="Wrap" Text="We're having a connectivity problem. Please try again later." VerticalAlignment="Top" Height="62" FontSize="21.333"/>
-        <TextBlock Margin="48,176,88,116" TextWrapping="Wrap" Text="This maybe because your cellular data connections are turned off."/>
+        <TextBlock Height="42" Margin="48,35,48,0" Name="msgtitle" Text="myscience error" VerticalAlignment="Top" FontSize="29.333" FontWeight="Bold" Foreground="Black" />
+        <TextBlock x:Name="msgcontent" Margin="48,96,60,0" TextWrapping="Wrap" Text="We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later." VerticalAlignment="Top" Height="146" FontSize="21.333"/>
     </Grid>
 </UserControl>
