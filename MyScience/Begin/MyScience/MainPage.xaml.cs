@@ -40,9 +40,6 @@ namespace MyScience
             msg = new PopupMessageControl();
             App.popup.Child = msg;
             App.popup.Margin = new Thickness(0);
-            //this.MouseLeftButtonUp += new MouseButtonEventHandler(wpDatePicker_MouseLeftButtonUp);
-            //this.calendar.onDateSelect += new EventHandler(onDateSelected);
-            //this.IsReadOnly = true;
         }
 
         // Handle selection changed on ListBox
@@ -58,19 +55,6 @@ namespace MyScience
             // Reset selected index to -1 (no selection)
             MainListBox.SelectedIndex = -1;
         }
-
-        //private void ProjectListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    // If selected index is -1 (no selection) do nothing
-        //    if (ProjectListBox.SelectedIndex == -1)
-        //        return;
-
-        //    // Navigate to the new page
-        //    NavigationService.Navigate(new Uri("/DetailsPage.xaml?selectedItem=" + ProjectListBox.SelectedIndex, UriKind.Relative));
-
-        //    // Reset selected index to -1 (no selection)
-        //    ProjectListBox.SelectedIndex = -1;
-        //}
 
         private void ToBeSubmitBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -111,22 +95,19 @@ namespace MyScience
                     /* Load tobe submitted list */
                     loadToBeSubmitPage();
 
-                    userName.Text = App.currentUser.Name;
-                    score.Text = "Score: " + App.currentUser.Score.ToString();
-                    scientistLevel.Text = App.currentUser.Score < 5 ? "Newb" : "Aspiring Scientist";
                     App.firstAccess = false;
                 }
                 else
                 {
-               
+                    /* Load list of projects */
                     loadProjectPage();
                     if(App.applist != null && App.applist.Count != 0) MainListBox.ItemsSource = App.applist;
+                    /* Load list of top scorers */
                     loadTopScorers();
                     if(App.topscorerslist != null && App.topscorerslist.Count != 0) HallOfFameBox.ItemsSource = App.topscorerslist;
+                    /* Load user profile pic */
                     loadUserProfilePic();
-                    userName.Text = App.currentUser.Name;
-                    score.Text = "Score: " + App.currentUser.Score.ToString();
-                    scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
+                    /* Load User's past submissions */
                     List<Submission> submissions = loadCachedSubmission();
                     //SubmissionListBox.ItemsSource = null;
                     if (submissions.Count != 0)
@@ -134,10 +115,17 @@ namespace MyScience
                         //SubmissionListBox.ItemsSource = submissions;
                         PictureWall.ItemsSource = submissions;
                     }
+                    /* Load tobe submitted list */
                     loadToBeSubmitPage();
                 }
+                /* Modify userprofile panorama */
+                userName.Text = App.currentUser.Name;
+                score.Text = "Score: " + App.currentUser.Score.ToString();
+                scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
             }
         }
+
+        #region client_calls
 
         void client_GetUserSubmissionCompleted(object sender, GetUserSubmissionCompletedEventArgs e)
         {
@@ -179,15 +167,7 @@ namespace MyScience
                     //do something here
                 }
             }
-            
         }
-
-        //private void TopScorers_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    Service1Client client = new Service1Client();
-        //    client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
-        //    client.GetTopScorersAsync();
-        //}
 
         void client_GetProjectsCompleted(object sender, GetProjectsCompletedEventArgs e)
         {
@@ -295,50 +275,9 @@ namespace MyScience
             }
         }
 
-        private void userPic_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (NetworkInterface.GetIsNetworkAvailable())
-            {
-                if (e != null)
-                {
-                    var photoChooserTask = new PhotoChooserTask();
-                    photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
-                    try
-                    {
-                        photoChooserTask.Show();
-                    }
-                    catch (Exception ex)
-                    {
-                    }
-                }
-            }
-        }
+        #endregion
 
-        void photoChooserTask_Completed(object sender, PhotoResult e)
-        {
-            if (e.TaskResult == TaskResult.OK)
-            {
-                App.firstAccess = true;
-                WriteableBitmap image = new WriteableBitmap(160, 120);
-                image.LoadJpeg(e.ChosenPhoto);
-                userPic.Source = image;
-                userPic.Height = image.PixelHeight;
-                userPic.Width = image.PixelWidth;
-                MemoryStream ms = new MemoryStream();
-                image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
-                byte[] imageData = ms.ToArray();
-
-                //upload new user pic
-                Service1Client client = new Service1Client();
-                client.UploadUserImageCompleted += new EventHandler<UploadUserImageCompletedEventArgs>(client_UploadUserImageCompleted);
-                client.UploadUserImageAsync(App.currentUser.Name, "JPEG", imageData);
-            }
-        }
-
-        void client_UploadUserImageCompleted(object sender, UploadUserImageCompletedEventArgs e)
-        {
-
-        }
+        #region load_from_is
 
         private void loadToBeSubmitPage()
         {
@@ -436,6 +375,91 @@ namespace MyScience
             userPic.Source = image;
         }
 
+        private void loadSubmission(String txtDirectory, List<Submission> sublist)
+        {
+            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
+
+                txtDirectory += "/";
+                String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
+                sublist.Clear();
+                foreach (String txtfile in txtfiles)
+                {
+                    var fileStream = myIsolatedStorage.OpenFile(txtDirectory + txtfile, FileMode.Open, FileAccess.Read);
+                    using (StreamReader reader = new StreamReader(fileStream))
+                    {
+                        Submission submn = new Submission();
+                        submn.ID = 0;
+                        submn.ProjectID = Convert.ToInt32(reader.ReadLine());
+                        submn.ProjectName = reader.ReadLine();
+                        submn.UserID = App.currentUser.ID;
+                        submn.Data = reader.ReadLine();
+                        submn.Location = reader.ReadLine();
+                        submn.Time = Convert.ToDateTime(reader.ReadLine());
+                        submn.ImageName = reader.ReadLine();
+                        submn.LowResImageName = reader.ReadLine();
+                        sublist.Add(submn);
+                    }
+                }
+            }
+        }
+
+        private List<Submission> loadCachedSubmission()
+        {
+            String txtDirectory = "MyScience/Submissions/" + App.currentUser.ID;
+            List<Submission> sublist = new List<Submission>();
+            loadSubmission(txtDirectory, sublist);
+            return sublist;
+        }
+
+        #endregion
+
+        private void userPic_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                if (e != null)
+                {
+                    var photoChooserTask = new PhotoChooserTask();
+                    photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+                    try
+                    {
+                        photoChooserTask.Show();
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+            }
+        }
+
+        void photoChooserTask_Completed(object sender, PhotoResult e)
+        {
+            if (e.TaskResult == TaskResult.OK)
+            {
+                App.firstAccess = true;
+                WriteableBitmap image = new WriteableBitmap(160, 120);
+                image.LoadJpeg(e.ChosenPhoto);
+                userPic.Source = image;
+                userPic.Height = image.PixelHeight;
+                userPic.Width = image.PixelWidth;
+                MemoryStream ms = new MemoryStream();
+                image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
+                byte[] imageData = ms.ToArray();
+
+                //upload new user pic
+                Service1Client client = new Service1Client();
+                client.UploadUserImageCompleted += new EventHandler<UploadUserImageCompletedEventArgs>(client_UploadUserImageCompleted);
+                client.UploadUserImageAsync(App.currentUser.Name, "JPEG", imageData);
+            }
+        }
+
+        void client_UploadUserImageCompleted(object sender, UploadUserImageCompletedEventArgs e)
+        {
+
+        }
+
         private void Image_Opened(object sender, RoutedEventArgs e)
         {
             var image = sender as Image;
@@ -484,45 +508,6 @@ namespace MyScience
             IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + filename );
             photo.SaveJpeg(fileStream, photo.PixelWidth, photo.PixelHeight, 0, 100);
             fileStream.Close();
-        }
-        
-
-        private void loadSubmission(String txtDirectory, List<Submission> sublist)
-        {
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
-
-                txtDirectory += "/";
-                String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
-                sublist.Clear();
-                foreach (String txtfile in txtfiles)
-                {
-                    var fileStream = myIsolatedStorage.OpenFile(txtDirectory + txtfile, FileMode.Open, FileAccess.Read);
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-                        Submission submn = new Submission();
-                        submn.ID = 0;
-                        submn.ProjectID = Convert.ToInt32(reader.ReadLine());
-                        submn.ProjectName = reader.ReadLine();
-                        submn.UserID = App.currentUser.ID;
-                        submn.Data = reader.ReadLine();
-                        submn.Location = reader.ReadLine();
-                        submn.Time = Convert.ToDateTime(reader.ReadLine());
-                        submn.ImageName = reader.ReadLine();
-                        submn.LowResImageName = reader.ReadLine();
-                        sublist.Add(submn);
-                    }
-                }
-            }
-        }
-
-        private List<Submission> loadCachedSubmission()
-        {
-            String txtDirectory = "MyScience/Submissions/"+App.currentUser.ID;
-            List<Submission> sublist = new List<Submission>();
-            loadSubmission(txtDirectory, sublist);
-            return sublist;
         }
 
         #region Refresh buttons
@@ -591,6 +576,7 @@ namespace MyScience
 
         public void displayPopup()
         {
+            msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
             App.popup.Height = msg.Height;
             App.popup.Width = msg.Width;
             App.popup.HorizontalAlignment = HorizontalAlignment.Center;

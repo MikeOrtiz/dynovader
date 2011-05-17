@@ -32,10 +32,16 @@ namespace MyScience
         private double lat;
         private double lng;
         private TextBlock LatBlock, LngBlock;
-        //private Popup submissionStatMsg;
         private TextBlock submissionStatMsg;
         private PerformanceProgressBar progressbar;
         private PopupMessageControl msg;
+        private static string popupTitle1 = "myscience";
+        private static string popupTitle2 = "myscience error";
+        private static string popupContent1 = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
+        private static string popupContent2 = "Submission Saved!";
+        private static string popupContent3 = "Oops, forgot to submit a pic!";
+        private static string popupContent4 = "Congratulation! Data Submitted Successfully!";
+        
 
         public DetailsPage()
         {
@@ -45,6 +51,7 @@ namespace MyScience
             LngBlock = new TextBlock();
             //submissionStatMsg = new Popup();
             submissionStatMsg = new TextBlock();
+            submissionStatMsg.Visibility = System.Windows.Visibility.Collapsed;
             progressbar = new PerformanceProgressBar();
             //popup message content
             msg = new PopupMessageControl();
@@ -159,7 +166,7 @@ namespace MyScience
                 //Last to be added to Dynamic Panel
                 DynamicPanel.Children.Add(submissionStatMsg);
                 progressbar.IsIndeterminate = false;
-                progressbar.Visibility = System.Windows.Visibility.Visible;
+                //progressbar.Visibility = System.Windows.Visibility.Visible;
                 DynamicPanel.Children.Add(progressbar);
 
                 if (NetworkInterface.GetIsNetworkAvailable())
@@ -238,6 +245,7 @@ namespace MyScience
                 IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + newsubmission.ImageName + ".jpg");
                 image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
                 fileStream.Close();
+                displayPopup(popupTitle1, popupContent2);
                 submissionStatMsg.Text = "Submission Saved!\n";
                 //saveButton.IsEnabled = true;
                 //submitButton.IsEnabled = true;
@@ -418,6 +426,7 @@ namespace MyScience
             else
             {
                 TextBlock message = new TextBlock();
+                displayPopup(popupTitle1, popupContent3);
                 submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
                 //submissionStatMsg.Child = message;
                 //submissionStatMsg.IsOpen = true;
@@ -429,7 +438,7 @@ namespace MyScience
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
             {
-                displayPopup();
+                displayPopup(popupTitle2, popupContent1);
                 return;
             }
             submissionStatMsg.Text = "Submitting...";
@@ -471,6 +480,7 @@ namespace MyScience
                 saveButton.IsEnabled = true;
                 submitButton.IsEnabled = true;
                 TextBlock message = new TextBlock();
+                displayPopup(popupTitle1, popupContent3);
                 submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
             }
         } 
@@ -489,6 +499,7 @@ namespace MyScience
             //Popup messagePopup = new Popup()
             progressbar.IsIndeterminate = false;
             progressbar.Visibility = System.Windows.Visibility.Collapsed;
+            displayPopup(popupTitle1, popupContent4);
             submissionStatMsg.Text = "Congratulation! Data Submitted Successfully!\n";
             //submissionStatMsg.Child = message;
             //submissionStatMsg.IsOpen = true;
@@ -549,8 +560,10 @@ namespace MyScience
             
         }
 
-        public void displayPopup()
+        public void displayPopup(string title, string content)
         {
+            msg.msgtitle.Text = title;
+            msg.msgcontent.Text = content;
             App.popup.Height = msg.Height;
             App.popup.Width = msg.Width;
             App.popup.HorizontalAlignment = HorizontalAlignment.Center;
