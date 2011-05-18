@@ -38,14 +38,16 @@
 
             <!--Pivot item one-->
             <controls:PanoramaItem Header="Projects" Foreground="#FF181515">
-                <Grid x:Name="projectsgrid" Width="444" Height="Auto" Margin="0, -140, 0, 0">
+                <Grid x:Name="projectsgrid" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshproject" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshproject_MouseLeftButtonUp"  />
-                    <ListBox Grid.Row="1" x:Name="MainListBox" Margin="0,30,-12,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515">
+                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProjectProgressBar" IsIndeterminate="False" Visibility="Collapsed"/>
+                    <ListBox Grid.Row="2" x:Name="MainListBox" Margin="0,30,-12,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515">
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -63,14 +65,14 @@
             <!--Pivot item two-->
             <controls:PanoramaItem Header="Hall of Fame" Foreground="#FF181515">
                 <!--ContentPanel - place additional content here-->
-                <Grid x:Name="famegrid" Width="444" Height="500">
+                <Grid x:Name="famegrid" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <!--<Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshhalloffame" Stretch="Fill" VerticalAlignment="Top" />-->
-
-                    <ListBox x:Name="HallOfFameBox" Grid.Row="0" Margin="0,0,-12,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500">
+                    <toolkit:PerformanceProgressBar Grid.Row="0" Name="FameProgreeBar" VerticalAlignment="Bottom" Margin="0, 100, 35, 0" IsIndeterminate="False" Visibility="Collapsed"/>
+                    <ListBox x:Name="HallOfFameBox" Grid.Row="1" Margin="0,10,0,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation ="Horizontal" Height="80" Width="400">
@@ -96,12 +98,13 @@
                 <Grid x:Name="profilegrid" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshprofile" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshprofile_MouseLeftButtonUp" />
-
+                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProfileProgressBar" IsIndeterminate="False" Visibility="Collapsed" />
                     <!--ContentPanel - place additional content here-->
-                    <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,15,12,0" Width="409">
+                    <Grid x:Name="ContentPanel" Grid.Row="2" Margin="12,15,12,0" Width="409">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
@@ -177,10 +180,13 @@
                 <Grid x:Name="yourdatagrid2" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshyourdata2" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshyourdata2_MouseLeftButtonUp" />
-                    <ItemsControl Name="PictureWall" Grid.Row="1" Margin="0,30,-12,0" ItemsSource="{Binding Items}">
+                    <toolkit:PerformanceProgressBar Grid.Row="1" Name="DataProgreeBar" IsIndeterminate="False" Visibility="Collapsed"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2">
+                    <ItemsControl Name="PictureWall" Margin="0,30,-12,0" ItemsSource="{Binding Items}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <!--mage Source="{Binding Path=LowResImageName}" Width="80" Height="60"/-->
@@ -193,18 +199,19 @@
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
+                    </ScrollViewer>
                 </Grid>
             </controls:PanoramaItem>
 
-            <controls:PanoramaItem Header="To Submit">
+            <controls:PanoramaItem Header="Submission Queue">
                 <Grid x:Name="tobesubmitgrid" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Height="50" Width="50" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshtobesubmit" Stretch="Fill" VerticalAlignment="Top"  />
-
-                    <ListBox x:Name="ToBeSubmitBox" Grid.Row="1" Margin="0, 30,-12,0" ItemsSource="{Binding Items}" Visibility="Collapsed" SelectionChanged="ToBeSubmitBox_SelectionChanged">
+                    <toolkit:PerformanceProgressBar Grid.Row="1" Name="QueueProgreeBar" IsIndeterminate="False" Visibility="Collapsed"/>
+                    <ListBox x:Name="ToBeSubmitBox" Grid.Row="2" Margin="0, 30,-12,0" ItemsSource="{Binding Items}" Visibility="Collapsed" SelectionChanged="ToBeSubmitBox_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation ="Horizontal" Height="80" Width="400">

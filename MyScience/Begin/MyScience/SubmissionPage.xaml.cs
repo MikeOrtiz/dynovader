@@ -141,10 +141,6 @@ namespace MyScience
             uploadButton.IsEnabled = false;
             progressbar.Visibility = System.Windows.Visibility.Visible;
             progressbar.IsIndeterminate = true;
-            TextBlock message = new TextBlock();
-            message.Text = "Submitting...\n";
-            messagePopup.Child = message;
-            messagePopup.IsOpen = true;
             String filename = App.toBeSubmit[App.currentSubmissionIndex].ImageName + ".jpg";
             WriteableBitmap image = new WriteableBitmap(2560, 1920);
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
@@ -185,13 +181,10 @@ namespace MyScience
 
             progressbar.IsIndeterminate = false;
             String url = e.Result.ToString();
-            TextBlock message = new TextBlock();
             displayPopup(popupTitle1, popupContent4);
-            message.Text = "Congratulation! Data Submitted Successfully!\n";
-            messagePopup.Child = message;
             //messagePopup.IsOpen = true;
-            var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
-            uploadButton.IsEnabled = true;
+            //var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            //uploadButton.IsEnabled = true;
         }
 
         /*parsing Json to get fields required*/
