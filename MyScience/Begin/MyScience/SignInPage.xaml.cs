@@ -59,25 +59,6 @@ namespace MyScience
             Service1Client client = new Service1Client();
             client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
             client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
-
-            /*Parse the fields list into Json String*/
-            //WriteableBitmap image = (WriteableBitmap)userImage.Source;
-
-            //if (image != null)
-            //{
-            //    MemoryStream ms = new MemoryStream();
-            //    image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
-            //    byte[] imageData = ms.ToArray();
-            //    Service1Client client = new Service1Client();
-            //    client.RegisterUserWithImageCompleted += new EventHandler<RegisterUserWithImageCompletedEventArgs>(client_RegisterUserWithImageCompleted);
-            //    client.RegisterUserWithImageAsync(0, phoneID, registerNameBox.Text, "JPEG", imageData);
-            //}
-            //else
-            //{
-            //    Service1Client client = new Service1Client();
-            //    client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
-            //    client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
-            //}
         }
 
         private void signInButton_Click(object sender, RoutedEventArgs e)
@@ -284,35 +265,12 @@ namespace MyScience
             registerNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseInactiveBrush"];
         }
 
-        private void signInButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            /* manipulate colors */
-            signInButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
-            signInButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-            signInButton.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-        }
-
         private void registerButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             /* manipulate colors */
             registerButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
             registerButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
             registerButton.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-        }
-
-        private void signInButton_GotFocus(object sender, RoutedEventArgs e)
-        {
-            /* manipulate colors */
-            signInButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
-            signInButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-            signInButton.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-        }
-
-        private void signInButton_LostFocus(object sender, RoutedEventArgs e)
-        {
-            /* manipulate colors */
-            signInButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
-            signInButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
         }
 
     }

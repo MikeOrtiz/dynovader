@@ -41,8 +41,10 @@
   <xs:complexType name="TopScorer">
     <xs:sequence>
       <xs:element minOccurs="0" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" name="ImageName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Score" type="xs:int" />
+      <xs:element minOccurs="0" name="title" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="TopScorer" nillable="true" type="tns:TopScorer" />

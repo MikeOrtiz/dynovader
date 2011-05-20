@@ -32,8 +32,16 @@ namespace MyScience
         private double lat;
         private double lng;
         private TextBlock LatBlock, LngBlock;
-        //private Popup submissionStatMsg;
         private TextBlock submissionStatMsg;
+        private PerformanceProgressBar progressbar;
+        private PopupMessageControl msg;
+        private static string popupTitle1 = "myscience";
+        private static string popupTitle2 = "myscience error";
+        private static string popupContent1 = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
+        private static string popupContent2 = "Submission Saved!";
+        private static string popupContent3 = "Oops, forgot to submit a pic!";
+        private static string popupContent4 = "Congratulation! Data Submitted Successfully!";
+        
 
         public DetailsPage()
         {
@@ -43,6 +51,12 @@ namespace MyScience
             LngBlock = new TextBlock();
             //submissionStatMsg = new Popup();
             submissionStatMsg = new TextBlock();
+            submissionStatMsg.Visibility = System.Windows.Visibility.Collapsed;
+            progressbar = new PerformanceProgressBar();
+            //popup message content
+            msg = new PopupMessageControl();
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
         }
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
@@ -151,6 +165,9 @@ namespace MyScience
                     submitButton.IsEnabled = false;
                 //Last to be added to Dynamic Panel
                 DynamicPanel.Children.Add(submissionStatMsg);
+                progressbar.IsIndeterminate = false;
+                //progressbar.Visibility = System.Windows.Visibility.Visible;
+                DynamicPanel.Children.Add(progressbar);
 
                 if (NetworkInterface.GetIsNetworkAvailable())
                 {
@@ -228,6 +245,7 @@ namespace MyScience
                 IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + newsubmission.ImageName + ".jpg");
                 image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
                 fileStream.Close();
+                displayPopup(popupTitle1, popupContent2);
                 submissionStatMsg.Text = "Submission Saved!\n";
                 //saveButton.IsEnabled = true;
                 //submitButton.IsEnabled = true;
@@ -408,6 +426,7 @@ namespace MyScience
             else
             {
                 TextBlock message = new TextBlock();
+                displayPopup(popupTitle1, popupContent3);
                 submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
                 //submissionStatMsg.Child = message;
                 //submissionStatMsg.IsOpen = true;
@@ -417,6 +436,15 @@ namespace MyScience
 
         void newButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!NetworkInterface.GetIsNetworkAvailable())
+            {
+                displayPopup(popupTitle2, popupContent1);
+                return;
+            }
+            submissionStatMsg.Text = "Submitting...";
+            progressbar.IsIndeterminate = true;
+            progressbar.Visibility = System.Windows.Visibility.Visible;
+
             var takePhotoButton = DynamicPanel.Children.OfType<Button>().First() as Button;
             var choosePhotoButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
             var saveButton = DynamicPanel.Children.OfType<Button>().ElementAt(2) as Button;
@@ -452,12 +480,9 @@ namespace MyScience
                 saveButton.IsEnabled = true;
                 submitButton.IsEnabled = true;
                 TextBlock message = new TextBlock();
+                displayPopup(popupTitle1, popupContent3);
                 submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
-                //submissionStatMsg.Child = message;
-                //submissionStatMsg.IsOpen = true;
-                //DynamicPanel.Children.Add(submissionStatMsg);
             }
-            //client.UpdateScoreAsync(App.currentUser.ID, 1);//for now, add one point for each submission
         } 
 
         void client_SubmitDataCompleted(object sender, SubmitDataCompletedEventArgs e)
@@ -471,8 +496,10 @@ namespace MyScience
             saveButton.IsEnabled = true;
             submitButton.IsEnabled = true;
             String url = e.Result.ToString();
-            //Popup messagePopup = new Popup();
-            TextBlock message = new TextBlock();
+            //Popup messagePopup = new Popup()
+            progressbar.IsIndeterminate = false;
+            progressbar.Visibility = System.Windows.Visibility.Collapsed;
+            displayPopup(popupTitle1, popupContent4);
             submissionStatMsg.Text = "Congratulation! Data Submitted Successfully!\n";
             //submissionStatMsg.Child = message;
             //submissionStatMsg.IsOpen = true;
@@ -531,6 +558,21 @@ namespace MyScience
             LatBlock.Text = "Lat: " + lat.ToString();
             LngBlock.Text = "Lng:" + lng.ToString();
             
+        }
+
+        public void displayPopup(string title, string content)
+        {
+            msg.msgtitle.Text = title;
+            msg.msgcontent.Text = content;
+            App.popup.Height = msg.Height;
+            App.popup.Width = msg.Width;
+            App.popup.HorizontalAlignment = HorizontalAlignment.Center;
+            App.popup.VerticalAlignment = VerticalAlignment.Center;
+            App.popup.HorizontalOffset = 0;
+            App.popup.VerticalOffset = 0;
+            App.popup.MinHeight = msg.Height;
+            App.popup.MinWidth = msg.Width;
+            App.popup.IsOpen = true;
         }
     }
 }

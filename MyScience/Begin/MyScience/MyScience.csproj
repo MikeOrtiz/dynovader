@@ -48,7 +48,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IsolatedStorageExplorer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Devices.Sensors" />
     <Reference Include="Microsoft.Expression.Controls.Fxg, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions, Version=3.7.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -88,6 +87,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopupMessageControl.xaml.cs">
+      <DependentUpon>PopupMessageControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
@@ -110,6 +112,7 @@
     <Compile Include="SubmissionPage.xaml.cs">
       <DependentUpon>SubmissionPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TaskInfo.cs" />
     <Compile Include="User.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -126,6 +129,10 @@
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopupMessageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ProfilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -186,6 +193,11 @@
     <Resource Include="Images\sunshine3.jpg" />
     <Resource Include="Images\unknownuser.jpg" />
     <Resource Include="Images\camera_icon_1.gif" />
+    <Resource Include="Images\myScienceRed.png" />
+    <Resource Include="Images\myScienceOrange.png" />
+    <Resource Include="Images\myScienceGreen.png" />
+    <Resource Include="Images\myScienceOrange2.png" />
+    <Resource Include="Images\refresh-icon.png" />
     <None Include="Service References\MyScienceService\Service1.disco" />
     <None Include="Service References\MyScienceService\configuration91.svcinfo" />
     <None Include="Service References\MyScienceService\configuration.svcinfo" />
@@ -193,11 +205,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Resource Include="Images\myScienceRed.png" />
-    <Resource Include="Images\myScienceOrange.png" />
-    <Resource Include="Images\myScienceGreen.png" />
-    <Resource Include="Images\myScienceOrange2.png" />
-    <Resource Include="Images\refresh-icon.png" />
+    <Resource Include="Images\highlight-refresh-icon.png" />
     <Content Include="ServiceReferences.ClientConfig">
       <SubType>Designer</SubType>
     </Content>

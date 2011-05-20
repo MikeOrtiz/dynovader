@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="MyScience.PopupMessageControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneContrastForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480" Height="360" Width="480">
+
+    <Grid x:Name="LayoutRoot" Height="360" VerticalAlignment="Top" Width="480">
+    	<Grid.Background>
+    		<SolidColorBrush Color="#DFFFFFFF"/>
+    	</Grid.Background>
+        <Button Content="close" Height="72" HorizontalAlignment="Left" Margin="36,248,0,0" Name="close" VerticalAlignment="Top" Width="160" Foreground="Black" BorderBrush="Black" Style="{StaticResource WhiteBackgroundButtonStyle}" Click="close_Click" Background="Transparent" />
+        <TextBlock Height="42" Margin="48,35,48,0" Name="msgtitle" Text="myscience error" VerticalAlignment="Top" FontSize="29.333" FontWeight="Bold" Foreground="Black" />
+        <TextBlock x:Name="msgcontent" Margin="48,96,60,0" TextWrapping="Wrap" Text="We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later." VerticalAlignment="Top" Height="146" FontSize="21.333"/>
+    </Grid>
+</UserControl>

@@ -13,8 +13,7 @@
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True">
 
-
-
+    <!--LayoutRoot is the root grid where all page content is placed-->
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" >
 
@@ -23,8 +22,8 @@
         </Grid.Background>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+        	<RowDefinition Height="Auto"/>
+        	<RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
@@ -35,24 +34,19 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Margin="12,91,12,70" Grid.RowSpan="2">
-            <Canvas Name="SignInCanvas" Margin="6,0,12,354">
+            <Canvas x:Name="SignInCanvas" Margin="6,0,12,354">
                 <!--TextBlock Canvas.Left="20" Canvas.Top="6" Height="54" Name="signInBlock" Text="Sign In Here!" Width="161" FontSize="32"/-->
-                <TextBlock Canvas.Left="8" Canvas.Top="8" Height="43" Name="userNameBlock" Text="username:" Width="233" FontSize="26.667" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
-                <TextBox Canvas.Left="0" Canvas.Top="39" Height="78" Name="userNameBox" Text="Lu Li" Width="430" FontSize="32" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastBackgroundBrush}" Background="{StaticResource PhoneInverseInactiveBrush}" GotFocus="userNameBox_GotFocus" LostFocus="userNameBox_LostFocus" />
-                <Button Canvas.Top="117" Content="login" Height="78" Name="signInButton" Width="180" FontSize="28" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{x:Null}" Canvas.Left="250" Click="signInButton_Click" GotFocus="signInButton_GotFocus" LostFocus="signInButton_LostFocus" />
-                <TextBlock Canvas.Left="8" Canvas.Top="193" Height="54" Name="tryAgainBlock" Text="" Width="420" FontSize="32" VerticalAlignment="Top" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
+                <TextBlock Canvas.Left="8" Canvas.Top="8" Height="43" x:Name="userNameBlock" Text="username:" Width="233" FontSize="26.667" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
+                <TextBox Canvas.Left="0" Canvas.Top="39" Height="78" x:Name="userNameBox" Text="Lu Li" Width="430" FontSize="32" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastBackgroundBrush}" Background="{StaticResource PhoneInverseInactiveBrush}" GotFocus="userNameBox_GotFocus" LostFocus="userNameBox_LostFocus" Style="{StaticResource TextBoxStyle1}"/>
+                <Button Canvas.Top="117" Content="login" Height="78" x:Name="signInButton" Width="180" FontSize="28" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{StaticResource PhoneContrastBackgroundBrush}" Canvas.Left="250" Click="signInButton_Click" Style="{StaticResource WhiteBackgroundButtonStyle}" />
+                <TextBlock Canvas.Left="8" Canvas.Top="193" Height="54" x:Name="tryAgainBlock" Text="" Width="420" FontSize="32" VerticalAlignment="Top" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
             </Canvas>
-            <Canvas Name="RegisterCanvas" Margin="1,257,0,57" Height="293">
+            <Canvas x:Name="RegisterCanvas" Margin="1,257,0,57" Height="293">
                 <!--TextBlock Canvas.Left="17" Canvas.Top="32" Height="30" Name="registerBlock" Text="Never used myScience before?" FontSize="20"/-->
-                <TextBlock Canvas.Left="11" Canvas.Top="-3" Height="52" Name="registerNameBlock" Text="register:" FontSize="26.667" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
-                <TextBox Canvas.Left="6" Canvas.Top="27" Height="78" Name="registerNameBox" VerticalAlignment="Center" Width="429" FontSize="32" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastBackgroundBrush}" Background="{StaticResource PhoneInverseInactiveBrush}" LostFocus="registerNameBox_LostFocus" GotFocus="registerNameBox_GotFocus" />
-                <Button Canvas.Left="255" Canvas.Top="111" Content="register" Height="78" Name="registerButton" VerticalAlignment="Center" Width="178" FontSize="28" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{x:Null}" MouseLeftButtonDown="registerButton_MouseLeftButtonDown" Click="registerButton_Click" />
-                <TextBlock Height="57" Name="registerAgainBlock" Text="" Width="430" FontSize="32" Canvas.Left="13" Canvas.Top="194" Foreground="{StaticResource PhoneContrastForegroundBrush}" />                
-                <!--Button Canvas.Left="271" Canvas.Top="97" Content="Album" Height="78" Name="choosePhotoButton" VerticalAlignment="Center" Width="178" Click="choosePhotoButton_Click" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{x:Null}" />
-                <Button Canvas.Left="271" Canvas.Top="169" Content="Take Photo" Height="78" Name="takePhotoButton" VerticalAlignment="Center" Width="178" Click="takePhotoButton_Click" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{x:Null}" />
-                <Canvas Canvas.Left="49" Canvas.Top="111" Height="133" Name="canvas1" Width="149" Background="#BFFFFFFF">
-                    <Image Height="133" Name="userImage" Stretch="Fill" Width="149" />
-                </Canvas-->
+                <TextBlock Canvas.Left="11" Canvas.Top="-3" Height="52" x:Name="registerNameBlock" Text="register:" FontSize="26.667" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
+                <TextBox Canvas.Left="6" Canvas.Top="27" Height="78" x:Name="registerNameBox" VerticalAlignment="Center" Width="429" FontSize="32" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastBackgroundBrush}" Background="{StaticResource PhoneInverseInactiveBrush}" LostFocus="registerNameBox_LostFocus" GotFocus="registerNameBox_GotFocus" Style="{StaticResource TextBoxStyle1}" />
+                <Button Canvas.Left="255" Canvas.Top="111" Content="register" Height="78" x:Name="registerButton" VerticalAlignment="Center" Width="178" FontSize="28" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{x:Null}" Click="registerButton_Click" Style="{StaticResource WhiteBackgroundButtonStyle}" />
+                <TextBlock Height="57" x:Name="registerAgainBlock" Text="" Width="430" FontSize="32" Canvas.Left="13" Canvas.Top="194" Foreground="{StaticResource PhoneContrastForegroundBrush}" />                
             </Canvas>
         </Grid>
     </Grid>

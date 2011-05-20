@@ -24,11 +24,27 @@ namespace MyScience
 {
     public partial class SubmissionPage : PhoneApplicationPage
     {
+        private PopupMessageControl msg;
         private Popup messagePopup;
+        private PerformanceProgressBar progressbar;
+        
+        private static string popupTitle1 = "myscience";
+        private static string popupTitle2 = "myscience error";
+        private static string popupContent1 = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
+        private static string popupContent2 = "Submission Saved!";
+        private static string popupContent3 = "Oops, forgot to submit a pic!";
+        private static string popupContent4 = "Congratulation! Data Submitted Successfully!";
+
+
         public SubmissionPage()
         {
             InitializeComponent();
             messagePopup = new Popup();
+            messagePopup.IsOpen = false;
+            msg = new PopupMessageControl();
+            progressbar = new PerformanceProgressBar();
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
         }
 
         private void SubmissionPage_Loaded(object sender, RoutedEventArgs e)
@@ -50,8 +66,8 @@ namespace MyScience
                 }
                 Photo.Source = image;
 
-                TimeBlock.Text = currentSub.Time.ToString();
-                LocationBlock.Text = currentSub.Location;
+                TimeBlock.Text ="   "+ currentSub.Time.ToString();
+                LocationBlock.Text = "  "+currentSub.Location;
 
                 List<Field> fields = GetFormField(currentSub.Data);
 
@@ -62,7 +78,7 @@ namespace MyScience
                         case "Question":
                             //TODO:add a numerical checker for number answers
                             var QBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
-                            var ABlock = new TextBlock { Name = "Answer" + i.ToString(), Text = fields[i].value };
+                            var ABlock = new TextBlock { Name = "Answer" + i.ToString(), Text ="    "+ fields[i].value };
                             DynamicPanel.Children.Add(QBlock);
                             DynamicPanel.Children.Add(ABlock);
                             break;
@@ -74,7 +90,7 @@ namespace MyScience
                             string[] Options = fields[i].value.Split('|');
                             for (int j = 0; j < Options.Length; j++)
                             {
-                                var RBABlock = new TextBlock { Text = Options[j] };
+                                var RBABlock = new TextBlock { Text ="  "+ Options[j] };
                                 DynamicPanel.Children.Add(RBABlock);
                             }
                             break;
@@ -85,7 +101,7 @@ namespace MyScience
                             string[] Choices = fields[i].value.Split('|');
                             for (int j = 0; j < Choices.Length; j++)
                             {
-                                var CBABlock = new TextBlock { Text = Choices[j] };
+                                var CBABlock = new TextBlock { Text ="  "+ Choices[j] };
                                 DynamicPanel.Children.Add(CBABlock);
                             }
                             break;
@@ -106,6 +122,9 @@ namespace MyScience
 
                 //Add status message last:
                 DynamicPanel.Children.Add(messagePopup);
+                DynamicPanel.Children.Add(progressbar);
+                progressbar.IsIndeterminate = false;
+                progressbar.Visibility = System.Windows.Visibility.Collapsed;
             }
 
 
@@ -113,8 +132,15 @@ namespace MyScience
 
         void uploadButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!NetworkInterface.GetIsNetworkAvailable())
+            {
+                displayPopup(popupTitle2, popupContent1);
+                return;
+            }
             var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
             uploadButton.IsEnabled = false;
+            progressbar.Visibility = System.Windows.Visibility.Visible;
+            progressbar.IsIndeterminate = true;
             String filename = App.toBeSubmit[App.currentSubmissionIndex].ImageName + ".jpg";
             WriteableBitmap image = new WriteableBitmap(2560, 1920);
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
@@ -152,14 +178,13 @@ namespace MyScience
             //App.toBeSubmit.RemoveAt(App.currentSubmissionIndex);
             //App.firstAccess = true;
             //NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
-            
+
+            progressbar.IsIndeterminate = false;
             String url = e.Result.ToString();
-            TextBlock message = new TextBlock();
-            message.Text = "Congratulation! Data Submitted Successfully!\n";
-            messagePopup.Child = message;
-            messagePopup.IsOpen = true;
-            var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
-            uploadButton.IsEnabled = true;
+            displayPopup(popupTitle1, popupContent4);
+            //messagePopup.IsOpen = true;
+            //var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            //uploadButton.IsEnabled = true;
         }
 
         /*parsing Json to get fields required*/
@@ -183,6 +208,21 @@ namespace MyScience
             stream.Close();
             return (List<Field>)fields;
 
+        }
+
+        public void displayPopup(string title, string content)
+        {
+            msg.msgtitle.Text = title;
+            msg.msgcontent.Text = content;
+            App.popup.Height = msg.Height;
+            App.popup.Width = msg.Width;
+            App.popup.HorizontalAlignment = HorizontalAlignment.Center;
+            App.popup.VerticalAlignment = VerticalAlignment.Center;
+            App.popup.HorizontalOffset = 0;
+            App.popup.VerticalOffset = 0;
+            App.popup.MinHeight = msg.Height;
+            App.popup.MinWidth = msg.Width;
+            App.popup.IsOpen = true;
         }
     }
 }

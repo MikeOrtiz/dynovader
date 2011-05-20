@@ -32,15 +32,20 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
             <StackPanel Name="DynamicPanel" Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" Height="150">
-                    <Image Name ="Photo" Width="150" Height="150"/>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Name="TimeBlock" />
-                        <TextBlock Name="LocationBlock" />
-                    </StackPanel>
-                </StackPanel>
+                <Image Name ="Photo" Width="320" Height="240"/>
+                <TextBlock Text="Time:" />
+                <TextBlock Name="TimeBlock"  />
+                <TextBlock Text="Location:" />
+                <TextBlock Name="LocationBlock" />
+               
             </StackPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 
