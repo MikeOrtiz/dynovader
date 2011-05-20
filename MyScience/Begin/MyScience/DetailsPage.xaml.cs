@@ -542,9 +542,8 @@ namespace MyScience
 
         private void OnLoaded(/*object sender, RoutedEventArgs e*/)
         {
-            var useEmulation = false;//TODO change to false
 
-            var observable = useEmulation ? App.CreateGeoPositionEmulator() : App.CreateObservableGeoPositionWatcher();
+            var observable = App.CreateObservableGeoPositionWatcher();
 
             observable
                 .ObserveOnDispatcher()

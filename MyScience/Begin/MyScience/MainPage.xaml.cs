@@ -34,7 +34,6 @@ namespace MyScience
         public MainPage()
         {
             InitializeComponent();
-            DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
 
             msg = new PopupMessageControl();
@@ -100,7 +99,7 @@ namespace MyScience
             else
             {
                 /* Load all */
-                App.loadAppState();
+                App.loadAppAll();
                 if(App.applist != null && App.applist.Count != 0) MainListBox.ItemsSource = App.applist;
                 if(App.topscorerslist != null && App.topscorerslist.Count != 0) HallOfFameBox.ItemsSource = App.topscorerslist;
                 userPic.Source = App.userProfileImage;
