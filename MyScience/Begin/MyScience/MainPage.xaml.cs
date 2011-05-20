@@ -72,57 +72,41 @@ namespace MyScience
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!App.userVerified)
-                NavigationService.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
+            if (NetworkInterface.GetIsNetworkAvailable() && App.firstAccess)
+            {
+                Service1Client client = new Service1Client();
+                /* Get list of projects */
+                client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
+                client.GetProjectsAsync();
+                /* Get Hall of Fame user list */
+                client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+                client.GetTopScorersAsync();
+                /* Get User's past submissions */
+                client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
+                client.GetUserSubmissionAsync(App.currentUser.ID);
+                /* Get user profile image */
+                client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
+                client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+                /* Load tobe submitted list */
+                App.loadToBeSubmit();
+                fillToBeSubmitPage();
+
+                App.firstAccess = false;
+            }
             else
             {
-                if (NetworkInterface.GetIsNetworkAvailable() && App.firstAccess)
-                {
-                    Service1Client client = new Service1Client();
-
-                    /* Get list of projects */
-                    client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
-                    client.GetProjectsAsync();
-                    /* Get Hall of Fame user list */
-                    client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
-                    client.GetTopScorersAsync();
-                    /* Get User's past submissions */
-                    client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
-                    client.GetUserSubmissionAsync(App.currentUser.ID);
-                    /* Get user profile image */
-                    client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
-                    client.GetUserImageAsync(App.currentUser.Name, "JPEG");
-                    /* Load tobe submitted list */
-                    loadToBeSubmitPage();
-
-                    App.firstAccess = false;
-                }
-                else
-                {
-                    /* Load list of projects */
-                    loadProjectPage();
-                    if(App.applist != null && App.applist.Count != 0) MainListBox.ItemsSource = App.applist;
-                    /* Load list of top scorers */
-                    loadTopScorers();
-                    if(App.topscorerslist != null && App.topscorerslist.Count != 0) HallOfFameBox.ItemsSource = App.topscorerslist;
-                    /* Load user profile pic */
-                    loadUserProfilePic();
-                    /* Load User's past submissions */
-                    List<Submission> submissions = loadCachedSubmission();
-                    //SubmissionListBox.ItemsSource = null;
-                    if (submissions.Count != 0)
-                    {
-                        //SubmissionListBox.ItemsSource = submissions;
-                        PictureWall.ItemsSource = submissions;
-                    }
-                    /* Load tobe submitted list */
-                    loadToBeSubmitPage();
-                }
-                /* Modify userprofile panorama */
-                userName.Text = App.currentUser.Name;
-                score.Text = "Score: " + App.currentUser.Score.ToString();
-                scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
+                /* Load all */
+                App.loadAppState();
+                if(App.applist != null && App.applist.Count != 0) MainListBox.ItemsSource = App.applist;
+                if(App.topscorerslist != null && App.topscorerslist.Count != 0) HallOfFameBox.ItemsSource = App.topscorerslist;
+                userPic.Source = App.userProfileImage;
+                if (App.sentSubmissions.Count != 0) PictureWall.ItemsSource = App.sentSubmissions;
+                fillToBeSubmitPage();//TODO change name
             }
+            /* Modify userprofile panorama */
+            userName.Text = App.currentUser.Name;
+            score.Text = "Score: " + App.currentUser.Score.ToString();
+            scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
         }
 
         #region client_calls
@@ -133,39 +117,9 @@ namespace MyScience
             {
                 //SubmissionListBox.ItemsSource = e.Result;
                 PictureWall.ItemsSource = e.Result;
-                List<Submission> submissions = e.Result.ToList<Submission>();
-                try
-                {
-                    IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
-                    StreamWriter writeFile;
-                    String txtDirectory = "MyScience/Submissions/" + App.currentUser.ID;
-                    if (!myIsolatedStorage.DirectoryExists(txtDirectory))
-                    {
-                        myIsolatedStorage.CreateDirectory(txtDirectory);
-                    }
-                    foreach (Submission submn in submissions)
-                    {
-                        String filename = submn.LowResImageName.Substring(submn.LowResImageName.LastIndexOf('/') + 1);
-                        if (myIsolatedStorage.FileExists(txtDirectory+"/" + filename + ".txt"))
-                        {
-                            myIsolatedStorage.DeleteFile(txtDirectory+"/"+ filename + ".txt");
-                        }
-                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory+"/" + filename + ".txt", FileMode.CreateNew, myIsolatedStorage));
-                        writeFile.WriteLine(submn.ProjectID);
-                        writeFile.WriteLine(submn.ProjectName);
-                        writeFile.WriteLine(submn.Data);
-                        writeFile.WriteLine(submn.Location);
-                        writeFile.WriteLine(submn.Time);
-                        writeFile.WriteLine(submn.ImageName);
-                        writeFile.WriteLine(submn.LowResImageName);
-                        writeFile.WriteLine(filename);//TODO remove this or not
-                        writeFile.Close();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //do something here
-                }
+
+                App.sentSubmissions = e.Result.ToList<Submission>();
+                App.saveSubmissions();
             }
         }
 
@@ -175,34 +129,7 @@ namespace MyScience
             {
                 this.MainListBox.ItemsSource = e.Result;
                 App.applist = e.Result.ToList<Project>();
-                /* Write file to isolated storage */
-                try
-                {
-                    IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
-                    StreamWriter writeFile;
-                    String txtDirectory = "MyScience/Projects";
-                    if (!myIsolatedStorage.DirectoryExists(txtDirectory))
-                    {
-                        myIsolatedStorage.CreateDirectory(txtDirectory);
-                    }
-                    foreach (Project project in App.applist)
-                    {
-                        String filename = project.ID.ToString();
-                        if (myIsolatedStorage.FileExists(txtDirectory + "/" + filename + ".txt"))
-                        {
-                            myIsolatedStorage.DeleteFile(txtDirectory + "/" + filename + ".txt");
-                        }
-
-                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory + "/" + filename + ".txt", FileMode.CreateNew, myIsolatedStorage));
-                        writeFile.WriteLine(project.ID);
-                        writeFile.WriteLine(project.Name);
-                        writeFile.WriteLine(project.Owner);
-                        writeFile.WriteLine(project.Description);
-                        writeFile.WriteLine(project.Form);
-                        writeFile.Close();
-                    }
-                }
-                catch (Exception ex) { }
+                App.saveProjects();
             }
             this.MainListBox.Visibility = System.Windows.Visibility.Visible;
         }
@@ -219,36 +146,12 @@ namespace MyScience
                     App.topscorerslist[i].ImageName = "http://myscience.blob.core.windows.net/userimages/"+App.topscorerslist[i].Name + ".jpg";
                 }
                 this.HallOfFameBox.ItemsSource = App.topscorerslist;
-                
-                /* Write file to isolated storage */
-                try
-                {
-                    IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
-                    StreamWriter writeFile;
-                    String txtDirectory = "MyScience/TopScorers";
-                    if (!myIsolatedStorage.DirectoryExists(txtDirectory))
-                    {
-                        myIsolatedStorage.CreateDirectory(txtDirectory);
-                    }
-                    foreach (TopScorer ts in App.topscorerslist)
-                    {
-                        if (myIsolatedStorage.FileExists(txtDirectory + "/" + ts.ID + ".txt"))
-                        {
-                            myIsolatedStorage.DeleteFile(txtDirectory + "/" + ts.ID + ".txt");
-                        }
-                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory + "/" + ts.ID + ".txt", FileMode.CreateNew, myIsolatedStorage));
-                        writeFile.WriteLine(ts.ID);
-                        writeFile.WriteLine(ts.Name);
-                        writeFile.WriteLine(ts.Score);
-                        writeFile.Close();
-                    }
-                }
-                catch (Exception ex) { }
+                App.saveTopScorers();
             }
             this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
         }
 
-        /* Fetch user's new profile image */
+        /* Fetch user's new profile image. Also writes the image to the siolated storage */
         void client_GetUserImageCompleted(object sender, GetUserImageCompletedEventArgs e)
         {
             if (e.Result != null)
@@ -277,11 +180,9 @@ namespace MyScience
 
         #endregion
 
-        #region load_from_is
-
-        private void loadToBeSubmitPage()
+        //populate the submit list box
+        private void fillToBeSubmitPage()
         {
-            loadToBeSubmit();
             //ToBeSubmitInfo.Text = App.toBeSubmit.Count.ToString() + " submissions to be uploaded";
             if (App.toBeSubmit.Count != 0)
             {
@@ -294,126 +195,6 @@ namespace MyScience
                 ToBeSubmitBox.ItemsSource = null;
             }
         }
-
-        /* Load all the submissions that haven't been uploaded yet */
-        private void loadToBeSubmit()
-        {
-            String txtDirectory = "MyScience/ToBeSubmit/"+App.currentUser.ID;
-            loadSubmission(txtDirectory, App.toBeSubmit); //TODO might be bug, since persistence across sessions does not happen
-        }
-
-        private void loadProjectPage() 
-        {
-            App.applist = new List<Project>();
-            String txtDirectory = "MyScience/Projects/";
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                
-                if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
-                //myIsolatedStorage.DeleteFile("MyScience/Projects/More Creek Watch25.txt");
-                String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
-                foreach (String txtfile in txtfiles)
-                {
-                    var fileStream = myIsolatedStorage.OpenFile(txtDirectory + txtfile, FileMode.Open, FileAccess.Read);
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-                        Project project = new Project();
-                        project.ID = Convert.ToInt32(reader.ReadLine());
-                        project.Name = reader.ReadLine();
-                        project.Owner = Convert.ToInt32(reader.ReadLine());
-                        project.Description = reader.ReadLine();
-                        project.Form = reader.ReadLine();
-                        App.applist.Add(project);
-                    }
-                }
-            }
-        }
-
-        private void loadTopScorers()
-        {
-            App.topscorerslist = new List<TopScorer>();
-            String txtDirectory = "MyScience/TopScorers/";
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
-
-                String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
-                foreach (String txtfile in txtfiles)
-                {
-                    //myIsolatedStorage.DeleteFile(txtDirectory + txtfile);
-                    var fileStream = myIsolatedStorage.OpenFile(txtDirectory + txtfile, FileMode.Open, FileAccess.Read);
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-                        TopScorer ts = new TopScorer();
-                        ts.ID = Convert.ToInt32(reader.ReadLine());
-                        ts.Name = reader.ReadLine();
-                        ts.Score = Convert.ToInt32(reader.ReadLine());
-                        ts.title = ts.Score > 50 ? "Aspiring Scientist" : "Newb";
-                        ts.ImageName = ts.Name + ".jpg";
-                        App.topscorerslist.Add(ts);
-                    }
-                }
-            }
-        }
-
-        private void loadUserProfilePic()
-        {
-
-            String filename = App.currentUser.Name + ".jpg";
-            BitmapImage image = new BitmapImage();
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if(!myIsolatedStorage.FileExists("MyScience/Images/" + filename)) return;
-
-
-                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("MyScience/Images/" + filename, FileMode.Open, FileAccess.Read))
-                {
-                    image.SetSource(fileStream);
-                }
-               
-            }
-            userPic.Source = image;
-        }
-
-        private void loadSubmission(String txtDirectory, List<Submission> sublist)
-        {
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
-
-                txtDirectory += "/";
-                String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
-                sublist.Clear();
-                foreach (String txtfile in txtfiles)
-                {
-                    var fileStream = myIsolatedStorage.OpenFile(txtDirectory + txtfile, FileMode.Open, FileAccess.Read);
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-                        Submission submn = new Submission();
-                        submn.ID = 0;
-                        submn.ProjectID = Convert.ToInt32(reader.ReadLine());
-                        submn.ProjectName = reader.ReadLine();
-                        submn.UserID = App.currentUser.ID;
-                        submn.Data = reader.ReadLine();
-                        submn.Location = reader.ReadLine();
-                        submn.Time = Convert.ToDateTime(reader.ReadLine());
-                        submn.ImageName = reader.ReadLine();
-                        submn.LowResImageName = reader.ReadLine();
-                        sublist.Add(submn);
-                    }
-                }
-            }
-        }
-
-        private List<Submission> loadCachedSubmission()
-        {
-            String txtDirectory = "MyScience/Submissions/" + App.currentUser.ID;
-            List<Submission> sublist = new List<Submission>();
-            loadSubmission(txtDirectory, sublist);
-            return sublist;
-        }
-
-        #endregion
 
         private void userPic_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

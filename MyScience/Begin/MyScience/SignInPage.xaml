@@ -47,11 +47,6 @@
                 <TextBox Canvas.Left="6" Canvas.Top="27" Height="78" x:Name="registerNameBox" VerticalAlignment="Center" Width="429" FontSize="32" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastBackgroundBrush}" Background="{StaticResource PhoneInverseInactiveBrush}" LostFocus="registerNameBox_LostFocus" GotFocus="registerNameBox_GotFocus" Style="{StaticResource TextBoxStyle1}" />
                 <Button Canvas.Left="255" Canvas.Top="111" Content="register" Height="78" x:Name="registerButton" VerticalAlignment="Center" Width="178" FontSize="28" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{x:Null}" Click="registerButton_Click" Style="{StaticResource WhiteBackgroundButtonStyle}" />
                 <TextBlock Height="57" x:Name="registerAgainBlock" Text="" Width="430" FontSize="32" Canvas.Left="13" Canvas.Top="194" Foreground="{StaticResource PhoneContrastForegroundBrush}" />                
-                <!--Button Canvas.Left="271" Canvas.Top="97" Content="Album" Height="78" Name="choosePhotoButton" VerticalAlignment="Center" Width="178" Click="choosePhotoButton_Click" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{x:Null}" />
-                <Button Canvas.Left="271" Canvas.Top="169" Content="Take Photo" Height="78" Name="takePhotoButton" VerticalAlignment="Center" Width="178" Click="takePhotoButton_Click" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{x:Null}" />
-                <Canvas Canvas.Left="49" Canvas.Top="111" Height="133" Name="canvas1" Width="149" Background="#BFFFFFFF">
-                    <Image Height="133" Name="userImage" Stretch="Fill" Width="149" />
-                </Canvas-->
             </Canvas>
         </Grid>
     </Grid>
