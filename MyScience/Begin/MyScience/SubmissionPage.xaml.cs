@@ -26,6 +26,8 @@ namespace MyScience
     {
         private PopupMessageControl msg;
         private Popup messagePopup;
+        private PerformanceProgressBar progressbar;
+        
         private static string popupTitle1 = "myscience";
         private static string popupTitle2 = "myscience error";
         private static string popupContent1 = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
@@ -33,12 +35,14 @@ namespace MyScience
         private static string popupContent3 = "Oops, forgot to submit a pic!";
         private static string popupContent4 = "Congratulation! Data Submitted Successfully!";
 
+
         public SubmissionPage()
         {
             InitializeComponent();
             messagePopup = new Popup();
             messagePopup.IsOpen = false;
             msg = new PopupMessageControl();
+            progressbar = new PerformanceProgressBar();
             App.popup.Child = msg;
             App.popup.Margin = new Thickness(0);
         }
@@ -118,6 +122,9 @@ namespace MyScience
 
                 //Add status message last:
                 DynamicPanel.Children.Add(messagePopup);
+                DynamicPanel.Children.Add(progressbar);
+                progressbar.IsIndeterminate = false;
+                progressbar.Visibility = System.Windows.Visibility.Collapsed;
             }
 
 
@@ -132,6 +139,8 @@ namespace MyScience
             }
             var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
             uploadButton.IsEnabled = false;
+            progressbar.Visibility = System.Windows.Visibility.Visible;
+            progressbar.IsIndeterminate = true;
             String filename = App.toBeSubmit[App.currentSubmissionIndex].ImageName + ".jpg";
             WriteableBitmap image = new WriteableBitmap(2560, 1920);
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
@@ -169,15 +178,13 @@ namespace MyScience
             //App.toBeSubmit.RemoveAt(App.currentSubmissionIndex);
             //App.firstAccess = true;
             //NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
-            
+
+            progressbar.IsIndeterminate = false;
             String url = e.Result.ToString();
-            TextBlock message = new TextBlock();
             displayPopup(popupTitle1, popupContent4);
-            message.Text = "Congratulation! Data Submitted Successfully!\n";
-            messagePopup.Child = message;
             //messagePopup.IsOpen = true;
-            var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
-            uploadButton.IsEnabled = true;
+            //var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            //uploadButton.IsEnabled = true;
         }
 
         /*parsing Json to get fields required*/

@@ -76,15 +76,19 @@ namespace MyScience
             {
                 Service1Client client = new Service1Client();
                 /* Get list of projects */
+                turnOnProgressBar(ProjectProgressBar);
                 client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
                 client.GetProjectsAsync();
                 /* Get Hall of Fame user list */
+                turnOnProgressBar(FameProgreeBar);
                 client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
                 client.GetTopScorersAsync();
                 /* Get User's past submissions */
+                turnOnProgressBar(DataProgreeBar);
                 client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
                 client.GetUserSubmissionAsync(App.currentUser.ID);
                 /* Get user profile image */
+                turnOnProgressBar(ProfileProgressBar);
                 client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
                 client.GetUserImageAsync(App.currentUser.Name, "JPEG");
                 /* Load tobe submitted list */
@@ -109,6 +113,17 @@ namespace MyScience
             scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
         }
 
+        private void turnOnProgressBar(PerformanceProgressBar bar) {
+            bar.IsIndeterminate=true;
+            bar.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void turnOffProgressBar(PerformanceProgressBar bar)
+        {
+            bar.IsIndeterminate = false;
+            bar.Visibility = System.Windows.Visibility.Visible;
+        }
+
         #region client_calls
 
         void client_GetUserSubmissionCompleted(object sender, GetUserSubmissionCompletedEventArgs e)
@@ -121,6 +136,7 @@ namespace MyScience
                 App.sentSubmissions = e.Result.ToList<Submission>();
                 App.saveSubmissions();
             }
+            turnOffProgressBar(DataProgreeBar);
         }
 
         void client_GetProjectsCompleted(object sender, GetProjectsCompletedEventArgs e)
@@ -132,6 +148,7 @@ namespace MyScience
                 App.saveProjects();
             }
             this.MainListBox.Visibility = System.Windows.Visibility.Visible;
+            turnOffProgressBar(ProjectProgressBar);
         }
 
         /*After fetching the list of top scorers from sql azure, bind the result with the listbox*/
@@ -149,6 +166,7 @@ namespace MyScience
                 App.saveTopScorers();
             }
             this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
+            turnOffProgressBar(FameProgreeBar);
         }
 
         /* Fetch user's new profile image. Also writes the image to the siolated storage */
@@ -163,6 +181,7 @@ namespace MyScience
                 userPic.Source = image;
                 userPic.Height = image.PixelHeight;
                 userPic.Width = image.PixelWidth;
+               
                 IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
                 if (!myIsolatedStorage.DirectoryExists("MyScience/Images"))
                 {
@@ -170,12 +189,17 @@ namespace MyScience
                 }
                 if (myIsolatedStorage.FileExists("MyScience/Images/" + App.currentUser.Name + ".jpg"))
                 {
-                    myIsolatedStorage.DeleteFile("MyScience/Images/" + App.currentUser.Name + ".jpg");
+                    turnOffProgressBar(ProfileProgressBar);
+                    return;
+                    //myIsolatedStorage.DeleteFile("MyScience/Images/" + App.currentUser.Name + ".jpg");
                 }
                 IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + App.currentUser.Name + ".jpg");
                 image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
                 fileStream.Close();
+
+               
             }
+            turnOffProgressBar(ProfileProgressBar);
         }
 
         #endregion
@@ -297,6 +321,7 @@ namespace MyScience
         {
             if (NetworkInterface.GetIsNetworkAvailable())
             {
+                turnOnProgressBar(ProjectProgressBar);
                 Service1Client client = new Service1Client();
                 /* Get list of projects */
                 client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
@@ -313,6 +338,7 @@ namespace MyScience
         {
             if (NetworkInterface.GetIsNetworkAvailable())
             {
+                turnOnProgressBar(ProfileProgressBar);
                 Service1Client client = new Service1Client();
                 /* Get user profile image */
                 client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
@@ -328,6 +354,7 @@ namespace MyScience
         {
             if (NetworkInterface.GetIsNetworkAvailable())
             {
+                turnOnProgressBar(DataProgreeBar);
                 Service1Client client = new Service1Client();
                 /* Get User's past submissions */
                 client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
@@ -343,6 +370,7 @@ namespace MyScience
         {
             if (NetworkInterface.GetIsNetworkAvailable())
             {
+                turnOnProgressBar(DataProgreeBar);
                 Service1Client client = new Service1Client();
                 /* Get User's past submissions */
                 client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
