@@ -43,15 +43,10 @@ body{
 </style>
 <div class="wrapper"><div>
 <ul class="top-menu">
-	<li class="selected">
-		<a href="index.php" class="special-anchor">HOME</a>
-	</li>
-	<li>
-		<a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a>
-	</li>
-	<li>
-		<a href="manage.php" class="special-anchor">MANAGE PROJECT</a>
-	</li>
+	<li class="selected"><a href="index.php" class="special-anchor">HOME</a></li>
+	<li><a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a></li>
+	<li><a href="manage.php" class="special-anchor">MANAGE PROJECT</a></li>
+	<li><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
 </ul>
 </div>
 <div><img src="Home.png"/></div></div>
