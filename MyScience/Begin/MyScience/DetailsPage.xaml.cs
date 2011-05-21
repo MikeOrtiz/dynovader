@@ -55,8 +55,6 @@ namespace MyScience
             progressbar = new PerformanceProgressBar();
             //popup message content
             msg = new PopupMessageControl();
-            App.popup.Child = msg;
-            App.popup.Margin = new Thickness(0);
         }
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
@@ -563,6 +561,8 @@ namespace MyScience
         {
             msg.msgtitle.Text = title;
             msg.msgcontent.Text = content;
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
             App.popup.Height = msg.Height;
             App.popup.Width = msg.Width;
             App.popup.HorizontalAlignment = HorizontalAlignment.Center;
