@@ -72,20 +72,35 @@ namespace MyScience
 
             // Phone-specific initialization
             InitializePhoneApplication();
+
+            RootFrame.Navigating += new NavigatingCancelEventHandler(RootFrame_Navigating);
+        }
+
+        void RootFrame_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            // Only care about MainPage
+            if (e.Uri.ToString().Contains("home.xaml") != true)
+                return;
+
+            // Cancel current navigation and schedule the real navigation for the next tick
+            // (we can't navigate immediately as that will fail; no overlapping navigations
+            // are allowed)
+            e.Cancel = true;
+            RootFrame.Dispatcher.BeginInvoke(delegate
+            {
+                if (currentUser == null)
+                    RootFrame.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
+                else
+                    RootFrame.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            });
         }
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            if (NetworkInterface.GetIsNetworkAvailable())
-            {
-                //load from memory
-            }
-            else
-            {
-                //download from database
-            }
+            //if (NetworkInterface.GetIsNetworkAvailable())
+            LoadPersistentState();
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -214,6 +229,8 @@ namespace MyScience
             {
                 currentUser = (User)settings[AppCurrentUserKey];
             }
+            else
+                currentUser = null;
         }
 
         private void LoadTransState()

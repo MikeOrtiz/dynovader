@@ -36,7 +36,7 @@ namespace MyScience
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
 
-            msg = new PopupMessageControl();
+            msg = new PopupMessageControl(); //TODO test this
             App.popup.Child = msg;
             App.popup.Margin = new Thickness(0);
         }
@@ -94,7 +94,7 @@ namespace MyScience
                 App.loadToBeSubmit();
                 fillToBeSubmitPage();
 
-                App.firstAccess = false;
+                App.firstAccess = false;   
             }
             else
             {
@@ -112,6 +112,34 @@ namespace MyScience
             scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
         }
 
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // restore page state
+            //IDictionary<string, object> transState = PhoneApplicationService.Current.State;
+            //object obj;
+            //transState.TryGetValue(MainPagePanoramaKey, out obj);
+            //MainPagePanorama = (Panorama)obj;
+            ////all the lists?
+            //msg = new PopupMessageControl(); 
+            //App.popup.Child = msg;
+            //App.popup.Margin = new Thickness(0);
+        }
+
+        private const string MainPagePanoramaKey = "MainPagePanorama";
+        private const string MsgKey = "Msg";
+
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            // save page state
+            //this.State[MainPagePanoramaKey] = this.MainPagePanorama.SelectedIndex;
+        }
+
+        #region progressbar
+
         private void turnOnProgressBar(PerformanceProgressBar bar) {
             bar.IsIndeterminate=true;
             bar.Visibility = System.Windows.Visibility.Visible;
@@ -122,6 +150,8 @@ namespace MyScience
             bar.IsIndeterminate = false;
             bar.Visibility = System.Windows.Visibility.Visible;
         }
+
+        #endregion
 
         #region client_calls
 
