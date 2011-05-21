@@ -410,6 +410,23 @@ namespace MyScience
                 displayPopup();
             }
         }
+
+        private void refreshhalloffame_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                turnOnProgressBar(FameProgreeBar);
+                Service1Client client = new Service1Client();
+                /* Get User's past submissions */
+                client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+                client.GetTopScorersAsync();
+            }
+            else
+            {
+                displayPopup();
+            }
+        }
+
         #endregion
 
         public void displayPopup()
@@ -427,5 +444,32 @@ namespace MyScience
             App.popup.MinWidth = msg.Width;
             App.popup.IsOpen = true;
         }
+
+        private void logoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            appReset();
+            NavigationService.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
+        }
+
+        private void appReset()
+        {
+            App.currentUser = null;
+            App.userProfileImage = null;
+            App.firstAccess = true;
+            App.userVerified = false;
+        }
+        //public static List<Project> applist = new List<Project>();
+        //public static List<TopScorer> topscorerslist = new List<TopScorer>();
+        //public static int currentIndex;
+        //public static GeoCoordinateWatcher geoCoordinateWatcher = new GeoCoordinateWatcher();
+        //public static Random random = new Random();
+        //public static bool userVerified = false;
+        //public static User currentUser = null;
+        //public static List<Submission> toBeSubmit = new List<Submission>();
+        //public static List<Submission> sentSubmissions = new List<Submission>();
+        //public static int currentSubmissionIndex;
+        //public static bool firstAccess = true; //repurposing it in general to refresh the main page, i.e. for when a new submission goes through, etc
+        //public static Popup popup = new Popup();
+        //public static BitmapImage userProfileImage;
     }
 }
