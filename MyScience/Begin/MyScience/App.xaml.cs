@@ -34,6 +34,7 @@ namespace MyScience
         public static int currentSubmissionIndex;
         public static bool firstAccess = true; //repurposing it in general to refresh the main page, i.e. for when a new submission goes through, etc
         public static Popup popup;
+        public static List<int> userProject = new List<int>();
 
 
         /// <summary>

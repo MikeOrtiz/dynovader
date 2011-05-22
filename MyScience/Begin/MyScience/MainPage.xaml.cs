@@ -30,6 +30,8 @@ namespace MyScience
     public partial class MainPage : PhoneApplicationPage
     {
         private PopupMessageControl msg;
+        private bool projectloaded=false;
+        private bool submissionloaded=false;
         // Constructor
         public MainPage()
         {
@@ -81,6 +83,7 @@ namespace MyScience
                     Service1Client client = new Service1Client();
 
                     /* Get list of projects */
+                   
                     turnOnProgressBar(ProjectProgressBar);
                     client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
                     client.GetProjectsAsync();
@@ -96,6 +99,7 @@ namespace MyScience
                     turnOnProgressBar(ProfileProgressBar);
                     client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
                     client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+                   
                     /* Load tobe submitted list */
                     loadToBeSubmitPage();
 
@@ -140,6 +144,36 @@ namespace MyScience
             bar.Visibility = System.Windows.Visibility.Visible;
         }
 
+        private List<int> getUserProjects(List<Submission> submissions) {
+              List<int> result = new List<int>();
+             
+                  for (int i = 0; i < submissions.Count; i++)
+                  {
+                      if (!result.Contains(submissions[i].ProjectID))
+                      {
+                          result.Add(submissions[i].ProjectID);
+                      }
+                  }
+            
+              return result;
+        }
+
+        private void displayUserProjects()
+        {
+            if (projectloaded && submissionloaded)
+            {
+                List<Project> userprojects = new List<Project>();
+                for (int i = 0; i < App.applist.Count; i++)
+                {
+                    if (App.userProject.Contains(App.applist[i].ID))
+                        userprojects.Add(App.applist[i]);
+                }
+                ProjectListBox.ItemsSource = userprojects;
+                ProjectListBox.Visibility = System.Windows.Visibility.Visible;
+            }
+
+        }
+
         #region client_calls
 
         void client_GetUserSubmissionCompleted(object sender, GetUserSubmissionCompletedEventArgs e)
@@ -149,6 +183,9 @@ namespace MyScience
                 //SubmissionListBox.ItemsSource = e.Result;
                 PictureWall.ItemsSource = e.Result;
                 List<Submission> submissions = e.Result.ToList<Submission>();
+                App.userProject = getUserProjects(submissions);
+                submissionloaded = true;
+                displayUserProjects();
                 try
                 {
                     IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
@@ -191,6 +228,8 @@ namespace MyScience
             {
                 this.MainListBox.ItemsSource = e.Result;
                 App.applist = e.Result.ToList<Project>();
+                projectloaded = true;
+                displayUserProjects();
                 /* Write file to isolated storage */
                 try 
                 {
@@ -541,6 +580,7 @@ namespace MyScience
             if (NetworkInterface.GetIsNetworkAvailable())
             {
                 turnOnProgressBar(ProjectProgressBar);
+                projectloaded = false;
                 Service1Client client = new Service1Client();
                 /* Get list of projects */
                 client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
@@ -574,6 +614,7 @@ namespace MyScience
             if (NetworkInterface.GetIsNetworkAvailable())
             {
                 turnOnProgressBar(DataProgreeBar);
+                submissionloaded = false;
                 Service1Client client = new Service1Client();
                 /* Get User's past submissions */
                 client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
