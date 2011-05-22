@@ -74,6 +74,9 @@ namespace MyScience
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+            projectloaded = false;
+            submissionloaded = false;
+
             if (!App.userVerified)
                 NavigationService.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
             else
@@ -108,14 +111,19 @@ namespace MyScience
                 else
                 {
                     /* Load list of projects */
+                    turnOnProgressBar(ProjectProgressBar);
                     loadProjectPage();
                     if(App.applist != null && App.applist.Count != 0) MainListBox.ItemsSource = App.applist;
+                    projectloaded = true;
+                    turnOffProgressBar(ProjectProgressBar);
                     /* Load list of top scorers */
+                    turnOnProgressBar(FameProgreeBar);
                     loadTopScorers();
                     if(App.topscorerslist != null && App.topscorerslist.Count != 0) HallOfFameBox.ItemsSource = App.topscorerslist;
-                    /* Load user profile pic */
-                    loadUserProfilePic();
+                    turnOffProgressBar(FameProgreeBar);
+                   
                     /* Load User's past submissions */
+                    turnOnProgressBar(DataProgreeBar);
                     List<Submission> submissions = loadCachedSubmission();
                     //SubmissionListBox.ItemsSource = null;
                     if (submissions.Count != 0)
@@ -123,6 +131,13 @@ namespace MyScience
                         //SubmissionListBox.ItemsSource = submissions;
                         PictureWall.ItemsSource = submissions;
                     }
+                    submissionloaded = true;
+                    turnOffProgressBar(DataProgreeBar);
+                    /* Load user profile pic */
+                    turnOnProgressBar(ProfileProgressBar);
+                    loadUserProfilePic();
+                    displayUserProjects();
+                    turnOffProgressBar(ProfileProgressBar);
                     /* Load tobe submitted list */
                     loadToBeSubmitPage();
                 }

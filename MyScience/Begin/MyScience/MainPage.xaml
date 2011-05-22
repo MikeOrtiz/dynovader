@@ -46,7 +46,7 @@
                     </Grid.RowDefinitions>
 
                     <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshproject" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshproject_MouseLeftButtonUp"  />
-                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProjectProgressBar" IsIndeterminate="False" Visibility="Collapsed"/>
+                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProjectProgressBar" IsIndeterminate="False" Visibility="Visible"/>
                     <ListBox Grid.Row="2" x:Name="MainListBox" Margin="0,30,-12,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515">
 
                         <ListBox.ItemTemplate>
@@ -71,7 +71,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <!--<Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshhalloffame" Stretch="Fill" VerticalAlignment="Top" />-->
-                    <toolkit:PerformanceProgressBar Grid.Row="0" Name="FameProgreeBar" VerticalAlignment="Bottom" Margin="0, 100, 35, 0" IsIndeterminate="False" Visibility="Collapsed"/>
+                    <toolkit:PerformanceProgressBar Grid.Row="0" Name="FameProgreeBar" VerticalAlignment="Bottom" Margin="0, 100, 35, 0" IsIndeterminate="False" Visibility="Visible"/>
                     <ListBox x:Name="HallOfFameBox" Grid.Row="1" Margin="0,10,0,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -103,7 +103,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshprofile" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshprofile_MouseLeftButtonUp" />
-                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProfileProgressBar" IsIndeterminate="False" Visibility="Collapsed" />
+                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProfileProgressBar" IsIndeterminate="False" Visibility="Visible" />
                     <!--ContentPanel - place additional content here-->
                     <Grid x:Name="ContentPanel" Grid.Row="2" Margin="12,15,12,0" Width="409">
                         <Grid.RowDefinitions>
@@ -134,7 +134,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="UserProjectsText" Text="Active Projects" Style="{StaticResource PhoneTextExtraLargeStyle}" TextAlignment="Center" Grid.Row="0" Foreground="Black" />
-                    <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="246" Width="446" Foreground="Black">
+                    <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Bottom" MaxHeight="300" Width="446" Foreground="Black">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="432">
