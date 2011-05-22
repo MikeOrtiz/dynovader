@@ -37,8 +37,6 @@ namespace MyScience
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
 
             msg = new PopupMessageControl(); //TODO test this
-            App.popup.Child = msg;
-            App.popup.Margin = new Thickness(0);
         }
 
         // Handle selection changed on ListBox
@@ -92,24 +90,47 @@ namespace MyScience
                 client.GetUserImageAsync(App.currentUser.Name, "JPEG");
                 /* Load tobe submitted list */
                 App.loadToBeSubmit();
-                fillToBeSubmitPage();
-
                 App.firstAccess = false;   
             }
             else
             {
                 /* Load all */
                 App.loadAppAll();
-                if(App.applist != null && App.applist.Count != 0) MainListBox.ItemsSource = App.applist;
-                if(App.topscorerslist != null && App.topscorerslist.Count != 0) HallOfFameBox.ItemsSource = App.topscorerslist;
                 userPic.Source = App.userProfileImage;
-                if (App.sentSubmissions.Count != 0) PictureWall.ItemsSource = App.sentSubmissions;
-                fillToBeSubmitPage();//TODO change name
             }
             /* Modify userprofile panorama */
+            updatePageControls();
+        }
+
+        private void updatePageControls()
+        {
+            if (App.applist != null && App.applist.Count != 0)
+            {
+                MainListBox.ItemsSource = App.applist;
+            }
+            if (App.topscorerslist != null && App.topscorerslist.Count != 0)
+            {
+                HallOfFameBox.ItemsSource = App.topscorerslist;
+            }
+            if (App.sentSubmissions.Count != 0)
+            {
+                PictureWall.ItemsSource = App.sentSubmissions;
+            }
+            if (App.toBeSubmit.Count != 0)
+            {
+                ToBeSubmitBox.ItemsSource = App.toBeSubmit;
+            }
+            //change visibility
+            this.MainListBox.Visibility = System.Windows.Visibility.Visible;
+            this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
+            this.PictureWall.Visibility = System.Windows.Visibility.Visible;
+            this.ToBeSubmitBox.Visibility = System.Windows.Visibility.Visible;
+            /* Modify userprofile panorama */
+            //userPic.Source = App.userProfileImage; this is dealt with in the client download function call
             userName.Text = App.currentUser.Name;
             score.Text = "Score: " + App.currentUser.Score.ToString();
             scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
+
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -176,7 +197,6 @@ namespace MyScience
                 App.applist = e.Result.ToList<Project>();
                 App.saveProjects();
             }
-            this.MainListBox.Visibility = System.Windows.Visibility.Visible;
             turnOffProgressBar(ProjectProgressBar);
         }
 
@@ -194,7 +214,6 @@ namespace MyScience
                 this.HallOfFameBox.ItemsSource = App.topscorerslist;
                 App.saveTopScorers();
             }
-            this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
             turnOffProgressBar(FameProgreeBar);
         }
 
@@ -225,29 +244,11 @@ namespace MyScience
                 IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + App.currentUser.Name + ".jpg");
                 image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
                 fileStream.Close();
-
-               
             }
             turnOffProgressBar(ProfileProgressBar);
         }
 
         #endregion
-
-        //populate the submit list box
-        private void fillToBeSubmitPage()
-        {
-            //ToBeSubmitInfo.Text = App.toBeSubmit.Count.ToString() + " submissions to be uploaded";
-            if (App.toBeSubmit.Count != 0)
-            {
-                ToBeSubmitBox.ItemsSource = null;
-                ToBeSubmitBox.ItemsSource = App.toBeSubmit;
-                ToBeSubmitBox.Visibility = System.Windows.Visibility.Visible;
-            }
-            else
-            {
-                ToBeSubmitBox.ItemsSource = null;
-            }
-        }
 
         private void userPic_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {

@@ -254,8 +254,6 @@ namespace MyScience
             currentSubmissionIndex = (int)obj;
             transState.TryGetValue(AppFirstAccess, out obj);
             firstAccess = (bool)obj;
-            //transState.TryGetValue(AppPopup, out obj);
-            //popup = (Popup)obj;
             //initialize other app fields, these don't need to be remembered at all
             geoCoordinateWatcher = new GeoCoordinateWatcher();
             random = new Random();
@@ -408,7 +406,6 @@ namespace MyScience
             PhoneApplicationService.Current.State[AppSentSubmissions] = sentSubmissions;
             PhoneApplicationService.Current.State[AppCurrSubmissionIndex] = currentSubmissionIndex;
             PhoneApplicationService.Current.State[AppFirstAccess] = firstAccess;
-            //PhoneApplicationService.Current.State[AppPopup] = popup;
             //don't save random, geocoordinatewatcher, popup, bitmapimage, just create new copies
         }
 

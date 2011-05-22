@@ -75,11 +75,6 @@ namespace MyScience
                 InfoPanel.Children.Add(LatBlock);
                 InfoPanel.Children.Add(LngBlock);
 
-               
-                //map1.Center = mapCenter;
-                //map1.ZoomLevel = zoom;
-               
-
                 List<Field> fields = GetFormField(currentApp.Form);
                 /*When submission page l oaded, it will generate controls dynamically*/
                 DynamicPanel.Children.Clear();
@@ -137,7 +132,6 @@ namespace MyScience
                             DynamicPanel.Children.Add(SliderBar);
                             break;
                     }
-
                 }
 
                 var cameraButton = new Button { Name = "CameraButton", Content = "Take a photo" };
@@ -480,6 +474,8 @@ namespace MyScience
                 TextBlock message = new TextBlock();
                 displayPopup(popupTitle1, popupContent3);
                 submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
+                progressbar.IsIndeterminate = false;
+                progressbar.Visibility = System.Windows.Visibility.Visible;
             }
         } 
 
