@@ -36,12 +36,9 @@ namespace MyScience
         public MainPage()
         {
             InitializeComponent();
-            DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
 
-            msg = new PopupMessageControl();
-            App.popup.Child = msg;
-            App.popup.Margin = new Thickness(0);
+            msg = new PopupMessageControl(); //TODO test this
         }
 
         // Handle selection changed on ListBox
@@ -77,76 +74,101 @@ namespace MyScience
             projectloaded = false;
             submissionloaded = false;
 
-            if (!App.userVerified)
-                NavigationService.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
+            
+            if (NetworkInterface.GetIsNetworkAvailable() && App.firstAccess)
+            {
+                Service1Client client = new Service1Client();
+                /* Get list of projects */
+                turnOnProgressBar(ProjectProgressBar);
+                client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
+                client.GetProjectsAsync();
+                /* Get Hall of Fame user list */
+                turnOnProgressBar(FameProgreeBar);
+                client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+                client.GetTopScorersAsync();
+                /* Get User's past submissions */
+                turnOnProgressBar(DataProgreeBar);
+                client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
+                client.GetUserSubmissionAsync(App.currentUser.ID);
+                /* Get user profile image */
+                turnOnProgressBar(ProfileProgressBar);
+                client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
+                client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+                /* Load tobe submitted list */
+                App.loadToBeSubmit();
+                App.firstAccess = false;   
+            }
             else
             {
-                if (NetworkInterface.GetIsNetworkAvailable() && App.firstAccess)
-                {
-                    Service1Client client = new Service1Client();
-
-                    /* Get list of projects */
-                   
-                    turnOnProgressBar(ProjectProgressBar);
-                    client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
-                    client.GetProjectsAsync();
-                    /* Get Hall of Fame user list */
-                    turnOnProgressBar(FameProgreeBar);
-                    client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
-                    client.GetTopScorersAsync();
-                    /* Get User's past submissions */
-                    turnOnProgressBar(DataProgreeBar);
-                    client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
-                    client.GetUserSubmissionAsync(App.currentUser.ID);
-                    /* Get user profile image */
-                    turnOnProgressBar(ProfileProgressBar);
-                    client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
-                    client.GetUserImageAsync(App.currentUser.Name, "JPEG");
-                   
-                    /* Load tobe submitted list */
-                    loadToBeSubmitPage();
-
-                    App.firstAccess = false;
-                }
-                else
-                {
-                    /* Load list of projects */
-                    turnOnProgressBar(ProjectProgressBar);
-                    loadProjectPage();
-                    if(App.applist != null && App.applist.Count != 0) MainListBox.ItemsSource = App.applist;
-                    projectloaded = true;
-                    turnOffProgressBar(ProjectProgressBar);
-                    /* Load list of top scorers */
-                    turnOnProgressBar(FameProgreeBar);
-                    loadTopScorers();
-                    if(App.topscorerslist != null && App.topscorerslist.Count != 0) HallOfFameBox.ItemsSource = App.topscorerslist;
-                    turnOffProgressBar(FameProgreeBar);
-                   
-                    /* Load User's past submissions */
-                    turnOnProgressBar(DataProgreeBar);
-                    List<Submission> submissions = loadCachedSubmission();
-                    //SubmissionListBox.ItemsSource = null;
-                    if (submissions.Count != 0)
-                    {
-                        //SubmissionListBox.ItemsSource = submissions;
-                        PictureWall.ItemsSource = submissions;
-                    }
-                    submissionloaded = true;
-                    turnOffProgressBar(DataProgreeBar);
-                    /* Load user profile pic */
-                    turnOnProgressBar(ProfileProgressBar);
-                    loadUserProfilePic();
-                    displayUserProjects();
-                    turnOffProgressBar(ProfileProgressBar);
-                    /* Load tobe submitted list */
-                    loadToBeSubmitPage();
-                }
-                /* Modify userprofile panorama */
-                userName.Text = App.currentUser.Name;
-                score.Text = "Score: " + App.currentUser.Score.ToString();
-                scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
+                /* Load all */
+                App.loadAppAll();
+                userPic.Source = App.userProfileImage;
+                projectloaded = true;
+                submissionloaded = true;
+                displayUserProjects();
             }
+            /* Modify userprofile panorama */
+            updatePageControls();
         }
+
+        private void updatePageControls()
+        {
+            if (App.applist != null && App.applist.Count != 0)
+            {
+                MainListBox.ItemsSource = App.applist;
+            }
+            if (App.topscorerslist != null && App.topscorerslist.Count != 0)
+            {
+                HallOfFameBox.ItemsSource = App.topscorerslist;
+            }
+            if (App.sentSubmissions.Count != 0)
+            {
+                PictureWall.ItemsSource = App.sentSubmissions;
+            }
+            if (App.toBeSubmit.Count != 0)
+            {
+                ToBeSubmitBox.ItemsSource = App.toBeSubmit;
+            }
+            //change visibility
+            this.MainListBox.Visibility = System.Windows.Visibility.Visible;
+            this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
+            this.PictureWall.Visibility = System.Windows.Visibility.Visible;
+            this.ToBeSubmitBox.Visibility = System.Windows.Visibility.Visible;
+            /* Modify userprofile panorama */
+            //userPic.Source = App.userProfileImage; this is dealt with in the client download function call
+            userName.Text = App.currentUser.Name;
+            score.Text = "Score: " + App.currentUser.Score.ToString();
+            scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
+
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // restore page state
+            //IDictionary<string, object> transState = PhoneApplicationService.Current.State;
+            //object obj;
+            //transState.TryGetValue(MainPagePanoramaKey, out obj);
+            //MainPagePanorama = (Panorama)obj;
+            ////all the lists?
+            //msg = new PopupMessageControl(); 
+            //App.popup.Child = msg;
+            //App.popup.Margin = new Thickness(0);
+        }
+
+        private const string MainPagePanoramaKey = "MainPagePanorama";
+        private const string MsgKey = "Msg";
+
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            // save page state
+            //this.State[MainPagePanoramaKey] = this.MainPagePanorama.SelectedIndex;
+        }
+
+        #region progressbar
 
         private void turnOnProgressBar(PerformanceProgressBar bar) {
             bar.IsIndeterminate=true;
@@ -158,6 +180,9 @@ namespace MyScience
             bar.IsIndeterminate = false;
             bar.Visibility = System.Windows.Visibility.Visible;
         }
+
+         #endregion
+
 
         private List<int> getUserProjects(List<Submission> submissions) {
               List<int> result = new List<int>();
@@ -188,6 +213,7 @@ namespace MyScience
             }
 
         }
+
 
         #region client_calls
 
@@ -233,6 +259,9 @@ namespace MyScience
                 {
                     //do something here
                 }
+
+                App.sentSubmissions = e.Result.ToList<Submission>();
+                App.saveSubmissions();
             }
             turnOffProgressBar(DataProgreeBar);
         }
@@ -243,6 +272,7 @@ namespace MyScience
             {
                 this.MainListBox.ItemsSource = e.Result;
                 App.applist = e.Result.ToList<Project>();
+
                 projectloaded = true;
                 displayUserProjects();
                 /* Write file to isolated storage */
@@ -273,8 +303,8 @@ namespace MyScience
                     }
                 }
                 catch (Exception ex) { }
+                App.saveProjects();
             }
-            this.MainListBox.Visibility = System.Windows.Visibility.Visible;
             turnOffProgressBar(ProjectProgressBar);
         }
 
@@ -290,37 +320,12 @@ namespace MyScience
                     App.topscorerslist[i].ImageName = "http://myscience.blob.core.windows.net/userimages/"+App.topscorerslist[i].Name + ".jpg";
                 }
                 this.HallOfFameBox.ItemsSource = App.topscorerslist;
-                
-                /* Write file to isolated storage */
-                try
-                {
-                    IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
-                    StreamWriter writeFile;
-                    String txtDirectory = "MyScience/TopScorers";
-                    if (!myIsolatedStorage.DirectoryExists(txtDirectory))
-                    {
-                        myIsolatedStorage.CreateDirectory(txtDirectory);
-                    }
-                    foreach (TopScorer ts in App.topscorerslist)
-                    {
-                        if (myIsolatedStorage.FileExists(txtDirectory + "/" + ts.ID + ".txt"))
-                        {
-                            myIsolatedStorage.DeleteFile(txtDirectory + "/" + ts.ID + ".txt");
-                        }
-                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory + "/" + ts.ID + ".txt", FileMode.CreateNew, myIsolatedStorage));
-                        writeFile.WriteLine(ts.ID);
-                        writeFile.WriteLine(ts.Name);
-                        writeFile.WriteLine(ts.Score);
-                        writeFile.Close();
-                    }
-                }
-                catch (Exception ex) { }
+                App.saveTopScorers();
             }
-            this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
             turnOffProgressBar(FameProgreeBar);
         }
 
-        /* Fetch user's new profile image */
+        /* Fetch user's new profile image. Also writes the image to the siolated storage */
         void client_GetUserImageCompleted(object sender, GetUserImageCompletedEventArgs e)
         {
             if (e.Result != null)
@@ -347,148 +352,8 @@ namespace MyScience
                 IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + App.currentUser.Name + ".jpg");
                 image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
                 fileStream.Close();
-
-               
             }
             turnOffProgressBar(ProfileProgressBar);
-        }
-
-        #endregion
-
-        #region load_from_is
-
-        private void loadToBeSubmitPage()
-        {
-            loadToBeSubmit();
-            //ToBeSubmitInfo.Text = App.toBeSubmit.Count.ToString() + " submissions to be uploaded";
-            if (App.toBeSubmit.Count != 0)
-            {
-                ToBeSubmitBox.ItemsSource = null;
-                ToBeSubmitBox.ItemsSource = App.toBeSubmit;
-                ToBeSubmitBox.Visibility = System.Windows.Visibility.Visible;
-            }
-            else
-            {
-                ToBeSubmitBox.ItemsSource = null;
-            }
-        }
-
-        /* Load all the submissions that haven't been uploaded yet */
-        private void loadToBeSubmit()
-        {
-            String txtDirectory = "MyScience/ToBeSubmit/"+App.currentUser.ID;
-            loadSubmission(txtDirectory, App.toBeSubmit); //TODO might be bug, since persistence across sessions does not happen
-        }
-
-        private void loadProjectPage() 
-        {
-            App.applist = new List<Project>();
-            String txtDirectory = "MyScience/Projects/";
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                
-                if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
-                //myIsolatedStorage.DeleteFile("MyScience/Projects/More Creek Watch25.txt");
-                String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
-                foreach (String txtfile in txtfiles)
-                {
-                    var fileStream = myIsolatedStorage.OpenFile(txtDirectory + txtfile, FileMode.Open, FileAccess.Read);
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-                        Project project = new Project();
-                        project.ID = Convert.ToInt32(reader.ReadLine());
-                        project.Name = reader.ReadLine();
-                        project.Owner = Convert.ToInt32(reader.ReadLine());
-                        project.Description = reader.ReadLine();
-                        project.Form = reader.ReadLine();
-                        App.applist.Add(project);
-                    }
-                }
-            }
-        }
-
-        private void loadTopScorers()
-        {
-            App.topscorerslist = new List<TopScorer>();
-            String txtDirectory = "MyScience/TopScorers/";
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
-
-                String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
-                foreach (String txtfile in txtfiles)
-                {
-                    //myIsolatedStorage.DeleteFile(txtDirectory + txtfile);
-                    var fileStream = myIsolatedStorage.OpenFile(txtDirectory + txtfile, FileMode.Open, FileAccess.Read);
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-                        TopScorer ts = new TopScorer();
-                        ts.ID = Convert.ToInt32(reader.ReadLine());
-                        ts.Name = reader.ReadLine();
-                        ts.Score = Convert.ToInt32(reader.ReadLine());
-                        ts.title = ts.Score > 50 ? "Aspiring Scientist" : "Newb";
-                        ts.ImageName = ts.Name + ".jpg";
-                        App.topscorerslist.Add(ts);
-                    }
-                }
-            }
-        }
-
-        private void loadUserProfilePic()
-        {
-
-            String filename = App.currentUser.Name + ".jpg";
-            BitmapImage image = new BitmapImage();
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if(!myIsolatedStorage.FileExists("MyScience/Images/" + filename)) return;
-
-
-                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("MyScience/Images/" + filename, FileMode.Open, FileAccess.Read))
-                {
-                    image.SetSource(fileStream);
-                }
-               
-            }
-            userPic.Source = image;
-        }
-
-        private void loadSubmission(String txtDirectory, List<Submission> sublist)
-        {
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;
-
-                txtDirectory += "/";
-                String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + "*.txt");
-                sublist.Clear();
-                foreach (String txtfile in txtfiles)
-                {
-                    var fileStream = myIsolatedStorage.OpenFile(txtDirectory + txtfile, FileMode.Open, FileAccess.Read);
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-                        Submission submn = new Submission();
-                        submn.ID = 0;
-                        submn.ProjectID = Convert.ToInt32(reader.ReadLine());
-                        submn.ProjectName = reader.ReadLine();
-                        submn.UserID = App.currentUser.ID;
-                        submn.Data = reader.ReadLine();
-                        submn.Location = reader.ReadLine();
-                        submn.Time = Convert.ToDateTime(reader.ReadLine());
-                        submn.ImageName = reader.ReadLine();
-                        submn.LowResImageName = reader.ReadLine();
-                        sublist.Add(submn);
-                    }
-                }
-            }
-        }
-
-        private List<Submission> loadCachedSubmission()
-        {
-            String txtDirectory = "MyScience/Submissions/" + App.currentUser.ID;
-            List<Submission> sublist = new List<Submission>();
-            loadSubmission(txtDirectory, sublist);
-            return sublist;
         }
 
         #endregion
@@ -656,11 +521,30 @@ namespace MyScience
                 displayPopup();
             }
         }
+
+        private void refreshhalloffame_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                turnOnProgressBar(FameProgreeBar);
+                Service1Client client = new Service1Client();
+                /* Get User's past submissions */
+                client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+                client.GetTopScorersAsync();
+            }
+            else
+            {
+                displayPopup();
+            }
+        }
+
         #endregion
 
         public void displayPopup()
         {
             msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
             App.popup.Height = msg.Height;
             App.popup.Width = msg.Width;
             App.popup.HorizontalAlignment = HorizontalAlignment.Center;
@@ -671,5 +555,32 @@ namespace MyScience
             App.popup.MinWidth = msg.Width;
             App.popup.IsOpen = true;
         }
+
+        private void logoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            appReset();
+            NavigationService.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
+        }
+
+        private void appReset()
+        {
+            App.currentUser = null;
+            App.userProfileImage = null;
+            App.firstAccess = true;
+            App.userVerified = false;
+        }
+        //public static List<Project> applist = new List<Project>();
+        //public static List<TopScorer> topscorerslist = new List<TopScorer>();
+        //public static int currentIndex;
+        //public static GeoCoordinateWatcher geoCoordinateWatcher = new GeoCoordinateWatcher();
+        //public static Random random = new Random();
+        //public static bool userVerified = false;
+        //public static User currentUser = null;
+        //public static List<Submission> toBeSubmit = new List<Submission>();
+        //public static List<Submission> sentSubmissions = new List<Submission>();
+        //public static int currentSubmissionIndex;
+        //public static bool firstAccess = true; //repurposing it in general to refresh the main page, i.e. for when a new submission goes through, etc
+        //public static Popup popup = new Popup();
+        //public static BitmapImage userProfileImage;
     }
 }

@@ -18,10 +18,6 @@ if(isset($_GET['projname']))
         $formhtml .="<table><tr><td>Time</td><td>Location</td><td>Data</td></tr>";
 		while($row = sqlsrv_fetch_array($result))
 		{
-		    /*
-			$mapsurl = "http://maps.google.com/maps/api/staticmap?center=".$row['data']."&zoom=19&size=400x400&maptype=hybrid
-	&markers=color:blue%7Clabel:Bunker%7C".$row['data']."&sensor=false";
-	*/
 			$processed = "[".str_replace("}{","},{",$row['data'])."]";
 			$arr=json_decode($processed,true);
 			$formhtml .= "<tr>";
@@ -32,14 +28,6 @@ if(isset($_GET['projname']))
 			$formhtml .= "</td></tr>";
 		}
 		$formhtml .= "</table><br/>";
-	}
-	if($_GET['action']=="modify"){
-		$formhtml = "<ul id=\"sortable\">
-	<li class=\"ui-state-default\"><span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>Photo</li>
-	<li class=\"ui-state-default\"><span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>Text Field 1</li>
-	<li class=\"ui-state-default\"><span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>Text Field 2</li>
-	<li class=\"ui-state-default\"><span class=\"ui-icon ui-icon-arrowthick-2-n-s\"></span>Text Field 3</li>
-</ul><br/><button>Submit Changes</button>";
 	}
 	if($_GET['action']=="download"){
 	$dataquery = "SELECT * from data WHERE projectid='".$_GET['projname']."'";
@@ -170,15 +158,10 @@ body{
 <div class="wrapper">
 <div>
 <ul class="top-menu">
-	<li>
-		<a href="index.php" class="special-anchor">HOME</a>
-	</li>
-	<li>
-		<a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a>
-	</li>
-	<li class="selected">
-		<a href="manage.php" class="special-anchor">MANAGE PROJECT</a>
-	</li>
+	<li><a href="index.php" class="special-anchor">HOME</a></li>
+	<li><a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a></li>
+	<li class="selected"><a href="manage.php" class="special-anchor">MANAGE PROJECT</a></li>
+	<li><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
 </ul>
 </div>
 <div class="content">

@@ -73,13 +73,9 @@ if(isset($_POST['coordname']))
 <!DOCTYPE HTML>
 <html>
 <head>
-<link rel="stylesheet" href="http://jqueryui.com/themes/base/jquery.ui.all.css"> 
-<script src="http://code.jquery.com/jquery-1.6.min.js"></script> 
-<script src="http://jqueryui.com/ui/jquery.ui.core.js"></script> 
-<script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script> 
-<script src="http://jqueryui.com/ui/jquery.ui.mouse.js"></script> 
-<script src="http://jqueryui.com/ui/jquery.ui.sortable.js"></script> 
-<link rel="stylesheet" href="http://jqueryui.com/demos/demos.css">
+<link type="text/css" href="css/cupertino/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.13.custom.min.js"></script>
 <script>
 $(function() {
 		$( "#sortable" ).sortable();
@@ -140,7 +136,8 @@ function moreFields(qtype) {
 					newField[i].name = counter + ' ' + theName; 
 				}
 			} else { //text question
-				newField[i].name = counter + ' ' + theName;
+				if (newField[i].name != null)
+					newField[i].name = counter + ' ' + theName;
 			}
 		}
 	}
@@ -178,8 +175,19 @@ function updatePhotoOption(){
 	}
 	document.getElementById('photopost').value = photoOption;
 }
-   
+
+function disableEnterKey(e)
+{
+     var key;      
+     if(window.event)
+          key = window.event.keyCode; //IE
+     else
+          key = e.which; //firefox      
+
+     return (key != 13);
+}   
 </script>
+
 <style type="text/css" media="screen">
 .top-menu {
 	position: relative;
@@ -190,8 +198,8 @@ function updatePhotoOption(){
 }
 
 .top-menu li {
-position: relative;
-float: left;
+	position: relative;
+	float: left;
 }
 
 .top-menu li a {
@@ -211,6 +219,7 @@ float: left;
 	color: #000;
 	margin-top: 1px;
 }
+
 .columnleft{
 	width:50%;
 	float:left;
@@ -224,12 +233,9 @@ float: left;
 	text-align:left;
 }
 
-#apptitle{
-	font-family: "Century Gothic", Arial, sans-serif;
-	color: #333
-	text-align:left;
-	font-size: 11px;
-	height: 12px;
+body{
+	margin:0;
+	padding:0;
 }
 
 .content{
@@ -239,6 +245,20 @@ float: left;
 	font-family: "Century Gothic", Arial, sans-serif;
 	color: #333;
 	font-size: 12px;
+}
+
+.wrapper{
+	height:768px;
+	width:1024px;
+	margin:auto;
+}
+
+#apptitle{
+	font-family: "Century Gothic", Arial, sans-serif;
+	color: #333
+	text-align:left;
+	font-size: 11px;
+	height: 12px;
 }
 
 #dragcontent{
@@ -253,21 +273,6 @@ float: left;
 	overflow-y: scroll;
 }
 
-.wrapper{
-	height:768px;
-	width:1024px;
-	margin:auto;
-}
-#tf2{
-	display:none;
-}
-#tf3{
-	display:none;
-}
-#tf4{
-	display:none;
-}
-
 .gray{
 	color:gray;
 }
@@ -277,12 +282,6 @@ float: left;
 	padding: 2px;
 	font-size: 38px;
 }
-	
-body{
-	margin:0;
-	padding:0;
-}
-
 
 .phone
 {
@@ -303,11 +302,6 @@ body{
 .blend
 {
 	border-style: none;
-}
-
-.remove
-{
-	float: right;
 }
 
 .floatright
@@ -339,28 +333,18 @@ input
 	background-color:transparent;
 }
 
-.ui-icon ui-icon-closethick:hover
-{
-	cursor:default;
-}
-
 
 </style>
 </head>
 
-<body>
+<body onKeyPress="return disableEnterKey(event)">
 <div class="wrapper">
 <div>
 <ul class="top-menu">
-	<li>
-		<a href="index.php" class="special-anchor">HOME</a>
-	</li>
-	<li class="selected">
-		<a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a>
-	</li>
-	<li>
-		<a href="manage.php" class="special-anchor">MANAGE PROJECT</a>
-	</li>
+	<li><a href="index.php" class="special-anchor">HOME</a></li>
+	<li class="selected"><a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a></li>
+	<li><a href="manage.php" class="special-anchor">MANAGE PROJECT</a></li>
+	<li><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
 </ul>
 </div>
 
@@ -372,11 +356,17 @@ input
 		<div class="moveleft">
 			<h1>Launch a Project</h1>
 			<span class="columnleft">App Title: </span><span class="columnright">
-				<input type="text" name="apptitle" id="titleinput" onkeyup="updateTitle()"/>
+				<input type="text" name="titleinput" id="titleinput" onkeyup="updateTitle()"/>
 			</span><br/>
-			<span class="columnleft">Description: </span><span class="columnright"><input type="text" name="description"/></span><br/>
-			<span class="columnleft">Coordinator Name: </span><span class="columnright"><input type="text" name="coordname"/></span><br/>
-			<span class="columnleft">Coordinator Email: </span><span class="columnright"><input type="text" name="coordemail"/></span><br/>
+			<span class="columnleft">Description: </span><span class="columnright">
+				<input type="text" name="description"/>
+			</span><br/>
+			<span class="columnleft">Coordinator Name: </span><span class="columnright">
+				<input type="text" name="coordname"/>
+			</span><br/>
+			<span class="columnleft">Coordinator Email: </span><span class="columnright">
+				<input type="text" name="coordemail"/>
+			</span><br/>
 			<br /><br /><br />
 			
 			<h3>Add Question:</h3>
@@ -393,7 +383,7 @@ input
 				<option value="3">3</option>
 				<option value="4">4</option>
 			</select><br />
-			<input id="picturequestion" type="button" value="Remove Picture Capture" onclick="updatePhotoOption()"/> <br /><br />
+			<!--<input id="picturequestion" type="button" value="Remove Picture Capture" onclick="updatePhotoOption()"/> --><br /><br />
 			<input type="text" id="photopost" name="photo" value="Y" style="display:none">
 			<input type="submit" value="Submit App!" />	
 			
@@ -435,28 +425,32 @@ input
 <div><?=$msg?></div>
 
 <div class="question" id="textroot" style="display: none">
-	<input class="blend" name="textq" size="29" maxlength="35" value="Enter your question here."
-	onFocus="if(this.value == 'Enter your question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your question here.';}">
 	<span class="floatright">
 		<span class="ui-icon ui-icon-closethick" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" /></span>
-	</span><br />
-	<input class="textanswer" name="texta" disabled="disabled">
-	<span class="floatright">
-		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
 	</span>
+	<input class="blend" name="textq" size="29" maxlength="35" value="Enter your text question here." 
+	onFocus="if(this.value == 'Enter your text question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your radio question here.';}">
+	<br />
+	<span class="floatright">
+		<span class="ui-icon ui-icon-carat-2-n-s"></span>
+	</span>
+	<input class="textanswer" name="texta" disabled="disabled">
 </div>
 
 <div class="question" id="checkroot" style="display: none">
-	<input class="blend" name="checkq" size="29" maxlength="35" value="Enter your question here."
-	onFocus="if(this.value == 'Enter your question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your question here.';}">
 	<span class="floatright">
 		<span class="ui-icon ui-icon-closethick" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" /></span>
-	</span><br />
-	<input type="checkbox" name="check1" disabled="disabled"/> <input class="blend" name="checkA1" size="29" maxlength="35" value="Enter check option 1."
+	</span>
+	<input class="blend" name="checkq" size="29" maxlength="35" value="Enter your check question here."
+	onFocus="if(this.value == 'Enter your check question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your check question here.';}">
+	<br />
+	<span class="floatright">
+		<span class="ui-icon ui-icon-carat-2-n-s"></span>
+	</span>
+	<input type="checkbox" name="check1" disabled="disabled"/>
+	<input class="blend" name="checkA1" size="29" maxlength="35" value="Enter check option 1."
 	onFocus="if(this.value == 'Enter check option 1.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter check option 1.';}">
-	<div class="floatright">
-		<span class="ui-icon ui-icon-arrowthick-2-n-s">
-	</div><br />
+	<br />
 	<input type="checkbox" name="check2" disabled="disabled"/> <input class="blend" name="checkA2" size="29" maxlength="35" value="Enter check option 2."
 	onFocus="if(this.value == 'Enter check option 2.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter check option 2.';}"><br />
 	<input type="checkbox" name="check3" disabled="disabled"/> <input class="blend" name="checkA3" size="29" maxlength="35" value="Enter check option 3."
@@ -466,16 +460,19 @@ input
 </div>
  
 <div class="question" id="radioroot" style="display: none">
-	<input class="blend" name="radioq" size="29" maxlength="35" value="Enter your question here."
-	onFocus="if(this.value == 'Enter your question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your question here.';}">
 	<span class="floatright">
 		<span class="ui-icon ui-icon-closethick" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" /></span>
-	</span><br />
-	<input type="radio" name="radio1" disabled="disabled"/> <input class="blend" name="radioA1" size="29" maxlength="35" value="Enter radio option 1."
+	</span>
+	<input class="blend" name="radioq" size="29" maxlength="35" value="Enter your radio question here."
+	onFocus="if(this.value == 'Enter your radio question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your radio question here.';}">
+	<br />
+	<span class="floatright">
+		<span class="ui-icon ui-icon-carat-2-n-s"></span>
+	</span>
+	<input type="radio" name="radio1" disabled="disabled"/> 
+	<input class="blend" name="radioA1" size="29" maxlength="35" value="Enter radio option 1."
 	onFocus="if(this.value == 'Enter radio option 1.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter radio option 1.';}">
-	<div class="floatright">
-		<span class="ui-icon ui-icon-arrowthick-2-n-s">
-	</div><br />
+	<br />
 	<input type="radio" name="radio2" disabled="disabled"/> <input class="blend" name="radioA2" size="29" maxlength="35" value="Enter radio option 2."
 	onFocus="if(this.value == 'Enter radio option 2.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter radio option 2.';}"><br />
 	<input type="radio" name="radio3" disabled="disabled"/> <input class="blend" name="radioA3" size="29" maxlength="35" value="Enter radio option 3."
@@ -484,13 +481,6 @@ input
 	onFocus="if(this.value == 'Enter radio option 4.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter radio option 4.';}"><br />
 </div>
 
-<div id="pictureroot" style="display: none">
-	<span id="photoalign1"><input type="button" value="Take a Photo"></span>
-	<span class="remove">
-		<input type="button" value="x" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" />
-	</span><br />
-	<span id="photoalign2"><button type="button">Choose a Photo</button></span>
-</div>
 </div>
 </div>
 </body>

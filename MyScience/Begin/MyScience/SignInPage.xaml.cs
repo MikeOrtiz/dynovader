@@ -59,25 +59,6 @@ namespace MyScience
             Service1Client client = new Service1Client();
             client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
             client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
-
-            /*Parse the fields list into Json String*/
-            //WriteableBitmap image = (WriteableBitmap)userImage.Source;
-
-            //if (image != null)
-            //{
-            //    MemoryStream ms = new MemoryStream();
-            //    image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
-            //    byte[] imageData = ms.ToArray();
-            //    Service1Client client = new Service1Client();
-            //    client.RegisterUserWithImageCompleted += new EventHandler<RegisterUserWithImageCompletedEventArgs>(client_RegisterUserWithImageCompleted);
-            //    client.RegisterUserWithImageAsync(0, phoneID, registerNameBox.Text, "JPEG", imageData);
-            //}
-            //else
-            //{
-            //    Service1Client client = new Service1Client();
-            //    client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
-            //    client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
-            //}
         }
 
         private void signInButton_Click(object sender, RoutedEventArgs e)

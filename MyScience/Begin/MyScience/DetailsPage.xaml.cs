@@ -55,8 +55,6 @@ namespace MyScience
             progressbar = new PerformanceProgressBar();
             //popup message content
             msg = new PopupMessageControl();
-            App.popup.Child = msg;
-            App.popup.Margin = new Thickness(0);
         }
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
@@ -76,11 +74,6 @@ namespace MyScience
                 InfoPanel.Children.Add(DescriptionBlock);
                 InfoPanel.Children.Add(LatBlock);
                 InfoPanel.Children.Add(LngBlock);
-
-               
-                //map1.Center = mapCenter;
-                //map1.ZoomLevel = zoom;
-               
 
                 List<Field> fields = GetFormField(currentApp.Form);
                 /*When submission page l oaded, it will generate controls dynamically*/
@@ -139,7 +132,6 @@ namespace MyScience
                             DynamicPanel.Children.Add(SliderBar);
                             break;
                     }
-
                 }
 
                 var cameraButton = new Button { Name = "CameraButton", Content = "Take a photo" };
@@ -482,6 +474,8 @@ namespace MyScience
                 TextBlock message = new TextBlock();
                 displayPopup(popupTitle1, popupContent3);
                 submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
+                progressbar.IsIndeterminate = false;
+                progressbar.Visibility = System.Windows.Visibility.Visible;
             }
         } 
 
@@ -542,9 +536,8 @@ namespace MyScience
 
         private void OnLoaded(/*object sender, RoutedEventArgs e*/)
         {
-            var useEmulation = false;//TODO change to false
 
-            var observable = useEmulation ? App.CreateGeoPositionEmulator() : App.CreateObservableGeoPositionWatcher();
+            var observable = App.CreateObservableGeoPositionWatcher();
 
             observable
                 .ObserveOnDispatcher()
@@ -564,6 +557,8 @@ namespace MyScience
         {
             msg.msgtitle.Text = title;
             msg.msgcontent.Text = content;
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
             App.popup.Height = msg.Height;
             App.popup.Width = msg.Width;
             App.popup.HorizontalAlignment = HorizontalAlignment.Center;
