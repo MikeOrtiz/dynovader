@@ -123,11 +123,21 @@ namespace MyScience
             }
             if (App.sentSubmissions.Count != 0)
             {
+                SubmissionEmpty.Visibility = System.Windows.Visibility.Collapsed;
                 PictureWall.ItemsSource = App.sentSubmissions;
+            }
+            else
+            {
+                SubmissionEmpty.Visibility = System.Windows.Visibility.Visible;
             }
             if (App.toBeSubmit.Count != 0)
             {
+                ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Collapsed;
                 ToBeSubmitBox.ItemsSource = App.toBeSubmit;
+            }
+            else
+            {
+                ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Visible;
             }
             //change visibility
             this.MainListBox.Visibility = System.Windows.Visibility.Visible;
