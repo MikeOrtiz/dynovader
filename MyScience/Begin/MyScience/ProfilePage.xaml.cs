@@ -22,13 +22,13 @@ namespace MyScience
         {
             currentUser = user;
             InitializeComponent();
-            DataContext = App.ViewModel;
+            //DataContext = App.ViewModel;
         }
 
         public ProfilePage()
         {
             InitializeComponent();
-            DataContext = App.ViewModel;
+            //DataContext = App.ViewModel;
         }
 
         void settingsButton_Click(object sender, EventArgs e)
@@ -67,10 +67,10 @@ namespace MyScience
         // Load data for the ViewModel Items
         private void ProfilePage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!App.ViewModel.IsDataLoaded)
-            {
-                App.ViewModel.LoadData();
-            }
+            //if (!App.ViewModel.IsDataLoaded)
+            //{
+            //    App.ViewModel.LoadData();
+            //}
         }
     }
 }

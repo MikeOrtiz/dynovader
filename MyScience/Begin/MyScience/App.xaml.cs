@@ -36,8 +36,12 @@ namespace MyScience
         public static List<Submission> sentSubmissions = new List<Submission>();
         public static int currentSubmissionIndex;
         public static bool firstAccess = true; //repurposing it in general to refresh the main page, i.e. for when a new submission goes through, etc
+
+        public static List<int> userProject = new List<int>();
+
         public static Popup popup = new Popup();
         public static BitmapImage userProfileImage;
+
 
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.

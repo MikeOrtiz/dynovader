@@ -31,6 +31,8 @@ namespace MyScience
     {
         private PopupMessageControl msg;
         private LogoutMessageControl logoutmsg;
+        private bool projectloaded=false;
+        private bool submissionloaded=false;
         // Constructor
         public MainPage()
         {
@@ -71,6 +73,10 @@ namespace MyScience
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+            projectloaded = false;
+            submissionloaded = false;
+
+            
             if (NetworkInterface.GetIsNetworkAvailable() && App.firstAccess)
             {
                 Service1Client client = new Service1Client();
@@ -99,6 +105,9 @@ namespace MyScience
                 /* Load all */
                 App.loadAppAll();
                 userPic.Source = App.userProfileImage;
+                projectloaded = true;
+                submissionloaded = true;
+                displayUserProjects();
             }
             /* Modify userprofile panorama */
             updatePageControls();
@@ -161,6 +170,38 @@ namespace MyScience
 
         #endregion
 
+
+        private List<int> getUserProjects(List<Submission> submissions) {
+              List<int> result = new List<int>();
+             
+                  for (int i = 0; i < submissions.Count; i++)
+                  {
+                      if (!result.Contains(submissions[i].ProjectID))
+                      {
+                          result.Add(submissions[i].ProjectID);
+                      }
+                  }
+            
+              return result;
+        }
+
+        private void displayUserProjects()
+        {
+            if (projectloaded && submissionloaded)
+            {
+                List<Project> userprojects = new List<Project>();
+                for (int i = 0; i < App.applist.Count; i++)
+                {
+                    if (App.userProject.Contains(App.applist[i].ID))
+                        userprojects.Add(App.applist[i]);
+                }
+                ProjectListBox.ItemsSource = userprojects;
+                ProjectListBox.Visibility = System.Windows.Visibility.Visible;
+            }
+
+        }
+
+
         #region client_calls
 
         void client_GetUserSubmissionCompleted(object sender, GetUserSubmissionCompletedEventArgs e)
@@ -169,6 +210,42 @@ namespace MyScience
             {
                 //SubmissionListBox.ItemsSource = e.Result;
                 PictureWall.ItemsSource = e.Result;
+                List<Submission> submissions = e.Result.ToList<Submission>();
+                App.userProject = getUserProjects(submissions);
+                submissionloaded = true;
+                displayUserProjects();
+                try
+                {
+                    IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
+                    StreamWriter writeFile;
+                    String txtDirectory = "MyScience/Submissions/" + App.currentUser.ID;
+                    if (!myIsolatedStorage.DirectoryExists(txtDirectory))
+                    {
+                        myIsolatedStorage.CreateDirectory(txtDirectory);
+                    }
+                    foreach (Submission submn in submissions)
+                    {
+                        String filename = submn.LowResImageName.Substring(submn.LowResImageName.LastIndexOf('/') + 1);
+                        if (myIsolatedStorage.FileExists(txtDirectory+"/" + filename + ".txt"))
+                        {
+                            myIsolatedStorage.DeleteFile(txtDirectory+"/"+ filename + ".txt");
+                        }
+                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory+"/" + filename + ".txt", FileMode.CreateNew, myIsolatedStorage));
+                        writeFile.WriteLine(submn.ProjectID);
+                        writeFile.WriteLine(submn.ProjectName);
+                        writeFile.WriteLine(submn.Data);
+                        writeFile.WriteLine(submn.Location);
+                        writeFile.WriteLine(submn.Time);
+                        writeFile.WriteLine(submn.ImageName);
+                        writeFile.WriteLine(submn.LowResImageName);
+                        writeFile.WriteLine(filename);//TODO remove this or not
+                        writeFile.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //do something here
+                }
 
                 App.sentSubmissions = e.Result.ToList<Submission>();
                 App.saveSubmissions();
@@ -182,6 +259,37 @@ namespace MyScience
             {
                 this.MainListBox.ItemsSource = e.Result;
                 App.applist = e.Result.ToList<Project>();
+
+                projectloaded = true;
+                displayUserProjects();
+                /* Write file to isolated storage */
+                try 
+                {
+                    IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
+                    StreamWriter writeFile;
+                    String txtDirectory = "MyScience/Projects";
+                    if (!myIsolatedStorage.DirectoryExists(txtDirectory))
+                    {
+                        myIsolatedStorage.CreateDirectory(txtDirectory);
+                    }
+                    foreach (Project project in App.applist)
+                    {
+                        String filename = project.ID.ToString();
+                        if (myIsolatedStorage.FileExists(txtDirectory + "/" + filename + ".txt"))
+                        {
+                            myIsolatedStorage.DeleteFile(txtDirectory + "/" + filename + ".txt");
+                        }
+
+                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory + "/" + filename + ".txt", FileMode.CreateNew, myIsolatedStorage));
+                        writeFile.WriteLine(project.ID);
+                        writeFile.WriteLine(project.Name);
+                        writeFile.WriteLine(project.Owner);
+                        writeFile.WriteLine(project.Description);
+                        writeFile.WriteLine(project.Form);
+                        writeFile.Close();
+                    }
+                }
+                catch (Exception ex) { }
                 App.saveProjects();
             }
             turnOffProgressBar(ProjectProgressBar);
@@ -339,6 +447,7 @@ namespace MyScience
             if (NetworkInterface.GetIsNetworkAvailable())
             {
                 turnOnProgressBar(ProjectProgressBar);
+                projectloaded = false;
                 Service1Client client = new Service1Client();
                 /* Get list of projects */
                 client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
@@ -372,6 +481,7 @@ namespace MyScience
             if (NetworkInterface.GetIsNetworkAvailable())
             {
                 turnOnProgressBar(DataProgreeBar);
+                submissionloaded = false;
                 Service1Client client = new Service1Client();
                 /* Get User's past submissions */
                 client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
