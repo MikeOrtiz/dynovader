@@ -44,7 +44,7 @@ if(isset($_GET['projname']))
 			$formhtml .= "<tr>";
 			$formhtml .="<td>".$row['time']->format('Y-m-d H:i:s')."</td><td>".$row['location']."</td><td>";
 			if($row['lowrespic']!=""){
-                            $formhtml.="<img src=\"".$row['lowrespic']."\" width=\"200\"/>";
+                            $formhtml.="<a href=\"".$row['picture']."\"> <img src=\"".$row['lowrespic']."\" width=\"50\"/> </a>";
 			}
 			$formhtml .= "</td>";
 			foreach($arr as $val){
