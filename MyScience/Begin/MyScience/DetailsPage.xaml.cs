@@ -35,13 +35,6 @@ namespace MyScience
         private TextBlock submissionStatMsg;
         private PerformanceProgressBar progressbar;
         private PopupMessageControl msg;
-        private static string popupTitle1 = "myscience";
-        private static string popupTitle2 = "myscience error";
-        private static string popupContent1 = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
-        private static string popupContent2 = "Submission Saved!";
-        private static string popupContent3 = "Oops, forgot to submit a pic!";
-        private static string popupContent4 = "Congratulation! Data Submitted Successfully!";
-        
 
         public DetailsPage()
         {
@@ -55,8 +48,6 @@ namespace MyScience
             progressbar = new PerformanceProgressBar();
             //popup message content
             msg = new PopupMessageControl();
-            App.popup.Child = msg;
-            App.popup.Margin = new Thickness(0);
         }
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
@@ -67,20 +58,10 @@ namespace MyScience
                 Project currentApp = App.applist[App.currentIndex];
                 //PageTitle.Text = currentApp.Name;
                 ProjectPivot.Title = currentApp.Name;
-                InfoPanel.Children.Clear();
-                var DescriptionBlock = new TextBlock();
-                DescriptionBlock.Text = currentApp.Description;
-                DescriptionBlock.TextWrapping = TextWrapping.Wrap;
-                LatBlock.Text = "Lat: " + lat.ToString();
-                LngBlock.Text = "Lng:" + lng.ToString();
-                InfoPanel.Children.Add(DescriptionBlock);
-                InfoPanel.Children.Add(LatBlock);
-                InfoPanel.Children.Add(LngBlock);
-
-               
-                //map1.Center = mapCenter;
-                //map1.ZoomLevel = zoom;
-               
+                BackgroundContent.Text = currentApp.Description;
+                int numlines = currentApp.Description.Length / 35 + 1; //TODO fix this, estimated number of lines really sketchy stuff going on 
+                BackgroundContent.MaxHeight = numlines * 36; //estimated line height based on pixels
+                BackgroundContent.Height = numlines * 36;
 
                 List<Field> fields = GetFormField(currentApp.Form);
                 /*When submission page l oaded, it will generate controls dynamically*/
@@ -139,7 +120,6 @@ namespace MyScience
                             DynamicPanel.Children.Add(SliderBar);
                             break;
                     }
-
                 }
 
                 var cameraButton = new Button { Name = "CameraButton", Content = "Take a photo" };
@@ -178,8 +158,8 @@ namespace MyScience
                 else
                 {
                     submitButton.IsEnabled = false;
-                    TextBlock warningBlock = new TextBlock { Text = "No network, other people's submissions couldn't be fetched" };
-                    InfoPanel.Children.Add(warningBlock);
+                    //TextBlock warningBlock = new TextBlock { Text = "No network, other people's submissions couldn't be fetched" };
+                    //InfoPanel.Children.Add(warningBlock);
                 }
 
                 GeoCoordinate mapCenter;
@@ -317,8 +297,6 @@ namespace MyScience
             {
                 TextBlock dataCount = new TextBlock();
                 List<Submission> projectData = e.Result.ToList<Submission>();
-                dataCount.Text = "Current Data in Total: " + projectData.Count;
-                InfoPanel.Children.Add(dataCount);
 
                 List<GeoCoordinate> datapoints = new List<GeoCoordinate>();
                 for (int i = 0; i < projectData.Count; i++)
@@ -427,9 +405,6 @@ namespace MyScience
             {
                 TextBlock message = new TextBlock();
                 displayPopup(popupTitle1, popupContent3);
-                submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
-                //submissionStatMsg.Child = message;
-                //submissionStatMsg.IsOpen = true;
                 return null;
             }
         }
@@ -482,6 +457,8 @@ namespace MyScience
                 TextBlock message = new TextBlock();
                 displayPopup(popupTitle1, popupContent3);
                 submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
+                progressbar.IsIndeterminate = false;
+                progressbar.Visibility = System.Windows.Visibility.Visible;
             }
         } 
 
@@ -496,16 +473,9 @@ namespace MyScience
             saveButton.IsEnabled = true;
             submitButton.IsEnabled = true;
             String url = e.Result.ToString();
-            //Popup messagePopup = new Popup()
             progressbar.IsIndeterminate = false;
             progressbar.Visibility = System.Windows.Visibility.Collapsed;
             displayPopup(popupTitle1, popupContent4);
-            submissionStatMsg.Text = "Congratulation! Data Submitted Successfully!\n";
-            //submissionStatMsg.Child = message;
-            //submissionStatMsg.IsOpen = true;
-            //DynamicPanel.Children.Add(messagePopup);
-            //App.firstAccess = true;
-            //throw new NotImplementedException();
         }
 
         /*Parse the fields list into Json String*/
@@ -537,14 +507,12 @@ namespace MyScience
             var fields = ser.ReadObject(stream);
             stream.Close();
             return (List<Field>)fields;
-
         }
 
         private void OnLoaded(/*object sender, RoutedEventArgs e*/)
         {
-            var useEmulation = false;//TODO change to false
 
-            var observable = useEmulation ? App.CreateGeoPositionEmulator() : App.CreateObservableGeoPositionWatcher();
+            var observable = App.CreateObservableGeoPositionWatcher();
 
             observable
                 .ObserveOnDispatcher()
@@ -557,13 +525,21 @@ namespace MyScience
             lng = location.Longitude;
             LatBlock.Text = "Lat: " + lat.ToString();
             LngBlock.Text = "Lng:" + lng.ToString();
-            
         }
+
+        private static string popupTitle1 = "myscience";
+        private static string popupTitle2 = "myscience error";
+        private static string popupContent1 = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
+        private static string popupContent2 = "Submission Saved!";
+        private static string popupContent3 = "Oops, forgot to submit a pic!";
+        private static string popupContent4 = "Congratulation! Data Submitted Successfully!";
 
         public void displayPopup(string title, string content)
         {
             msg.msgtitle.Text = title;
             msg.msgcontent.Text = content;
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
             App.popup.Height = msg.Height;
             App.popup.Width = msg.Width;
             App.popup.HorizontalAlignment = HorizontalAlignment.Center;

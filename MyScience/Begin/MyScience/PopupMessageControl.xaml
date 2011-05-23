@@ -11,7 +11,7 @@
 
     <Grid x:Name="LayoutRoot" Height="360" VerticalAlignment="Top" Width="480">
     	<Grid.Background>
-    		<SolidColorBrush Color="#DFFFFFFF"/>
+    		<SolidColorBrush Color="#EFFFFFFF"/>
     	</Grid.Background>
         <Button Content="close" Height="72" HorizontalAlignment="Left" Margin="36,248,0,0" Name="close" VerticalAlignment="Top" Width="160" Foreground="Black" BorderBrush="Black" Style="{StaticResource WhiteBackgroundButtonStyle}" Click="close_Click" Background="Transparent" />
         <TextBlock Height="42" Margin="48,35,48,0" Name="msgtitle" Text="myscience error" VerticalAlignment="Top" FontSize="29.333" FontWeight="Bold" Foreground="Black" />

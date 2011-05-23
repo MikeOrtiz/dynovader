@@ -27,14 +27,6 @@ namespace MyScience
         private PopupMessageControl msg;
         private Popup messagePopup;
         private PerformanceProgressBar progressbar;
-        
-        private static string popupTitle1 = "myscience";
-        private static string popupTitle2 = "myscience error";
-        private static string popupContent1 = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
-        private static string popupContent2 = "Submission Saved!";
-        private static string popupContent3 = "Oops, forgot to submit a pic!";
-        private static string popupContent4 = "Congratulation! Data Submitted Successfully!";
-
 
         public SubmissionPage()
         {
@@ -207,13 +199,21 @@ namespace MyScience
             var fields = ser.ReadObject(stream);
             stream.Close();
             return (List<Field>)fields;
-
         }
+
+        private static string popupTitle1 = "myscience";
+        private static string popupTitle2 = "myscience error";
+        private static string popupContent1 = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
+        private static string popupContent2 = "Submission Saved!";
+        private static string popupContent3 = "Oops, forgot to submit a pic!";
+        private static string popupContent4 = "Congratulation! Data Submitted Successfully!";
 
         public void displayPopup(string title, string content)
         {
             msg.msgtitle.Text = title;
             msg.msgcontent.Text = content;
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
             App.popup.Height = msg.Height;
             App.popup.Width = msg.Width;
             App.popup.HorizontalAlignment = HorizontalAlignment.Center;

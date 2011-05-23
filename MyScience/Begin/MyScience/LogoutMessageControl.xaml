@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="MyScience.LogoutMessageControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneContrastForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480" Height="301" Width="480">
+
+    <Grid x:Name="LayoutRoot" Height="301" VerticalAlignment="Top" Width="480">
+        <Grid.Background>
+            <SolidColorBrush Color="#EFFFFFFF"/>
+        </Grid.Background>
+        <Button Content="logout" Height="72" HorizontalAlignment="Left" Margin="40,199,0,0" Name="logout" VerticalAlignment="Top" Width="160" Foreground="Black" BorderBrush="Black" Style="{StaticResource WhiteBackgroundButtonStyle}" Click="logout_Click" Background="Transparent" />
+        <TextBlock Height="42" Margin="48,35,48,0" Name="msgtitle" Text="myscience error" VerticalAlignment="Top" FontSize="29.333" FontWeight="Bold" Foreground="Black" />
+        <TextBlock x:Name="msgcontent" Margin="48,96,60,0" TextWrapping="Wrap" Text="Would you like to logout of your existing MyScience session?" VerticalAlignment="Top" Height="97" FontSize="21.333"/>
+        <Button Content="stay" Height="72" HorizontalAlignment="Left" Margin="272,199,0,0" Name="stay" VerticalAlignment="Top" Width="160" Foreground="Black" BorderBrush="Black" Style="{StaticResource WhiteBackgroundButtonStyle}" Click="stay_Click" Background="Transparent" />
+    </Grid>
+</UserControl>

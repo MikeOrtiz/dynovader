@@ -27,35 +27,22 @@ namespace MyScience
     {
         public static List<Project> applist = new List<Project>();
         public static List<TopScorer> topscorerslist = new List<TopScorer>();
-        private static MainViewModel viewModel = null;
         public static int currentIndex;
         public static GeoCoordinateWatcher geoCoordinateWatcher = new GeoCoordinateWatcher();
         public static Random random = new Random();
-        public static double lat, lng;
         public static bool userVerified = false;
         public static User currentUser = null;
         public static List<Submission> toBeSubmit = new List<Submission>();
         public static List<Submission> sentSubmissions = new List<Submission>();
         public static int currentSubmissionIndex;
         public static bool firstAccess = true; //repurposing it in general to refresh the main page, i.e. for when a new submission goes through, etc
+
+        public static List<int> userProject = new List<int>();
+
         public static Popup popup = new Popup();
         public static BitmapImage userProfileImage;
 
 
-        /// <summary>
-        /// A static ViewModel used by the views to bind against.
-        /// </summary>
-        /// <returns>The MainViewModel object.</returns>
-        public static MainViewModel ViewModel
-        {
-            get
-            {
-                // Delay creation of the view model until necessary
-                if (viewModel == null)
-                    viewModel = new MainViewModel();
-                return viewModel;
-            }
-        }
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -89,43 +76,58 @@ namespace MyScience
 
             // Phone-specific initialization
             InitializePhoneApplication();
+
+            RootFrame.Navigating += new NavigatingCancelEventHandler(RootFrame_Navigating);
+        }
+
+        void RootFrame_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            // Only care about MainPage
+            if (e.Uri.ToString().Contains("home.xaml") != true)
+                return;
+
+            // Cancel current navigation and schedule the real navigation for the next tick
+            // (we can't navigate immediately as that will fail; no overlapping navigations
+            // are allowed)
+            e.Cancel = true;
+            RootFrame.Dispatcher.BeginInvoke(delegate
+            {
+                if (currentUser == null)
+                    RootFrame.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
+                else
+                    RootFrame.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            });
         }
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            if (NetworkInterface.GetIsNetworkAvailable())
-            {
-                //load from memory
-                //loadAppState();
-            }
-            else
-            {
-                //download from database
-            }
+            //if (NetworkInterface.GetIsNetworkAvailable())
+            LoadPersistentState();
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            //loadAppState();
+            LoadPersistentState();
+            LoadTransState();
         }
 
         // Code to execute when the application is deactivated (sent to background)
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
-            //save transient state
-            //saveAppState();
+            SavePersistentState();
+            SaveTransState();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
-            //saveAppState();
+            SavePersistentState();
         }
 
         // Code to execute if a navigation fails
@@ -158,20 +160,6 @@ namespace MyScience
             geoCoordinateWatcher.Start();
 
             return observable;
-        }
-
-        public static IObservable<GeoCoordinate> CreateGeoPositionEmulator()
-        {
-            return Observable.Timer(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(10))
-                .Select(l => CreateRandomCoordinate());
-        }
-
-        private static GeoCoordinate CreateRandomCoordinate()
-        {
-            var latitude = (random.NextDouble() * 180.0) - 90.0;
-            var longitude = (random.NextDouble() * 360.0) - 180.0;
-
-            return new GeoCoordinate(latitude, longitude);
         }
 
         #region Phone application initialization
@@ -210,9 +198,22 @@ namespace MyScience
 
         #endregion
 
+        /* Persistent State */
+        private const string AppCurrentUserKey = "CurrentUser";
+        /* Transient State */
+        private const string AppProjectsList = "ProjectsList";
+        private const string AppTopScorersList = "TopScorersList";
+        private const string AppCurrentIndex = "CurrentIndex";
+        private const string AppUserVerified = "UserVerified";
+        private const string AppToBeSubmitList = "ToBeSubmitList";
+        private const string AppSentSubmissions = "SentSubmissions";
+        private const string AppCurrSubmissionIndex = "CurrSubmissionIndex";
+        private const string AppFirstAccess = "FirstAccess";
+        private const string AppPopup = "Popup";
+
         #region load_from_is
 
-        public static void loadAppState()
+        public static void loadAppAll()
         {
             /* Load the list of projects */
             loadProjectPage();
@@ -224,6 +225,43 @@ namespace MyScience
             loadToBeSubmit();
             /* Load list of already sent submissions */
             loadCachedSubmission();
+        }
+
+        private void LoadPersistentState()
+        {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(AppCurrentUserKey))
+            {
+                currentUser = (User)settings[AppCurrentUserKey];
+            }
+            else
+                currentUser = null;
+        }
+
+        private void LoadTransState()
+        {
+            IDictionary<string, object> transState = PhoneApplicationService.Current.State;
+            object obj;
+            transState.TryGetValue(AppProjectsList, out obj);
+            applist = (List<Project>)obj;
+            transState.TryGetValue(AppTopScorersList, out obj);
+            topscorerslist = (List<TopScorer>)obj;
+            transState.TryGetValue(AppCurrentIndex, out obj);
+            currentIndex = (int)obj;
+            transState.TryGetValue(AppUserVerified, out obj);
+            userVerified = (bool)obj;
+            transState.TryGetValue(AppToBeSubmitList, out obj);
+            toBeSubmit = (List<Submission>)obj;
+            transState.TryGetValue(AppSentSubmissions, out obj);
+            sentSubmissions = (List<Submission>)obj;
+            transState.TryGetValue(AppCurrSubmissionIndex, out obj);
+            currentSubmissionIndex = (int)obj;
+            transState.TryGetValue(AppFirstAccess, out obj);
+            firstAccess = (bool)obj;
+            //initialize other app fields, these don't need to be remembered at all
+            geoCoordinateWatcher = new GeoCoordinateWatcher();
+            random = new Random();
+            popup = new Popup();
         }
 
         public static void loadProjectPage()
@@ -342,7 +380,7 @@ namespace MyScience
 
         #region save_into_is
 
-        public static void saveAppState()
+        public static void saveAppAll()
         {
             saveSubmissions();
             saveProjects();
@@ -350,6 +388,29 @@ namespace MyScience
             /* there's no save user image. User image is saved everytime 
              * it's changed. Similarly, user's to-be-sent submissions are
              * written to the isolated storage when user clicks save. */
+        }
+
+        private void SavePersistentState()
+        {
+            if (currentUser != null)
+            {
+                IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+                settings[AppCurrentUserKey] = currentUser;
+                settings.Save();
+            }
+        }
+
+        private void SaveTransState()
+        {
+            PhoneApplicationService.Current.State[AppProjectsList] = applist;
+            PhoneApplicationService.Current.State[AppTopScorersList] = topscorerslist;
+            PhoneApplicationService.Current.State[AppCurrentIndex] = currentIndex;
+            PhoneApplicationService.Current.State[AppUserVerified] = userVerified;
+            PhoneApplicationService.Current.State[AppToBeSubmitList] = toBeSubmit;
+            PhoneApplicationService.Current.State[AppSentSubmissions] = sentSubmissions;
+            PhoneApplicationService.Current.State[AppCurrSubmissionIndex] = currentSubmissionIndex;
+            PhoneApplicationService.Current.State[AppFirstAccess] = firstAccess;
+            //don't save random, geocoordinatewatcher, popup, bitmapimage, just create new copies
         }
 
         public static void saveSubmissions()
@@ -447,5 +508,16 @@ namespace MyScience
         }
 
         #endregion
+
+
+        public void appReset()
+        {
+            App.currentUser = null;
+            App.userProfileImage = null;
+            App.firstAccess = true;
+            App.userVerified = false;
+            //go back to sign in page
+            RootFrame.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));   
+        }
     }
 }

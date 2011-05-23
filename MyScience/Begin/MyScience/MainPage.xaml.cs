@@ -30,16 +30,17 @@ namespace MyScience
     public partial class MainPage : PhoneApplicationPage
     {
         private PopupMessageControl msg;
+        private LogoutMessageControl logoutmsg;
+        private bool projectloaded=false;
+        private bool submissionloaded=false;
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-            DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
 
-            msg = new PopupMessageControl();
-            App.popup.Child = msg;
-            App.popup.Margin = new Thickness(0);
+            msg = new PopupMessageControl(); //TODO test this
+            logoutmsg = new LogoutMessageControl();
         }
 
         // Handle selection changed on ListBox
@@ -72,6 +73,10 @@ namespace MyScience
         // Load data for the ViewModel Items
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+            projectloaded = false;
+            submissionloaded = false;
+
+            
             if (NetworkInterface.GetIsNetworkAvailable() && App.firstAccess)
             {
                 Service1Client client = new Service1Client();
@@ -93,25 +98,64 @@ namespace MyScience
                 client.GetUserImageAsync(App.currentUser.Name, "JPEG");
                 /* Load tobe submitted list */
                 App.loadToBeSubmit();
-                fillToBeSubmitPage();
-
-                App.firstAccess = false;
+                App.firstAccess = false;   
             }
             else
             {
                 /* Load all */
-                App.loadAppState();
-                if(App.applist != null && App.applist.Count != 0) MainListBox.ItemsSource = App.applist;
-                if(App.topscorerslist != null && App.topscorerslist.Count != 0) HallOfFameBox.ItemsSource = App.topscorerslist;
+                App.loadAppAll();
                 userPic.Source = App.userProfileImage;
-                if (App.sentSubmissions.Count != 0) PictureWall.ItemsSource = App.sentSubmissions;
-                fillToBeSubmitPage();//TODO change name
+                projectloaded = true;
+                submissionloaded = true;
+                displayUserProjects();
             }
             /* Modify userprofile panorama */
+            updatePageControls();
+        }
+
+        private void updatePageControls()
+        {
+            if (App.applist != null && App.applist.Count != 0)
+            {
+                MainListBox.ItemsSource = App.applist;
+            }
+            if (App.topscorerslist != null && App.topscorerslist.Count != 0)
+            {
+                HallOfFameBox.ItemsSource = App.topscorerslist;
+            }
+            if (App.sentSubmissions.Count != 0)
+            {
+                PictureWall.ItemsSource = App.sentSubmissions;
+            }
+            if (App.toBeSubmit.Count != 0)
+            {
+                ToBeSubmitBox.ItemsSource = App.toBeSubmit;
+            }
+            //change visibility
+            this.MainListBox.Visibility = System.Windows.Visibility.Visible;
+            this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
+            this.PictureWall.Visibility = System.Windows.Visibility.Visible;
+            this.ToBeSubmitBox.Visibility = System.Windows.Visibility.Visible;
+            /* Modify userprofile panorama */
+            //userPic.Source = App.userProfileImage; this is dealt with in the client download function call
             userName.Text = App.currentUser.Name;
             score.Text = "Score: " + App.currentUser.Score.ToString();
             scientistLevel.Text = App.currentUser.Score < 50 ? "Newb" : "Aspiring Scientist";
+
         }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+        }
+
+
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+        }
+
+        #region progressbar
 
         private void turnOnProgressBar(PerformanceProgressBar bar) {
             bar.IsIndeterminate=true;
@@ -124,6 +168,40 @@ namespace MyScience
             bar.Visibility = System.Windows.Visibility.Visible;
         }
 
+        #endregion
+
+
+        private List<int> getUserProjects(List<Submission> submissions) {
+              List<int> result = new List<int>();
+             
+                  for (int i = 0; i < submissions.Count; i++)
+                  {
+                      if (!result.Contains(submissions[i].ProjectID))
+                      {
+                          result.Add(submissions[i].ProjectID);
+                      }
+                  }
+            
+              return result;
+        }
+
+        private void displayUserProjects()
+        {
+            if (projectloaded && submissionloaded)
+            {
+                List<Project> userprojects = new List<Project>();
+                for (int i = 0; i < App.applist.Count; i++)
+                {
+                    if (App.userProject.Contains(App.applist[i].ID))
+                        userprojects.Add(App.applist[i]);
+                }
+                ProjectListBox.ItemsSource = userprojects;
+                ProjectListBox.Visibility = System.Windows.Visibility.Visible;
+            }
+
+        }
+
+
         #region client_calls
 
         void client_GetUserSubmissionCompleted(object sender, GetUserSubmissionCompletedEventArgs e)
@@ -132,6 +210,42 @@ namespace MyScience
             {
                 //SubmissionListBox.ItemsSource = e.Result;
                 PictureWall.ItemsSource = e.Result;
+                List<Submission> submissions = e.Result.ToList<Submission>();
+                App.userProject = getUserProjects(submissions);
+                submissionloaded = true;
+                displayUserProjects();
+                try
+                {
+                    IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
+                    StreamWriter writeFile;
+                    String txtDirectory = "MyScience/Submissions/" + App.currentUser.ID;
+                    if (!myIsolatedStorage.DirectoryExists(txtDirectory))
+                    {
+                        myIsolatedStorage.CreateDirectory(txtDirectory);
+                    }
+                    foreach (Submission submn in submissions)
+                    {
+                        String filename = submn.LowResImageName.Substring(submn.LowResImageName.LastIndexOf('/') + 1);
+                        if (myIsolatedStorage.FileExists(txtDirectory+"/" + filename + ".txt"))
+                        {
+                            myIsolatedStorage.DeleteFile(txtDirectory+"/"+ filename + ".txt");
+                        }
+                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory+"/" + filename + ".txt", FileMode.CreateNew, myIsolatedStorage));
+                        writeFile.WriteLine(submn.ProjectID);
+                        writeFile.WriteLine(submn.ProjectName);
+                        writeFile.WriteLine(submn.Data);
+                        writeFile.WriteLine(submn.Location);
+                        writeFile.WriteLine(submn.Time);
+                        writeFile.WriteLine(submn.ImageName);
+                        writeFile.WriteLine(submn.LowResImageName);
+                        writeFile.WriteLine(filename);//TODO remove this or not
+                        writeFile.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //do something here
+                }
 
                 App.sentSubmissions = e.Result.ToList<Submission>();
                 App.saveSubmissions();
@@ -145,9 +259,39 @@ namespace MyScience
             {
                 this.MainListBox.ItemsSource = e.Result;
                 App.applist = e.Result.ToList<Project>();
+
+                projectloaded = true;
+                displayUserProjects();
+                /* Write file to isolated storage */
+                try 
+                {
+                    IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
+                    StreamWriter writeFile;
+                    String txtDirectory = "MyScience/Projects";
+                    if (!myIsolatedStorage.DirectoryExists(txtDirectory))
+                    {
+                        myIsolatedStorage.CreateDirectory(txtDirectory);
+                    }
+                    foreach (Project project in App.applist)
+                    {
+                        String filename = project.ID.ToString();
+                        if (myIsolatedStorage.FileExists(txtDirectory + "/" + filename + ".txt"))
+                        {
+                            myIsolatedStorage.DeleteFile(txtDirectory + "/" + filename + ".txt");
+                        }
+
+                        writeFile = new StreamWriter(new IsolatedStorageFileStream(txtDirectory + "/" + filename + ".txt", FileMode.CreateNew, myIsolatedStorage));
+                        writeFile.WriteLine(project.ID);
+                        writeFile.WriteLine(project.Name);
+                        writeFile.WriteLine(project.Owner);
+                        writeFile.WriteLine(project.Description);
+                        writeFile.WriteLine(project.Form);
+                        writeFile.Close();
+                    }
+                }
+                catch (Exception ex) { }
                 App.saveProjects();
             }
-            this.MainListBox.Visibility = System.Windows.Visibility.Visible;
             turnOffProgressBar(ProjectProgressBar);
         }
 
@@ -165,7 +309,6 @@ namespace MyScience
                 this.HallOfFameBox.ItemsSource = App.topscorerslist;
                 App.saveTopScorers();
             }
-            this.HallOfFameBox.Visibility = System.Windows.Visibility.Visible;
             turnOffProgressBar(FameProgreeBar);
         }
 
@@ -196,29 +339,11 @@ namespace MyScience
                 IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + App.currentUser.Name + ".jpg");
                 image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
                 fileStream.Close();
-
-               
             }
             turnOffProgressBar(ProfileProgressBar);
         }
 
         #endregion
-
-        //populate the submit list box
-        private void fillToBeSubmitPage()
-        {
-            //ToBeSubmitInfo.Text = App.toBeSubmit.Count.ToString() + " submissions to be uploaded";
-            if (App.toBeSubmit.Count != 0)
-            {
-                ToBeSubmitBox.ItemsSource = null;
-                ToBeSubmitBox.ItemsSource = App.toBeSubmit;
-                ToBeSubmitBox.Visibility = System.Windows.Visibility.Visible;
-            }
-            else
-            {
-                ToBeSubmitBox.ItemsSource = null;
-            }
-        }
 
         private void userPic_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -322,6 +447,7 @@ namespace MyScience
             if (NetworkInterface.GetIsNetworkAvailable())
             {
                 turnOnProgressBar(ProjectProgressBar);
+                projectloaded = false;
                 Service1Client client = new Service1Client();
                 /* Get list of projects */
                 client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
@@ -355,6 +481,7 @@ namespace MyScience
             if (NetworkInterface.GetIsNetworkAvailable())
             {
                 turnOnProgressBar(DataProgreeBar);
+                submissionloaded = false;
                 Service1Client client = new Service1Client();
                 /* Get User's past submissions */
                 client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
@@ -381,11 +508,30 @@ namespace MyScience
                 displayPopup();
             }
         }
+
+        private void refreshhalloffame_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                turnOnProgressBar(FameProgreeBar);
+                Service1Client client = new Service1Client();
+                /* Get User's past submissions */
+                client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+                client.GetTopScorersAsync();
+            }
+            else
+            {
+                displayPopup();
+            }
+        }
+
         #endregion
 
         public void displayPopup()
         {
             msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
             App.popup.Height = msg.Height;
             App.popup.Width = msg.Width;
             App.popup.HorizontalAlignment = HorizontalAlignment.Center;
@@ -395,6 +541,37 @@ namespace MyScience
             App.popup.MinHeight = msg.Height;
             App.popup.MinWidth = msg.Width;
             App.popup.IsOpen = true;
+        }
+
+        public void displayLogoutPopup()
+        {
+            //logoutmsg.logoutmsgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
+            App.popup.Child = logoutmsg;
+            App.popup.Margin = new Thickness(0);
+            App.popup.Height = logoutmsg.Height;
+            App.popup.Width = logoutmsg.Width;
+            App.popup.HorizontalAlignment = HorizontalAlignment.Center;
+            App.popup.VerticalAlignment = VerticalAlignment.Center;
+            App.popup.HorizontalOffset = 0;
+            App.popup.VerticalOffset = 0;
+            App.popup.MinHeight = logoutmsg.Height;
+            App.popup.MinWidth = logoutmsg.Width;
+            App.popup.IsOpen = true;
+        }
+
+        private void logoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            displayLogoutPopup();
+            //appReset();
+            //NavigationService.Navigate(new Uri("/home.xaml", UriKind.Relative));
+        }
+
+        private void appReset()
+        {
+            App.currentUser = null;
+            App.userProfileImage = null;
+            App.firstAccess = true;
+            App.userVerified = false;
         }
     }
 }
