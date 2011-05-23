@@ -11,7 +11,6 @@
 
     <!--Application Resources-->
     <Application.Resources>
-
         <Style x:Key="ButtonStyle1" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>

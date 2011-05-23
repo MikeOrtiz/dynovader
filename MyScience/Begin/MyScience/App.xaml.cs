@@ -504,5 +504,16 @@ namespace MyScience
         }
 
         #endregion
+
+
+        public void appReset()
+        {
+            App.currentUser = null;
+            App.userProfileImage = null;
+            App.firstAccess = true;
+            App.userVerified = false;
+            //go back to sign in page
+            RootFrame.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));   
+        }
     }
 }
