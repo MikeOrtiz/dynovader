@@ -23,7 +23,7 @@ if(isset($_POST['coordname']))
 			$arr = sqlsrv_fetch_array($result);
 			$coordid = $arr['ID'];
 		}
-		$query = "SELECT * FROM projects WHERE name='".$_POST['apptitle']."' AND owner = $coordid";
+		$query = "SELECT * FROM projects WHERE name='".$_POST['titleinput']."' AND owner = $coordid";
 		$result = sqlsrv_query($conn, $query);
 		//echo sqlsrv_num_rows($result)."<br/>";
 		if(sqlsrv_has_rows($result)){
@@ -32,39 +32,39 @@ if(isset($_POST['coordname']))
 		else{ //build JSON string
 			$values = "[";
 			foreach($_POST as $key=>$value) {
-				if ($key!="apptitle" && $key!="description" && $key!="coordname" && $key!="coordemail" && $key!="numchecks" && $key!="numradios") {
-					if (strpos($key, 'textq')) {
-						$values .= "{\"type\":\"Question\",\"label\":\"".$_POST[$key]."\"},";
-					}
-					else if (strpos($key, 'check')) { //later append # to end of checkq to know # of values
-						if (strpos($key, 'checkq')) {
-							$values .= "{\"type\":\"CheckBox\",\"label\":\"".$_POST[$key]."\",\"value\":\"";
-						} else {
-							$values .= $_POST[$key]."|";
-							if (strpos($key, 'END')) {
-								$values = substr($values, 0, -1);
-								$values .= "\"},";
-							}
+				if ($key=="titleinput" || $key=="description" || $key=="coordname" || $key=="coordemail" || $key=="numchecks" || $key="numradios") {
+					//do not add to JSON
+				} else if (strpos($key, 'textq')) {
+					$values .= "{\"type\":\"Question\",\"label\":\"".$_POST[$key]."\"},";
+				} else if (strpos($key, 'check')) { 
+					if (strpos($key, 'checkq')) {
+						$values .= "{\"type\":\"CheckBox\",\"label\":\"".$_POST[$key]."\",\"value\":\"";
+					} else {
+						$values .= $_POST[$key]."|";
+						if (strpos($key, 'END')) {
+							$values = substr($values, 0, -1);
+							$values .= "\"},";
 						}
 					}
-					else if (strpos($key, 'radio')) {
-						if (strpos($key, 'radioq')) {
-							$values .= "{\"type\":\"RadioBox\",\"label\":\"".$_POST[$key]."\",\"value\":\"";
-						} else {
-							$values .= $_POST[$key]."|";
-							if (strpos($key, 'END')) {
-								$values = substr($values, 0, -1);
-								$values .= "\"},";
-							}
+				} else if (strpos($key, 'radio')) {
+					if (strpos($key, 'radioq')) {
+						$values .= "{\"type\":\"RadioBox\",\"label\":\"".$_POST[$key]."\",\"value\":\"";
+					} else {
+						$values .= $_POST[$key]."|";
+						if (strpos($key, 'END')) {
+							$values = substr($values, 0, -1);
+							$values .= "\"},";
 						}
 					}
 				}
 			}
+			$values .= "{\"type\":\"Font\",\"value\":\"".$_POST['fontColInput']."\"},";
+			$values .= "{\"type\":\"Background\",\"value\":\"".$_POST['backColInput']."\"},";
 			$values .= "{\"type\":\"Photo\",\"value\":\"".$_POST['photo']."\"}]";
 			
-			$query = "INSERT INTO projects(name, description, owner, form) VALUES('".$_POST['apptitle']."','".$_POST['description']."',$coordid,'".$values."')";
+			$query = "INSERT INTO projects(name, description, owner, form) VALUES('".$_POST['titleinput']."','".$_POST['description']."',$coordid,'".$values."')";
 			$result = sqlsrv_query($conn, $query);
-			echo "Your project <i>".$_POST['apptitle']."</i> was added successfully! It is currently under review.";
+			$msg = "Your project ".$_POST['titleinput']." was added successfully! It is currently under review.";
 		}
 	}
 	
@@ -73,14 +73,89 @@ if(isset($_POST['coordname']))
 <!DOCTYPE HTML>
 <html>
 <head>
-<link type="text/css" href="css/cupertino/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />	
+<link type="text/css" href="css/cupertino/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
+<link rel="stylesheet" media="screen" type="text/css" href="css/colorpicker.css" />
 <script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.13.custom.min.js"></script>
+<script type="text/javascript" src="js/colorpicker.js"></script>
+<script type="text/javascript" src="js/eye.js"></script> 
+<script type="text/javascript" src="js/utils.js"></script> 
+<script type="text/javascript" src="js/layout.js?ver=1.0.2"></script>
 <script>
+
+//displays successful submission message
+if ('<?echo $msg?>') alert('<?echo $msg?>');
+
 $(function() {
 		$( "#sortable" ).sortable();
 		$( "#sortable" ).disableSelection();
 });
+
+$(document).ready(function(){
+
+$('#backColInput').ColorPicker({
+	onChange: function(hsb, hex, rgb, el) {
+		$(el).val(hex);
+		var color = "#" + hex;
+		document.getElementById('phonecontent').style.backgroundColor = color;
+		document.getElementById('backColInput').value=hex;
+	},
+	onSubmit: function(hsb, hex, rgb, el) {
+		$(el).val(hex);
+		$(el).ColorPickerHide();
+	},
+	onBeforeShow: function () {
+		$(this).ColorPickerSetColor(this.value);
+	}
+})
+.bind('keyup', function(){
+	$(this).ColorPickerSetColor(this.value);
+});
+
+$('#fontColInput').ColorPicker({
+	onChange: function(hsb, hex, rgb, el) {
+		$(el).val(hex);
+		var color = "#" + hex;
+		var inputs = document.getElementsByClassName('blend');
+		for (var i=0; i < inputs.length; i++) {
+			inputs[i].style.color=color;
+		}
+		document.getElementById('apptitle').style.color=color;
+		document.getElementById('fontColInput').value=hex;
+	},
+	onSubmit: function(hsb, hex, rgb, el) {
+		$(el).val(hex);
+		$(el).ColorPickerHide();
+	},
+	onBeforeShow: function () {
+		$(this).ColorPickerSetColor(this.value);
+	}
+})
+.bind('keyup', function(){
+	$(this).ColorPickerSetColor(this.value);
+});
+
+});
+
+
+
+//this doesn't work with firefox
+document.getElementsByClassName = function(clsName){
+    var retVal = new Array();
+    var elements = document.getElementsByTagName("*");
+    for(var i = 0;i < elements.length;i++){
+        if(elements[i].className.indexOf(" ") >= 0){
+            var classes = elements[i].className.split(" ");
+            for(var j = 0;j < classes.length;j++){
+                if(classes[j] == clsName)
+                    retVal.push(elements[i]);
+            }
+        }
+        else if(elements[i].className == clsName)
+            retVal.push(elements[i]);
+    }
+    return retVal;
+}
 
 //form extension based off sample code at Quirksmode: http://www.quirksmode.org/dom/domform.html
 var counter = 0;
@@ -88,6 +163,7 @@ var counter = 0;
 function moreText() {
 	moreFields('textroot');
 }
+
 
 function moreCheck() {
 	moreFields('checkroot');
@@ -151,6 +227,20 @@ function starterFields() {
 	moreCheck();
 }
 
+function closeQuestion(node) {
+	node.parentNode.parentNode.parentNode.removeChild(node.parentNode.parentNode);
+}
+
+function revealButtons(node) {
+	node.children[0].style.display='block';
+	node.children[3].style.display='block';
+}
+
+function hideButtons(node) {
+	node.children[0].style.display='none';
+	node.children[3].style.display='none';
+}
+
 window.onload = starterFields;
 
 //Updates Apptitle on phone on keypress
@@ -186,6 +276,7 @@ function disableEnterKey(e)
 
      return (key != 13);
 }   
+
 </script>
 
 <style type="text/css" media="screen">
@@ -238,7 +329,7 @@ body{
 	padding:0;
 }
 
-.content{
+#content{
 	margin:auto;
 	position: relative;
 	top: 50px;
@@ -290,13 +381,13 @@ body{
 	right: 100px;
 }
 
-.phone_content
+#phonecontent
 {
 	position:absolute;
 	top:44px;
-	left:25px;
-	width:262px;
-	height:444px;
+	left:24px;
+	width:266px;
+	height:446px;
 }
 
 .blend
@@ -307,6 +398,7 @@ body{
 .floatright
 {
 	float: right;
+	display: none;
 }
 
 #bottombuttons
@@ -320,15 +412,16 @@ body{
 	position: absolute;
 	width: 320px;
 	right: 400px;
-	bottom: 100px;
+	bottom: 70px;
 }
 
 .question:hover
 {
-	background-color:lightgray;
+	background-color: lightgray;
 }
 
-input
+
+#sortable input
 {
 	background-color:transparent;
 }
@@ -348,7 +441,7 @@ input
 </ul>
 </div>
 
-<div class="content">
+<div id="content">
 
 <div class="phone">
 	<img src="phone.png"/></img>
@@ -377,14 +470,16 @@ input
 				<option value="3">3</option>
 				<option value="4">4</option>
 			</select><br />
-			<input type="button" value="Radio Question " onclick="moreRadio()"/> 
+			<input type="button" value="Radio Question&nbsp;" onclick="moreRadio()"/> 
 			<select id="numradios" name="numchecks">
 				<option value="2">2</option>
 				<option value="3">3</option>
 				<option value="4">4</option>
-			</select><br />
+			</select><br /><br />
+			&nbsp;Change Background: 				   <input id="backColInput" name="backColInput" type="text" size="7" maxlength="6" value="ffffff"><br />
+			&nbsp;Change Font Color: &nbsp;&nbsp;&nbsp;<input id="fontColInput" name="fontColInput"type="text" size="7" maxlength="6" value="000000">
 			<!--<input id="picturequestion" type="button" value="Remove Picture Capture" onclick="updatePhotoOption()"/> --><br /><br />
-			<input type="text" id="photopost" name="photo" value="Y" style="display:none">
+			<!--<input type="text" id="photopost" name="photo" value="Y" style="display:none">-->
 			<input type="submit" value="Submit App!" />	
 			
 			<h3>Instructions:</h3>
@@ -399,7 +494,7 @@ input
 			<br /><br />
 		</div>
 		
-		<div class="phone_content">
+		<div id="phonecontent">
 			<div id="apptitle" name="apptitle" size="30" value="Enter App Title Here"></div>
 			<div id="menubar">
 				<span class="gray">Submission</span> Da
@@ -422,14 +517,12 @@ input
 </div>
 
 
-<div><?=$msg?></div>
-
-<div class="question" id="textroot" style="display: none">
+<div class="question" id="textroot" style="display: none" onmouseover="revealButtons(this);" onmouseout="hideButtons(this)">
 	<span class="floatright">
-		<span class="ui-icon ui-icon-closethick" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" /></span>
+		<span class="ui-icon ui-icon-close" onclick="closeQuestion(this)" onmouseover="this.className='ui-icon ui-icon-circle-close'" onmouseout="this.className='ui-icon ui-icon-close'"/></span>
 	</span>
 	<input class="blend" name="textq" size="29" maxlength="35" value="Enter your text question here." 
-	onFocus="if(this.value == 'Enter your text question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your radio question here.';}">
+	onFocus="if(this.value == 'Enter your text question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your text question here.';}">
 	<br />
 	<span class="floatright">
 		<span class="ui-icon ui-icon-carat-2-n-s"></span>
@@ -437,9 +530,9 @@ input
 	<input class="textanswer" name="texta" disabled="disabled">
 </div>
 
-<div class="question" id="checkroot" style="display: none">
+<div class="question" id="checkroot" style="display: none" onmouseover="revealButtons(this)" onmouseout="hideButtons(this)">
 	<span class="floatright">
-		<span class="ui-icon ui-icon-closethick" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" /></span>
+		<span class="ui-icon ui-icon-close" onclick="closeQuestion(this)" onmouseover="this.className='ui-icon ui-icon-circle-close'" onmouseout="this.className='ui-icon ui-icon-close'"/></span>
 	</span>
 	<input class="blend" name="checkq" size="29" maxlength="35" value="Enter your check question here."
 	onFocus="if(this.value == 'Enter your check question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your check question here.';}">
@@ -459,9 +552,9 @@ input
 	onFocus="if(this.value == 'Enter check option 4.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter check option 4.';}"><br />
 </div>
  
-<div class="question" id="radioroot" style="display: none">
+<div class="question" id="radioroot" style="display: none" onmouseover="revealButtons(this)" onmouseout="hideButtons(this)">
 	<span class="floatright">
-		<span class="ui-icon ui-icon-closethick" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);" /></span>
+		<span class="ui-icon ui-icon-close" onclick="closeQuestion(this)" onmouseover="this.className='ui-icon ui-icon-circle-close'" onmouseout="this.className='ui-icon ui-icon-close'"/></span>
 	</span>
 	<input class="blend" name="radioq" size="29" maxlength="35" value="Enter your radio question here."
 	onFocus="if(this.value == 'Enter your radio question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your radio question here.';}">

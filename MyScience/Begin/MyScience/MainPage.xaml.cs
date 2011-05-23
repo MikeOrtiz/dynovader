@@ -30,6 +30,7 @@ namespace MyScience
     public partial class MainPage : PhoneApplicationPage
     {
         private PopupMessageControl msg;
+        private LogoutMessageControl logoutmsg;
         private bool projectloaded=false;
         private bool submissionloaded=false;
         // Constructor
@@ -39,6 +40,7 @@ namespace MyScience
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
 
             msg = new PopupMessageControl(); //TODO test this
+            logoutmsg = new LogoutMessageControl();
         }
 
         // Handle selection changed on ListBox
@@ -155,27 +157,12 @@ namespace MyScience
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            // restore page state
-            //IDictionary<string, object> transState = PhoneApplicationService.Current.State;
-            //object obj;
-            //transState.TryGetValue(MainPagePanoramaKey, out obj);
-            //MainPagePanorama = (Panorama)obj;
-            ////all the lists?
-            //msg = new PopupMessageControl(); 
-            //App.popup.Child = msg;
-            //App.popup.Margin = new Thickness(0);
         }
 
-        private const string MainPagePanoramaKey = "MainPagePanorama";
-        private const string MsgKey = "Msg";
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-
-            // save page state
-            //this.State[MainPagePanoramaKey] = this.MainPagePanorama.SelectedIndex;
         }
 
         #region progressbar
@@ -191,7 +178,7 @@ namespace MyScience
             bar.Visibility = System.Windows.Visibility.Visible;
         }
 
-         #endregion
+        #endregion
 
 
         private List<int> getUserProjects(List<Submission> submissions) {
@@ -566,10 +553,27 @@ namespace MyScience
             App.popup.IsOpen = true;
         }
 
+        public void displayLogoutPopup()
+        {
+            //logoutmsg.logoutmsgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
+            App.popup.Child = logoutmsg;
+            App.popup.Margin = new Thickness(0);
+            App.popup.Height = logoutmsg.Height;
+            App.popup.Width = logoutmsg.Width;
+            App.popup.HorizontalAlignment = HorizontalAlignment.Center;
+            App.popup.VerticalAlignment = VerticalAlignment.Center;
+            App.popup.HorizontalOffset = 0;
+            App.popup.VerticalOffset = 0;
+            App.popup.MinHeight = logoutmsg.Height;
+            App.popup.MinWidth = logoutmsg.Width;
+            App.popup.IsOpen = true;
+        }
+
         private void logoutButton_Click(object sender, RoutedEventArgs e)
         {
-            appReset();
-            NavigationService.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
+            displayLogoutPopup();
+            //appReset();
+            //NavigationService.Navigate(new Uri("/home.xaml", UriKind.Relative));
         }
 
         private void appReset()
@@ -579,18 +583,5 @@ namespace MyScience
             App.firstAccess = true;
             App.userVerified = false;
         }
-        //public static List<Project> applist = new List<Project>();
-        //public static List<TopScorer> topscorerslist = new List<TopScorer>();
-        //public static int currentIndex;
-        //public static GeoCoordinateWatcher geoCoordinateWatcher = new GeoCoordinateWatcher();
-        //public static Random random = new Random();
-        //public static bool userVerified = false;
-        //public static User currentUser = null;
-        //public static List<Submission> toBeSubmit = new List<Submission>();
-        //public static List<Submission> sentSubmissions = new List<Submission>();
-        //public static int currentSubmissionIndex;
-        //public static bool firstAccess = true; //repurposing it in general to refresh the main page, i.e. for when a new submission goes through, etc
-        //public static Popup popup = new Popup();
-        //public static BitmapImage userProfileImage;
     }
 }
