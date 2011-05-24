@@ -14,18 +14,11 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="False" Loaded="DetailsPage_Loaded" xmlns:my="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps">
 
-    <!--LayoutRoot contains the root grid where all other page content is placed-->
+    <!--LayoutRoot contains the root grid where all other page content is placed Foreground="#FFFF6C16" Foreground="{StaticResource PhoneAccentBrush}"-->
     <Grid x:Name="LayoutRoot" Height="1000">
-        <controls:Pivot Name ="ProjectPivot">
-
-            <!--Panorama item one-->
-            <controls:PivotItem Header="About">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="InfoPanel" VerticalAlignment="Top" Width="400"></StackPanel>
-                </ScrollViewer>
-            </controls:PivotItem>
+        <controls:Pivot Name ="ProjectPivot" Foreground="#FFFF6C16">
             
-            <!--Panorama item two-->
+            <!--Panorama item one-->
             <controls:PivotItem Header="Submission">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" >
                         <StackPanel Height="1500" HorizontalAlignment="Left" Margin="0,6,0,0" Name="DynamicPanel" VerticalAlignment="Top" Width="400" >
@@ -33,10 +26,33 @@
                     </ScrollViewer>
                 </controls:PivotItem>
 
+            <!--Panorama item two-->
             <controls:PivotItem Header="Data">
                 <Grid x:Name="ContentPanel">
                     <my:Map Height="626" HorizontalAlignment="Left" Margin="12,6,0,0" Name="map1" VerticalAlignment="Top" Width="438" CredentialsProvider="Amxt8FQT2902fydA-nj-9kWMB0Fo08H2Z-TFZ7ZxtEuJyEgmwMblyG2KHhqv8H6l" />
                 </Grid>
+            </controls:PivotItem>
+
+            <!--Panorama item three-->
+            <controls:PivotItem Header="About">
+				<Grid x:Name="aboutgrid" Width="444" Height="630" Margin="0, -240, 0, 0" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>												
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Name="BackgroundTitle" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" Margin="8,30,143,0" Height="60" FontSize="30" Foreground="#FFFF6C16" />
+					<TextBlock Grid.Row="1" Name="BackgroundContent" Margin="8,0,21,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="71" Foreground="White" FontSize="24" Text="... include motivations for this project here..."/>
+                    <TextBlock Grid.Row="2" Name="InstructionsTitle" TextWrapping="Wrap" Text="Instructions" VerticalAlignment="Top" Margin="8,30,143,0" Height="60" FontSize="30" Foreground="#FFFF6C16"/>
+					<TextBlock Grid.Row="3" Name="InstructionsContent" Margin="8,0,21,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="71" Foreground="White" FontSize="24" Text="... include here instructions for gathering proper data for the project..."/>
+					<TextBlock Grid.Row="4" Name="AuthorField" Margin="8,20,21,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="71" Foreground="#FFC8C8C8" FontSize="24" TextAlignment="Right" Text="Author" FontStyle="Italic"/>
+				</Grid>
+				
+                <!--ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Height="626" HorizontalAlignment="Left" Margin="0,6,0,0" Name="InfoPanel" VerticalAlignment="Top" Width="400"></StackPanel>
+                </ScrollViewer-->
             </controls:PivotItem>
 
             <!--controls:PanoramaItem Header="Submission">

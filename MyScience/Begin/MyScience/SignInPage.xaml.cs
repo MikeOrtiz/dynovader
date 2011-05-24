@@ -41,6 +41,11 @@ namespace MyScience
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
+            /* manipulate colors */
+            registerButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
+            registerButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+
+            /* process button */
             if (alreadyClicked)
                 return;
             alreadyClicked = true;
@@ -51,28 +56,15 @@ namespace MyScience
                 result = (byte[])uniqueId;
             String phoneID = BitConverter.ToString(result);
 
-            /*Parse the fields list into Json String*/
-            WriteableBitmap image = (WriteableBitmap)userImage.Source;
-
-            if (image != null)
-            {
-                MemoryStream ms = new MemoryStream();
-                image.SaveJpeg(ms, image.PixelWidth, image.PixelHeight, 0, 100);
-                byte[] imageData = ms.ToArray();
-                Service1Client client = new Service1Client();
-                client.RegisterUserWithImageCompleted += new EventHandler<RegisterUserWithImageCompletedEventArgs>(client_RegisterUserWithImageCompleted);
-                client.RegisterUserWithImageAsync(0, phoneID, registerNameBox.Text, "JPEG", imageData);
-            }
-            else
-            {
-                Service1Client client = new Service1Client();
-                client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
-                client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
-            }
+            Service1Client client = new Service1Client();
+            client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
+            client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
         }
 
         private void signInButton_Click(object sender, RoutedEventArgs e)
         {
+
+            /* process button */
             if (alreadyClicked)
                 return;
             alreadyClicked = true;
@@ -87,14 +79,19 @@ namespace MyScience
                 Service1Client client = new Service1Client();
                 client.GetUserProfileCompleted += new EventHandler<GetUserProfileCompletedEventArgs>(client_GetUserProfileCompleted);
                 client.GetUserProfileAsync(userNameBox.Text, phoneID);
-            } else {
+            }
+            else
+            {
                 String txtDirectory = "MyScience/UserProfile/";
                 using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
                 {
                     if (!myIsolatedStorage.DirectoryExists(txtDirectory) ||
-                        !myIsolatedStorage.FileExists(txtDirectory+userNameBox.Text+".txt")) {
+                        !myIsolatedStorage.FileExists(txtDirectory + userNameBox.Text + ".txt"))
+                    {
                         tryAgainBlock.Text = "No network and no user cache found.";
-                    }else {
+                    }
+                    else
+                    {
 
                         String[] txtfiles = myIsolatedStorage.GetFileNames(txtDirectory + userNameBox.Text + ".txt");
 
@@ -113,7 +110,6 @@ namespace MyScience
                     }
                 }
             }
-            
         }
 
         //for now, just accepts a correct user, and moves to main page
@@ -197,62 +193,84 @@ namespace MyScience
             }
         }
 
-        private void choosePhotoButton_Click(object sender, RoutedEventArgs e)
+        //private void choosePhotoButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var photoChooserTask = new PhotoChooserTask();
+        //    photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+        //    try
+        //    {
+        //        photoChooserTask.Show();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
+        //}
+
+        //private void takePhotoButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var cameraCaptureTask = new CameraCaptureTask();
+        //    cameraCaptureTask.Completed += new EventHandler<PhotoResult>(cameraCaptureTask_Completed);
+        //    try
+        //    {
+        //        cameraCaptureTask.Show();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
+        //}
+
+        //void photoChooserTask_Completed(object sender, PhotoResult e)
+        //{
+        //    if (e.TaskResult == TaskResult.OK)
+        //    {
+        //        WriteableBitmap image = new WriteableBitmap(600, 800);
+        //        image.LoadJpeg(e.ChosenPhoto);
+        //        userImage.Source = image;
+        //        canvas1.Background = null;
+        //    }
+        //}
+
+        //void cameraCaptureTask_Completed(object sender, PhotoResult e)
+        //{
+        //    if (e.TaskResult == TaskResult.OK)
+        //    {
+        //        WriteableBitmap image = new WriteableBitmap(600, 800);
+        //        image.LoadJpeg(e.ChosenPhoto);
+        //        userImage.Source = image;
+        //        canvas1.Background = null;
+        //    }
+        //}
+
+        private void userNameBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            var photoChooserTask = new PhotoChooserTask();
-            photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
-            try
-            {
-                photoChooserTask.Show();
-            }
-            catch (Exception ex)
-            {
-            }
+            userNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
+            userNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
         }
 
-        private void takePhotoButton_Click(object sender, RoutedEventArgs e)
+        private void userNameBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            var cameraCaptureTask = new CameraCaptureTask();
-            cameraCaptureTask.Completed += new EventHandler<PhotoResult>(cameraCaptureTask_Completed);
-            try
-            {
-                cameraCaptureTask.Show();
-            }
-            catch (Exception ex)
-            {
-            }
+            userNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+            userNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseInactiveBrush"];
         }
 
-        void photoChooserTask_Completed(object sender, PhotoResult e)
+        private void registerNameBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (e.TaskResult == TaskResult.OK)
-            {
-                WriteableBitmap image = new WriteableBitmap(600, 800);
-                image.LoadJpeg(e.ChosenPhoto);
-                userImage.Source = image;
-                canvas1.Background = null;
-            }
+            registerNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
+            registerNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
         }
 
-        void cameraCaptureTask_Completed(object sender, PhotoResult e)
+        private void registerNameBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (e.TaskResult == TaskResult.OK)
-            {
-                WriteableBitmap image = new WriteableBitmap(600, 800);
-                image.LoadJpeg(e.ChosenPhoto);
-                userImage.Source = image;
-                canvas1.Background = null;
-            }
+            registerNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+            registerNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseInactiveBrush"];
         }
 
-        private void registerNameBox_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        private void registerButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            registerNameBox.Text = "";
-        }
-
-        private void userNameBox_ManipulationStarted(object sender, ManipulationStartedEventArgs e)
-        {
-            userNameBox.Text = "";
+            /* manipulate colors */
+            registerButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
+            registerButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
+            registerButton.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
         }
 
     }

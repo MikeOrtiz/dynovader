@@ -120,6 +120,10 @@ namespace MyScience.MyScienceService {
         
         private string LocationField;
         
+        private byte[] LowResImageDataField;
+        
+        private string LowResImageNameField;
+        
         private int ProjectIDField;
         
         private string ProjectNameField;
@@ -194,6 +198,32 @@ namespace MyScience.MyScienceService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] LowResImageData {
+            get {
+                return this.LowResImageDataField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LowResImageDataField, value) != true)) {
+                    this.LowResImageDataField = value;
+                    this.RaisePropertyChanged("LowResImageData");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string LowResImageName {
+            get {
+                return this.LowResImageNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LowResImageNameField, value) != true)) {
+                    this.LowResImageNameField = value;
+                    this.RaisePropertyChanged("LowResImageName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public int ProjectID {
             get {
                 return this.ProjectIDField;
@@ -262,9 +292,13 @@ namespace MyScience.MyScienceService {
         
         private int IDField;
         
+        private string ImageNameField;
+        
         private string NameField;
         
         private int ScoreField;
+        
+        private string titleField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public int ID {
@@ -275,6 +309,19 @@ namespace MyScience.MyScienceService {
                 if ((this.IDField.Equals(value) != true)) {
                     this.IDField = value;
                     this.RaisePropertyChanged("ID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ImageName {
+            get {
+                return this.ImageNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImageNameField, value) != true)) {
+                    this.ImageNameField = value;
+                    this.RaisePropertyChanged("ImageName");
                 }
             }
         }
@@ -301,6 +348,19 @@ namespace MyScience.MyScienceService {
                 if ((this.ScoreField.Equals(value) != true)) {
                     this.ScoreField = value;
                     this.RaisePropertyChanged("Score");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string title {
+            get {
+                return this.titleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.titleField, value) != true)) {
+                    this.titleField = value;
+                    this.RaisePropertyChanged("title");
                 }
             }
         }

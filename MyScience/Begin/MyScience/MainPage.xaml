@@ -14,6 +14,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
+    
     <UserControl.Resources>
         <converter:ImageConverter x:Key="ImageConverter" />
         <converter:DateConverter x:Key="DateConverter" />
@@ -23,189 +24,225 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
 
         <!--Pivot Control-->
-        <controls:Panorama Title="myScience">
+        <controls:Panorama Title=" " Foreground="#FF181515" Name="MainPagePanorama">
             <controls:Panorama.Background>
-                <ImageBrush ImageSource="Images/sunshine2.jpg"/>
+                <ImageBrush ImageSource="Images/myScienceOrange.png"/>
             </controls:Panorama.Background>
             
             
             <controls:Panorama.TitleTemplate>
                 <DataTemplate>
-                    <TextBlock FontSize="120" Margin="0,50,0,0" Text="myScience" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                    <TextBlock FontSize="120" Margin="0,50,0,0" Text=" " Style="{StaticResource PhoneTextExtraLargeStyle}"/>
                 </DataTemplate>
             </controls:Panorama.TitleTemplate>
 
             <!--Pivot item one-->
-            <controls:PanoramaItem Header="Projects">
-                <ListBox x:Name="MainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="MainListBox_SelectionChanged">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,0,0,17" Width="432">
-                                <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                                <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+            <controls:PanoramaItem Header="Projects" Foreground="#FF181515">
+                <Grid x:Name="projectsgrid" Width="444" Height="630" Margin="0, -140, 0, 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshproject" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshproject_MouseLeftButtonUp"  />
+
+                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProjectProgressBar" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
+                    <ListBox Grid.Row="2" x:Name="MainListBox" Margin="0,30,-12,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,0,17" Width="432">
+                                    <TextBlock Text="{Binding Path=Name}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="#FF181515"/>
+                                    <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FF787878"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                   
+                </Grid>
             </controls:PanoramaItem>
 
             <!--Pivot item two-->
-            <controls:PanoramaItem Header="Hall of Fame">
+            <controls:PanoramaItem Header="Top Users" Foreground="#FF181515">
                 <!--ContentPanel - place additional content here-->
-                <ListBox x:Name="HallOfFameBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="MainListBox_SelectionChanged">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,0,0,17" Width="432">
-                                <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                                <TextBlock Text="{Binding Path=Score}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </controls:PanoramaItem>
-            
-            <!--Pivot item three-->
-            <controls:PanoramaItem Header="Profile">
-                <!--ContentPanel - place additional content here-->
-                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" Width="409">
+                <Grid x:Name="famegrid" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Name="UserInfoPlusPic" Grid.Row="0" HorizontalAlignment="Left" Margin="12,0,0,0" VerticalAlignment="Top" Width="444">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Name="userPic" Grid.Column="0" Source="Images/unknownuser.jpg"  Height="160" Width="160" HorizontalAlignment="Left" Stretch="UniformToFill" VerticalAlignment="Top" MouseLeftButtonUp="userPic_MouseLeftButtonUp" />
-                        <Grid x:Name="UserInfoGrid" Grid.Column="1" Margin="13,0,49,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="59*"/>
-                                <RowDefinition Height="59*" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Name="userName" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Margin="0,-1,-1,0" />
-                            <TextBlock Name="score" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Margin="0,37,-1,0" Grid.RowSpan="2" />
-                            <TextBlock Grid.Row="1" Height="44" HorizontalAlignment="Center" Margin="0,35,-1,0" Name="scientistLevel" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Grid.RowSpan="2" />
-                        </Grid>
-                    </Grid>
 
-                    <Grid Name="ActiveProjectsGrid" Grid.Row="1" HorizontalAlignment="Left" Margin="12,16,0,0" VerticalAlignment="Top" Width="444" Height="95">
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshhalloffame" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshhalloffame_MouseLeftButtonUp" />
+                    <toolkit:PerformanceProgressBar Grid.Row="0" Name="FameProgreeBar" VerticalAlignment="Bottom" Margin="0, 100, 35, 0" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
+                    <ListBox x:Name="HallOfFameBox" Grid.Row="1" Margin="0,10,0,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation ="Horizontal" Height="80" Width="400">
+                                    <Image x:Name="{Binding ImageName}" Source="{Binding ImageName, Converter= {StaticResource ImageConverter}}" Width="80" Height="80" ImageOpened="Image_Opened" ImageFailed="Image_Failed"/>
+                                    <StackPanel Orientation="Vertical" Height="80">
+                                        <StackPanel Orientation="Horizontal" Height="50">
+                                            <TextBlock Text="{Binding Path=Name}" Height="50" Foreground="#FF181515" Style="{StaticResource PhoneTextExtraLargeStyle}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="30">
+                                            <TextBlock Width="100" FontSize="22" Text="{Binding Path=Score}" Height="30"  Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FF181515"/>
+                                            <TextBlock Width="200" FontSize="22" Text="{Binding Path=title}" Height="30"  Style="{StaticResource PhoneTextSubtleStyle}" Foreground="#FF787878"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </controls:PanoramaItem>
+            
+            <!--Pivot item three-->
+            <controls:PanoramaItem Header="Profile">
+                <Grid x:Name="profilegrid" Width="444" Height="630" Margin="0, -140, 0, 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshprofile" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshprofile_MouseLeftButtonUp" />
+
+                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProfileProgressBar" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
+                    <!--ContentPanel - place additional content here-->
+                    <Grid x:Name="ContentPanel" Grid.Row="2" Margin="12,15,12,0" Width="409">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock x:Name="UserProjectsText" Text="Active Projects" Style="{StaticResource PhoneTextExtraLargeStyle}" TextAlignment="Center" Grid.Row="0" />
-                        <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" SelectionChanged="ProjectListBox_SelectionChanged" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="246" Width="446">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Margin="0,0,0,17" Width="432">
-                                        <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                        <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                        <Grid Name="UserInfoPlusPic" Grid.Row="0" HorizontalAlignment="Left" Margin="12,0,0,0" VerticalAlignment="Top" Width="444">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Name="userPic" Grid.Column="0" Source="Images/unknownuser.jpg"  Height="160" Width="160" HorizontalAlignment="Left" Stretch="UniformToFill" VerticalAlignment="Top" MouseLeftButtonUp="userPic_MouseLeftButtonUp" />
+                            <Grid x:Name="UserInfoGrid" Grid.Column="1" Margin="13,0,49,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="59*"/>
+                                    <RowDefinition Height="59*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Name="userName" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Margin="0,-1,-1,0" />
+                                <TextBlock Name="score" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Margin="0,37,-1,0" Grid.RowSpan="2" />
+                                <TextBlock Grid.Row="1" Height="44" HorizontalAlignment="Center" Margin="0,35,-1,0" Name="scientistLevel" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Grid.RowSpan="2" />
+                            </Grid>
+                        </Grid>
+                        <Button Content="logout" Height="78" HorizontalAlignment="Left" Margin="230,147,0,0" Name="logoutButton" VerticalAlignment="Top" Width="185" Background="{StaticResource PhoneTextBoxReadOnlyBrush}" Style="{StaticResource WhiteBackgroundButtonStyle}" Grid.RowSpan="2" Click="logoutButton_Click" Foreground="Black" />
                     </Grid>
+                   <Grid Name="ActiveProjectsGrid" Grid.Row="3" HorizontalAlignment="Left" Margin="12,16,0,0" VerticalAlignment="Top" Width="444" Height="95" Visibility="Visible">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="UserProjectsText" Text="Active Projects" Style="{StaticResource PhoneTextExtraLargeStyle}" TextAlignment="Center" Grid.Row="0" Foreground="Black" />
+                    <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Bottom" MaxHeight="300" Width="446" Foreground="Black">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,0,17" Width="432">
+                                    <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" Foreground="Black"/>
+                                    <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="Black"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+    </Grid>
+            </controls:PanoramaItem>
+
+            <!--<controls:PanoramaItem Header="Your Data">
+                <Grid x:Name="yourdatagrid" Width="444" Height="630" Margin="0, -140, 0, 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshyourdata" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshyourdata_MouseLeftButtonUp" />
+                    <ListBox x:Name="SubmissionListBox" Grid.Row="1" Margin="0,30,-12,0" ItemsSource="{Binding Items}" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation ="Horizontal" Height="80" Width="400">
+                                    <Image x:Name="{Binding LowResImageName}" Source="{Binding LowResImageName, Converter= {StaticResource ImageConverter}}" Width="80" Height="80" ImageOpened="Image_Opened"/>
+                                    <StackPanel Orientation="Vertical" Height="80">
+                                        <StackPanel Orientation="Horizontal" Height="40">
+                                            <TextBlock Width="100" FontSize="22" Text="Project:" Height="40" Foreground="#FF181515"/>
+                                            <TextBlock Width="200" FontSize="22" Text="{Binding Path=ProjectName}" Height="40" Foreground="#FF181515"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="40">
+                                            <TextBlock Width="100" FontSize="22" Text="Date:" Height="40" Foreground="#FF181515"/>
+                                            <TextBlock Width="200" FontSize="22" Text="{Binding Path=Time}" Height="40" Foreground="#FF181515"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </controls:PanoramaItem>-->
+
+            <controls:PanoramaItem Header="Your Data">
+                <Grid x:Name="yourdatagrid2" Width="444" Height="630" Margin="0, -140, 0, 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshyourdata2" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshyourdata2_MouseLeftButtonUp" />
+                    <toolkit:PerformanceProgressBar Grid.Row="1" Name="DataProgreeBar" IsIndeterminate="False" Visibility="Collapsed" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
+                    <TextBlock x:Name="SubmissionEmpty" Grid.Row ="2" Text="No Items Found" Foreground="Gray" Style="{StaticResource PhoneTextExtraLargeStyle}" Visibility="Collapsed"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="3">
+                    <ItemsControl Name="PictureWall" Margin="0,30,-12,0" ItemsSource="{Binding Items}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <!--mage Source="{Binding Path=LowResImageName}" Width="80" Height="60"/-->
+                                    <Image x:Name="{Binding LowResImageName}" Source="{Binding LowResImageName, Converter= {StaticResource ImageConverter}}" Width="77" Height="77" ImageOpened="Image_Opened" MouseLeftButtonUp="Submission_MouseLeftButtonUp" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <toolkit:WrapPanel ItemWidth="82" ItemHeight="62"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    </ScrollViewer>
                 </Grid>
             </controls:PanoramaItem>
 
-            <controls:PanoramaItem Header="Your Data">
-                <ListBox x:Name="SubmissionListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" >
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation ="Horizontal" Height="80" Width="400">
-                                <!--Image Source="{Binding Path=LowResImageName}" Width="80" Height="60"/-->
-                                <Image x:Name="{Binding LowResImageName}" Source="{Binding LowResImageName, Converter= {StaticResource ImageConverter}}" Width="80" Height="80" ImageOpened="Image_Opened"/>
-                                <StackPanel Orientation="Vertical" Height="80">
-                                <StackPanel Orientation="Horizontal" Height="40">
-                                    <TextBlock Width="100" FontSize="22" Text="Project:" Height="40"/>
-                                    <TextBlock Width="200" FontSize="22" Text="{Binding Path=ProjectName}" Height="40" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Height="40">
-                                    <TextBlock Width="100" FontSize="22" Text="Date:" Height="40"/>
-                                    <TextBlock Width="200" FontSize="22" Text="{Binding Path=Time}" Height="40"/>
-                                </StackPanel>
-                                </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </controls:PanoramaItem>
-
-            <controls:PanoramaItem Header="Your Data">
-                <ItemsControl Name="PictureWall" ItemsSource="{Binding Items}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <!--mage Source="{Binding Path=LowResImageName}" Width="80" Height="60"/-->
-                            <Image x:Name="{Binding LowResImageName}" Source="{Binding LowResImageName, Converter= {StaticResource ImageConverter}}" Width="77" Height="77" ImageOpened="Image_Opened"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <toolkit:WrapPanel ItemWidth="82" ItemHeight="62"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </controls:PanoramaItem>
-
             <controls:PanoramaItem Header="To Submit">
-                <ListBox x:Name="ToBeSubmitBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" Visibility="Collapsed" SelectionChanged="ToBeSubmitBox_SelectionChanged">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation ="Horizontal" Height="80" Width="400">
-                                <Image Source="{Binding ImageName, Converter= {StaticResource ImageConverter}}" Width="80" Height="80"/>
-                                <StackPanel Orientation="Vertical" Height="80">
-                                    <StackPanel Orientation="Horizontal" Height="40">
-                                        <TextBlock Width="100" FontSize="22" Text="Project:" Height="40"/>
-                                        <TextBlock Width="200" FontSize="22" Text="{Binding Path=ProjectName}" Height="40" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Height="40">
-                                        <TextBlock Width="100" FontSize="22" Text="Date:" Height="40"/>
-                                        <TextBlock Width="200" FontSize="22" Text="{Binding Path=Time, Converter= {StaticResource DateConverter}}" Height="40"/>
+                <Grid x:Name="tobesubmitgrid" Width="444" Height="630" Margin="0, -140, 0, 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>                        
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Height="50" Width="50" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshtobesubmit" Stretch="Fill" VerticalAlignment="Top"  />
+                    <toolkit:PerformanceProgressBar Grid.Row="1" Name="QueueProgreeBar" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
+                    <TextBlock x:Name="ToBeSubmitEmpty" Grid.Row ="2" Text="No Items Found" Foreground="Gray" Style="{StaticResource PhoneTextExtraLargeStyle}" Visibility="Collapsed"/>
+                    <ListBox x:Name="ToBeSubmitBox" Grid.Row="3" Margin="0, 30,-12,0" ItemsSource="{Binding Items}" Visibility="Collapsed" SelectionChanged="ToBeSubmitBox_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation ="Horizontal" Height="80" Width="400">
+                                    <Image Source="{Binding ImageName, Converter= {StaticResource ImageConverter}}" Width="80" Height="80"/>
+                                    <StackPanel Orientation="Vertical" Height="80">
+                                        <StackPanel Orientation="Horizontal" Height="40">
+                                            <TextBlock Width="100" FontSize="22" Text="Project:" Height="40" Foreground="#FF181515"/>
+                                            <TextBlock Width="200" FontSize="22" Text="{Binding Path=ProjectName}" Height="40" Foreground="#FF181515"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Height="40">
+                                            <TextBlock Width="100" FontSize="22" Text="Date:" Height="40" Foreground="#FF181515"/>
+                                            <TextBlock Width="200" FontSize="22" Text="{Binding Path=Time, Converter= {StaticResource DateConverter}}" Height="40" Foreground="#FF181515"/>
+                                        </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
             </controls:PanoramaItem>
-            
         </controls:Panorama>
+
     </Grid>
-    
-    
-    <!--Sample code showing usage of ApplicationBar-->
-    <!--phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton x:Name ="homeButton" IconUri="/Images/home.png" Text="Home" Click="homeButton_Click"/>
-            <shell:ApplicationBarIconButton x:Name ="profileButton" IconUri="/Images/people.png" Text="Profile" Click="profileButton_Click"/>
-            <shell:ApplicationBarIconButton x:Name ="rankButton" IconUri="/Images/rank.png" Text="Rank" Click="rankButton_Click"/>
-            <shell:ApplicationBarIconButton x:Name ="settingsButton" IconUri="/Images/setting.png" Text="Setting" Click="settingsButton_Click"/>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar-->
-    <!--Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions-->
-
-    <!--TitlePanel contains the name of the application and page title-->
-    <!--StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="myScience" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="Projects" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" TextAlignment="Center" />
-        </StackPanel-->
-
-    <!--ContentPanel contains ListBox and ListBox ItemTemplate. Place additional content here-->
-    <!--Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ListBox x:Name="MainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectionChanged="MainListBox_SelectionChanged">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Margin="0,0,0,17" Width="432">
-                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid-->
 </phone:PhoneApplicationPage>

@@ -1,5 +1,13 @@
 <?php
-include "connect_ms.php";
+$serverName = "tcp:mma1mtoeql.database.windows.net, 1433";
+$connectionOptions = array("Database"=>"users",
+         "UID"=>"dynovader@mma1mtoeql",
+         "PWD" => "592Mayfield");
+$conn = sqlsrv_connect($serverName, $connectionOptions);
+if($conn === false)
+{
+      die(print_r(sqlsrv_errors(), true));
+}
 $formhtml = "";
 $projname = "";
 if(isset($_GET['projname']))
@@ -9,13 +17,14 @@ if(isset($_GET['projname']))
 	$arr = sqlsrv_fetch_array($result);
 	$projname = $arr['name'];
 	if(!isset($_GET['action'])){
-				$formhtml = "<a href=\"manage.php?projname=".$_GET['projname']."&action=data\">Data</a><br/><a href=\"manage.php?projname=".$_GET['projname']."&action=modify\">Layout</a>";
+				$formhtml = "<a href=\"?projname=".$_GET['projname']."&action=data\">Data</a><br/><a href=\"?projname=".$_GET['projname']."&action=modify\">Layout</a>";
 	}
 	else{
 	if($_GET['action']=="data"){
 		$dataquery = "SELECT * from data WHERE projectid='".$_GET['projname']."'";
 		$result = sqlsrv_query($conn,$dataquery);
-        $formhtml .="<table><tr><td>Time</td><td>Location</td><td>Data</td></tr>";
+		$head=false;
+        $formhtml .="<table><tr><th>Time</th><th>Location</th><th>Photo</th>";
 		while($row = sqlsrv_fetch_array($result))
 		{
 		    /*
@@ -24,12 +33,24 @@ if(isset($_GET['projname']))
 	*/
 			$processed = "[".str_replace("}{","},{",$row['data'])."]";
 			$arr=json_decode($processed,true);
+			if(!$head)
+			{
+			    $head=true;
+				foreach($arr as $val){
+				    $formhtml .= "<th>".$val['label']."</th>";
+				}
+				$formhtml .= "</tr>";
+			}
 			$formhtml .= "<tr>";
 			$formhtml .="<td>".$row['time']->format('Y-m-d H:i:s')."</td><td>".$row['location']."</td><td>";
-			foreach($arr as $val){
-				$formhtml .= "[".$val['label'].":".$val['value']."] ";
+			if($row['lowrespic']!=""){
+                            $formhtml.="<a href=\"".$row['picture']."\"> <img src=\"".$row['lowrespic']."\" width=\"50\"/> </a>";
 			}
-			$formhtml .= "</td></tr>";
+			$formhtml .= "</td>";
+			foreach($arr as $val){
+				$formhtml .= "<td>".$val['value']."</td>";
+			}
+            $formhtml.="</tr>";
 		}
 		$formhtml .= "</table><br/>";
 	}
@@ -48,16 +69,27 @@ if(isset($_GET['projname']))
 	header("Content-Disposition: attachment; filename=$projname.csv");
 	header("Pragma: no-cache");
 	header("Expires: 0");
+	$head=false;
 	while($row = sqlsrv_fetch_array($result))
 		{
-		    
+		    $outputstr = "";
 			$processed = "[".str_replace("}{","},{",$row['data'])."]";
 			$arr=json_decode($processed,true);
-			$outputstr =$row['time']->format('Y-m-d H:i:s').",";
-			foreach($arr as $val){
-				$outputstr .= $val['label'].":".$val['value'].",";
+			if(!$head){
+			    $head = true;
+				$outputstr = "Time, Latitude, Longitude, Picture";
+				foreach($arr as $val){
+					$outputstr .= ",".$val['label'];
+				}
+				$outputstr .= "\r\n";
 			}
-			$outputstr .= $row['location']."\r\n";
+			$outputstr .= $row['time']->format('Y-m-d H:i:s').",";
+			$outputstr .= $row['location'].",";
+            $outputstr .= $row['picture'];
+			foreach($arr as $val){
+				$outputstr .= ",".$val['value'];
+			}
+			$outputstr .= "\r\n";
 			echo $outputstr;
 		}
 		exit();
@@ -67,7 +99,7 @@ if(isset($_GET['projname']))
 }
 else
 {
-	$formhtml = "<form action='manage.php' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
+	$formhtml = "<form action='' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
 	$list = array();
 	$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id";
 	$result = sqlsrv_query($conn,$query);
@@ -143,8 +175,27 @@ float: left;
 }
 
 table{
+	border:1px solid #000;
+	background-color:#fff;
+	padding:1px;
 	width:100%;
-	}
+}
+
+th{
+	background:#4A4A4A; 
+	border-left:1px solid #C7C7C7;
+	color:#fff; 
+	height:25px; 
+}
+
+td {
+	border-top:0;
+	border-left:0;
+	border-right:0;
+	border-bottom:1px solid #ccc; 
+}
+}
+
 .content{
 	margin:auto;
 	font-family: "Century Gothic", Arial, sans-serif;
@@ -170,20 +221,15 @@ body{
 <div class="wrapper">
 <div>
 <ul class="top-menu">
-	<li>
-		<a href="index.php" class="special-anchor">HOME</a>
-	</li>
-	<li>
-		<a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a>
-	</li>
-	<li class="selected">
-		<a href="manage.php" class="special-anchor">MANAGE PROJECT</a>
-	</li>
+	<li><a href="index.php" class="special-anchor">HOME</a></li>
+	<li><a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a></li>
+	<li class="selected"><a href="manage.php" class="special-anchor">MANAGE PROJECT</a></li>
+	<li><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
 </ul>
 </div>
 <div class="content">
 <div class="formbox">
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h1><? 
+<h1><? 
 	if(!isset($_GET['projname'])){
 		echo "Choose a Project";
 	}

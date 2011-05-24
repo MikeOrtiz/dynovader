@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"  
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converter ="clr-namespace:MyScience"
@@ -26,34 +28,29 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="MyScience" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="MyScience" Style="{StaticResource PhoneTextNormalStyle}" Foreground="#FFFF6C16"/>
+            <TextBlock x:Name="PageTitle" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="#FFFF6C16"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <toolkit:PerformanceProgressBar Grid.Row ="1" Name="SubmissionProgressBar" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" >
             <StackPanel Name="DynamicPanel" Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" Height="150">
-                    <Image Name ="Photo" Width="150" Height="150"/>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Name="TimeBlock" />
-                        <TextBlock Name="LocationBlock" />
-                    </StackPanel>
-                </StackPanel>
+                <Image Name ="Photo" Width="320" Height="240" ImageOpened="Photo_ImageOpened"/>
+                    <TextBlock Text="Time:" Foreground="#FFFF6C16" FontSize="30"/>
+                    <TextBlock Name="TimeBlock" Foreground="White" FontSize="24"/>
+                    <TextBlock Text="Location:" Foreground="#FFFF6C16" FontSize="30"/>
+                    <TextBlock Name="LocationBlock" Foreground="White" FontSize="24" />
+               
             </StackPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
- 
-    <!--Sample code showing usage of ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
-                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
-            </shell:ApplicationBar.MenuItems>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
 
 </phone:PhoneApplicationPage>
