@@ -100,9 +100,29 @@ if(isset($_GET['projname']))
 }
 else
 {
-	$formhtml = "<form action='' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
+	if($loggedin){
+		
+		$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id AND coordinators.id = ".$_SESSION['coordid'];
+		$result = sqlsrv_query($conn,$query);
+		if(sqlsrv_has_rows($result))
+		{
+			$formhtml = "<table>";
+			while($row = sqlsrv_fetch_array($result))
+			{
+				$formhtml .= "<tr><td>".$row['projname']."</td><td><a href=\"manage.php?action=data&projname=".$row['projid']."\">data</a></td><td>edit</td></tr>";
+			}
+			$formhtml .="</table>";
+		}
+		else{
+			$formhtml .="<a href=\"admin.php\">Create a Project</a>";
+		}
+		
+		$formhtml .="<h1>All Projects</h1>";
+	}
+	$formhtml .= "<form action='' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
 	$list = array();
 	$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id";
+	if($loggedin){ $query .= " AND coordinators.id <> ".$_SESSION['coordid']; }
 	$result = sqlsrv_query($conn,$query);
 	if(sqlsrv_has_rows($result))
 	{
@@ -253,7 +273,7 @@ body{
 		}
 	}
 ?>	
-</h1><br/>
+</h1>
 <? echo $formhtml; ?>
 </div>
 </div>
