@@ -25,6 +25,7 @@ using Microsoft.Phone.Tasks;
 using System.Windows.Media.Imaging;
 using System.IO.IsolatedStorage;
 using Microsoft.Phone.Net.NetworkInformation;
+using System.Threading;
 namespace MyScience
 {
     public partial class DetailsPage : PhoneApplicationPage
@@ -149,19 +150,6 @@ namespace MyScience
                 //progressbar.Visibility = System.Windows.Visibility.Visible;
                 DynamicPanel.Children.Add(progressbar);
 
-                if (NetworkInterface.GetIsNetworkAvailable())
-                {
-                    Service1Client client = new Service1Client();
-                    client.GetProjectDataCompleted += new EventHandler<GetProjectDataCompletedEventArgs>(client_GetProjectDataCompleted);
-                    client.GetProjectDataAsync(App.applist[App.currentIndex].ID);
-                }
-                else
-                {
-                    submitButton.IsEnabled = false;
-                    //TextBlock warningBlock = new TextBlock { Text = "No network, other people's submissions couldn't be fetched" };
-                    //InfoPanel.Children.Add(warningBlock);
-                }
-
                 GeoCoordinate mapCenter;
                 int zoom = 15;
                 if (lat == 0 && lng == 0)
@@ -173,7 +161,29 @@ namespace MyScience
                     mapCenter = new GeoCoordinate(lat, lng);
                 }
                 map1.SetView(mapCenter, zoom);
+
+                if (NetworkInterface.GetIsNetworkAvailable())
+                {
+                    Service1Client client = new Service1Client();
+                    client.GetProjectDataCompleted += new EventHandler<GetProjectDataCompletedEventArgs>(client_GetProjectDataCompleted);
+                    //client.GetProjectDataAsync(App.applist[App.currentIndex].ID);
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(GetProjectDatainBackground), client);
+                }
+                else
+                {
+                    submitButton.IsEnabled = false;
+                    //TextBlock warningBlock = new TextBlock { Text = "No network, other people's submissions couldn't be fetched" };
+                    //InfoPanel.Children.Add(warningBlock);
+                }
+
+                
             }
+        }
+
+        private void GetProjectDatainBackground(Object state)
+        {
+            Service1Client client = (Service1Client)state;
+            client.GetProjectDataAsync(App.applist[App.currentIndex].ID);
         }
 
         void saveButton_Click(object sender, RoutedEventArgs e)

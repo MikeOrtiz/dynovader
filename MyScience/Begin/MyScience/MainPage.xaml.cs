@@ -82,20 +82,24 @@ namespace MyScience
                 Service1Client client = new Service1Client();
                 /* Get list of projects */
                 turnOnProgressBar(ProjectProgressBar);
-                client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
-                client.GetProjectsAsync();
+               
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetProjectsinBackground), client); 
+                //client.GetProjectsAsync();
                 /* Get Hall of Fame user list */
                 turnOnProgressBar(FameProgreeBar);
-                client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
-                client.GetTopScorersAsync();
+                
+                //client.GetTopScorersAsync();
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetTopScorerinBackground), client); 
                 /* Get User's past submissions */
                 turnOnProgressBar(DataProgreeBar);
-                client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
-                client.GetUserSubmissionAsync(App.currentUser.ID);
+                
+                //client.GetUserSubmissionAsync(App.currentUser.ID);
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetSubmissioninBackground), client); 
                 /* Get user profile image */
                 turnOnProgressBar(ProfileProgressBar);
-                client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
-                client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+                
+                //client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetUserImageinBackground), client); 
                 /* Load tobe submitted list */
                 App.loadToBeSubmit();
                 if (App.toBeSubmit.Count == 0)
@@ -138,6 +142,33 @@ namespace MyScience
             updatePageControls();
         }
 
+        private void GetProjectsinBackground(Object state)
+        {
+            Service1Client client = (Service1Client)state;
+            client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
+            client.GetProjectsAsync();
+        }
+
+        private void GetTopScorerinBackground(Object state)
+        {
+            Service1Client client = (Service1Client)state;
+            client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+            client.GetTopScorersAsync();
+        }
+
+        private void GetSubmissioninBackground(Object state)
+        {
+            Service1Client client = (Service1Client)state;
+            client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
+            client.GetUserSubmissionAsync(App.currentUser.ID);
+        }
+
+        private void GetUserImageinBackground(Object state)
+        {
+            Service1Client client = (Service1Client)state;
+            client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
+            client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+        }
         private void updatePageControls()
         {
             if (App.applist != null && App.applist.Count != 0)

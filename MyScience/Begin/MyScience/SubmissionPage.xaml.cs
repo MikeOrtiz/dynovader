@@ -43,6 +43,7 @@ namespace MyScience
 
         private void SubmissionPage_Loaded(object sender, RoutedEventArgs e)
         {
+           
             if (NavigationContext.QueryString.Contains(new KeyValuePair<string,string>("type","tobesubmit")))
             {
                 App.currentSubmissionIndex = Convert.ToInt32(NavigationContext.QueryString["selectedItem"]);
@@ -55,6 +56,7 @@ namespace MyScience
             }
             else if (NavigationContext.QueryString.Contains(new KeyValuePair<string, string>("type", "submission")))
             {
+                SubmissionProgressBar.IsIndeterminate = true;
                 String lowResImageName = NavigationContext.QueryString["selectedItem"];
                 Submission currentSub = new Submission();
                 for (int i = 0; i < App.sentSubmissions.Count; i++)
@@ -103,37 +105,38 @@ namespace MyScience
                 {
                     case "Question":
                         //TODO:add a numerical checker for number answers
-                        var QBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
-                        var ABlock = new TextBlock { Name = "Answer" + i.ToString(), Text = "    " + fields[i].value };
+                        var QBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label, FontSize=30 };
+                        
+                        var ABlock = new TextBlock { Name = "Answer" + i.ToString(), Text = "    " + fields[i].value, FontSize = 24 };
                         DynamicPanel.Children.Add(QBlock);
                         DynamicPanel.Children.Add(ABlock);
                         break;
                     case "RadioButton":
                         //TODO: type is RadioButton, label is question, value is options
                         //      In value, different options are seperated by "|"
-                        var RBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
+                        var RBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label, FontSize=30 };
                         DynamicPanel.Children.Add(RBTextBlock);
                         string[] Options = fields[i].value.Split('|');
                         for (int j = 0; j < Options.Length; j++)
                         {
-                            var RBABlock = new TextBlock { Text = "  " + Options[j] };
+                            var RBABlock = new TextBlock { Text = "  " + Options[j], FontSize = 24};
                             DynamicPanel.Children.Add(RBABlock);
                         }
                         break;
                     case "CheckBox":
                         //TODO: same as RadioButton
-                        var CBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
+                        var CBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label, FontSize = 30 };
                         DynamicPanel.Children.Add(CBTextBlock);
                         string[] Choices = fields[i].value.Split('|');
                         for (int j = 0; j < Choices.Length; j++)
                         {
-                            var CBABlock = new TextBlock { Text = "  " + Choices[j] };
+                            var CBABlock = new TextBlock { Text = "  " + Choices[j], FontSize = 24 };
                             DynamicPanel.Children.Add(CBABlock);
                         }
                         break;
                     case "SliderBar":
                         //TODO: same as RadioButton except value is the max and min values
-                        var SBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label + ": " + fields[i].value };
+                        var SBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label +  fields[i].value, FontSize = 30};
                         DynamicPanel.Children.Add(SBTextBlock);
                         break;
                 }
@@ -267,6 +270,12 @@ namespace MyScience
             App.popup.MinHeight = msg.Height;
             App.popup.MinWidth = msg.Width;
             App.popup.IsOpen = true;
+        }
+
+        private void Photo_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            SubmissionProgressBar.IsIndeterminate = false;
+
         }
     }
 }
