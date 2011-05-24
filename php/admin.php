@@ -211,7 +211,7 @@ float: left;
 #dragcontent{
 	height: 374px;
 	width: 280px;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .wrapper{
