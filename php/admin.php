@@ -4,9 +4,7 @@ $msg = "";
 
 if(isset($_POST['coordname']))
 {
-	if($_POST['coordname']==""){
-	}
-	else{
+	if($_POST['coordname']!="") {
 		$query = "SELECT * FROM coordinators WHERE email='".$_POST['coordemail']."'";
 		$result = sqlsrv_query($conn, $query);
 		$coordid;
@@ -25,14 +23,13 @@ if(isset($_POST['coordname']))
 		}
 		$query = "SELECT * FROM projects WHERE name='".$_POST['titleinput']."' AND owner = $coordid";
 		$result = sqlsrv_query($conn, $query);
-		//echo sqlsrv_num_rows($result)."<br/>";
 		if(sqlsrv_has_rows($result)){
 			//return error, since it exists already
 		}
 		else{ //build JSON string
 			$values = "[";
 			foreach($_POST as $key=>$value) {
-				if ($key=="titleinput" || $key=="description" || $key=="coordname" || $key=="coordemail" || $key=="numchecks" || $key="numradios") {
+				if ($key=="titleinput" || $key=="description" || $key=="coordname" || $key=="coordemail" || $key=="numchecks" || $key=="numradios") {
 					//do not add to JSON
 				} else if (strpos($key, 'textq')) {
 					$values .= "{\"type\":\"Question\",\"label\":\"".$_POST[$key]."\"},";
@@ -67,7 +64,6 @@ if(isset($_POST['coordname']))
 			$msg = "Your project ".$_POST['titleinput']." was added successfully! It is currently under review.";
 		}
 	}
-	
 }
 ?>
 <!DOCTYPE HTML>
@@ -116,7 +112,7 @@ $('#fontColInput').ColorPicker({
 	onChange: function(hsb, hex, rgb, el) {
 		$(el).val(hex);
 		var color = "#" + hex;
-		var inputs = document.getElementsByClassName('blend');
+		var inputs = getElementsByClassName('blend');
 		for (var i=0; i < inputs.length; i++) {
 			inputs[i].style.color=color;
 		}
@@ -138,23 +134,25 @@ $('#fontColInput').ColorPicker({
 });
 
 
-
-//this doesn't work with firefox
-document.getElementsByClassName = function(clsName){
-    var retVal = new Array();
-    var elements = document.getElementsByTagName("*");
-    for(var i = 0;i < elements.length;i++){
-        if(elements[i].className.indexOf(" ") >= 0){
-            var classes = elements[i].className.split(" ");
-            for(var j = 0;j < classes.length;j++){
-                if(classes[j] == clsName)
-                    retVal.push(elements[i]);
-            }
-        }
-        else if(elements[i].className == clsName)
-            retVal.push(elements[i]);
-    }
-    return retVal;
+getElementsByClassName = function(clsName){
+	if (navigator.appName == 'Microsoft Internet Explorer') {
+		var retVal = new Array();
+		var elements = document.getElementsByTagName("*");
+		for(var i = 0;i < elements.length;i++){
+			if(elements[i].className.indexOf(" ") >= 0){
+				var classes = elements[i].className.split(" ");
+				for(var j = 0;j < classes.length;j++){
+					if(classes[j] == clsName)
+						retVal.push(elements[i]);
+				}
+			}
+			else if(elements[i].className == clsName)
+				retVal.push(elements[i]);
+		}
+		return retVal;
+	} else {
+		return document.getElementsByClassName(clsName);
+	}
 }
 
 //form extension based off sample code at Quirksmode: http://www.quirksmode.org/dom/domform.html
@@ -479,7 +477,7 @@ body{
 			&nbsp;Change Background: 				   <input id="backColInput" name="backColInput" type="text" size="7" maxlength="6" value="ffffff"><br />
 			&nbsp;Change Font Color: &nbsp;&nbsp;&nbsp;<input id="fontColInput" name="fontColInput"type="text" size="7" maxlength="6" value="000000">
 			<!--<input id="picturequestion" type="button" value="Remove Picture Capture" onclick="updatePhotoOption()"/> --><br /><br />
-			<!--<input type="text" id="photopost" name="photo" value="Y" style="display:none">-->
+			<input type="text" id="photopost" name="photo" value="Y" style="display:none">
 			<input type="submit" value="Submit App!" />	
 			
 			<h3>Instructions:</h3>

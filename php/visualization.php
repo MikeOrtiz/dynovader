@@ -107,6 +107,7 @@ float: left;
 body{
 	margin:0;
 	padding:0;
+	margin-top: -18px;
 }
 
 .content{
