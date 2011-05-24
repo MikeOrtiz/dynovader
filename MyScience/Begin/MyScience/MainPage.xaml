@@ -197,7 +197,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <!--mage Source="{Binding Path=LowResImageName}" Width="80" Height="60"/-->
-                                <Image x:Name="{Binding LowResImageName}" Source="{Binding LowResImageName, Converter= {StaticResource ImageConverter}}" Width="77" Height="77" ImageOpened="Image_Opened"/>
+                                    <Image x:Name="{Binding LowResImageName}" Source="{Binding LowResImageName, Converter= {StaticResource ImageConverter}}" Width="77" Height="77" ImageOpened="Image_Opened" MouseLeftButtonUp="Submission_MouseLeftButtonUp" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>

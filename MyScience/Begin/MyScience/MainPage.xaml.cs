@@ -64,7 +64,7 @@ namespace MyScience
                 return;
 
             // Navigate to the new page
-            NavigationService.Navigate(new Uri("/SubmissionPage.xaml?selectedItem=" + ToBeSubmitBox.SelectedIndex, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/SubmissionPage.xaml?type=tobesubmit&selectedItem=" + ToBeSubmitBox.SelectedIndex, UriKind.Relative));
 
             // Reset selected index to -1 (no selection)
             ToBeSubmitBox.SelectedIndex = -1;
@@ -98,6 +98,14 @@ namespace MyScience
                 client.GetUserImageAsync(App.currentUser.Name, "JPEG");
                 /* Load tobe submitted list */
                 App.loadToBeSubmit();
+                if (App.toBeSubmit.Count == 0)
+                {
+                    ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Collapsed;
+                }
                 App.firstAccess = false;   
             }
             else
@@ -108,6 +116,23 @@ namespace MyScience
                 projectloaded = true;
                 submissionloaded = true;
                 displayUserProjects();
+                /*If userdata or saved submission is empty, show "No Itmes Found"*/
+                if (App.sentSubmissions.Count == 0)
+                {
+                    SubmissionEmpty.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    SubmissionEmpty.Visibility = System.Windows.Visibility.Collapsed;
+                }
+                if (App.toBeSubmit.Count == 0)
+                {
+                    ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Collapsed;
+                }
             }
             /* Modify userprofile panorama */
             updatePageControls();
@@ -125,21 +150,11 @@ namespace MyScience
             }
             if (App.sentSubmissions.Count != 0)
             {
-                SubmissionEmpty.Visibility = System.Windows.Visibility.Collapsed;
                 PictureWall.ItemsSource = App.sentSubmissions;
-            }
-            else
-            {
-                SubmissionEmpty.Visibility = System.Windows.Visibility.Visible;
             }
             if (App.toBeSubmit.Count != 0)
             {
-                ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Collapsed;
                 ToBeSubmitBox.ItemsSource = App.toBeSubmit;
-            }
-            else
-            {
-                ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Visible;
             }
             //change visibility
             this.MainListBox.Visibility = System.Windows.Visibility.Visible;
@@ -221,6 +236,14 @@ namespace MyScience
                 //SubmissionListBox.ItemsSource = e.Result;
                 PictureWall.ItemsSource = e.Result;
                 List<Submission> submissions = e.Result.ToList<Submission>();
+                if (submissions.Count == 0)
+                {
+                    SubmissionEmpty.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    SubmissionEmpty.Visibility = System.Windows.Visibility.Collapsed;
+                }
                 App.userProject = getUserProjects(submissions);
                 submissionloaded = true;
                 displayUserProjects();
@@ -269,7 +292,6 @@ namespace MyScience
             {
                 this.MainListBox.ItemsSource = e.Result;
                 App.applist = e.Result.ToList<Project>();
-
                 projectloaded = true;
                 displayUserProjects();
                 /* Write file to isolated storage */
@@ -537,6 +559,12 @@ namespace MyScience
 
         #endregion
 
+        private void Submission_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Image image = sender as Image;
+            NavigationService.Navigate(new Uri("/SubmissionPage.xaml?type=submission&selectedItem=" + image.Name, UriKind.Relative));
+        }
+
         public void displayPopup()
         {
             msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
@@ -575,6 +603,8 @@ namespace MyScience
             //appReset();
             //NavigationService.Navigate(new Uri("/home.xaml", UriKind.Relative));
         }
+
+      
 
         private void appReset()
         {
