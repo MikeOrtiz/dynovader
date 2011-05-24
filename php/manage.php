@@ -1,4 +1,5 @@
 <?php
+include "authentication.php";
 $serverName = "tcp:mma1mtoeql.database.windows.net, 1433";
 $connectionOptions = array("Database"=>"users",
          "UID"=>"dynovader@mma1mtoeql",
@@ -222,16 +223,26 @@ body{
 <div>
 <ul class="top-menu">
 	<li><a href="index.php" class="special-anchor">HOME</a></li>
-	<li><a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a></li>
-	<li class="selected"><a href="manage.php" class="special-anchor">MANAGE PROJECT</a></li>
+	<li class="selected"><a href="manage.php" class="special-anchor">PROJECTS</a></li>
+	<? if($loggedin){ ?>
+	<li><a href="admin.php">LAUNCH A PROJECT</a></li>
 	<li><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
+	<li><a href="logout.php" class="special-anchor">LOGOUT</a></li>
+	<? } else { ?>
+	<li><a href="register.php" class="special-anchor">LOGIN</a></li>
+	<? } ?>
 </ul>
 </div>
 <div class="content">
 <div class="formbox">
 <h1><? 
 	if(!isset($_GET['projname'])){
-		echo "Choose a Project";
+		if($loggedin){
+			echo "My Projects";
+		}
+		else{
+			echo "Projects";
+		}
 	}
 	else if(isset($_GET['action'])){
 		if($_GET['action']=='data'){

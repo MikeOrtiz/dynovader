@@ -1,11 +1,14 @@
 <?php 
 include "connect_ms.php";
+include "authentication.php";
 $msg = "";
-
-if(isset($_POST['coordname']))
+if(!$loggedin){
+	header("Location:register.php");
+}
+if(isset($_POST['titleinput']))
 {
-	if($_POST['coordname']!="") {
-		$query = "SELECT * FROM coordinators WHERE email='".$_POST['coordemail']."'";
+	if($_POST['titleinput']!="") {
+		/*$query = "SELECT * FROM coordinators WHERE email='".$_POST['coordemail']."'";
 		$result = sqlsrv_query($conn, $query);
 		$coordid;
 		if(sqlsrv_has_rows($result)){
@@ -20,7 +23,8 @@ if(isset($_POST['coordname']))
 			$result = sqlsrv_query($conn, $query);
 			$arr = sqlsrv_fetch_array($result);
 			$coordid = $arr['ID'];
-		}
+		}*/
+		$coordid = $_SESSION['coordid'];
 		$query = "SELECT * FROM projects WHERE name='".$_POST['titleinput']."' AND owner = $coordid";
 		$result = sqlsrv_query($conn, $query);
 		if(sqlsrv_has_rows($result)){
@@ -433,9 +437,14 @@ body{
 <div>
 <ul class="top-menu">
 	<li><a href="index.php" class="special-anchor">HOME</a></li>
-	<li class="selected"><a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a></li>
-	<li><a href="manage.php" class="special-anchor">MANAGE PROJECT</a></li>
+	<li><a href="manage.php" class="special-anchor">PROJECTS</a></li>
+	<? if($loggedin){ ?>
+	<li class="selected"><a href="admin.php">LAUNCH A PROJECT</a></li>
 	<li><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
+	<li><a href="logout.php" class="special-anchor">LOGOUT</a></li>
+	<? } else { ?>
+	<li><a href="register.php" class="special-anchor">LOGIN</a></li>
+	<? } ?>
 </ul>
 </div>
 
@@ -452,12 +461,12 @@ body{
 			<span class="columnleft">Description: </span><span class="columnright">
 				<input type="text" name="description"/>
 			</span><br/>
-			<span class="columnleft">Coordinator Name: </span><span class="columnright">
+			<!--<span class="columnleft">Coordinator Name: </span><span class="columnright">
 				<input type="text" name="coordname"/>
 			</span><br/>
 			<span class="columnleft">Coordinator Email: </span><span class="columnright">
 				<input type="text" name="coordemail"/>
-			</span><br/>
+			</span><br/>-->
 			<br /><br /><br />
 			
 			<h3>Add Question:</h3>

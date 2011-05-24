@@ -1,3 +1,6 @@
+<?php
+include "authentication.php";
+?>
 <html>
 <style type="text/css">
 .wrapper{
@@ -42,11 +45,16 @@ body{
 
 </style>
 <div class="wrapper"><div>
-<ul class="top-menu">
+		<ul class="top-menu">
 	<li class="selected"><a href="index.php" class="special-anchor">HOME</a></li>
-	<li><a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a></li>
-	<li><a href="manage.php" class="special-anchor">MANAGE PROJECT</a></li>
+	<li><a href="manage.php" class="special-anchor">PROJECTS</a></li>
+	<? if($loggedin){ ?>
+	<li><a href="admin.php">LAUNCH A PROJECT</a></li>
 	<li><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
+	<li><a href="logout.php" class="special-anchor">LOGOUT</a></li>
+	<? } else { ?>
+	<li><a href="register.php" class="special-anchor">LOGIN</a></li>
+	<? } ?>
 </ul>
 </div>
 <div><img src="Home.png"/></div></div>
