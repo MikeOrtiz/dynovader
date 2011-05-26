@@ -28,7 +28,7 @@ namespace MyScience
     {
         private PopupMessageControl msg;
         private Popup messagePopup;
-        private PerformanceProgressBar progressbar;
+        
 
         public SubmissionPage()
         {
@@ -36,7 +36,6 @@ namespace MyScience
             messagePopup = new Popup();
             messagePopup.IsOpen = false;
             msg = new PopupMessageControl();
-            progressbar = new PerformanceProgressBar();
             App.popup.Child = msg;
             App.popup.Margin = new Thickness(0);
         }
@@ -56,7 +55,10 @@ namespace MyScience
             }
             else if (NavigationContext.QueryString.Contains(new KeyValuePair<string, string>("type", "submission")))
             {
-                SubmissionProgressBar.IsIndeterminate = true;
+                if (NetworkInterface.GetIsNetworkAvailable())
+                {
+                    SubmissionProgressBar.IsIndeterminate = true;
+                }
                 String lowResImageName = NavigationContext.QueryString["selectedItem"];
                 Submission currentSub = new Submission();
                 for (int i = 0; i < App.sentSubmissions.Count; i++)
@@ -65,6 +67,7 @@ namespace MyScience
                     {
                         LoadSubmittedImage(App.sentSubmissions[i]);
                        LoadContent(App.sentSubmissions[i]);
+                      
                         return;
                     }
                 }
@@ -84,9 +87,7 @@ namespace MyScience
 
             //Add status message last:
             DynamicPanel.Children.Add(messagePopup);
-            DynamicPanel.Children.Add(progressbar);
-            progressbar.IsIndeterminate = false;
-            progressbar.Visibility = System.Windows.Visibility.Collapsed;
+          
         }
 
         private void LoadContent(Submission currentSub)
@@ -162,9 +163,17 @@ namespace MyScience
         private void LoadSubmittedImage(Submission currentSub)
         {
             String filename = currentSub.ImageName;
-            Binding tmpBinding = new Binding();
-            tmpBinding.Source = new Uri(filename);
-            Photo.SetBinding(Image.SourceProperty, tmpBinding);
+            if (NetworkInterface.GetIsNetworkAvailable())
+            {
+                Binding tmpBinding = new Binding();
+                tmpBinding.Source = new Uri(filename);
+                Photo.SetBinding(Image.SourceProperty, tmpBinding);
+            }
+            else
+            {
+                currentSub.ImageName = currentSub.ImageName.Substring(currentSub.ImageName.LastIndexOf("/"));
+                LoadSavedImage(currentSub);
+            }
             
         }
 
@@ -178,8 +187,8 @@ namespace MyScience
             }
             var uploadButton = DynamicPanel.Children.OfType<Button>().First() as Button;
             uploadButton.IsEnabled = false;
-            progressbar.Visibility = System.Windows.Visibility.Visible;
-            progressbar.IsIndeterminate = true;
+           
+           SubmissionProgressBar.IsIndeterminate = true;
             String filename = App.toBeSubmit[App.currentSubmissionIndex].ImageName + ".jpg";
             WriteableBitmap image = new WriteableBitmap(2560, 1920);
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
@@ -218,7 +227,7 @@ namespace MyScience
             //App.firstAccess = true;
             //NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
 
-            progressbar.IsIndeterminate = false;
+            SubmissionProgressBar.IsIndeterminate = false;
             String url = e.Result.ToString();
             displayPopup(popupTitle1, popupContent4);
             //messagePopup.IsOpen = true;
