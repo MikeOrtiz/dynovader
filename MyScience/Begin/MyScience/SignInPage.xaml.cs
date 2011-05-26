@@ -104,6 +104,7 @@ namespace MyScience
                             user.Score = Convert.ToInt32(reader.ReadLine());
                             App.currentUser = user;
                         }
+                        alreadyClicked = false;
                         App.userVerified = true;
                         tryAgainBlock.Text = "";
                         NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));

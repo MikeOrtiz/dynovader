@@ -83,6 +83,11 @@ namespace MyScience
         void RootFrame_Navigating(object sender, NavigatingCancelEventArgs e)
         {
             // Only care about MainPage
+            //if (e.Uri.ToString().Contains("/MainPage.xaml") == true && currentUser == null)
+            //{
+            //    e.Cancel = true;
+            //    return;
+            //}
             if (e.Uri.ToString().Contains("home.xaml") != true)
                 return;
 
