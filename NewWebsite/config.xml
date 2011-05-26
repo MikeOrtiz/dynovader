@@ -36,28 +36,25 @@
 	<slides>
 	
         <slide>
-            <url>images/slideBg.png</url>
-			
-
-
+            <url>images/flash1.png</url>
         </slide>
 		<!-- changing transition between first & second slide -->
         <transition num="3" slicing="vertical" direction="down"/>
         <slide>
-       		<url>images/slideBg.png</url>
+       		<url>images/flash2.png</url>
         </slide>		
 		<!-- changing transition between second & third slide -->
         <transition num="4" direction="right" shader="flat" />
 		<slide>
-            <url>images/slideBg.png</url>
+            <url>images/flash1.png</url>
         </slide>
         <!-- transitions properties defined in transitions template -->
 		<slide>
-       		<url>images/slideBg.png</url>
+       		<url>images/flash2.png</url>
         </slide>
 		<transition num="6" slicing="vertical" direction="up" shader="flat" delay="0.05" z_multiplier="4" />
         <slide>
-       		<url>images/slideBg.png</url>
+       		<url>images/flash1.png</url>
         </slide>
 				
 	</slides>
