@@ -47,6 +47,8 @@ namespace MyScience
             submissionStatMsg = new TextBlock();
             submissionStatMsg.Visibility = System.Windows.Visibility.Collapsed;
             progressbar = new PerformanceProgressBar();
+            progressbar.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x6C, 0x16));
+
             //popup message content
             msg = new PopupMessageControl();
         }
