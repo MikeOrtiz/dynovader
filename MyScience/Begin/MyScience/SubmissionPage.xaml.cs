@@ -19,6 +19,8 @@ using System.Text;
 using System.Runtime.Serialization.Json;
 using System.Windows.Controls.Primitives;
 using Microsoft.Phone.Net.NetworkInformation;
+using System.Windows.Data;
+
 
 namespace MyScience
 {
@@ -41,86 +43,131 @@ namespace MyScience
 
         private void SubmissionPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (NavigationContext.QueryString.ContainsKey("selectedItem"))
+           
+            if (NavigationContext.QueryString.Contains(new KeyValuePair<string,string>("type","tobesubmit")))
             {
                 App.currentSubmissionIndex = Convert.ToInt32(NavigationContext.QueryString["selectedItem"]);
                 //if (App.currentSubmissionIndex >= App.toBeSubmit.Count()); TODO problem
                 Submission currentSub = App.toBeSubmit[App.currentSubmissionIndex];
-                PageTitle.Text = currentSub.ProjectName;
-                String filename = currentSub.ImageName + ".jpg";
-                BitmapImage image = new BitmapImage();
-                using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+                LoadSavedImage(currentSub);
+                LoadContent(currentSub);
+                LoadButtons();
+
+            }
+            else if (NavigationContext.QueryString.Contains(new KeyValuePair<string, string>("type", "submission")))
+            {
+                SubmissionProgressBar.IsIndeterminate = true;
+                String lowResImageName = NavigationContext.QueryString["selectedItem"];
+                Submission currentSub = new Submission();
+                for (int i = 0; i < App.sentSubmissions.Count; i++)
                 {
-                    using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("MyScience/Images/" + filename, FileMode.Open, FileAccess.Read))
+                    if (App.sentSubmissions[i].LowResImageName == lowResImageName)
                     {
-                        image.SetSource(fileStream);
+                        LoadSubmittedImage(App.sentSubmissions[i]);
+                       LoadContent(App.sentSubmissions[i]);
+                        return;
                     }
                 }
-                Photo.Source = image;
-
-                TimeBlock.Text ="   "+ currentSub.Time.ToString();
-                LocationBlock.Text = "  "+currentSub.Location;
-
-                List<Field> fields = GetFormField(currentSub.Data);
-
-                for (int i = 0; i < fields.Count; i++)
-                {
-                    switch (fields[i].type)
-                    {
-                        case "Question":
-                            //TODO:add a numerical checker for number answers
-                            var QBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
-                            var ABlock = new TextBlock { Name = "Answer" + i.ToString(), Text ="    "+ fields[i].value };
-                            DynamicPanel.Children.Add(QBlock);
-                            DynamicPanel.Children.Add(ABlock);
-                            break;
-                        case "RadioButton":
-                            //TODO: type is RadioButton, label is question, value is options
-                            //      In value, different options are seperated by "|"
-                            var RBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
-                            DynamicPanel.Children.Add(RBTextBlock);
-                            string[] Options = fields[i].value.Split('|');
-                            for (int j = 0; j < Options.Length; j++)
-                            {
-                                var RBABlock = new TextBlock { Text ="  "+ Options[j] };
-                                DynamicPanel.Children.Add(RBABlock);
-                            }
-                            break;
-                        case "CheckBox":
-                            //TODO: same as RadioButton
-                            var CBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label };
-                            DynamicPanel.Children.Add(CBTextBlock);
-                            string[] Choices = fields[i].value.Split('|');
-                            for (int j = 0; j < Choices.Length; j++)
-                            {
-                                var CBABlock = new TextBlock { Text ="  "+ Choices[j] };
-                                DynamicPanel.Children.Add(CBABlock);
-                            }
-                            break;
-                        case "SliderBar":
-                            //TODO: same as RadioButton except value is the max and min values
-                            var SBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label + ": " + fields[i].value };
-                            DynamicPanel.Children.Add(SBTextBlock);
-                            break;
-                    }
-
-                }
-
-                var uploadButton = new Button { Name = "UploadButton", Content = "Submit Now" };
-                uploadButton.Click += new RoutedEventHandler(uploadButton_Click);
-                DynamicPanel.Children.Add(uploadButton);
-                if (!NetworkInterface.GetIsNetworkAvailable())
-                    uploadButton.IsEnabled = false;
-
-                //Add status message last:
-                DynamicPanel.Children.Add(messagePopup);
-                DynamicPanel.Children.Add(progressbar);
-                progressbar.IsIndeterminate = false;
-                progressbar.Visibility = System.Windows.Visibility.Collapsed;
+               
             }
 
 
         }
+
+        private void LoadButtons()
+        {
+            var uploadButton = new Button { Name = "UploadButton", Content = "Submit Now" };
+            uploadButton.Click += new RoutedEventHandler(uploadButton_Click);
+            DynamicPanel.Children.Add(uploadButton);
+            if (!NetworkInterface.GetIsNetworkAvailable())
+                uploadButton.IsEnabled = false;
+
+            //Add status message last:
+            DynamicPanel.Children.Add(messagePopup);
+            DynamicPanel.Children.Add(progressbar);
+            progressbar.IsIndeterminate = false;
+            progressbar.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void LoadContent(Submission currentSub)
+        {
+            PageTitle.Text = currentSub.ProjectName;
+            
+
+            TimeBlock.Text = "   " + currentSub.Time.ToString();
+            LocationBlock.Text = "  " + currentSub.Location;
+
+            List<Field> fields = GetFormField(currentSub.Data);
+
+            for (int i = 0; i < fields.Count; i++)
+            {
+                switch (fields[i].type)
+                {
+                    case "Question":
+                        //TODO:add a numerical checker for number answers
+                        var QBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label, FontSize=30 };
+                        
+                        var ABlock = new TextBlock { Name = "Answer" + i.ToString(), Text = "    " + fields[i].value, FontSize = 24 };
+                        DynamicPanel.Children.Add(QBlock);
+                        DynamicPanel.Children.Add(ABlock);
+                        break;
+                    case "RadioButton":
+                        //TODO: type is RadioButton, label is question, value is options
+                        //      In value, different options are seperated by "|"
+                        var RBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label, FontSize=30 };
+                        DynamicPanel.Children.Add(RBTextBlock);
+                        string[] Options = fields[i].value.Split('|');
+                        for (int j = 0; j < Options.Length; j++)
+                        {
+                            var RBABlock = new TextBlock { Text = "  " + Options[j], FontSize = 24};
+                            DynamicPanel.Children.Add(RBABlock);
+                        }
+                        break;
+                    case "CheckBox":
+                        //TODO: same as RadioButton
+                        var CBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label, FontSize = 30 };
+                        DynamicPanel.Children.Add(CBTextBlock);
+                        string[] Choices = fields[i].value.Split('|');
+                        for (int j = 0; j < Choices.Length; j++)
+                        {
+                            var CBABlock = new TextBlock { Text = "  " + Choices[j], FontSize = 24 };
+                            DynamicPanel.Children.Add(CBABlock);
+                        }
+                        break;
+                    case "SliderBar":
+                        //TODO: same as RadioButton except value is the max and min values
+                        var SBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label +  fields[i].value, FontSize = 30};
+                        DynamicPanel.Children.Add(SBTextBlock);
+                        break;
+                }
+
+            }
+
+        }
+
+        private void LoadSavedImage(Submission currentSub)
+        {
+            String filename = currentSub.ImageName + ".jpg";
+            BitmapImage image = new BitmapImage();
+            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("MyScience/Images/" + filename, FileMode.Open, FileAccess.Read))
+                {
+                    image.SetSource(fileStream);
+                }
+            }
+            Photo.Source = image;
+        }
+
+        private void LoadSubmittedImage(Submission currentSub)
+        {
+            String filename = currentSub.ImageName;
+            Binding tmpBinding = new Binding();
+            tmpBinding.Source = new Uri(filename);
+            Photo.SetBinding(Image.SourceProperty, tmpBinding);
+            
+        }
+
 
         void uploadButton_Click(object sender, RoutedEventArgs e)
         {
@@ -223,6 +270,12 @@ namespace MyScience
             App.popup.MinHeight = msg.Height;
             App.popup.MinWidth = msg.Width;
             App.popup.IsOpen = true;
+        }
+
+        private void Photo_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            SubmissionProgressBar.IsIndeterminate = false;
+
         }
     }
 }

@@ -322,7 +322,7 @@ namespace MyScience
         public static void loadToBeSubmit()
         {
             String txtDirectory = "MyScience/ToBeSubmit/" + App.currentUser.ID;
-            loadSubmission(txtDirectory, App.toBeSubmit); //TODO might be bug, since persistence across sessions does not happen
+            loadSubmission(txtDirectory, App.toBeSubmit); 
         }
 
         public static void loadCachedSubmission()

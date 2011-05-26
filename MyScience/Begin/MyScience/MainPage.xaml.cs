@@ -64,7 +64,7 @@ namespace MyScience
                 return;
 
             // Navigate to the new page
-            NavigationService.Navigate(new Uri("/SubmissionPage.xaml?selectedItem=" + ToBeSubmitBox.SelectedIndex, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/SubmissionPage.xaml?type=tobesubmit&selectedItem=" + ToBeSubmitBox.SelectedIndex, UriKind.Relative));
 
             // Reset selected index to -1 (no selection)
             ToBeSubmitBox.SelectedIndex = -1;
@@ -82,22 +82,34 @@ namespace MyScience
                 Service1Client client = new Service1Client();
                 /* Get list of projects */
                 turnOnProgressBar(ProjectProgressBar);
-                client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
-                client.GetProjectsAsync();
+               
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetProjectsinBackground), client); 
+                //client.GetProjectsAsync();
                 /* Get Hall of Fame user list */
                 turnOnProgressBar(FameProgreeBar);
-                client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
-                client.GetTopScorersAsync();
+                
+                //client.GetTopScorersAsync();
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetTopScorerinBackground), client); 
                 /* Get User's past submissions */
                 turnOnProgressBar(DataProgreeBar);
-                client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
-                client.GetUserSubmissionAsync(App.currentUser.ID);
+                
+                //client.GetUserSubmissionAsync(App.currentUser.ID);
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetSubmissioninBackground), client); 
                 /* Get user profile image */
                 turnOnProgressBar(ProfileProgressBar);
-                client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
-                client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+                
+                //client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+                ThreadPool.QueueUserWorkItem(new WaitCallback(GetUserImageinBackground), client); 
                 /* Load tobe submitted list */
                 App.loadToBeSubmit();
+                if (App.toBeSubmit.Count == 0)
+                {
+                    ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Collapsed;
+                }
                 App.firstAccess = false;   
             }
             else
@@ -108,11 +120,55 @@ namespace MyScience
                 projectloaded = true;
                 submissionloaded = true;
                 displayUserProjects();
+                /*If userdata or saved submission is empty, show "No Itmes Found"*/
+                if (App.sentSubmissions.Count == 0)
+                {
+                    SubmissionEmpty.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    SubmissionEmpty.Visibility = System.Windows.Visibility.Collapsed;
+                }
+                if (App.toBeSubmit.Count == 0)
+                {
+                    ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    ToBeSubmitEmpty.Visibility = System.Windows.Visibility.Collapsed;
+                }
             }
             /* Modify userprofile panorama */
             updatePageControls();
         }
 
+        private void GetProjectsinBackground(Object state)
+        {
+            Service1Client client = (Service1Client)state;
+            client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
+            client.GetProjectsAsync();
+        }
+
+        private void GetTopScorerinBackground(Object state)
+        {
+            Service1Client client = (Service1Client)state;
+            client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+            client.GetTopScorersAsync();
+        }
+
+        private void GetSubmissioninBackground(Object state)
+        {
+            Service1Client client = (Service1Client)state;
+            client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
+            client.GetUserSubmissionAsync(App.currentUser.ID);
+        }
+
+        private void GetUserImageinBackground(Object state)
+        {
+            Service1Client client = (Service1Client)state;
+            client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
+            client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+        }
         private void updatePageControls()
         {
             if (App.applist != null && App.applist.Count != 0)
@@ -211,6 +267,14 @@ namespace MyScience
                 //SubmissionListBox.ItemsSource = e.Result;
                 PictureWall.ItemsSource = e.Result;
                 List<Submission> submissions = e.Result.ToList<Submission>();
+                if (submissions.Count == 0)
+                {
+                    SubmissionEmpty.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    SubmissionEmpty.Visibility = System.Windows.Visibility.Collapsed;
+                }
                 App.userProject = getUserProjects(submissions);
                 submissionloaded = true;
                 displayUserProjects();
@@ -259,7 +323,6 @@ namespace MyScience
             {
                 this.MainListBox.ItemsSource = e.Result;
                 App.applist = e.Result.ToList<Project>();
-
                 projectloaded = true;
                 displayUserProjects();
                 /* Write file to isolated storage */
@@ -527,6 +590,12 @@ namespace MyScience
 
         #endregion
 
+        private void Submission_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Image image = sender as Image;
+            NavigationService.Navigate(new Uri("/SubmissionPage.xaml?type=submission&selectedItem=" + image.Name, UriKind.Relative));
+        }
+
         public void displayPopup()
         {
             msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
@@ -565,6 +634,8 @@ namespace MyScience
             //appReset();
             //NavigationService.Navigate(new Uri("/home.xaml", UriKind.Relative));
         }
+
+      
 
         private void appReset()
         {
