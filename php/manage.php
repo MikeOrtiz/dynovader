@@ -22,10 +22,26 @@ if(isset($_GET['projname']))
 	}
 	else{
 	if($_GET['action']=="data"){
+		$dir = isset($_GET['dir'])?$_GET['dir']:"";
+		$sort = isset($_GET['sort'])?$_GET['sort']:"";
+		$url = "?projname=".$_GET['projname']."&action=data";
 		$dataquery = "SELECT * from data WHERE projectid='".$_GET['projname']."'";
+		if($sort){
+			$dataquery .= " ORDER BY ";
+			if($sort=="loc"){
+				$dataquery .= "location";
+			}
+			else{
+				$dataquery .= "time";
+			}
+			$dataquery .= " ".$dir;
+		}
+		//echo $dataquery;
 		$result = sqlsrv_query($conn,$dataquery);
 		$head=false;
-        $formhtml .="<table><tr><th>Time</th><th>Location</th><th>Photo</th>";
+		$timedir = ($sort=="time" && $dir=="asc")?"desc":"asc";
+		$locdir = ($sort=="loc" && $dir=="asc")?"desc":"asc";
+        $formhtml .="<table><tr><th><a href=\"".$url."&sort=time&dir=".$timedir."\">Time</a></th><th><a href=\"".$url."&sort=loc&dir=".$locdir."\">Location</a></th><th>Photo</th>";
 		while($row = sqlsrv_fetch_array($result))
 		{
 		    /*
