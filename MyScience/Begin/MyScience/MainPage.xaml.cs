@@ -175,17 +175,33 @@ namespace MyScience
             {
                 MainListBox.ItemsSource = App.applist;
             }
+            else
+            {
+                MainListBox.ItemsSource = null;
+            }
             if (App.topscorerslist != null && App.topscorerslist.Count != 0)
             {
                 HallOfFameBox.ItemsSource = App.topscorerslist;
+            }
+            else
+            {
+                HallOfFameBox.ItemsSource = null;
             }
             if (App.sentSubmissions.Count != 0)
             {
                 PictureWall.ItemsSource = App.sentSubmissions;
             }
+            else
+            {
+                PictureWall.ItemsSource = null;
+            }
             if (App.toBeSubmit.Count != 0)
             {
                 ToBeSubmitBox.ItemsSource = App.toBeSubmit;
+            }
+            else
+            {
+                ToBeSubmitBox.ItemsSource = null;
             }
             //change visibility
             this.MainListBox.Visibility = System.Windows.Visibility.Visible;
