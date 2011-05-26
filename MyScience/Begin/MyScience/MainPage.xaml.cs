@@ -117,6 +117,7 @@ namespace MyScience
                 /* Load all */
                 App.loadAppAll();
                 userPic.Source = App.userProfileImage;
+                App.userProject = getUserProjects(App.sentSubmissions);
                 projectloaded = true;
                 submissionloaded = true;
                 displayUserProjects();
