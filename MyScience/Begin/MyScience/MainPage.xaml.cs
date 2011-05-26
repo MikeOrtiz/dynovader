@@ -634,15 +634,5 @@ namespace MyScience
             //appReset();
             //NavigationService.Navigate(new Uri("/home.xaml", UriKind.Relative));
         }
-
-      
-
-        private void appReset()
-        {
-            App.currentUser = null;
-            App.userProfileImage = null;
-            App.firstAccess = true;
-            App.userVerified = false;
-        }
     }
 }

@@ -37,6 +37,7 @@ namespace MyScience
             messagePopup.IsOpen = false;
             msg = new PopupMessageControl();
             progressbar = new PerformanceProgressBar();
+            progressbar.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x6C, 0x16));
             App.popup.Child = msg;
             App.popup.Margin = new Thickness(0);
         }
@@ -106,7 +107,7 @@ namespace MyScience
                     case "Question":
                         //TODO:add a numerical checker for number answers
                         var QBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label, FontSize=30 };
-                        
+                        QBlock.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x6C, 0x16));
                         var ABlock = new TextBlock { Name = "Answer" + i.ToString(), Text = "    " + fields[i].value, FontSize = 24 };
                         DynamicPanel.Children.Add(QBlock);
                         DynamicPanel.Children.Add(ABlock);
@@ -115,6 +116,7 @@ namespace MyScience
                         //TODO: type is RadioButton, label is question, value is options
                         //      In value, different options are seperated by "|"
                         var RBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label, FontSize=30 };
+                        RBTextBlock.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x6C, 0x16));
                         DynamicPanel.Children.Add(RBTextBlock);
                         string[] Options = fields[i].value.Split('|');
                         for (int j = 0; j < Options.Length; j++)
@@ -126,6 +128,7 @@ namespace MyScience
                     case "CheckBox":
                         //TODO: same as RadioButton
                         var CBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label, FontSize = 30 };
+                        CBTextBlock.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x6C, 0x16));
                         DynamicPanel.Children.Add(CBTextBlock);
                         string[] Choices = fields[i].value.Split('|');
                         for (int j = 0; j < Choices.Length; j++)
@@ -137,6 +140,7 @@ namespace MyScience
                     case "SliderBar":
                         //TODO: same as RadioButton except value is the max and min values
                         var SBTextBlock = new TextBlock { Name = "Question" + i.ToString(), Text = fields[i].label +  fields[i].value, FontSize = 30};
+                        SBTextBlock.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x6C, 0x16));
                         DynamicPanel.Children.Add(SBTextBlock);
                         break;
                 }

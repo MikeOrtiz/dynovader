@@ -392,7 +392,7 @@ namespace MyScience
 
         private void SavePersistentState()
         {
-            if (currentUser != null)
+            if (true)//currentUser != null)
             {
                 IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
                 settings[AppCurrentUserKey] = currentUser;
@@ -516,6 +516,8 @@ namespace MyScience
             App.userProfileImage = null;
             App.firstAccess = true;
             App.userVerified = false;
+            SavePersistentState();
+            SaveTransState();
             //go back to sign in page
             RootFrame.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));   
         }
