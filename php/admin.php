@@ -55,7 +55,8 @@ if(isset($_POST['coordname']))
 					}
 				}
 			}
-			$values .= "{\"type\":\"Font\",\"value\":\"".$_POST['fontColInput']."\"},";
+			$values .= "{\"type\":\"FontQ\",\"value\":\"".$_POST['fontqColInput']."\"},";
+			$values .= "{\"type\":\"FontA\",\"value\":\"".$_POST['fontaColInput']."\"},";
 			$values .= "{\"type\":\"Background\",\"value\":\"".$_POST['backColInput']."\"},";
 			$values .= "{\"type\":\"Photo\",\"value\":\"".$_POST['photo']."\"}]";
 			
@@ -108,16 +109,38 @@ $('#backColInput').ColorPicker({
 	$(this).ColorPickerSetColor(this.value);
 });
 
-$('#fontColInput').ColorPicker({
+$('#fontqColInput').ColorPicker({
 	onChange: function(hsb, hex, rgb, el) {
 		$(el).val(hex);
 		var color = "#" + hex;
-		var inputs = getElementsByClassName('blend');
+		var inputs = getElementsByClassName('blendq');
 		for (var i=0; i < inputs.length; i++) {
 			inputs[i].style.color=color;
 		}
 		document.getElementById('apptitle').style.color=color;
-		document.getElementById('fontColInput').value=hex;
+		document.getElementById('fontqColInput').value=hex;
+	},
+	onSubmit: function(hsb, hex, rgb, el) {
+		$(el).val(hex);
+		$(el).ColorPickerHide();
+	},
+	onBeforeShow: function () {
+		$(this).ColorPickerSetColor(this.value);
+	}
+})
+.bind('keyup', function(){
+	$(this).ColorPickerSetColor(this.value);
+});
+
+$('#fontaColInput').ColorPicker({
+	onChange: function(hsb, hex, rgb, el) {
+		$(el).val(hex);
+		var color = "#" + hex;
+		var inputs = getElementsByClassName('blenda');
+		for (var i=0; i < inputs.length; i++) {
+			inputs[i].style.color=color;
+		}
+		document.getElementById('fontaColInput').value=hex;
 	},
 	onSubmit: function(hsb, hex, rgb, el) {
 		$(el).val(hex);
@@ -352,13 +375,13 @@ body{
 
 #dragcontent{
 	height: 386px;
-	width: 263px;
+	width: 282px;
 	overflow-y: hidden;
 }
 
 #dragcontent:hover
 {
-	width: 280px;
+	width: 282px;
 	overflow-y: scroll;
 }
 
@@ -388,7 +411,7 @@ body{
 	height:446px;
 }
 
-.blend
+.blenda, .blendq
 {
 	border-style: none;
 }
@@ -410,12 +433,14 @@ body{
 	position: absolute;
 	width: 320px;
 	right: 400px;
-	bottom: 70px;
+	bottom: 20px;
 }
 
 .question:hover
 {
 	background-color: lightgray;
+	cursor: pointer;
+	cursor: hand;
 }
 
 
@@ -474,8 +499,9 @@ body{
 				<option value="3">3</option>
 				<option value="4">4</option>
 			</select><br /><br />
-			&nbsp;Change Background: 				   <input id="backColInput" name="backColInput" type="text" size="7" maxlength="6" value="ffffff"><br />
-			&nbsp;Change Font Color: &nbsp;&nbsp;&nbsp;<input id="fontColInput" name="fontColInput"type="text" size="7" maxlength="6" value="000000">
+			&nbsp;Change Background:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <input id="backColInput" name="backColInput" type="text" size="7" maxlength="6" value="ffffff"><br />
+			&nbsp;Change Title Color: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="fontqColInput" name="fontqColInput"type="text" size="7" maxlength="6" value="000000"><br />
+			&nbsp;Change Response Color: <input id="fontaColInput" name="fontaColInput"type="text" size="7" maxlength="6" value="000000">
 			<!--<input id="picturequestion" type="button" value="Remove Picture Capture" onclick="updatePhotoOption()"/> --><br /><br />
 			<input type="text" id="photopost" name="photo" value="Y" style="display:none">
 			<input type="submit" value="Submit App!" />	
@@ -519,7 +545,7 @@ body{
 	<span class="floatright">
 		<span class="ui-icon ui-icon-close" onclick="closeQuestion(this)" onmouseover="this.className='ui-icon ui-icon-circle-close'" onmouseout="this.className='ui-icon ui-icon-close'"/></span>
 	</span>
-	<input class="blend" name="textq" size="29" maxlength="35" value="Enter your text question here." 
+	<input class="blendq" name="textq" size="29" maxlength="35" value="Enter your text question here." 
 	onFocus="if(this.value == 'Enter your text question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your text question here.';}">
 	<br />
 	<span class="floatright">
@@ -532,21 +558,21 @@ body{
 	<span class="floatright">
 		<span class="ui-icon ui-icon-close" onclick="closeQuestion(this)" onmouseover="this.className='ui-icon ui-icon-circle-close'" onmouseout="this.className='ui-icon ui-icon-close'"/></span>
 	</span>
-	<input class="blend" name="checkq" size="29" maxlength="35" value="Enter your check question here."
+	<input class="blendq" name="checkq" size="29" maxlength="35" value="Enter your check question here."
 	onFocus="if(this.value == 'Enter your check question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your check question here.';}">
 	<br />
 	<span class="floatright">
 		<span class="ui-icon ui-icon-carat-2-n-s"></span>
 	</span>
 	<input type="checkbox" name="check1" disabled="disabled"/>
-	<input class="blend" name="checkA1" size="29" maxlength="35" value="Enter check option 1."
+	<input class="blenda" name="checkA1" size="29" maxlength="35" value="Enter check option 1."
 	onFocus="if(this.value == 'Enter check option 1.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter check option 1.';}">
 	<br />
-	<input type="checkbox" name="check2" disabled="disabled"/> <input class="blend" name="checkA2" size="29" maxlength="35" value="Enter check option 2."
+	<input type="checkbox" name="check2" disabled="disabled"/> <input class="blenda" name="checkA2" size="29" maxlength="35" value="Enter check option 2."
 	onFocus="if(this.value == 'Enter check option 2.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter check option 2.';}"><br />
-	<input type="checkbox" name="check3" disabled="disabled"/> <input class="blend" name="checkA3" size="29" maxlength="35" value="Enter check option 3."
+	<input type="checkbox" name="check3" disabled="disabled"/> <input class="blenda" name="checkA3" size="29" maxlength="35" value="Enter check option 3."
 	onFocus="if(this.value == 'Enter check option 3.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter check option 3.';}"><br />
-	<input type="checkbox" name="check4" disabled="disabled"/> <input class="blend" name="checkA4" size="29" maxlength="35" value="Enter check option 4."
+	<input type="checkbox" name="check4" disabled="disabled"/> <input class="blenda" name="checkA4" size="29" maxlength="35" value="Enter check option 4."
 	onFocus="if(this.value == 'Enter check option 4.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter check option 4.';}"><br />
 </div>
  
@@ -554,21 +580,21 @@ body{
 	<span class="floatright">
 		<span class="ui-icon ui-icon-close" onclick="closeQuestion(this)" onmouseover="this.className='ui-icon ui-icon-circle-close'" onmouseout="this.className='ui-icon ui-icon-close'"/></span>
 	</span>
-	<input class="blend" name="radioq" size="29" maxlength="35" value="Enter your radio question here."
+	<input class="blendq" name="radioq" size="29" maxlength="35" value="Enter your radio question here."
 	onFocus="if(this.value == 'Enter your radio question here.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter your radio question here.';}">
 	<br />
 	<span class="floatright">
 		<span class="ui-icon ui-icon-carat-2-n-s"></span>
 	</span>
 	<input type="radio" name="radio1" disabled="disabled"/> 
-	<input class="blend" name="radioA1" size="29" maxlength="35" value="Enter radio option 1."
+	<input class="blenda" name="radioA1" size="29" maxlength="35" value="Enter radio option 1."
 	onFocus="if(this.value == 'Enter radio option 1.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter radio option 1.';}">
 	<br />
-	<input type="radio" name="radio2" disabled="disabled"/> <input class="blend" name="radioA2" size="29" maxlength="35" value="Enter radio option 2."
+	<input type="radio" name="radio2" disabled="disabled"/> <input class="blenda" name="radioA2" size="29" maxlength="35" value="Enter radio option 2."
 	onFocus="if(this.value == 'Enter radio option 2.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter radio option 2.';}"><br />
-	<input type="radio" name="radio3" disabled="disabled"/> <input class="blend" name="radioA3" size="29" maxlength="35" value="Enter radio option 3."
+	<input type="radio" name="radio3" disabled="disabled"/> <input class="blenda" name="radioA3" size="29" maxlength="35" value="Enter radio option 3."
 	onFocus="if(this.value == 'Enter radio option 3.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter radio option 3.';}"><br />
-	<input type="radio" name="radio4" disabled="disabled"/> <input class="blend" name="radioA4" size="29" maxlength="35" value="Enter radio option 4."
+	<input type="radio" name="radio4" disabled="disabled"/> <input class="blenda" name="radioA4" size="29" maxlength="35" value="Enter radio option 4."
 	onFocus="if(this.value == 'Enter radio option 4.') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Enter radio option 4.';}"><br />
 </div>
 

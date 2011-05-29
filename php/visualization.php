@@ -3,7 +3,8 @@
 	$selectProject = "";
 	$projname = "";
 
-	$selectProject = "<select name='projname' id='selectedProject'>";
+	$selectProject = "<select name='projname' id='selectedProject' onchange='updateMap(this.value)'>";
+	$selectProject .= "<option value=''>Select Project:</option>";
 	$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id AND projects.status = 'active'";
 	$result = sqlsrv_query($conn,$query);
 	if(sqlsrv_has_rows($result))
@@ -13,58 +14,98 @@
 			$selectProject .= "<option value=".$row['projid'].">".$row['projname']." (".$row['coordname'].")</option>";
 		}
 	}
-	$selectProject .= "</select><input type='button' value='Update Map' onclick='updateMap()'/>";
+	$selectProject .= "</select>";
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-   <head>
-      <title></title>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
 
-      <script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
-
-	  <script type="text/javascript">
-	  
-	  var map = null;
-	  
-	  function GetMap()
-	  {   
-		 map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), 
+<script type="text/javascript">
+var map;
+function GetMap()
+{   				
+map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), 
 						   {credentials: "Amxt8FQT2902fydA-nj-9kWMB0Fo08H2Z-TFZ7ZxtEuJyEgmwMblyG2KHhqv8H6l",
 						   center: new Microsoft.Maps.Location(37.464626, -120.62932),
 						   setMapType: Microsoft.Maps.MapTypeId.birdseye,
 							zoom: 4});
-	  }
-	  
-	  function findSelected(select)
-	  {
-		var value = document.getElementById(select).options[document.getElementById(select).selectedIndex].value;
-		return value;
-	  }
-	  
-	  function updateMap()
-	  {
-		map.entities.pop();
-		var project = findSelected('selectedProject');
-		var mapData = new Microsoft.Maps.EntityCollection();
-		<?php
-			$query = "SELECT data.location as location, data.time as time FROM data";
-			$result = sqlsrv_query($conn,$query);
-			if(sqlsrv_has_rows($result))
+}
+
+var pinInfobox = null;
+var pictureaddr = null;
+
+function updateMap(project)
+{
+	var projectData;
+	if (project=="") return;
+	if (window.XMLHttpRequest)
+		{// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	} else {// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			projectData=xmlhttp.responseText;
+
+			map.entities.pop();
+			var mapData = new Microsoft.Maps.EntityCollection();
+			if (projectData)
 			{
-				while($row = sqlsrv_fetch_array($result))
+				projectData=projectData.substr(1);
+				while (true) 
 				{
-					?>
-					mapData.push(new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(<?echo($row['location'])?>)));
-					<?
-					
+					var debugData;
+					if (projectData.search(/]/) == 0) break;
+					projectData=projectData.substr(1);
+					var pivot = projectData.search(/~/);
+					var location = projectData.substr(0, pivot);
+					var values = location.split(",");
+					var x = parseFloat(values[0]);
+					var y = parseFloat(values[1]);
+					projectData = projectData.substr(pivot + 1);
+					pivot = projectData.search(/}/);
+					pictureaddr = projectData.substr(0, pivot);
+					projectData = projectData.substr(pivot + 1);
+					var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(x, y));
+					mapData.push(pin);
+					pinInfobox = new Microsoft.Maps.Infobox(pin.getLocation(), 
+						{ 
+						visible: false, 
+						offset: new Microsoft.Maps.Point(0,15)});
+					pinInfobox.setHtmlContent('<div class="infobox"><b class="infoboxTitle">myTitle</b>'+
+					'<a class="infoboxDescription"><img src="'+pictureaddr+'"></a></div>');
+					// Add handler for the pushpin click event.
+					Microsoft.Maps.Events.addHandler(pin, 'click', displayInfobox);
+					Microsoft.Maps.Events.addHandler(map, 'viewchange', hideInfobox);
+					mapData.push(pinInfobox);
 				}
 			}
-		?>
-		 map.entities.push(mapData);
-	  }
-	  </script>
+			map.entities.push(mapData);
+		}
+	}
+	xmlhttp.open("GET","getproject.php?q="+project,true);
+	xmlhttp.send();
+}
+
+function displayInfobox(e)
+{
+	pinInfobox.setOptions({ visible:true });
+}   
+
+function hideInfobox(e)
+{
+	pinInfobox.setOptions({ visible:false });
+}                 
+
+</script>
 
 <style type="text/css" media="screen">
 .top-menu {
@@ -122,9 +163,39 @@ body{
 h1{
 	text-align: center;
 }
+
+.infobox
+{
+	background-color:White; 
+	border-style:solid;
+	border-width:medium; 
+	border-color:DarkOrange; 
+	min-height:100px; 
+	position:absolute;
+	top:0px; 
+	left:23px; 
+	width:240px;
+}
+
+.infoboxTitle
+{
+	position:absolute; 
+	top:10px; 
+	left:10px; 
+	width:220px;
+}
+
+.infoboxDescription
+{
+	position:absolute; 
+	top:30px; 
+	left:10px; 
+	width:220px;
+}
 		
 </style>
 </head>
+
 <body onload="GetMap();">
 <div class="wrapper">
 	<div>
