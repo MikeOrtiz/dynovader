@@ -1,4 +1,5 @@
 <?php
+include "authentication.php";
 $serverName = "tcp:mma1mtoeql.database.windows.net, 1433";
 $connectionOptions = array("Database"=>"users",
          "UID"=>"dynovader@mma1mtoeql",
@@ -21,10 +22,26 @@ if(isset($_GET['projname']))
 	}
 	else{
 	if($_GET['action']=="data"){
+		$dir = isset($_GET['dir'])?$_GET['dir']:"";
+		$sort = isset($_GET['sort'])?$_GET['sort']:"";
+		$url = "?projname=".$_GET['projname']."&action=data";
 		$dataquery = "SELECT * from data WHERE projectid='".$_GET['projname']."'";
+		if($sort){
+			$dataquery .= " ORDER BY ";
+			if($sort=="loc"){
+				$dataquery .= "location";
+			}
+			else{
+				$dataquery .= "time";
+			}
+			$dataquery .= " ".$dir;
+		}
+		//echo $dataquery;
 		$result = sqlsrv_query($conn,$dataquery);
 		$head=false;
-        $formhtml .="<table><tr><th>Time</th><th>Location</th><th>Photo</th>";
+		$timedir = ($sort=="time" && $dir=="asc")?"desc":"asc";
+		$locdir = ($sort=="loc" && $dir=="asc")?"desc":"asc";
+        $formhtml .="<table><tr><th><a href=\"".$url."&sort=time&dir=".$timedir."\">Time</a></th><th><a href=\"".$url."&sort=loc&dir=".$locdir."\">Location</a></th><th>Photo</th>";
 		while($row = sqlsrv_fetch_array($result))
 		{
 		    /*
@@ -99,9 +116,29 @@ if(isset($_GET['projname']))
 }
 else
 {
-	$formhtml = "<form action='' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
+	if($loggedin){
+		
+		$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id AND coordinators.id = ".$_SESSION['coordid'];
+		$result = sqlsrv_query($conn,$query);
+		if(sqlsrv_has_rows($result))
+		{
+			$formhtml = "<table>";
+			while($row = sqlsrv_fetch_array($result))
+			{
+				$formhtml .= "<tr><td>".$row['projname']."</td><td><a href=\"manage.php?action=data&projname=".$row['projid']."\">data</a></td><td>edit</td></tr>";
+			}
+			$formhtml .="</table>";
+		}
+		else{
+			$formhtml .="<a href=\"admin.php\">Create a Project</a>";
+		}
+		
+		$formhtml .="<h1>All Projects</h1>";
+	}
+	$formhtml .= "<form action='' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
 	$list = array();
 	$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id";
+	if($loggedin){ $query .= " AND coordinators.id <> ".$_SESSION['coordid']; }
 	$result = sqlsrv_query($conn,$query);
 	if(sqlsrv_has_rows($result))
 	{
@@ -222,16 +259,26 @@ body{
 <div>
 <ul class="top-menu">
 	<li><a href="index.php" class="special-anchor">HOME</a></li>
-	<li><a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a></li>
-	<li class="selected"><a href="manage.php" class="special-anchor">MANAGE PROJECT</a></li>
+	<li class="selected"><a href="manage.php" class="special-anchor">PROJECTS</a></li>
+	<? if($loggedin){ ?>
+	<li><a href="admin.php">LAUNCH A PROJECT</a></li>
 	<li><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
+	<li><a href="logout.php" class="special-anchor">LOGOUT</a></li>
+	<? } else { ?>
+	<li><a href="register.php" class="special-anchor">LOGIN</a></li>
+	<? } ?>
 </ul>
 </div>
 <div class="content">
 <div class="formbox">
 <h1><? 
 	if(!isset($_GET['projname'])){
-		echo "Choose a Project";
+		if($loggedin){
+			echo "My Projects";
+		}
+		else{
+			echo "Projects";
+		}
 	}
 	else if(isset($_GET['action'])){
 		if($_GET['action']=='data'){
@@ -242,7 +289,7 @@ body{
 		}
 	}
 ?>	
-</h1><br/>
+</h1>
 <? echo $formhtml; ?>
 </div>
 </div>

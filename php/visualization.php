@@ -1,5 +1,6 @@
 <?php
 	include "connect_ms.php";
+	include "authentication.php";
 	$selectProject = "";
 	$projname = "";
 
@@ -200,11 +201,16 @@ h1{
 <div class="wrapper">
 	<div>
 		<ul class="top-menu">
-			<li><a href="index.php" class="special-anchor">HOME</a></li>
-			<li><a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a></li>
-			<li><a href="manage.php" class="special-anchor">MANAGE PROJECT</a></li>
-			<li class="selected"><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
-		</ul>
+	<li><a href="index.php" class="special-anchor">HOME</a></li>
+	<li><a href="manage.php" class="special-anchor">PROJECTS</a></li>
+	<? if($loggedin){ ?>
+	<li><a href="admin.php">LAUNCH A PROJECT</a></li>
+	<li class="selected"><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
+	<li><a href="logout.php" class="special-anchor">LOGOUT</a></li>
+	<? } else { ?>
+	<li><a href="register.php" class="special-anchor">LOGIN</a></li>
+	<? } ?>
+</ul>
 	</div>
 	<div class=content>
 		<h1>Data Visualization</h1>

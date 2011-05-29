@@ -83,6 +83,11 @@ namespace MyScience
         void RootFrame_Navigating(object sender, NavigatingCancelEventArgs e)
         {
             // Only care about MainPage
+            //if (e.Uri.ToString().Contains("/MainPage.xaml") == true && currentUser == null)
+            //{
+            //    e.Cancel = true;
+            //    return;
+            //}
             if (e.Uri.ToString().Contains("home.xaml") != true)
                 return;
 
@@ -322,7 +327,7 @@ namespace MyScience
         public static void loadToBeSubmit()
         {
             String txtDirectory = "MyScience/ToBeSubmit/" + App.currentUser.ID;
-            loadSubmission(txtDirectory, App.toBeSubmit); //TODO might be bug, since persistence across sessions does not happen
+            loadSubmission(txtDirectory, App.toBeSubmit); 
         }
 
         public static void loadCachedSubmission()
@@ -392,7 +397,7 @@ namespace MyScience
 
         private void SavePersistentState()
         {
-            if (currentUser != null)
+            if (true)//currentUser != null)
             {
                 IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
                 settings[AppCurrentUserKey] = currentUser;
@@ -516,6 +521,8 @@ namespace MyScience
             App.userProfileImage = null;
             App.firstAccess = true;
             App.userVerified = false;
+            SavePersistentState();
+            SaveTransState();
             //go back to sign in page
             RootFrame.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));   
         }
