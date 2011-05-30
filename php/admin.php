@@ -465,7 +465,7 @@ body{
 	<li><a href="manageNew.php" class="special-anchor">PROJECTS</a></li>
 	<? if($loggedin){ ?>
 	<li class="selected"><a href="admin.php">LAUNCH A PROJECT</a></li>
-	<!--<li><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>-->
+	<li><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
 	<li><a href="logout.php" class="special-anchor">LOGOUT</a></li>
 	<? } else { ?>
 	<li><a href="register.php" class="special-anchor">LOGIN</a></li>

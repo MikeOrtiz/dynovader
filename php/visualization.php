@@ -1,6 +1,5 @@
 <?php
 	include "connect_ms.php";
-	include "authentication.php";
 	$selectProject = "";
 	$projname = "";
 
@@ -37,7 +36,8 @@ map = new Microsoft.Maps.Map(document.getElementById("mapDiv"),
 }
 
 var pinInfobox = null;
-var pictureaddr = null;
+var currProject = null;
+var allDataPoints = new Array;
 
 function updateMap(project)
 {
@@ -57,36 +57,52 @@ function updateMap(project)
 			projectData=xmlhttp.responseText;
 
 			map.entities.pop();
+			map.entities.pop();
 			var mapData = new Microsoft.Maps.EntityCollection();
 			if (projectData)
 			{
-				projectData=projectData.substr(1);
+				var pivot = projectData.search(/~/);
+				currProject = projectData.substr(0, pivot);
+				if (currProject.length > 25) currProject = currProject.substr(0, 25) + "...";
+				projectData=projectData.substr(pivot + 1);
 				while (true) 
 				{
-					var debugData;
 					if (projectData.search(/]/) == 0) break;
+					
+					//get gps info
 					projectData=projectData.substr(1);
-					var pivot = projectData.search(/~/);
+					pivot = projectData.search(/~/);
 					var location = projectData.substr(0, pivot);
 					var values = location.split(",");
 					var x = parseFloat(values[0]);
 					var y = parseFloat(values[1]);
 					projectData = projectData.substr(pivot + 1);
-					pivot = projectData.search(/}/);
-					pictureaddr = projectData.substr(0, pivot);
+					
+					//get datetime info
+					pivot = projectData.search(/~/);
+					var datetime = projectData.substr(0, pivot);
 					projectData = projectData.substr(pivot + 1);
-					var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(x, y));
+					
+					//get highrespic info
+					pivot = projectData.search(/~/);
+					var highrespic = projectData.substr(0, pivot);
+					projectData = projectData.substr(pivot + 1);
+					
+					//get lowrespic info
+					pivot = projectData.search(/}/);
+					var lowrespic = projectData.substr(0, pivot);
+					projectData = projectData.substr(pivot + 1);
+					
+					//add pin data to map
+					var locMS = new Microsoft.Maps.Location(x, y);
+					var pin = new Microsoft.Maps.Pushpin(locMS);
+					Microsoft.Maps.Events.addHandler(pin, 'mouseover', pinMouseOver);
+					Microsoft.Maps.Events.addHandler(pin, 'mouseout', pinMouseOut);
 					mapData.push(pin);
-					pinInfobox = new Microsoft.Maps.Infobox(pin.getLocation(), 
-						{ 
-						visible: false, 
-						offset: new Microsoft.Maps.Point(0,15)});
-					pinInfobox.setHtmlContent('<div class="infobox"><b class="infoboxTitle">myTitle</b>'+
-					'<a class="infoboxDescription"><img src="'+pictureaddr+'"></a></div>');
-					// Add handler for the pushpin click event.
-					Microsoft.Maps.Events.addHandler(pin, 'click', displayInfobox);
-					Microsoft.Maps.Events.addHandler(map, 'viewchange', hideInfobox);
-					mapData.push(pinInfobox);
+					
+					var locStr = x.toFixed(2).toString() + ", " + y.toFixed(2).toString();
+					var dataPoint = new Array(locMS, locStr, lowrespic, highrespic, datetime);
+					allDataPoints.push(dataPoint);
 				}
 			}
 			map.entities.push(mapData);
@@ -96,15 +112,111 @@ function updateMap(project)
 	xmlhttp.send();
 }
 
-function displayInfobox(e)
-{
-	pinInfobox.setOptions({ visible:true });
-}   
+// Code for multiple info boxes borrowed largely from: http://blueric.wordpress.com/2011/03/10/creating-hover-style-info-boxes-on-the-bing-maps-ajax-v7-0-control/
+// This function will create an infobox 
+// and then display it for the pin that triggered the hover-event.
+function displayInfobox(e) {
+	// make sure we clear any infoBox timer that may still be active
+	stopInfoboxTimer(e);
 
-function hideInfobox(e)
-{
-	pinInfobox.setOptions({ visible:false });
-}                 
+	// build or display the infoBox
+	var pin = e.target;
+	if (pin != null) {
+
+		// Create the info box for the pushpin
+		var location = pin.getLocation();
+		
+		//search allDataPoints array for data matching selected pin
+		var pinData = new Array; // (location Obj, location string, lowrespic, highrespic, datetime)
+		for (var i=0; i<allDataPoints.length; i++)
+		{
+			if (location == allDataPoints[i][0]) {
+				pinData = allDataPoints[i];
+				break;
+			}
+		}
+
+		var options = {
+			id: 'infoBox1',
+			htmlContent: '<div class="infobox"><b class="infoboxTitle">'+currProject+'</b>'+
+			'<div class="infoboxDescription"><a href="'+pinData[3]+'"><img src="'+pinData[2]+'"></a><br />'+pinData[4]+'<br />'+pinData[1]+'</div></div>',
+			visible: true,
+			showPointer: true,
+			offset: new Microsoft.Maps.Point(0, pin.getHeight()),  
+		};
+		// destroy the existing infobox, if any
+		// In testing, I discovered not doing this results in the mouseleave
+		// and mouseenter events not working after hiding and then reshowing the infobox.
+		if (pinInfobox != null) {
+			map.entities.remove(pinInfobox);
+			if (Microsoft.Maps.Events.hasHandler(pinInfobox, 'mouseleave'))
+				Microsoft.Maps.Events.removeHandler(pinInfobox.mouseLeaveHandler);
+			if (Microsoft.Maps.Events.hasHandler(pinInfobox, 'mouseenter'))
+				Microsoft.Maps.Events.removeHandler(pinInfobox.mouseEnterHandler);
+			pinInfobox = null;
+		}
+		// create the infobox
+		pinInfobox = new Microsoft.Maps.Infobox(location, options);
+		// hide infobox on mouseleave
+		pinInfobox.mouseLeaveHandler 
+			= Microsoft.Maps.Events.addHandler(pinInfobox, 'mouseleave', pinInfoboxMouseLeave);
+		// stop the infobox hide timer on mouseenter
+		pinInfobox.mouseEnterHandler 
+			= Microsoft.Maps.Events.addHandler(pinInfobox, 'mouseenter', pinInfoboxMouseEnter);
+		// add it to the map.
+		map.entities.push(pinInfobox);
+	}
+}
+
+function hideInfobox(e) {
+	if (pinInfobox != null)
+		pinInfobox.setOptions({ visible: false });
+}
+
+function closeQuestion(node) {
+	node.parentNode.parentNode.parentNode.removeChild(node.parentNode.parentNode);
+}
+
+// This function starts a count-down timer that will hide the infoBox when it fires.
+// This gives the user time to move the mouse over the infoBox, which disables the timer
+// before it can fire, thus allowing clickable content in the infobox.
+function startInfoboxTimer(e) {
+	// start a count-down timer to hide the popup.
+	// This gives the user time to mouse-over the popup to keep it open for clickable-content.
+	if (pinInfobox.pinTimer != null) {
+		clearTimeout(pinInfobox.pinTimer);
+	}
+	// give 300ms to get over the popup or it will disappear
+	pinInfobox.pinTimer = setTimeout(timerTriggered, 300);
+}
+
+// Clear the infoBox timer, if set, to keep it from firing.
+function stopInfoboxTimer(e) {
+	if (pinInfobox != null && pinInfobox.pinTimer != null) {
+		clearTimeout(pinInfobox.pinTimer);
+	}
+}
+
+function mapViewChange(e) {
+	stopInfoboxTimer(e);
+	hideInfobox(e);
+}
+function pinMouseOver(e) {
+	displayInfobox(e);
+}
+function pinMouseOut(e) {
+	startInfoboxTimer(e);
+}
+function pinInfoboxMouseLeave(e) {
+	hideInfobox(e);
+}
+function pinInfoboxMouseEnter(e) {
+	// NOTE: This won't fire if showing infoBox ends up putting it under the current mouse pointer.
+	stopInfoboxTimer(e);
+}
+function timerTriggered(e) {
+	hideInfobox(e);
+}                
 
 </script>
 
@@ -167,31 +279,39 @@ h1{
 
 .infobox
 {
-	background-color:White; 
+	background-color:#FFEBCD; 
 	border-style:solid;
 	border-width:medium; 
 	border-color:DarkOrange; 
-	min-height:100px; 
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	min-height:130px; 
 	position:absolute;
 	top:0px; 
 	left:23px; 
-	width:240px;
+	width:160px;
+	z-index: 999;
 }
 
 .infoboxTitle
 {
 	position:absolute; 
 	top:10px; 
-	left:10px; 
-	width:220px;
+	text-align: center;
+	width:160px;
 }
 
 .infoboxDescription
 {
 	position:absolute; 
 	top:30px; 
-	left:10px; 
-	width:220px;
+	text-align: center;
+	width:160px;
+}
+
+.floatright
+{
+	float: right;
 }
 		
 </style>
@@ -201,16 +321,11 @@ h1{
 <div class="wrapper">
 	<div>
 		<ul class="top-menu">
-	<li><a href="index.php" class="special-anchor">HOME</a></li>
-	<li><a href="manage.php" class="special-anchor">PROJECTS</a></li>
-	<? if($loggedin){ ?>
-	<li><a href="admin.php">LAUNCH A PROJECT</a></li>
-	<li class="selected"><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
-	<li><a href="logout.php" class="special-anchor">LOGOUT</a></li>
-	<? } else { ?>
-	<li><a href="register.php" class="special-anchor">LOGIN</a></li>
-	<? } ?>
-</ul>
+			<li><a href="index.php" class="special-anchor">HOME</a></li>
+			<li><a href="admin.php" class="special-anchor">LAUNCH A PROJECT</a></li>
+			<li><a href="manage.php" class="special-anchor">MANAGE PROJECT</a></li>
+			<li class="selected"><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
+		</ul>
 	</div>
 	<div class=content>
 		<h1>Data Visualization</h1>
