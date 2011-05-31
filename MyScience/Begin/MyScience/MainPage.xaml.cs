@@ -504,20 +504,23 @@ namespace MyScience
             WriteableBitmap photo = info.photo;
             String filename = info.filename;
             if (!filename.EndsWith(".jpg")) filename += ".jpg";
-           
-            IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
-            if (!myIsolatedStorage.DirectoryExists("MyScience/Images"))
+            try
             {
-                myIsolatedStorage.CreateDirectory("MyScience/Images");
+                IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
+                if (!myIsolatedStorage.DirectoryExists("MyScience/Images"))
+                {
+                    myIsolatedStorage.CreateDirectory("MyScience/Images");
+                }
+                if (myIsolatedStorage.FileExists("MyScience/Images/" + filename))
+                {
+                    myIsolatedStorage.DeleteFile("MyScience/Images/" + filename);
+                }
+
+                IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + filename);
+                photo.SaveJpeg(fileStream, photo.PixelWidth, photo.PixelHeight, 0, 100);
+                fileStream.Close();
             }
-            if (myIsolatedStorage.FileExists("MyScience/Images/" + filename ))
-            {
-                myIsolatedStorage.DeleteFile("MyScience/Images/" + filename);
-            }
-            
-            IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + filename );
-            photo.SaveJpeg(fileStream, photo.PixelWidth, photo.PixelHeight, 0, 100);
-            fileStream.Close();
+            catch(Exception e){}
         }
 
         #region Refresh buttons

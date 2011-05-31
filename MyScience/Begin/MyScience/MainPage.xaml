@@ -26,7 +26,7 @@
         <!--Pivot Control-->
         <controls:Panorama Title=" " Foreground="#FF181515" Name="MainPagePanorama">
             <controls:Panorama.Background>
-                <ImageBrush ImageSource="Images/myScienceOrange.png"/>
+                <ImageBrush ImageSource="Images/myscience_1_panorama.png"/>
             </controls:Panorama.Background>
             
             

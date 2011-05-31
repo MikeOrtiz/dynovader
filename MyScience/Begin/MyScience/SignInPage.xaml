@@ -18,7 +18,7 @@
     <Grid x:Name="LayoutRoot" >
 
         <Grid.Background>
-            <ImageBrush ImageSource="Images/myScienceOrange2.png"/>
+            <ImageBrush ImageSource="Images/myScience_1_login.png"/>
         </Grid.Background>
 
         <Grid.RowDefinitions>
@@ -33,7 +33,7 @@
         </StackPanel-->
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Margin="12,91,12,70" Grid.RowSpan="2">
+        <Grid x:Name="ContentPanel" Margin="12,180,12,70" Grid.RowSpan="2">
             <Canvas x:Name="SignInCanvas" Margin="6,0,12,354">
                 <!--TextBlock Canvas.Left="20" Canvas.Top="6" Height="54" Name="signInBlock" Text="Sign In Here!" Width="161" FontSize="32"/-->
                 <TextBlock Canvas.Left="8" Canvas.Top="8" Height="43" x:Name="userNameBlock" Text="username:" Width="233" FontSize="26.667" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
