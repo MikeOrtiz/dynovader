@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Reactive;
+using Microsoft.Phone.Info;
 using System.Windows.Controls.Primitives;
 using Microsoft.Phone.Net.NetworkInformation;
 using MyScience.MyScienceService;
@@ -36,9 +37,8 @@ namespace MyScience
         public static List<Submission> sentSubmissions = new List<Submission>();
         public static int currentSubmissionIndex;
         public static bool firstAccess = true; //repurposing it in general to refresh the main page, i.e. for when a new submission goes through, etc
-
+        public static string registerName = "";
         public static List<int> userProject = new List<int>();
-
         public static Popup popup = new Popup();
         public static BitmapImage userProfileImage;
 
@@ -526,5 +526,22 @@ namespace MyScience
             //go back to sign in page
             RootFrame.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));   
         }
+
+        //public void displayPopup()
+        //{
+        //    PopupMessageControl msg = new PopupMessageControl();
+        //    msg.msgcontent.Text = "Please try a different username.";
+        //    App.popup.Child = msg;
+        //    App.popup.Margin = new Thickness(0);
+        //    App.popup.Height = msg.Height;
+        //    App.popup.Width = msg.Width;
+        //    App.popup.HorizontalAlignment = HorizontalAlignment.Center;
+        //    App.popup.VerticalAlignment = VerticalAlignment.Center;
+        //    App.popup.HorizontalOffset = 0;
+        //    App.popup.VerticalOffset = 0;
+        //    App.popup.MinHeight = msg.Height;
+        //    App.popup.MinWidth = msg.Width;
+        //    App.popup.IsOpen = true;
+        //}
     }
 }

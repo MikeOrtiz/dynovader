@@ -406,19 +406,23 @@ namespace MyScience
                 userPic.Width = image.PixelWidth;
                
                 IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication();
-                if (!myIsolatedStorage.DirectoryExists("MyScience/Images"))
+                try
                 {
-                    myIsolatedStorage.CreateDirectory("MyScience/Images");
+                    if (!myIsolatedStorage.DirectoryExists("MyScience/Images"))
+                    {
+                        myIsolatedStorage.CreateDirectory("MyScience/Images");
+                    }
+                    if (myIsolatedStorage.FileExists("MyScience/Images/" + App.currentUser.Name + ".jpg"))
+                    {
+                        turnOffProgressBar(ProfileProgressBar);
+                        return;
+                        //myIsolatedStorage.DeleteFile("MyScience/Images/" + App.currentUser.Name + ".jpg");
+                    }
+                    IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + App.currentUser.Name + ".jpg");
+                    image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
+                    fileStream.Close();
                 }
-                if (myIsolatedStorage.FileExists("MyScience/Images/" + App.currentUser.Name + ".jpg"))
-                {
-                    turnOffProgressBar(ProfileProgressBar);
-                    return;
-                    //myIsolatedStorage.DeleteFile("MyScience/Images/" + App.currentUser.Name + ".jpg");
-                }
-                IsolatedStorageFileStream fileStream = myIsolatedStorage.CreateFile("MyScience/Images/" + App.currentUser.Name + ".jpg");
-                image.SaveJpeg(fileStream, image.PixelWidth, image.PixelHeight, 0, 100);
-                fileStream.Close();
+                catch (Exception ex){ }
             }
             turnOffProgressBar(ProfileProgressBar);
         }

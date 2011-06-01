@@ -14,7 +14,7 @@
             <SolidColorBrush Color="#EFFFFFFF"/>
         </Grid.Background>
         <Button Content="logout" Height="72" HorizontalAlignment="Left" Margin="40,199,0,0" Name="logout" VerticalAlignment="Top" Width="160" Foreground="Black" BorderBrush="Black" Style="{StaticResource WhiteBackgroundButtonStyle}" Click="logout_Click" Background="Transparent" />
-        <TextBlock Height="42" Margin="48,35,48,0" Name="msgtitle" Text="myscience error" VerticalAlignment="Top" FontSize="29.333" FontWeight="Bold" Foreground="Black" />
+        <TextBlock Height="42" Margin="48,35,48,0" Name="msgtitle" Text="myscience" VerticalAlignment="Top" FontSize="29.333" FontWeight="Bold" Foreground="Black" />
         <TextBlock x:Name="msgcontent" Margin="48,96,60,0" TextWrapping="Wrap" Text="Would you like to logout of your existing MyScience session?" VerticalAlignment="Top" Height="97" FontSize="21.333"/>
         <Button Content="stay" Height="72" HorizontalAlignment="Left" Margin="272,199,0,0" Name="stay" VerticalAlignment="Top" Width="160" Foreground="Black" BorderBrush="Black" Style="{StaticResource WhiteBackgroundButtonStyle}" Click="stay_Click" Background="Transparent" />
     </Grid>
