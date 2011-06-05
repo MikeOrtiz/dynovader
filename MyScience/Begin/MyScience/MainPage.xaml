@@ -24,7 +24,7 @@
     <Grid x:Name="LayoutRoot" Background="Transparent" >
 
         <!--Pivot Control-->
-        <controls:Panorama Title=" " Foreground="#FF181515" Name="MainPagePanorama" >
+        <controls:Panorama Title=" " Foreground="#FF181515" Name="MainPagePanorama" Margin="0, 0, 0, 0">
             <controls:Panorama.Background>
                 <ImageBrush ImageSource="Images/myscience_1_panorama.png" Stretch="Fill" />
             </controls:Panorama.Background>
@@ -45,10 +45,11 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 50, 35, 0" HorizontalAlignment="Right" Name="refreshproject" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshproject_MouseLeftButtonUp"  />
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 50, 35, 0" HorizontalAlignment="Right" Name="refreshproject" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshproject_MouseLeftButtonUp">
+                    </Image>
 
                     <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProjectProgressBar" Margin="0, 15, 0, 0" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
-                    <ListBox Grid.Row="2" x:Name="MainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515">
+                    <ListBox Grid.Row="2" x:Name="MainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515" Style="{StaticResource ListBoxStyle1}">
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -58,6 +59,7 @@
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <!--ListBoxItem Content="ListBoxItem1" Style="{StaticResource ListBoxItemStyle1}"/-->
                     </ListBox>
                    
                 </Grid>
@@ -138,7 +140,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="UserProjectsText" Text="Active Projects" Style="{StaticResource PhoneTextExtraLargeStyle}" TextAlignment="Center" Grid.Row="0" Foreground="Black" />
-                    <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Bottom" MaxHeight="300" Width="446" Foreground="Black">
+                    <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="300" Width="446" Foreground="Black">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="432">
