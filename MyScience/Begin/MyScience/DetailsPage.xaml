@@ -44,9 +44,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Name="BackgroundTitle" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" Margin="8,30,143,0" Height="60" FontSize="30" Foreground="#FFFF6C16" />
-					<TextBlock Grid.Row="1" Name="BackgroundContent" Margin="8,0,21,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="71" Foreground="White" FontSize="24" Text="... include motivations for this project here..."/>
+                    <TextBlock Grid.Row="1" Name="BackgroundContent" Margin="8,0,21,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="71" Foreground="{StaticResource PhoneForegroundBrush}" FontSize="24" Text="... include motivations for this project here..."/>
                     <TextBlock Grid.Row="2" Name="InstructionsTitle" TextWrapping="Wrap" Text="Instructions" VerticalAlignment="Top" Margin="8,30,143,0" Height="60" FontSize="30" Foreground="#FFFF6C16"/>
-					<TextBlock Grid.Row="3" Name="InstructionsContent" Margin="8,0,21,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="71" Foreground="White" FontSize="24" Text="... include here instructions for gathering proper data for the project..."/>
+                    <TextBlock Grid.Row="3" Name="InstructionsContent" Margin="8,0,21,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="71" Foreground="{StaticResource PhoneForegroundBrush}" FontSize="24" Text="... include here instructions for gathering proper data for the project..."/>
 					<TextBlock Grid.Row="4" Name="AuthorField" Margin="8,20,21,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="71" Foreground="#FFC8C8C8" FontSize="24" TextAlignment="Right" Text="Author" FontStyle="Italic"/>
 				</Grid>
 				

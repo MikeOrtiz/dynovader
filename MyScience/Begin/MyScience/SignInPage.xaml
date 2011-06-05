@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -21,36 +22,60 @@
             <ImageBrush ImageSource="Images/myScience_1_login.png"/>
         </Grid.Background>
 
-        <Grid.RowDefinitions>
+        <!--Grid.RowDefinitions>
         	<RowDefinition Height="Auto"/>
         	<RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <!--StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text=" " Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text=" " Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel-->
+        </Grid.RowDefinitions-->
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Margin="12,180,12,70" Grid.RowSpan="2">
-            <Canvas x:Name="SignInCanvas" Margin="6,0,12,354">
-                <!--TextBlock Canvas.Left="20" Canvas.Top="6" Height="54" Name="signInBlock" Text="Sign In Here!" Width="161" FontSize="32"/-->
-                <TextBlock Canvas.Left="8" Canvas.Top="8" Height="43" x:Name="userNameBlock" Text="username:" Width="233" FontSize="26.667" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
-                <TextBox Canvas.Left="0" Canvas.Top="39" Height="78" x:Name="userNameBox" Text="Lu Li" Width="430" FontSize="32" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastBackgroundBrush}" Background="{StaticResource PhoneInverseInactiveBrush}" Style="{StaticResource TextBoxStyle1}"/>
-                <Button Canvas.Top="123" Content="login" Height="78" x:Name="signInButton" Width="180" FontSize="28" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{StaticResource PhoneContrastBackgroundBrush}" Canvas.Left="250" Click="signInButton_Click" Style="{StaticResource WhiteBackgroundButtonStyle}" />
-                <TextBlock Canvas.Left="8" Canvas.Top="193" Height="54" x:Name="tryAgainBlock" Text="" Width="420" FontSize="32" VerticalAlignment="Top" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
-            </Canvas>
-            <Canvas x:Name="RegisterCanvas" Margin="1,257,0,57" Height="293">
-                <!--TextBlock Canvas.Left="17" Canvas.Top="32" Height="30" Name="registerBlock" Text="Never used myScience before?" FontSize="20"/-->
-                <TextBlock Canvas.Left="11" Canvas.Top="-3" Height="52" x:Name="registerNameBlock" Text="register:" FontSize="26.667" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
-                <TextBox Canvas.Left="6" Canvas.Top="27" Height="78" x:Name="registerNameBox" VerticalAlignment="Center" Width="429" FontSize="32" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastBackgroundBrush}" Background="{StaticResource PhoneInverseInactiveBrush}" Style="{StaticResource TextBoxStyle1}" />
-                <Button Canvas.Left="255" Canvas.Top="111" Content="register" Height="78" x:Name="registerButton" VerticalAlignment="Center" Width="178" FontSize="28" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{x:Null}" Click="registerButton_Click" Style="{StaticResource WhiteBackgroundButtonStyle}" />
-                <TextBlock Height="57" x:Name="registerAgainBlock" Text="" Width="430" FontSize="32" Canvas.Left="13" Canvas.Top="194" Foreground="{StaticResource PhoneContrastForegroundBrush}" />                
-            </Canvas>
-        </Grid>
+        <controls:Pivot Name ="SignInPivot" Foreground="#FFFF6C16" >
+            
+            <controls:Pivot.TitleTemplate>
+                <DataTemplate>
+                    <TextBlock FontSize="80" Margin="0,30,0,0" Text=" " Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                </DataTemplate>
+            </controls:Pivot.TitleTemplate>
+
+            <controls:PivotItem Header="Sign In">
+                <Grid x:Name="ContentPanel1" Margin="12,0,12,70" Grid.RowSpan="2">
+                    <Canvas x:Name="SignInCanvas" Margin="6,-25,12,391" Height="64">
+                        <!--TextBlock Canvas.Left="20" Canvas.Top="6" Height="54" Name="signInBlock" Text="Sign In Here!" Width="161" FontSize="32"/ Foreground="{StaticResource PhoneContrastForegroundBrush}"-->
+                        <TextBlock Canvas.Left="8" Canvas.Top="8" Height="43" x:Name="userNameBlock" Text="username:" Width="233" FontSize="30" Foreground="Black"/>
+                        <TextBox Canvas.Left="0" Canvas.Top="50" Height="78" x:Name="userNameBox" Text="" Width="430" FontSize="30" Foreground="Black" BorderBrush="{StaticResource PhoneContrastBackgroundBrush}" Background="{StaticResource PhoneInverseInactiveBrush}" Style="{StaticResource TextBoxStyle1}"/>
+                        <Button Canvas.Top="135" Content="login" Height="78" x:Name="signInButton" Width="180" FontSize="30" Foreground="Black" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{StaticResource PhoneContrastBackgroundBrush}" Canvas.Left="250" Click="signInButton_Click" Style="{StaticResource WhiteBackgroundButtonStyle}" />
+                        <TextBlock Canvas.Left="8" Canvas.Top="193" Height="54" x:Name="tryAgainBlock" Text="" Width="420" FontSize="30" VerticalAlignment="Top" Foreground="Black"/>
+                    </Canvas>
+                </Grid>
+            </controls:PivotItem>
+
+            <controls:PivotItem Header="Register">
+                <Grid x:Name="ContentPanel2" Margin="12,-30,12,70" Grid.RowSpan="2">
+                    <Canvas x:Name="RegisterCanvas" Margin="6,0,12,391" Height="64">
+                        <!--TextBlock Canvas.Left="17" Canvas.Top="32" Height="30" Name="registerBlock" Text="Never used myScience before?" FontSize="20"/-->
+                        <TextBlock Canvas.Left="8" Canvas.Top="8" Height="43" x:Name="registerNameBlock" Text="register:" FontSize="30" Foreground="Black" Width="144" />
+                        <TextBox Canvas.Left="0" Canvas.Top="50" Height="78" x:Name="registerNameBox" VerticalAlignment="Center" Width="429" FontSize="30" Foreground="Black" BorderBrush="{StaticResource PhoneContrastBackgroundBrush}" Background="{StaticResource PhoneInverseInactiveBrush}" Style="{StaticResource TextBoxStyle1}" />
+                        <Button Canvas.Left="250" Canvas.Top="135" Content="register" Height="78" x:Name="registerButton" VerticalAlignment="Center" Width="178" FontSize="30" Foreground="Black" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{x:Null}" Click="registerButton_Click" Style="{StaticResource WhiteBackgroundButtonStyle}" />
+                        <TextBlock Canvas.Left="8" Canvas.Top="193" Height="54" x:Name="registerAgainBlock" Text="" Width="430" FontSize="30" Foreground="Black" />
+                    </Canvas>
+                </Grid>
+            </controls:PivotItem>
+
+        </controls:Pivot>
     </Grid>
+    
+    <!--LayoutRoot contains the root grid where all other page content is placed Foreground="#FFFF6C16" Foreground="{StaticResource PhoneAccentBrush}"-->
+    <!--d x:Name="LayoutRoot" Height="1000">
+        <controls:Pivot Name ="ProjectPivot" Foreground="#FFFF6C16">
 
+
+                <Grid x:Name="ContentPanel">
+                    <my:Map Height="626" HorizontalAlignment="Left" Margin="12,6,0,0" Name="map1" VerticalAlignment="Top" Width="438" CredentialsProvider="Amxt8FQT2902fydA-nj-9kWMB0Fo08H2Z-TFZ7ZxtEuJyEgmwMblyG2KHhqv8H6l" />
+                </Grid>
+            </controls:PivotItem>
+
+
+        </controls:Pivot>
+    </Grid-->
 
 
 </phone:PhoneApplicationPage>
