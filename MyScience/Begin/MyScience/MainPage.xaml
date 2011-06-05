@@ -138,7 +138,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="UserProjectsText" Text="Active Projects" Style="{StaticResource PhoneTextExtraLargeStyle}" TextAlignment="Center" Grid.Row="0" Foreground="Black" />
-                    <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Bottom" MaxHeight="300" Width="446" Foreground="Black">
+                    <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="300" Width="446" Foreground="Black">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="432">

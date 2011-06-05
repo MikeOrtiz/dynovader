@@ -37,7 +37,7 @@
             <Canvas x:Name="SignInCanvas" Margin="6,0,12,354">
                 <!--TextBlock Canvas.Left="20" Canvas.Top="6" Height="54" Name="signInBlock" Text="Sign In Here!" Width="161" FontSize="32"/-->
                 <TextBlock Canvas.Left="8" Canvas.Top="8" Height="43" x:Name="userNameBlock" Text="username:" Width="233" FontSize="26.667" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
-                <TextBox Canvas.Left="0" Canvas.Top="39" Height="78" x:Name="userNameBox" Text="" Width="430" FontSize="32" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastBackgroundBrush}" Background="{StaticResource PhoneInverseInactiveBrush}" Style="{StaticResource TextBoxStyle1}"/>
+                <TextBox Canvas.Left="0" Canvas.Top="39" Height="78" x:Name="userNameBox" Text="Lu Li" Width="430" FontSize="32" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastBackgroundBrush}" Background="{StaticResource PhoneInverseInactiveBrush}" Style="{StaticResource TextBoxStyle1}"/>
                 <Button Canvas.Top="123" Content="login" Height="78" x:Name="signInButton" Width="180" FontSize="28" Foreground="{StaticResource PhoneContrastForegroundBrush}" BorderBrush="{StaticResource PhoneContrastForegroundBrush}" Background="{StaticResource PhoneContrastBackgroundBrush}" Canvas.Left="250" Click="signInButton_Click" Style="{StaticResource WhiteBackgroundButtonStyle}" />
                 <TextBlock Canvas.Left="8" Canvas.Top="193" Height="54" x:Name="tryAgainBlock" Text="" Width="420" FontSize="32" VerticalAlignment="Top" Foreground="{StaticResource PhoneContrastForegroundBrush}"/>
             </Canvas>
