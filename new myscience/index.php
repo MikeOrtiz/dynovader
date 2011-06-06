@@ -21,6 +21,7 @@ include 'authentication.php';
 		attributes.id = "slider";
 		swfobject.embedSWF("cu3er.swf", "cu3er-container", "800", "360", "9", "expressInstall.swf", flashvars, attributes);
 </script>
+<? include 'analytics.php' ?>
 </head>
 
 <body>
@@ -32,7 +33,7 @@ include 'authentication.php';
     <ul>
      <li><a class="active" href="index.php">HOME</a></li>
 	 
-     <li><a href="about.html">ABOUT</a></li>
+     <li><a href="about.php">ABOUT</a></li>
 	 <li><a href="manageNew.php">PROJECTS</a></li>
 	 <? if($loggedin){ ?>
      <li><a href="admin.php">LAUNCH</a></li>

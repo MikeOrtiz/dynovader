@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>MCUBE Solutions | CU3ER By Template World</title>
 <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
+<? include 'analytics.php' ?>
 </head>
 
 <body>
@@ -13,7 +14,7 @@
     <h1 class="logo"><a href="index.php">MYSCIENCE</a></h1>
     <ul>
      <li><a href="index.php">Home</a></li>
-     <li><a href="about.html">ABOUT</a></li>
+     <li><a href="about.php">ABOUT</a></li>
      <li><a class="active" href="launch.php">LAUNCH</a></li>
      <li><a href="manageNew.php">MANAGE</a></li>
    </ul>

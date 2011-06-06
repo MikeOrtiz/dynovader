@@ -150,7 +150,7 @@ else
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>MYSCIENCE | Manage Project</title>
 <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
-
+<? include 'analytics.php' ?>
 <style type="text/css">
 table{
 	border:1px solid #000;
@@ -183,7 +183,7 @@ td {
     <ul>
      <li><a href="index.php">HOME</a></li>
 	 
-     <li><a href="about.html">ABOUT</a></li>
+     <li><a href="about.php">ABOUT</a></li>
 	 <li><a class="active" href="manageNew.php">PROJECTS</a></li>
 	 <? if($loggedin){ ?>
      <li><a href="admin.php">LAUNCH</a></li>
