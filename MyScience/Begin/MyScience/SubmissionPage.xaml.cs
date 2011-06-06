@@ -154,14 +154,20 @@ namespace MyScience
         {
             String filename = currentSub.ImageName + ".jpg";
             BitmapImage image = new BitmapImage();
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            try
             {
-                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("MyScience/Images/" + filename, FileMode.Open, FileAccess.Read))
+                using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    image.SetSource(fileStream);
+                    using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile("MyScience/Images/" + filename, FileMode.Open, FileAccess.Read))
+                    {
+                        image.SetSource(fileStream);
+                    }
                 }
+                Photo.Source = image;
             }
-            Photo.Source = image;
+            catch (Exception e) { 
+                //should load a place holder image here instead
+            }
         }
 
         private void LoadSubmittedImage(Submission currentSub)

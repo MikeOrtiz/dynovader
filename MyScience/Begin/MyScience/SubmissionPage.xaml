@@ -44,9 +44,9 @@
             <StackPanel Name="DynamicPanel" Orientation="Vertical">
                 <Image Name ="Photo" Width="320" Height="240" ImageOpened="Photo_ImageOpened"/>
                     <TextBlock Text="Time:" Foreground="#FFFF6C16" FontSize="30"/>
-                    <TextBlock Name="TimeBlock" Foreground="White" FontSize="24"/>
+                    <TextBlock Name="TimeBlock" FontSize="24" Foreground="{StaticResource PhoneForegroundBrush}"/>
                     <TextBlock Text="Location:" Foreground="#FFFF6C16" FontSize="30"/>
-                    <TextBlock Name="LocationBlock" Foreground="White" FontSize="24" />
+                    <TextBlock Name="LocationBlock" FontSize="24" Foreground="{StaticResource PhoneForegroundBrush}"/>
                
             </StackPanel>
             </ScrollViewer>
