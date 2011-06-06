@@ -61,18 +61,7 @@ include "authentication.php";
 </div>
 <div id="foot">
  <div id="foot_cen">
- <h6><a href="index.html">mcube</a></h6>
- <ul>
-     <li><a href="index.html">Home</a></li>
-	 <li class="space">|</li>
-     <li><a class="active" href="about.html">ABOUT</a></li>
-     <li class="space">|</li>
-     <li><a href="launch.php">LAUNCH</a></li>
-     <li class="space">|</li>
-     <li><a href="manageNew.php">MANAGE</a></li>
-     <li class="space">|</li>
-  	 <li><a href="privacy.html">Privacy Policy</a></li>
-   </ul>
+ <h6><a href="index.php">myScience</a></h6>
     <p>© 2011 myScience. All rights reserved. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
  </div>
 </div>
