@@ -11,7 +11,7 @@ if($_GET['action']=="login"){
 	if(sqlsrv_has_rows($result)){
 		$arr = sqlsrv_fetch_array($result);
 		$_SESSION['coordid'] = $arr['ID'];
-		header("Location:admin.php");
+		header("Location:launch.php");
 	}
 	else{
 		$logmsg = "Email/password combination not found.  Please try again.";
@@ -31,7 +31,7 @@ else if($_GET['action']=="register"){
 		if(sqlsrv_has_rows($result)){
 			$arr = sqlsrv_fetch_array($result);
 			$_SESSION['coordid'] = $arr['ID'];
-			header("Location:admin.php");
+			header("Location:launch.php");
 		}
 	}
 }
@@ -51,6 +51,19 @@ table{
 	width:100%;
 }
 
+.columnleft{
+	width:50%;
+	float:left;
+	height:30px;
+	text-align:left;
+}
+.columnright{
+	width:50%;
+	height:30px;
+	float:right;
+	text-align:left;
+}
+
 th{
 	background:#4A4A4A; 
 	border-left:1px solid #C7C7C7;
@@ -64,6 +77,10 @@ td {
 	border-right:0;
 	border-bottom:1px solid #ccc; 
 }
+
+.formbox {
+	width: 350px;
+}
 </style>
 </head>
 
@@ -71,14 +88,14 @@ td {
 <div id="head">
  <div id="head_cen">
   <div id="head_sup" class="head_pad">
-    <h1 class="logo"><a href="index.html">MYSCIENCE</a></h1>
+    <div class="logo"><a href="index.php"></a></div>
     <ul>
      <li><a href="index.php">HOME</a></li>
 	 
-     <li><a href="about.html">ABOUT</a></li>
+     <li><a href="about.php">ABOUT</a></li>
 	 <li><a href="manageNew.php">PROJECTS</a></li>
 	 <? if($loggedin){ ?>
-     <li><a href="admin.php">LAUNCH</a></li>
+     <li><a href="launch.php">LAUNCH</a></li>
 	 <li><a href="logout.php">LOGOUT</a></li>
 	 <? } else { ?>
      <li><a class="active" href="register.php">LOGIN</a></li>
@@ -91,14 +108,14 @@ td {
  <div id="content_cen">
   <div id="content_sup" class="head_pad">
    <div id="welcom_pan">
-   <h2><span>REGISTER</span> for myScience</h2>
+   <h2><span>REGISTER</span> today</h2>
    </div>
 	<div class="content">
 	<div class="formbox">
 	<form method="POST" action="register.php?action=login">	
 	
 			<div>
-				<h1>Login to myScience</h1>
+				<h1>Login</h1>
 				<h2><color="red"><?=$logmsg?></color></h2><br/>
 				<span class="columnleft">Email: </span><span class="columnright">
 					<input type="text" name="coordemail"/>
@@ -113,9 +130,8 @@ td {
 		<form method="POST" action="register.php?action=register">	
 
 			<div>
-				<h1>Register for myScience</h1>
-				<h2><color="red"><?=$regmsg?></color></h2>
-<br/>
+				<h1>Register</h1>
+				<h2><color="red"><?=$regmsg?></color></h2><br/>
 				<span class="columnleft">Coordinator Name: </span><span class="columnright">
 					<input type="text" name="coordname"/>
 				</span><br/>
@@ -131,20 +147,11 @@ td {
   </div>
  </div>
 </div>
+</div>
+</div>
 <div id="foot">
  <div id="foot_cen">
- <h6><a href="index.html">myScience</a></h6>
- <!--<ul>
-     <li><a href="index.html">Home</a></li>
-	 <li class="space">|</li>
-     <li><a class="active" href="about.html">ABOUT</a></li>
-     <li class="space">|</li>
-     <li><a href="launch.php">LAUNCH</a></li>
-     <li class="space">|</li>
-     <li><a href="manageNew.php">MANAGE</a></li>
-     <li class="space">|</li>
-  	 <li><a href="privacy.html">Privacy Policy</a></li>
-   </ul>-->
+	<div class="logo_footer"><a href="index.php"><img src="images/myscience_logo.png"></img></a></div>
     <p>© 2011 myScience. All rights reserved. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
  </div>
 </div>

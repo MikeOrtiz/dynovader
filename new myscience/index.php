@@ -28,14 +28,14 @@ include 'authentication.php';
  <div id="head_cen">
   <div id="head_sup" class="head_height">
   <img src="images/bannerBg.png" alt="" class="ban_bg" />
-    <h1 class="logo"><a href="index.php">MYSCIENCE</a></h1>
+    <div class="logo"><a href="index.php"></a></div>
     <ul>
      <li><a class="active" href="index.php">HOME</a></li>
 	 
-     <li><a href="about.html">ABOUT</a></li>
+     <li><a href="about.php">ABOUT</a></li>
 	 <li><a href="manageNew.php">PROJECTS</a></li>
 	 <? if($loggedin){ ?>
-     <li><a href="admin.php">LAUNCH</a></li>
+     <li><a href="launch.php">LAUNCH</a></li>
 	 <li><a href="logout.php">LOGOUT</a></li>
 	 <? } else { ?>
      <li><a href="register.php">LOGIN</a></li>
@@ -53,8 +53,7 @@ include 'authentication.php';
  <div id="content_cen">
   <div id="content_sup">
    <div id="ct_pan">
-    <p>Imagine a network of thousands of mobile phones, each equipped with a camera, microphone, GPS and accelerometer. Unleash this power for your science research using myScience. <a href="about.html">LEARN MORE</a></p>
-     <a href="#" class="tweet"></a>
+    <p>Imagine a network of thousands of mobile phones, each equipped with a camera, microphone, GPS and accelerometer. Unleash this power for your science research using myScience. <a href="about.php">LEARN MORE</a></p>
    </div>
 
    <div id="blog">
@@ -88,18 +87,7 @@ include 'authentication.php';
 </div>
 <div id="foot">
  <div id="foot_cen">
- <h6><a href="index.php">myScience</a></h6>
- <!--<ul>
-     <li><a href="index.php">Home</a></li>
-	 <li class="space">|</li>
-     <li><a class="active" href="about.html">ABOUT</a></li>
-     <li class="space">|</li>
-     <li><a href="launch.php">LAUNCH</a></li>
-     <li class="space">|</li>
-     <li><a href="manageNew.php">PROJECTS</a></li>
-     <li class="space">|</li>
-  	 <li><a href="privacy.html">Privacy Policy</a></li>
-   </ul>-->
+ <div class="logo_footer"><a href="index.php"><img src="images/myscience_logo.png"></img></a></div>
     <p>© 2011 myScience. All rights reserved. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
  </div>
 </div>
