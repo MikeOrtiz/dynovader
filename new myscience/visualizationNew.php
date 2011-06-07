@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 include "authentication.php";
 include "connect_ms.php";
+$project = $_GET['projname'];
 $selectProject = "";
 	$projname = "";
-
 	$selectProject = "<select name='projname' id='selectedProject' onchange='updateMap(this.value)'>";
 	$selectProject .= "<option value=''>Select Project:</option>";
 	$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id AND projects.status = 'active'";
@@ -22,7 +22,7 @@ $selectProject = "";
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<title>MYSCIENCE | Visualization</title>
+<title>myscience | science for everyone</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
 <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
@@ -33,9 +33,10 @@ function GetMap()
 {   				
 map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), 
 						   {credentials: "Amxt8FQT2902fydA-nj-9kWMB0Fo08H2Z-TFZ7ZxtEuJyEgmwMblyG2KHhqv8H6l",
-						   center: new Microsoft.Maps.Location(37.464626, -120.62932),
+						   center: new Microsoft.Maps.Location(37.434626, -122.19932),
 						   setMapType: Microsoft.Maps.MapTypeId.birdseye,
-							zoom: 4});
+							zoom: 11});
+<? echo "updateMap(".$project.")"; ?>
 }
 
 var pinInfobox = null;
@@ -366,19 +367,20 @@ h1{
  <div id="content_cen">
   <div id="content_sup" class="head_pad">
    <div id="welcom_pan">
-	<h2><span>Data</span> visualization</h2>
+	<h2><span>data</span> map view</h2>
    </div>
 	<div class="content">
-		<? echo $selectProject ?>
-		<div id='mapDiv' style="position:relative; width:600px; height:500px;"></div>
+		<? //echo $selectProject ?>
+		<div style="height:500px;">
+		<div id='mapDiv' style="margin-top:70px; width:600px; height:500px;"></div>
+		</div>
 	</div>
   </div>
  </div>
 </div>
 <div id="foot">
  <div id="foot_cen">
-	<div class="logo_footer"><a href="index.php"><img src="images/myscience_logo.png"></img></a></div>
-    <p>� 2011 myScience. All rights reserved. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
+    <p>© 2011 myscience</p>
  </div>
 </div>
 </body>
