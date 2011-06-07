@@ -6,7 +6,7 @@ include "authentication.php";
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>MYSCIENCE | Citizen Science</title>
+<title>myscience | science for everyone</title>
 <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
@@ -14,7 +14,7 @@ include "authentication.php";
 <div id="head">
  <div id="head_cen">
   <div id="head_sup" class="head_pad">
-    <h1 class="logo"><a href="index.php">MYSCIENCE</a></h1>
+    <div class="logo"><a href="index.php"></a></div>
 <ul>
      <li><a href="index.php">HOME</a></li>
 	 
@@ -35,7 +35,7 @@ include "authentication.php";
  <div id="content_cen">
   <div id="content_sup" class="head_pad">
    <div id="welcom_pan">
-    <h2><span>about</span>MYSCIENCE</h2>
+    <h2><span>about</span>myscience</h2>
     <p>MYSCIENCE is a free mobile app that enables individuals with smart phones to contribute to a variety of science research projects by gathering useful information using the sensors on their phones. The data is then made available in aggregate, on the cloud, to scientists. Our app will soon be available on the Windows Phone 7 Marketplace for free download.</p>
     <p>Scientists can create and customize their citizen science project using MYSCIENCE, and deploy it instantly to our users- all without having to write any code. We currently support a variety of form fields and pictures. Data can be viewed on our web portal or downloaded in a CSV format. We  host the data for free, and on the cloud so it can scale rapidly.</p>
    </div>
@@ -62,8 +62,7 @@ include "authentication.php";
 </div>
 <div id="foot">
  <div id="foot_cen">
- <h6><a href="index.php">myScience</a></h6>
-    <p>© 2011 myScience. All rights reserved. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
+    <p>© 2011 myscience</p>
  </div>
 </div>
 </body>

@@ -179,14 +179,14 @@ td {
 <div id="head">
  <div id="head_cen">
   <div id="head_sup" class="head_pad">
-    <h1 class="logo"><a href="index.php">MYSCIENCE</a></h1>
+    <div class="logo"><a href="index.php"></a></div>
     <ul>
      <li><a href="index.php">HOME</a></li>
 	 
      <li><a href="about.php">ABOUT</a></li>
 	 <li><a class="active" href="manageNew.php">PROJECTS</a></li>
 	 <? if($loggedin){ ?>
-     <li><a href="admin.php">LAUNCH</a></li>
+     <li><a href="launch.php">LAUNCH</a></li>
 	 <li><a href="logout.php">LOGOUT</a></li>
 	 <? } else { ?>
      <li><a href="register.php">LOGIN</a></li>
@@ -221,20 +221,11 @@ td {
   </div>
  </div>
 </div>
+</div>
+</div>
 <div id="foot">
  <div id="foot_cen">
- <h6><a href="index.php">myScience</a></h6>
- <!--<ul>
-     <li><a href="index.php">Home</a></li>
-	 <li class="space">|</li>
-     <li><a class="active" href="about.html">ABOUT</a></li>
-     <li class="space">|</li>
-     <li><a href="admin.php">LAUNCH</a></li>
-     <li class="space">|</li>
-     <li><a href="manageNew.php">MANAGE</a></li>
-     <li class="space">|</li>
-  	 <li><a href="privacy.html">Privacy Policy</a></li>
-   </ul>-->
+	<div class="logo_footer"><a href="index.php"><img src="images/myscience_logo.png"></img></a></div>
     <p>© 2011 myScience. All rights reserved. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
  </div>
 </div>
