@@ -255,8 +255,8 @@ td {
 }
 
 .top-menu li {
-position: relative;
-float: left;
+	position: relative;
+	float: left;
 }
 
 .top-menu li a {
@@ -286,13 +286,12 @@ float: left;
 body{
 	margin:0;
 	padding:0;
-	margin-top: -18px;
 }
 
 .content{
 	margin:auto;
 	position: relative;
-	top: 50px;
+	top: 20px;
 	font-family: "Century Gothic", Arial, sans-serif;
 	color: #333;
 	font-size: 12px;

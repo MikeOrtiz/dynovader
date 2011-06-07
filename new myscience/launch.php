@@ -1,15 +1,7 @@
 ﻿<?php 
 include "connect_ms.php";
 include "authentication.php";
-$serverName = "tcp:mma1mtoeql.database.windows.net, 1433";
-$connectionOptions = array("Database"=>"users",
-         "UID"=>"dynovader@mma1mtoeql",
-         "PWD" => "592Mayfield");
-$conn = sqlsrv_connect($serverName, $connectionOptions);
-if($conn === false)
-{
-      die(print_r(sqlsrv_errors(), true));
-}
+
 $msg = "";
 
 if(isset($_POST['coordname']))
@@ -81,6 +73,8 @@ if(isset($_POST['coordname']))
 <html>
 <head>
 <link type="text/css" href="css/cupertino/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
+<link type="text/css" href="css/moveleft/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
+<link type="text/css" href="css/submit/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
 <link rel="stylesheet" media="screen" type="text/css" href="css/colorpicker.css" />
 <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
 <script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
@@ -94,6 +88,13 @@ if(isset($_POST['coordname']))
 <title>Launch a Project</title>
 
 <script>
+
+$(function() {
+		$( "input:button", ".moveleft" ).button();
+		$( "input:submit", ".submit" ).button();
+	});
+
+
 
 //displays successful submission message
 if ('<?echo $msg?>') alert('<?echo $msg?>');
@@ -347,8 +348,6 @@ function disableEnterKey(e)
 	margin-top: 1px;
 }
 
-
-
 .columnleft{
 	width:50%;
 	float:left;
@@ -450,7 +449,21 @@ body{
 	position: absolute;
 	width: 320px;
 	right: 400px;
-	bottom: 100px;
+	top: 20px;
+	font-size: 13px;
+	color: #585858;
+}
+
+.moveleft input[type=text] {
+	background: #626262;
+	color: white;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	height: 25px;
+	padding-left: 3px;
+	border-color: #585858;
+	border-style:solid;
+	border-width:2px;
 }
 
 .question:hover
@@ -471,10 +484,17 @@ body{
 	list-style-type:disc;
 	margin-left: 17px;
 }
-
+.submit {
+background-color: #f18519;
+color:white;
+margin-top: 15px;
+font-size: 18px;
+padding: 8px 12px 8px;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
+}
 </style>
-
-<? include 'analytics.php' ?>
 </head>
 
 <body onKeyPress="return disableEnterKey(event)">
@@ -488,7 +508,6 @@ body{
      <li><a href="about.php">ABOUT</a></li>
 	 <li><a href="manageNew.php">PROJECTS</a></li>
 	 <? if($loggedin){ ?>
-     <li><a href="index.php">Home</a></li>
      <li><a class="active" href="launch.php">LAUNCH</a></li>
 	 <li><a href="logout.php">LOGOUT</a></li>
 	 <? } else { ?>
@@ -542,7 +561,7 @@ body{
 			<span class = "columnleft">Change Response Color: </span><span class="columnright"><input id="fontaColInput" name="fontaColInput"type="text" size="7" maxlength="6" value="000000"></span>
 			<!--<input id="picturequestion" type="button" value="Remove Picture Capture" onclick="updatePhotoOption()"/> --><br /><br />
 			<input type="text" id="photopost" name="photo" value="Y" style="display:none">
-			<input type="submit" value="Submit App!" />	
+			<input class="submit" type="submit" value="Submit App" />	
 			<br />
 			<div>
 				<h3>Instructions:</h3>
@@ -553,7 +572,7 @@ body{
 					<li>Add and remove questions with buttons above</li>
 					<li>Edit questions and options directly on phone</li>
 					<li>Drag and drop questions to edit order</li>
-					<li>Press Submit App!</li>
+					<li>Press Submit App</li>
 				</ul>	
 			</div>
 			<br /><br />
