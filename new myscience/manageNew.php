@@ -12,27 +12,13 @@ if($conn === false)
 $formhtml = "";
 $projname = "";
 if(isset($_GET['projname'])) {
-/*
-	$formhtml .= "<br /> <form name=\"periodForm\">";
 
-	$formhtml .= "Select Period <select name = \"period\" onChange=\"periodChange()\">";
-
-	$formhtml .= "<option value=\"http://www.wonderment.org/IBM/call_table.php\">Show all</option>";
-
-	$formhtml .= "<option value=\"http://www.wonderment.org/IBM/call_table.php?p=1w\">Last 1 week</option>";
-
-	$formhtml .= "<option value=\"http://www.wonderment.org/IBM/call_table.php?p=2w\">Last 2 weeks</option>";
-
-	$formhtml .= "<option value=\"http://www.wonderment.org/IBM/call_table.php?p=4w\">Last 4 weeks</option>";
-
-	$formhtml .= "</select> <br /> <br />";
-*/
 	$projectquery = "SELECT name from projects WHERE ID='".$_GET['projname']."'";
 	$result = sqlsrv_query($conn,$projectquery);
 	$arr = sqlsrv_fetch_array($result);
 	$projname = $arr['name'];
 	if(!isset($_GET['action'])){
-				$formhtml = "<a href=\"?projname=".$_GET['projname']."&action=data\">Data</a><br/><a href=\"?projname=".$_GET['projname']."&action=modify\">Layout</a>";
+				$formhtml = "<a href=\"?projname=".$_GET['projname']."&action=data\">Data</a>";
 	}
 	else{
 	if($_GET['action']=="data"){
@@ -148,7 +134,7 @@ else
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>MYSCIENCE | Manage Project</title>
+<title>myscience | science for everyone</title>
 <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
 <? include 'analytics.php' ?>
 <style type="text/css">
@@ -171,6 +157,10 @@ td {
 	border-left:0;
 	border-right:0;
 	border-bottom:1px solid #ccc; 
+}
+th a {
+	color:#fff;
+	text-decoration:underline;
 }
 </style>
 </head>
@@ -207,16 +197,17 @@ td {
    </div>
 	<div class="content">
 	<div class="formbox">
-	<h1>
+	<h1 style="float:left">
 	<? if(isset($_GET['action'])){
 		if($_GET['action']=='data'){
-			echo "Data for Project <i>".$projname."</i>: <a href=\"manageNew.php?projname=".$_GET['projname']."&action=download\">Download</a>";
+			echo "Data for <i>".$projname."</i>:"; 
 		}
 		else{
 			echo "Modify Layout for Project <i>".$projname."</i>";
 		}
 	}
 	?> </h1>
+	<? if(isset($_GET['action'])){echo "<span style=\"float:right;margin-top:10px;\"><a href=\"manageNew.php?projname=".$_GET['projname']."&action=download\"><img src=\"images/disk.png\"/> download</a>&nbsp;&nbsp;&nbsp;<a href=\"visualizationNew.php?projname=".$_GET['projname']."\"><img src=\"images/map.png\"/> map</a></span>"; }?>
 	<? echo $formhtml; ?>
   </div>
  </div>
@@ -225,8 +216,7 @@ td {
 </div>
 <div id="foot">
  <div id="foot_cen">
-	<div class="logo_footer"><a href="index.php"><img src="images/myscience_logo.png"></img></a></div>
-    <p>© 2011 myScience. All rights reserved. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
+    <p>© 2011 myscience</p>
  </div>
 </div>
 </body>
