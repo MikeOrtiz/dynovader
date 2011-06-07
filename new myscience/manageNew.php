@@ -126,7 +126,7 @@ if(isset($_GET['projname'])) {
 }
 else
 {
-	$formhtml = "<form action='' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
+	$formhtml = "<div style=\"text-align:center\"><form action='' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
 	$list = array();
 	$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id";
 	$result = sqlsrv_query($conn,$query);
@@ -137,7 +137,7 @@ else
 			$formhtml .= "<option value=".$row['projid'].">".$row['projname']." (".$row['coordname'].")</option>";
 		}
 	}
-	$formhtml .= "</select><input type='submit' value='Submit'/></form>";
+	$formhtml .= "</select><br/><input class='submit' type='submit' value='View Data'/></form></div>";
 }
 ?>
 
@@ -176,6 +176,16 @@ th a {
 .formbox {
 	position: relative;
 	top: 20px;
+}
+.submit {
+background-color: #f18519;
+color:white;
+margin-top: 10px;
+font-size: 14px;
+padding: 8px 12px 8px;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
 }
 </style>
 </head>

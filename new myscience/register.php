@@ -81,6 +81,16 @@ td {
 .formbox {
 	width: 350px;
 }
+.submit {
+background-color: #f18519;
+color:white;
+margin-top: 10px;
+font-size: 14px;
+padding: 8px 12px 8px;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
+}
 </style>
 </head>
 
@@ -123,7 +133,7 @@ td {
 				<span class="columnleft">Password: </span><span class="columnright">
 					<input type="password" name="coordpass"/>
 				</span><br/>
-				<input type="submit" value="Login" />
+				<input class="submit" type="submit" value="Login" />
 			</div>
 		</form>
 		<br/>
@@ -141,7 +151,7 @@ td {
 				<span class="columnleft">Coordinator Password: </span><span class="columnright">
 					<input type="password" name="coordpass"/>
 				</span><br/>
-				<input type="submit" value="Register" />	
+				<input class="submit" type="submit" value="Register" />	
 			</div>
 		</form>
   </div>
