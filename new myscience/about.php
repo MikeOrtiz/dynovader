@@ -21,7 +21,7 @@ include "authentication.php";
      <li><a class="active" href="about.php">ABOUT</a></li>
 	 <li><a href="manageNew.php">PROJECTS</a></li>
 	 <? if($loggedin){ ?>
-     <li><a href="admin.php">LAUNCH</a></li>
+     <li><a href="launch.php">LAUNCH</a></li>
 	 <li><a href="logout.php">LOGOUT</a></li>
 	 <? } else { ?>
      <li><a href="register.php">LOGIN</a></li>

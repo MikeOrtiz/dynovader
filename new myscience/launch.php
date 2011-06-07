@@ -457,7 +457,7 @@ body{
 }
 
 .moveleft input[type=text] {
-	background: #626262;
+	background: #9c9c9c;
 	color: white;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
@@ -487,14 +487,20 @@ body{
 	margin-left: 17px;
 }
 .submit {
-background-color: #f18519;
-color:white;
-margin-top: 15px;
-font-size: 18px;
-padding: 8px 12px 8px;
--moz-border-radius: 6px;
--webkit-border-radius: 6px;
-border-radius: 6px;
+	background-color: #f18519;
+	color:white;
+	margin-top: 15px;
+	font-size: 18px;
+	padding: 8px 12px 8px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.submit:hover {
+	background-color: #ffa536;
 }
 </style>
 </head>
@@ -535,6 +541,7 @@ border-radius: 6px;
 			<span class="columnleft">Description: </span><span class="columnright">
 				<input type="text" name="description"/>
 			</span><br/>
+			<br /><br /><br />
 			<!--
 			<span class="columnleft">Coordinator Name: </span><span class="columnright">
 				<input type="text" name="coordname"/>
@@ -543,8 +550,11 @@ border-radius: 6px;
 				<input type="text" name="coordemail"/>
 			</span><br/>*/
 			<br /><br /><br />-->
+			<span class = "columnleft">Change Background: </span><span class="columnright"><input id="backColInput" name="backColInput" type="text" size="7" maxlength="6" value="ffffff"></span>
+			<span class = "columnleft">Change Title Color: </span><span class="columnright"><input id="fontqColInput" name="fontqColInput"type="text" size="7" maxlength="6" value="000000"></span>
+			<span class = "columnleft">Change Response Color: </span><span class="columnright"><input id="fontaColInput" name="fontaColInput"type="text" size="7" maxlength="6" value="000000"></span>
 			
-			<h3>Add Question:</h3><br /><br /><br /><br /><br /><br />
+			<h3>Add Question:</h3><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 			<input type="button" value="Text Question" onclick="moreText()"/> <br />
 			<input type="button" value="Check Question" onclick="moreCheck()"/> 
 			<select id="numchecks" name="numchecks">
@@ -558,13 +568,11 @@ border-radius: 6px;
 				<option value="3">3</option>
 				<option value="4">4</option>
 			</select><br /><br />
-			<span class = "columnleft">Change Background: </span><span class="columnright"><input id="backColInput" name="backColInput" type="text" size="7" maxlength="6" value="ffffff"></span>
-			<span class = "columnleft">Change Title Color: </span><span class="columnright"><input id="fontqColInput" name="fontqColInput"type="text" size="7" maxlength="6" value="000000"></span>
-			<span class = "columnleft">Change Response Color: </span><span class="columnright"><input id="fontaColInput" name="fontaColInput"type="text" size="7" maxlength="6" value="000000"></span>
-			<!--<input id="picturequestion" type="button" value="Remove Picture Capture" onclick="updatePhotoOption()"/> --><br /><br />
+			<!--<input id="picturequestion" type="button" value="Remove Picture Capture" onclick="updatePhotoOption()"/> -->
 			<input type="text" id="photopost" name="photo" value="Y" style="display:none">
 			<input class="submit" type="submit" value="Submit App" />	
 			<br />
+			<!--
 			<div>
 				<h3>Instructions:</h3>
 				<br /><br /><br /><br />
@@ -576,7 +584,7 @@ border-radius: 6px;
 					<li>Drag and drop questions to edit order</li>
 					<li>Press Submit App</li>
 				</ul>	
-			</div>
+			</div>-->
 			<br /><br />
 		</div>
 		

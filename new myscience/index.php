@@ -6,7 +6,7 @@ include 'authentication.php';
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>myscience | science for everyone</title>
+<title>MYSCIENCE | Citizen Science </title>
 <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
 <!--  STEP ONE: insert path to SWFObject JavaScript -->
 <script type="text/javascript" src="js/swfobject/swfobject.js"></script>
@@ -21,7 +21,26 @@ include 'authentication.php';
 		attributes.id = "slider";
 		swfobject.embedSWF("cu3er.swf", "cu3er-container", "800", "360", "9", "expressInstall.swf", flashvars, attributes);
 </script>
-<? include 'analytics.php' ?>
+<style>
+.bigbutton {
+	background-color: #f18519;
+	color:white;
+	margin-top: 15px;
+	font-size: 24px;
+	padding: 8px 12px 8px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	cursor: pointer;
+	cursor: hand;
+	text-align: center;
+}
+
+.bigbutton:hover {
+	background-color: #faad5f;
+}
+
+</style>
 </head>
 
 <body>
@@ -53,7 +72,10 @@ include 'authentication.php';
 <div id="content">
  <div id="content_cen">
   <div id="content_sup">
-   <div id="ct_pan">
+  
+   <div id="ct_pan" style="background-color:transparent">
+   <div style="text-align:center"><a class="bigbutton" href="launch.php">Launch a Project</a></div>
+   <!--
     <p>Imagine a network of thousands of mobile phones, each equipped with a camera, microphone, GPS and accelerometer. Unleash this power for your science research using myScience. <a href="about.php">LEARN MORE</a></p>
    </div>
 
@@ -82,7 +104,7 @@ include 'authentication.php';
         <p>Maecenas ut lacus magna, ut consectetur quam. Etiam pharetra tincidunt.</p>
       </li>
     </ul>
-   </div> 
+   </div> -->
   </div>
  </div>
 </div>
