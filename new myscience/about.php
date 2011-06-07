@@ -15,17 +15,18 @@ include "authentication.php";
  <div id="head_cen">
   <div id="head_sup" class="head_pad">
     <h1 class="logo"><a href="index.php">MYSCIENCE</a></h1>
-<ul class="top-menu">
-	<li class="selected"><a href="index.php" class="special-anchor">HOME</a></li>
-	<li><a href="manage.php" class="special-anchor">PROJECTS</a></li>
-	<? if($loggedin){ ?>
-	<li><a href="admin.php">LAUNCH A PROJECT</a></li>
-	<li><a href="visualization.php" class="special-anchor">VISUALIZATION</a></li>
-	<li><a href="logout.php" class="special-anchor">LOGOUT</a></li>
-	<? } else { ?>
-	<li><a href="register.php" class="special-anchor">LOGIN</a></li>
-	<? } ?>
-</ul>
+<ul>
+     <li><a href="index.php">HOME</a></li>
+	 
+     <li><a class="active" href="about.php">ABOUT</a></li>
+	 <li><a href="manageNew.php">PROJECTS</a></li>
+	 <? if($loggedin){ ?>
+     <li><a href="admin.php">LAUNCH</a></li>
+	 <li><a href="logout.php">LOGOUT</a></li>
+	 <? } else { ?>
+     <li><a href="register.php">LOGIN</a></li>
+	 <? } ?>
+   </ul>
    
   </div>
  </div>
