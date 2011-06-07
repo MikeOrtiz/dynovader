@@ -12,10 +12,10 @@ if($conn === false)
 }
 $msg = "";
 
-if(isset($_POST['coordname']))
+if(isset($_POST['apptitle']))
 {
-	if($_POST['coordname']!="") {
-		$query = "SELECT * FROM coordinators WHERE email='".$_POST['coordemail']."'";
+	if($_POST['apptitle']!="") {
+		/*$query = "SELECT * FROM coordinators WHERE email='".$_POST['coordemail']."'";
 		$result = sqlsrv_query($conn, $query);
 		$coordid;
 		if(sqlsrv_has_rows($result)){
@@ -31,7 +31,9 @@ if(isset($_POST['coordname']))
 			$arr = sqlsrv_fetch_array($result);
 			$coordid = $arr['ID'];
 		}
-		$query = "SELECT * FROM projects WHERE name='".$_POST['titleinput']."' AND owner = $coordid";
+		*/
+		$coordid = $_SESSION['coordid'];
+		$query = "SELECT * FROM projects WHERE name='".$_POST['apptitle']."' AND owner = $coordid";
 		$result = sqlsrv_query($conn, $query);
 		if(sqlsrv_has_rows($result)){
 			//return error, since it exists already
@@ -39,7 +41,7 @@ if(isset($_POST['coordname']))
 		else{ //build JSON string
 			$values = "[";
 			foreach($_POST as $key=>$value) {
-				if ($key=="titleinput" || $key=="description" || $key=="coordname" || $key=="coordemail" || $key=="numchecks" || $key=="numradios") {
+				if ($key=="apptitle" || $key=="description" || $key=="coordname" || $key=="coordemail" || $key=="numchecks" || $key=="numradios") {
 					//do not add to JSON
 				} else if (strpos($key, 'textq')) {
 					$values .= "{\"type\":\"Question\",\"label\":\"".$_POST[$key]."\"},";
@@ -70,9 +72,9 @@ if(isset($_POST['coordname']))
 			$values .= "{\"type\":\"Background\",\"value\":\"".$_POST['backColInput']."\"},";
 			$values .= "{\"type\":\"Photo\",\"value\":\"".$_POST['photo']."\"}]";
 			
-			$query = "INSERT INTO projects(name, description, owner, form) VALUES('".$_POST['titleinput']."','".$_POST['description']."',$coordid,'".$values."')";
+			$query = "INSERT INTO projects(name, description, owner, form, status) VALUES('".$_POST['apptitle']."','".$_POST['description']."',$coordid,'".$values."','active')";
 			$result = sqlsrv_query($conn, $query);
-			$msg = "Your project ".$_POST['titleinput']." was added successfully! It is currently under review.";
+			$msg = "Your project ".$_POST['apptitle']." was added successfully! It is currently under review.";
 		}
 	}
 }
@@ -450,7 +452,7 @@ body{
 	position: absolute;
 	width: 320px;
 	right: 400px;
-	bottom: 100px;
+	bottom: 70px;
 }
 
 .question:hover
@@ -488,7 +490,6 @@ body{
      <li><a href="about.php">ABOUT</a></li>
 	 <li><a href="manageNew.php">PROJECTS</a></li>
 	 <? if($loggedin){ ?>
-     <li><a href="index.php">Home</a></li>
      <li><a class="active" href="launch.php">LAUNCH</a></li>
 	 <li><a href="logout.php">LOGOUT</a></li>
 	 <? } else { ?>
@@ -506,10 +507,10 @@ body{
    </div>
    <div class="phone">
 	<img src="phone.png"/></img>
-	<form method="POST" action="admin.php">	
+	<form method="POST" action="launch.php">	
 		<div class="moveleft">
 			<span class="columnleft">App Title: </span><span class="columnright">
-				<input type="text" name="titleinput" id="titleinput" onkeyup="updateTitle()"/>
+				<input type="text" name="apptitle" id="titleinput" onkeyup="updateTitle()"/>
 			</span><br/>
 			<span class="columnleft">Description: </span><span class="columnright">
 				<input type="text" name="description"/>
@@ -643,8 +644,7 @@ body{
 </div>
 <div id="foot">
  <div id="foot_cen">
-	<div class="logo_footer"><a href="index.php"><img src="images/myscience_logo.png"></img></a></div>
-    <p>© 2011 myScience. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
+    <p>© 2011 myscience</p>
  </div>
 </div>
 </body>

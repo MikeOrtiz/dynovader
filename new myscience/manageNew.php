@@ -11,6 +11,8 @@ if($conn === false)
 }
 $formhtml = "";
 $projname = "";
+$numusers;
+$numdata;
 if(isset($_GET['projname'])) {
 
 	$projectquery = "SELECT name from projects WHERE ID='".$_GET['projname']."'";
@@ -22,6 +24,14 @@ if(isset($_GET['projname'])) {
 	}
 	else{
 	if($_GET['action']=="data"){
+		$numdataquery = "SELECT COUNT(*) from data WHERE projectid='".$_GET['projname']."'";
+		$result = sqlsrv_query($conn, $numdataquery);
+		$row = sqlsrv_fetch_array($result);
+		$numdata = $row[0];
+		$numusersquery = "SELECT COUNT(DISTINCT userid) from data WHERE projectid='".$_GET['projname']."'";
+		$result = sqlsrv_query($conn, $numusersquery);
+		$row = sqlsrv_fetch_array($result);
+		$numusers = $row[0];
 		$dir = isset($_GET['dir'])?$_GET['dir']:"";
 		$sort = isset($_GET['sort'])?$_GET['sort']:"";
 		$url = "?projname=".$_GET['projname']."&action=data";
@@ -207,7 +217,7 @@ th a {
 		}
 	}
 	?> </h1>
-	<? if(isset($_GET['action'])){echo "<span style=\"float:right;margin-top:10px;\"><a href=\"manageNew.php?projname=".$_GET['projname']."&action=download\"><img src=\"images/disk.png\"/> download</a>&nbsp;&nbsp;&nbsp;<a href=\"visualizationNew.php?projname=".$_GET['projname']."\"><img src=\"images/map.png\"/> map</a></span>"; }?>
+	<? if(isset($_GET['action'])&&$_GET['action']=='data'){echo "<span style=\"float:right;margin-top:10px;\"><a href=\"manageNew.php?projname=".$_GET['projname']."&action=download\"><img src=\"images/disk.png\"/> download</a>&nbsp;&nbsp;&nbsp;<a href=\"visualizationNew.php?projname=".$_GET['projname']."\"><img src=\"images/map.png\"/> map</a></span>"; echo "<span style=\"float:right;margin-top:10px;\">submissions: ".$numdata." users:".$numusers."&nbsp;&nbsp;&nbsp;</span>";}?>
 	<? echo $formhtml; ?>
   </div>
  </div>
