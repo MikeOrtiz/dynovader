@@ -24,6 +24,7 @@ namespace MyScience
     public partial class SignIn : PhoneApplicationPage
     {
         private bool alreadyClicked = false;
+        private GeoLocationMessageControl locpermitmsg;
         public SignIn()
         {
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace MyScience
             {
                 registerButton.IsEnabled = false;
             }
+            locpermitmsg = new GeoLocationMessageControl(registerUser);
         }
 
         private void SignInPage_Loaded(object sender, RoutedEventArgs e)
@@ -41,33 +43,19 @@ namespace MyScience
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
-            /* manipulate colors */
-            registerButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
-            registerButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
-
-            /* process button */
-            if (alreadyClicked)
-                return;
-            alreadyClicked = true;
-            /* Get phoneid */
-            byte[] result = null;
-            object uniqueId;
-            if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
-                result = (byte[])uniqueId;
-            String phoneID = BitConverter.ToString(result);
-
-            Service1Client client = new Service1Client();
-            client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
-            client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
+            tryAgainBlock.Text = "";
+            App.registerName = registerNameBox.Text;
+            displayLocationPermissionPopup();
         }
+
 
         private void signInButton_Click(object sender, RoutedEventArgs e)
         {
-
             /* process button */
             if (alreadyClicked)
                 return;
             alreadyClicked = true;
+            registerAgainBlock.Text = "";
             byte[] result = null;
             object uniqueId;
             if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
@@ -158,10 +146,23 @@ namespace MyScience
             }
         }
 
+        public void registerUser()
+        {
+            /* Get phoneid */
+            byte[] result = null;
+            object uniqueId;
+            if (DeviceExtendedProperties.TryGetValue("DeviceUniqueId", out uniqueId))
+                result = (byte[])uniqueId;
+            String phoneID = BitConverter.ToString(result);
+
+            Service1Client client = new Service1Client();
+            client.RegisterUserCompleted += new EventHandler<RegisterUserCompletedEventArgs>(client_RegisterUserCompleted);
+            client.RegisterUserAsync(0, phoneID, registerNameBox.Text);
+        }
+
         //for now, just accepts a correct user, and moves to main page
         void client_RegisterUserCompleted(object sender, RegisterUserCompletedEventArgs e)
         {
-            alreadyClicked = false;
             if (e.Result != null)
             {
                 App.currentUser = e.Result;
@@ -171,108 +172,27 @@ namespace MyScience
             }
             else
             {
+                //displayPopup();
                 //tell the user to retry
                 registerAgainBlock.Text = "Please try a different user name";
+                //todo do a popup here
             }
         }
 
-        //for now, just accepts a correct user, and moves to main page
-        void client_RegisterUserWithImageCompleted(object sender, RegisterUserWithImageCompletedEventArgs e)
+        public void displayLocationPermissionPopup()
         {
-            alreadyClicked = false;
-            if (e.Result != null)
-            {
-                App.currentUser = e.Result;
-                App.userVerified = true;
-                tryAgainBlock.Text = "";
-                NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
-            }
-            else
-            {
-                //tell the user to retry
-                registerAgainBlock.Text = "Please try a different user name";
-            }
+            //logoutmsg.logoutmsgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
+            App.popup.Child = locpermitmsg;
+            App.popup.Margin = new Thickness(0);
+            App.popup.Height = locpermitmsg.Height;
+            App.popup.Width = locpermitmsg.Width;
+            App.popup.HorizontalAlignment = HorizontalAlignment.Center;
+            App.popup.VerticalAlignment = VerticalAlignment.Center;
+            App.popup.HorizontalOffset = 0;
+            App.popup.VerticalOffset = 0;
+            App.popup.MinHeight = locpermitmsg.Height;
+            App.popup.MinWidth = locpermitmsg.Width;
+            App.popup.IsOpen = true;
         }
-
-        //private void choosePhotoButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var photoChooserTask = new PhotoChooserTask();
-        //    photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
-        //    try
-        //    {
-        //        photoChooserTask.Show();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //    }
-        //}
-
-        //private void takePhotoButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var cameraCaptureTask = new CameraCaptureTask();
-        //    cameraCaptureTask.Completed += new EventHandler<PhotoResult>(cameraCaptureTask_Completed);
-        //    try
-        //    {
-        //        cameraCaptureTask.Show();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //    }
-        //}
-
-        //void photoChooserTask_Completed(object sender, PhotoResult e)
-        //{
-        //    if (e.TaskResult == TaskResult.OK)
-        //    {
-        //        WriteableBitmap image = new WriteableBitmap(600, 800);
-        //        image.LoadJpeg(e.ChosenPhoto);
-        //        userImage.Source = image;
-        //        canvas1.Background = null;
-        //    }
-        //}
-
-        //void cameraCaptureTask_Completed(object sender, PhotoResult e)
-        //{
-        //    if (e.TaskResult == TaskResult.OK)
-        //    {
-        //        WriteableBitmap image = new WriteableBitmap(600, 800);
-        //        image.LoadJpeg(e.ChosenPhoto);
-        //        userImage.Source = image;
-        //        canvas1.Background = null;
-        //    }
-        //}
-
-        private void userNameBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            userNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
-            userNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
-        }
-
-        private void userNameBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            userNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
-            userNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseInactiveBrush"];
-        }
-
-        private void registerNameBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            registerNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastForegroundBrush"];
-            registerNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
-        }
-
-        private void registerNameBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            registerNameBox.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
-            registerNameBox.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseInactiveBrush"];
-        }
-
-        private void registerButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            /* manipulate colors */
-            registerButton.Foreground = (SolidColorBrush)Application.Current.Resources["PhoneContrastBackgroundBrush"];
-            registerButton.Background = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-            registerButton.BorderBrush = (SolidColorBrush)Application.Current.Resources["PhoneInverseForegroundBrush"];
-        }
-
     }
 }

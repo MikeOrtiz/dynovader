@@ -21,6 +21,7 @@ include 'authentication.php';
 		attributes.id = "slider";
 		swfobject.embedSWF("cu3er.swf", "cu3er-container", "800", "360", "9", "expressInstall.swf", flashvars, attributes);
 </script>
+<? include 'analytics.php' ?>
 </head>
 
 <body>

@@ -123,6 +123,7 @@ h1{
 }
 		
 </style>
+<? include 'analytics.php' ?>
 </head>
 <body onload="GetMap();">
 <div class="wrapper">

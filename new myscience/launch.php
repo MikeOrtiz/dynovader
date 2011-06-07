@@ -473,6 +473,8 @@ body{
 }
 
 </style>
+
+<? include 'analytics.php' ?>
 </head>
 
 <body onKeyPress="return disableEnterKey(event)">
@@ -486,6 +488,7 @@ body{
      <li><a href="about.php">ABOUT</a></li>
 	 <li><a href="manageNew.php">PROJECTS</a></li>
 	 <? if($loggedin){ ?>
+     <li><a href="index.php">Home</a></li>
      <li><a class="active" href="launch.php">LAUNCH</a></li>
 	 <li><a href="logout.php">LOGOUT</a></li>
 	 <? } else { ?>

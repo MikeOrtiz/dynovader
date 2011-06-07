@@ -150,7 +150,7 @@ else
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>MYSCIENCE | Manage Project</title>
 <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
-
+<? include 'analytics.php' ?>
 <style type="text/css">
 table{
 	border:1px solid #000;

@@ -190,10 +190,10 @@ namespace MyScience
 
         void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            //var saveButton = DynamicPanel.Children.OfType<Button>().First() as Button;
-            //var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
-            //saveButton.IsEnabled = false;
-            //submitButton.IsEnabled = false;
+            var saveButton = DynamicPanel.Children.OfType<Button>().First() as Button;
+            var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(1) as Button;
+            saveButton.IsEnabled = false;
+            submitButton.IsEnabled = false;
             Submission newsubmission = getSubmission();
             
             if (newsubmission == null) return;
@@ -246,6 +246,8 @@ namespace MyScience
             {
                 // do something with exception
             }
+            saveButton.IsEnabled = true;
+            submitButton.IsEnabled = true;
         }
 
         void cameraButton_Click(object sender, RoutedEventArgs e)

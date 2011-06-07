@@ -21,23 +21,23 @@
     </UserControl.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent" >
 
         <!--Pivot Control-->
-        <controls:Panorama Title=" " Foreground="#FF181515" Name="MainPagePanorama">
+        <controls:Panorama Title=" " Foreground="#FF181515" Name="MainPagePanorama" Margin="0, 0, 0, 0">
             <controls:Panorama.Background>
-                <ImageBrush ImageSource="Images/myScienceOrange.png"/>
+                <ImageBrush ImageSource="Images/myscience_1_panorama.png" Stretch="Fill" />
             </controls:Panorama.Background>
             
             
             <controls:Panorama.TitleTemplate>
                 <DataTemplate>
-                    <TextBlock FontSize="120" Margin="0,50,0,0" Text=" " Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                    <TextBlock FontSize="120" Margin="0,75,0,0" Text=" " Style="{StaticResource PhoneTextExtraLargeStyle}"/>
                 </DataTemplate>
             </controls:Panorama.TitleTemplate>
 
             <!--Pivot item one-->
-            <controls:PanoramaItem Header="Projects" Foreground="#FF181515">
+            <controls:PanoramaItem Header="Projects" Foreground="#FFFF6c16">
                 <Grid x:Name="projectsgrid" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -45,10 +45,11 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshproject" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshproject_MouseLeftButtonUp"  />
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 50, 35, 0" HorizontalAlignment="Right" Name="refreshproject" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshproject_MouseLeftButtonUp">
+                    </Image>
 
-                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProjectProgressBar" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
-                    <ListBox Grid.Row="2" x:Name="MainListBox" Margin="0,30,-12,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515">
+                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProjectProgressBar" Margin="0, 15, 0, 0" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
+                    <ListBox Grid.Row="2" x:Name="MainListBox" Margin="0,0,-12,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500" SelectionChanged="MainListBox_SelectionChanged" Foreground="#FF181515" Style="{StaticResource ListBoxStyle1}">
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -58,13 +59,14 @@
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <!--ListBoxItem Content="ListBoxItem1" Style="{StaticResource ListBoxItemStyle1}"/-->
                     </ListBox>
                    
                 </Grid>
             </controls:PanoramaItem>
 
             <!--Pivot item two-->
-            <controls:PanoramaItem Header="Top Users" Foreground="#FF181515">
+            <controls:PanoramaItem Header="Top Users" Foreground="#FFFF6c16">
                 <!--ContentPanel - place additional content here-->
                 <Grid x:Name="famegrid" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
@@ -72,8 +74,8 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshhalloffame" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshhalloffame_MouseLeftButtonUp" />
-                    <toolkit:PerformanceProgressBar Grid.Row="0" Name="FameProgreeBar" VerticalAlignment="Bottom" Margin="0, 100, 35, 0" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 50, 35, 0" HorizontalAlignment="Right" Name="refreshhalloffame" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshhalloffame_MouseLeftButtonUp" />
+                    <toolkit:PerformanceProgressBar Grid.Row="0" Name="FameProgreeBar" VerticalAlignment="Bottom" Margin="0, 115, 35, 0" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
                     <ListBox x:Name="HallOfFameBox" Grid.Row="1" Margin="0,10,0,0" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -96,7 +98,7 @@
             </controls:PanoramaItem>
             
             <!--Pivot item three-->
-            <controls:PanoramaItem Header="Profile">
+            <controls:PanoramaItem Header="Profile" Foreground="#FFFF6c16">
                 <Grid x:Name="profilegrid" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -104,9 +106,9 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshprofile" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshprofile_MouseLeftButtonUp" />
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 50, 35, 0" HorizontalAlignment="Right" Name="refreshprofile" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshprofile_MouseLeftButtonUp" />
 
-                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProfileProgressBar" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
+                    <toolkit:PerformanceProgressBar Grid.Row ="1" Name="ProfileProgressBar" Margin="0, 10, 0, 0" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
                     <!--ContentPanel - place additional content here-->
                     <Grid x:Name="ContentPanel" Grid.Row="2" Margin="12,15,12,0" Width="409">
                         <Grid.RowDefinitions>
@@ -125,9 +127,9 @@
                                     <RowDefinition Height="59*"/>
                                     <RowDefinition Height="59*" />
                                 </Grid.RowDefinitions>
-                                <TextBlock Name="userName" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Margin="0,-1,-1,0" />
-                                <TextBlock Name="score" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Margin="0,37,-1,0" Grid.RowSpan="2" />
-                                <TextBlock Grid.Row="1" Height="44" HorizontalAlignment="Center" Margin="0,35,-1,0" Name="scientistLevel" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Grid.RowSpan="2" />
+                                <TextBlock Name="userName" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Margin="0,-1,-1,0" Foreground="#FF181515"/>
+                                <TextBlock Name="score" Height="44" HorizontalAlignment="Center" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Margin="0,37,-1,0" Grid.RowSpan="2" Foreground="#FF181515"/>
+                                <TextBlock Grid.Row="1" Height="44" HorizontalAlignment="Center" Margin="0,35,-1,0" Name="scientistLevel" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Grid.RowSpan="2" Foreground="#FF181515"/>
                             </Grid>
                         </Grid>
                         <Button Content="logout" Height="78" HorizontalAlignment="Left" Margin="230,147,0,0" Name="logoutButton" VerticalAlignment="Top" Width="185" Background="{StaticResource PhoneTextBoxReadOnlyBrush}" Style="{StaticResource WhiteBackgroundButtonStyle}" Grid.RowSpan="2" Click="logoutButton_Click" Foreground="Black" />
@@ -138,7 +140,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="UserProjectsText" Text="Active Projects" Style="{StaticResource PhoneTextExtraLargeStyle}" TextAlignment="Center" Grid.Row="0" Foreground="Black" />
-                    <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Bottom" MaxHeight="300" Width="446" Foreground="Black">
+                    <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="300" Width="446" Foreground="Black">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="0,0,0,17" Width="432">
@@ -181,7 +183,7 @@
                 </Grid>
             </controls:PanoramaItem>-->
 
-            <controls:PanoramaItem Header="Your Data">
+            <controls:PanoramaItem Header="Your Data" Foreground="#FFFF6c16">
                 <Grid x:Name="yourdatagrid2" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -189,11 +191,11 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshyourdata2" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshyourdata2_MouseLeftButtonUp" />
+                    <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 50, 35, 0" HorizontalAlignment="Right" Name="refreshyourdata2" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshyourdata2_MouseLeftButtonUp" />
                     <toolkit:PerformanceProgressBar Grid.Row="1" Name="DataProgreeBar" IsIndeterminate="False" Visibility="Collapsed" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
                     <TextBlock x:Name="SubmissionEmpty" Grid.Row ="2" Text="No Items Found" Foreground="Gray" Style="{StaticResource PhoneTextExtraLargeStyle}" Visibility="Collapsed"/>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="3">
-                    <ItemsControl Name="PictureWall" Margin="0,30,-12,0" ItemsSource="{Binding Items}">
+                    <ItemsControl Name="PictureWall" Margin="0,15,-12,0" ItemsSource="{Binding Items}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <!--mage Source="{Binding Path=LowResImageName}" Width="80" Height="60"/-->
@@ -210,7 +212,7 @@
                 </Grid>
             </controls:PanoramaItem>
 
-            <controls:PanoramaItem Header="To Submit">
+            <controls:PanoramaItem Header="To Submit" Foreground="#FFFF6c16">
                 <Grid x:Name="tobesubmitgrid" Width="444" Height="630" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -218,8 +220,8 @@
                         <RowDefinition Height="Auto"/>                        
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Height="50" Width="50" Margin="0, 40, 35, 0" HorizontalAlignment="Right" Name="refreshtobesubmit" Stretch="Fill" VerticalAlignment="Top"  />
-                    <toolkit:PerformanceProgressBar Grid.Row="1" Name="QueueProgreeBar" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
+                    <Image Grid.Row="0" Height="50" Width="50" Margin="0, 50, 35, 0" HorizontalAlignment="Right" Name="refreshtobesubmit" Stretch="Fill" VerticalAlignment="Top"  />
+                    <toolkit:PerformanceProgressBar Grid.Row="1" Margin="0, 10, 0, 0" Name="QueueProgreeBar" IsIndeterminate="False" Visibility="Visible" Foreground="#FFFF6C16" Background="#FFFF6C16"/>
                     <TextBlock x:Name="ToBeSubmitEmpty" Grid.Row ="2" Text="No Items Found" Foreground="Gray" Style="{StaticResource PhoneTextExtraLargeStyle}" Visibility="Collapsed"/>
                     <ListBox x:Name="ToBeSubmitBox" Grid.Row="3" Margin="0, 30,-12,0" ItemsSource="{Binding Items}" Visibility="Collapsed" SelectionChanged="ToBeSubmitBox_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="500">
                         <ListBox.ItemTemplate>
