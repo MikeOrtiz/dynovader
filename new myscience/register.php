@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 include "connect_ms.php";
 session_start();
 $logmsg = "";
@@ -40,7 +40,7 @@ else if($_GET['action']=="register"){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>MYSCIENCE | Register</title>
+<title>myscience | science for everyone</title>
 <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
 <? include 'analytics.php' ?>
 <style type="text/css">
@@ -151,8 +151,7 @@ td {
 </div>
 <div id="foot">
  <div id="foot_cen">
-	<div class="logo_footer"><a href="index.php"><img src="images/myscience_logo.png"></img></a></div>
-    <p>� 2011 myScience. All rights reserved. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
+    <p>© 2011 myscience</p>
  </div>
 </div>
 </body>

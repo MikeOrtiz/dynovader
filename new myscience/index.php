@@ -6,7 +6,7 @@ include 'authentication.php';
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>MYSCIENCE | Citizen Science </title>
+<title>myscience | science for everyone</title>
 <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
 <!--  STEP ONE: insert path to SWFObject JavaScript -->
 <script type="text/javascript" src="js/swfobject/swfobject.js"></script>
@@ -88,8 +88,7 @@ include 'authentication.php';
 </div>
 <div id="foot">
  <div id="foot_cen">
- <div class="logo_footer"><a href="index.php"><img src="images/myscience_logo.png"></img></a></div>
-    <p>© 2011 myScience. All rights reserved. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
+    <p>© 2011 myscience</p>
  </div>
 </div>
 </body>
