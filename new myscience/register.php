@@ -91,6 +91,17 @@ padding: 8px 12px 8px;
 -webkit-border-radius: 6px;
 border-radius: 6px;
 }
+.formtext{
+background: #626262;
+color: white;
+-moz-border-radius: 6px;
+border-radius: 6px;
+height: 25px;
+padding-left: 3px;
+border-color: #585858;
+border-style: solid;
+border-width: 2px;
+}
 </style>
 </head>
 
@@ -128,10 +139,10 @@ border-radius: 6px;
 				<h1>Login</h1>
 				<h2><color="red"><?=$logmsg?></color></h2><br/>
 				<span class="columnleft">Email: </span><span class="columnright">
-					<input type="text" name="coordemail"/>
+					<input class="formtext" type="text" name="coordemail"/>
 				</span><br/>
 				<span class="columnleft">Password: </span><span class="columnright">
-					<input type="password" name="coordpass"/>
+					<input class="formtext" type="password" name="coordpass"/>
 				</span><br/>
 				<input class="submit" type="submit" value="Login" />
 			</div>
@@ -143,13 +154,13 @@ border-radius: 6px;
 				<h1>Register</h1>
 				<h2><color="red"><?=$regmsg?></color></h2><br/>
 				<span class="columnleft">Coordinator Name: </span><span class="columnright">
-					<input type="text" name="coordname"/>
+					<input class="formtext" type="text" name="coordname"/>
 				</span><br/>
 				<span class="columnleft">Coordinator Email: </span><span class="columnright">
-					<input type="text" name="coordemail"/>
+					<input class="formtext" type="text" name="coordemail"/>
 				</span><br/>
 				<span class="columnleft">Coordinator Password: </span><span class="columnright">
-					<input type="password" name="coordpass"/>
+					<input class="formtext" type="password" name="coordpass"/>
 				</span><br/>
 				<input class="submit" type="submit" value="Register" />	
 			</div>
