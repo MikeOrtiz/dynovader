@@ -50,7 +50,7 @@ namespace MyScience
             progressbar.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0x6C, 0x16));
 
             //popup message content
-            msg = new PopupMessageControl();
+            msg = new PopupMessageControl(activatePage);
         }
 
         private void DetailsPage_Loaded(object sender, RoutedEventArgs e)
@@ -563,6 +563,24 @@ namespace MyScience
             App.popup.MinHeight = msg.Height;
             App.popup.MinWidth = msg.Width;
             App.popup.IsOpen = true;
+            LayoutRoot.IsHitTestVisible = false;
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            //Override back key press if a context or dialog is open
+            if (App.popup.IsOpen)
+            {
+                e.Cancel = true;
+                App.popup.IsOpen = false;
+                LayoutRoot.IsHitTestVisible = true;
+                //OnBackKeyPress(e);
+            }
+            base.OnBackKeyPress(e);
+        }
+        public void activatePage()
+        {
+            LayoutRoot.IsHitTestVisible = true;
         }
     }
 }

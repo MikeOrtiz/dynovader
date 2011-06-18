@@ -33,7 +33,7 @@ namespace MyScience
             {
                 registerButton.IsEnabled = false;
             }
-            locpermitmsg = new GeoLocationMessageControl(registerUser);
+            locpermitmsg = new GeoLocationMessageControl(registerUser, activatePage);
         }
 
         private void SignInPage_Loaded(object sender, RoutedEventArgs e)
@@ -193,6 +193,25 @@ namespace MyScience
             App.popup.MinHeight = locpermitmsg.Height;
             App.popup.MinWidth = locpermitmsg.Width;
             App.popup.IsOpen = true;
+            LayoutRoot.IsHitTestVisible = false;
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            //Override back key press if a context or dialog is open
+            if (App.popup.IsOpen)
+            {
+                e.Cancel = true;
+                App.popup.IsOpen = false;
+                LayoutRoot.IsHitTestVisible = true;
+                //OnBackKeyPress(e);
+            }
+            base.OnBackKeyPress(e);
+        }
+
+        public void activatePage()
+        {
+            LayoutRoot.IsHitTestVisible = true;
         }
     }
 }

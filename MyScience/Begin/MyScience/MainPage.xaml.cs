@@ -39,8 +39,8 @@ namespace MyScience
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
 
-            msg = new PopupMessageControl(); //TODO test this
-            logoutmsg = new LogoutMessageControl();
+            msg = new PopupMessageControl(activatePage); //TODO test this
+            logoutmsg = new LogoutMessageControl(activatePage);
         }
 
         // Handle selection changed on ListBox
@@ -634,6 +634,7 @@ namespace MyScience
             App.popup.MinHeight = msg.Height;
             App.popup.MinWidth = msg.Width;
             App.popup.IsOpen = true;
+            LayoutRoot.IsHitTestVisible = false;
         }
 
         public void displayLogoutPopup()
@@ -650,6 +651,7 @@ namespace MyScience
             App.popup.MinHeight = logoutmsg.Height;
             App.popup.MinWidth = logoutmsg.Width;
             App.popup.IsOpen = true;
+            LayoutRoot.IsHitTestVisible = false;
         }
 
         private void logoutButton_Click(object sender, RoutedEventArgs e)
@@ -657,6 +659,23 @@ namespace MyScience
             displayLogoutPopup();
             //appReset();
             //NavigationService.Navigate(new Uri("/home.xaml", UriKind.Relative));
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            //Override back key press if a context or dialog is open
+            if (App.popup.IsOpen)
+            {
+                e.Cancel = true;
+                App.popup.IsOpen = false;
+                LayoutRoot.IsHitTestVisible = true;
+                //OnBackKeyPress(e);
+            }
+            base.OnBackKeyPress(e);
+        }
+        public void activatePage()
+        {
+            LayoutRoot.IsHitTestVisible = true;
         }
     }
 }

@@ -15,20 +15,29 @@ namespace MyScience
 {
     public partial class LogoutMessageControl : UserControl
     {
-        public LogoutMessageControl()
+        public delegate void activatePage();
+        private activatePage activatePageFn;
+
+        public LogoutMessageControl(activatePage callBack)
         {
             InitializeComponent();
+            activatePageFn = callBack;
         }
 
         private void logout_Click(object sender, RoutedEventArgs e)
         {
             App.popup.IsOpen = false;
             ((App)Application.Current).appReset();
+            //LayoutRoot.IsHitTestVisible = true;
+            activatePageFn();
         }
 
         private void stay_Click(object sender, RoutedEventArgs e)
         {
             App.popup.IsOpen = false;
+            LayoutRoot.IsHitTestVisible = true;
+            activatePageFn();
         }
     }
 }
+

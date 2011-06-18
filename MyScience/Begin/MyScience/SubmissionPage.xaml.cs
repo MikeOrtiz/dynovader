@@ -35,7 +35,7 @@ namespace MyScience
             InitializeComponent();
             messagePopup = new Popup();
             messagePopup.IsOpen = false;
-            msg = new PopupMessageControl();
+            msg = new PopupMessageControl(activatePage);
 
             App.popup.Child = msg;
             App.popup.Margin = new Thickness(0);
@@ -289,12 +289,30 @@ namespace MyScience
             App.popup.MinHeight = msg.Height;
             App.popup.MinWidth = msg.Width;
             App.popup.IsOpen = true;
+            LayoutRoot.IsHitTestVisible = false;
         }
 
         private void Photo_ImageOpened(object sender, RoutedEventArgs e)
         {
             SubmissionProgressBar.IsIndeterminate = false;
+        }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            //Override back key press if a context or dialog is open
+            if (App.popup.IsOpen)
+            {
+                e.Cancel = true;
+                App.popup.IsOpen = false;
+                LayoutRoot.IsHitTestVisible = true;
+                //OnBackKeyPress(e);
+            }
+            base.OnBackKeyPress(e);
+        }
+
+        public void activatePage()
+        {
+            LayoutRoot.IsHitTestVisible = true;
         }
     }
 }
