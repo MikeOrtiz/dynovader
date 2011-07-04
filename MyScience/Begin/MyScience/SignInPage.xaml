@@ -25,6 +25,7 @@
         <!--Grid.RowDefinitions>
         	<RowDefinition Height="Auto"/>
         	<RowDefinition Height="*"/>
+
         </Grid.RowDefinitions-->
 
         <controls:Pivot Name ="SignInPivot" Foreground="#FFFF6C16" >

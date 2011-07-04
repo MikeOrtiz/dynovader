@@ -340,6 +340,7 @@ namespace MyScience
 
         public static void loadSubmission(String txtDirectory, List<Submission> sublist)
         {
+            sublist.Clear();
             using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 if (!myIsolatedStorage.DirectoryExists(txtDirectory)) return;

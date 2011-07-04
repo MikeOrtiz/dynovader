@@ -21,6 +21,26 @@ include 'authentication.php';
 		attributes.id = "slider";
 		swfobject.embedSWF("cu3er.swf", "cu3er-container", "800", "360", "9", "expressInstall.swf", flashvars, attributes);
 </script>
+<style>
+.bigbutton {
+	background-color: #f18519;
+	color:white;
+	margin-top: 15px;
+	font-size: 24px;
+	padding: 8px 12px 8px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	cursor: pointer;
+	cursor: hand;
+	text-align: center;
+}
+
+.bigbutton:hover {
+	background-color: #faad5f;
+}
+
+</style>
 </head>
 
 <body>
@@ -28,14 +48,14 @@ include 'authentication.php';
  <div id="head_cen">
   <div id="head_sup" class="head_height">
   <img src="images/bannerBg.png" alt="" class="ban_bg" />
-    <h1 class="logo"><a href="index.php">MYSCIENCE</a></h1>
+    <div class="logo"><a href="index.php"></a></div>
     <ul>
      <li><a class="active" href="index.php">HOME</a></li>
 	 
-     <li><a href="about.html">ABOUT</a></li>
+     <li><a href="about.php">ABOUT</a></li>
 	 <li><a href="manageNew.php">PROJECTS</a></li>
 	 <? if($loggedin){ ?>
-     <li><a href="admin.php">LAUNCH</a></li>
+     <li><a href="launch.php">LAUNCH</a></li>
 	 <li><a href="logout.php">LOGOUT</a></li>
 	 <? } else { ?>
      <li><a href="register.php">LOGIN</a></li>
@@ -52,9 +72,11 @@ include 'authentication.php';
 <div id="content">
  <div id="content_cen">
   <div id="content_sup">
-   <div id="ct_pan">
-    <p>Imagine a network of thousands of mobile phones, each equipped with a camera, microphone, GPS and accelerometer. Unleash this power for your science research using myScience. <a href="about.html">LEARN MORE</a></p>
-     <a href="#" class="tweet"></a>
+  
+   <div id="ct_pan" style="background-color:transparent">
+   <div style="text-align:center"><a class="bigbutton" href="launch.php">Launch a Project</a></div>
+   <!--
+    <p>Imagine a network of thousands of mobile phones, each equipped with a camera, microphone, GPS and accelerometer. Unleash this power for your science research using myScience. <a href="about.php">LEARN MORE</a></p>
    </div>
 
    <div id="blog">
@@ -82,25 +104,13 @@ include 'authentication.php';
         <p>Maecenas ut lacus magna, ut consectetur quam. Etiam pharetra tincidunt.</p>
       </li>
     </ul>
-   </div> 
+   </div> -->
   </div>
  </div>
 </div>
 <div id="foot">
  <div id="foot_cen">
- <h6><a href="index.php">myScience</a></h6>
- <!--<ul>
-     <li><a href="index.php">Home</a></li>
-	 <li class="space">|</li>
-     <li><a class="active" href="about.html">ABOUT</a></li>
-     <li class="space">|</li>
-     <li><a href="launch.php">LAUNCH</a></li>
-     <li class="space">|</li>
-     <li><a href="manageNew.php">PROJECTS</a></li>
-     <li class="space">|</li>
-  	 <li><a href="privacy.html">Privacy Policy</a></li>
-   </ul>-->
-    <p>© 2011 myScience. All rights reserved. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
+    <p>© 2011 myscience</p>
  </div>
 </div>
 </body>

@@ -11,31 +11,27 @@ if($conn === false)
 }
 $formhtml = "";
 $projname = "";
+$numusers;
+$numdata;
 if(isset($_GET['projname'])) {
-/*
-	$formhtml .= "<br /> <form name=\"periodForm\">";
 
-	$formhtml .= "Select Period <select name = \"period\" onChange=\"periodChange()\">";
-
-	$formhtml .= "<option value=\"http://www.wonderment.org/IBM/call_table.php\">Show all</option>";
-
-	$formhtml .= "<option value=\"http://www.wonderment.org/IBM/call_table.php?p=1w\">Last 1 week</option>";
-
-	$formhtml .= "<option value=\"http://www.wonderment.org/IBM/call_table.php?p=2w\">Last 2 weeks</option>";
-
-	$formhtml .= "<option value=\"http://www.wonderment.org/IBM/call_table.php?p=4w\">Last 4 weeks</option>";
-
-	$formhtml .= "</select> <br /> <br />";
-*/
 	$projectquery = "SELECT name from projects WHERE ID='".$_GET['projname']."'";
 	$result = sqlsrv_query($conn,$projectquery);
 	$arr = sqlsrv_fetch_array($result);
 	$projname = $arr['name'];
 	if(!isset($_GET['action'])){
-				$formhtml = "<a href=\"?projname=".$_GET['projname']."&action=data\">Data</a><br/><a href=\"?projname=".$_GET['projname']."&action=modify\">Layout</a>";
+				$formhtml = "<a href=\"?projname=".$_GET['projname']."&action=data\">Data</a>";
 	}
 	else{
 	if($_GET['action']=="data"){
+		$numdataquery = "SELECT COUNT(*) from data WHERE projectid='".$_GET['projname']."'";
+		$result = sqlsrv_query($conn, $numdataquery);
+		$row = sqlsrv_fetch_array($result);
+		$numdata = $row[0];
+		$numusersquery = "SELECT COUNT(DISTINCT userid) from data WHERE projectid='".$_GET['projname']."'";
+		$result = sqlsrv_query($conn, $numusersquery);
+		$row = sqlsrv_fetch_array($result);
+		$numusers = $row[0];
 		$dir = isset($_GET['dir'])?$_GET['dir']:"";
 		$sort = isset($_GET['sort'])?$_GET['sort']:"";
 		$url = "?projname=".$_GET['projname']."&action=data";
@@ -130,7 +126,7 @@ if(isset($_GET['projname'])) {
 }
 else
 {
-	$formhtml = "<form action='' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
+	$formhtml = "<div style=\"text-align:center\"><form action='' method = 'GET'><input type='hidden' name='action' value='data'/><select name='projname'>";
 	$list = array();
 	$query = "SELECT projects.name as projname, projects.id as projid, coordinators.name as coordname FROM projects, coordinators WHERE projects.owner = coordinators.id";
 	$result = sqlsrv_query($conn,$query);
@@ -141,14 +137,14 @@ else
 			$formhtml .= "<option value=".$row['projid'].">".$row['projname']." (".$row['coordname'].")</option>";
 		}
 	}
-	$formhtml .= "</select><input type='submit' value='Submit'/></form>";
+	$formhtml .= "</select><br/><input class='submit' type='submit' value='View Data'/></form></div>";
 }
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>MYSCIENCE | Manage Project</title>
+<title>myscience | science for everyone</title>
 <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
 
 <style type="text/css">
@@ -172,6 +168,25 @@ td {
 	border-right:0;
 	border-bottom:1px solid #ccc; 
 }
+
+th a {
+	color:#fff;
+	text-decoration:underline;
+}
+.formbox {
+	position: relative;
+	top: 20px;
+}
+.submit {
+background-color: #f18519;
+color:white;
+margin-top: 10px;
+font-size: 14px;
+padding: 8px 12px 8px;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
+}
 </style>
 </head>
 
@@ -179,14 +194,14 @@ td {
 <div id="head">
  <div id="head_cen">
   <div id="head_sup" class="head_pad">
-    <h1 class="logo"><a href="index.php">MYSCIENCE</a></h1>
+    <div class="logo"><a href="index.php"></a></div>
     <ul>
      <li><a href="index.php">HOME</a></li>
 	 
-     <li><a href="about.html">ABOUT</a></li>
+     <li><a href="about.php">ABOUT</a></li>
 	 <li><a class="active" href="manageNew.php">PROJECTS</a></li>
 	 <? if($loggedin){ ?>
-     <li><a href="admin.php">LAUNCH</a></li>
+     <li><a href="launch.php">LAUNCH</a></li>
 	 <li><a href="logout.php">LOGOUT</a></li>
 	 <? } else { ?>
      <li><a href="register.php">LOGIN</a></li>
@@ -207,35 +222,26 @@ td {
    </div>
 	<div class="content">
 	<div class="formbox">
-	<h1>
+	<h1 style="float:left">
 	<? if(isset($_GET['action'])){
 		if($_GET['action']=='data'){
-			echo "Data for Project <i>".$projname."</i>: <a href=\"manageNew.php?projname=".$_GET['projname']."&action=download\">Download</a>";
+			echo "Data for <i>".$projname."</i>:"; 
 		}
 		else{
 			echo "Modify Layout for Project <i>".$projname."</i>";
 		}
 	}
 	?> </h1>
+	<? if(isset($_GET['action'])&&$_GET['action']=='data'){echo "<span style=\"float:right;margin-top:10px;\"><a href=\"manageNew.php?projname=".$_GET['projname']."&action=download\"><img src=\"images/disk.png\"/> download</a>&nbsp;&nbsp;&nbsp;<a href=\"visualizationNew.php?projname=".$_GET['projname']."\"><img src=\"images/map.png\"/> map</a></span>"; echo "<span style=\"float:right;margin-top:10px;\">submissions: ".$numdata." users:".$numusers."&nbsp;&nbsp;&nbsp;</span>";}?>
 	<? echo $formhtml; ?>
   </div>
  </div>
 </div>
+</div>
+</div>
 <div id="foot">
  <div id="foot_cen">
- <h6><a href="index.php">myScience</a></h6>
- <!--<ul>
-     <li><a href="index.php">Home</a></li>
-	 <li class="space">|</li>
-     <li><a class="active" href="about.html">ABOUT</a></li>
-     <li class="space">|</li>
-     <li><a href="admin.php">LAUNCH</a></li>
-     <li class="space">|</li>
-     <li><a href="manageNew.php">MANAGE</a></li>
-     <li class="space">|</li>
-  	 <li><a href="privacy.html">Privacy Policy</a></li>
-   </ul>-->
-    <p>© 2011 myScience. All rights reserved. Designed by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
+    <p>© 2011 myscience</p>
  </div>
 </div>
 </body>
