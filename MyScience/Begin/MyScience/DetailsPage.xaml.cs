@@ -36,6 +36,7 @@ namespace MyScience
         private TextBlock submissionStatMsg;
         private PerformanceProgressBar progressbar;
         private PopupMessageControl msg;
+        private GeoCoordinateWatcher geoCoordinateWatcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
 
         public DetailsPage()
         {
@@ -177,8 +178,6 @@ namespace MyScience
                     //TextBlock warningBlock = new TextBlock { Text = "No network, other people's submissions couldn't be fetched" };
                     //InfoPanel.Children.Add(warningBlock);
                 }
-
-                
             }
         }
 
@@ -195,8 +194,13 @@ namespace MyScience
             saveButton.IsEnabled = false;
             submitButton.IsEnabled = false;
             Submission newsubmission = getSubmission();
-            
-            if (newsubmission == null) return;
+
+            if (newsubmission == null)
+            {
+                saveButton.IsEnabled = true;
+                submitButton.IsEnabled = true;
+                return;
+            }
             //App.toBeSubmit.Add(newsubmission);
             Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
             WriteableBitmap image = (WriteableBitmap)photo.Source;
@@ -395,6 +399,12 @@ namespace MyScience
             Image photo = DynamicPanel.Children.OfType<Image>().First() as Image;
             WriteableBitmap image = (WriteableBitmap)photo.Source;
 
+            if (!App.locationServicesOn)
+            {
+                //TextBlock message = new TextBlock();
+                displayPopup(popupTitle1, popupContent5);
+                return null;
+            }
             if (image != null)
             {
 
@@ -469,7 +479,7 @@ namespace MyScience
                 saveButton.IsEnabled = true;
                 submitButton.IsEnabled = true;
                 TextBlock message = new TextBlock();
-                displayPopup(popupTitle1, popupContent3);
+                //displayPopup(popupTitle1, popupContent3);
                 submissionStatMsg.Text = "Oops, forgot to submit a pic!\n";
                 progressbar.IsIndeterminate = false;
                 progressbar.Visibility = System.Windows.Visibility.Visible;
@@ -525,21 +535,92 @@ namespace MyScience
 
         private void OnLoaded(/*object sender, RoutedEventArgs e*/)
         {
-
-            var observable = App.CreateObservableGeoPositionWatcher();
-
-            observable
-                .ObserveOnDispatcher()
-                .Subscribe(OnPositionChanged);
+            WatcherStart();
         }
 
-        private void OnPositionChanged(GeoCoordinate location)
+        #region GeoCoordinateWatcher code
+
+        private void WatcherStart()
         {
-            lat = location.Latitude;
-            lng = location.Longitude;
-            LatBlock.Text = "Lat: " + lat.ToString();
-            LngBlock.Text = "Lng:" + lng.ToString();
+            geoCoordinateWatcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+            geoCoordinateWatcher.MovementThreshold = 20;
+
+            // Add event handlers for StatusChanged and PositionChanged events
+            geoCoordinateWatcher.StatusChanged += new EventHandler<GeoPositionStatusChangedEventArgs>(watcher_StatusChanged);
+            geoCoordinateWatcher.PositionChanged += new EventHandler<GeoPositionChangedEventArgs<GeoCoordinate>>(watcher_PositionChanged);
+
+            // Start data acquisition
+            geoCoordinateWatcher.Start();
         }
+
+        /// <summary>
+        /// Handler for the StatusChanged event. This invokes MyStatusChanged on the UI thread and
+        /// passes the GeoPositionStatusChangedEventArgs
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void watcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() => MyStatusChanged(e));
+        }
+        /// <summary>
+        /// Custom method called from the StatusChanged event handler
+        /// </summary>
+        /// <param name="e"></param>
+        void MyStatusChanged(GeoPositionStatusChangedEventArgs e)
+        {
+            var saveButton = DynamicPanel.Children.OfType<Button>().ElementAt(2) as Button;
+            var submitButton = DynamicPanel.Children.OfType<Button>().ElementAt(3) as Button;
+            switch (e.Status)
+            {
+                case GeoPositionStatus.Disabled:
+                    // The location service is disabled or unsupported.
+                    // Alert the user
+                    saveButton.IsEnabled = false;
+                    submitButton.IsEnabled = false;
+                    displayPopup(popupTitle1, popupContent5);
+                    break;
+                case GeoPositionStatus.Initializing:
+                    saveButton.IsEnabled = false;
+                    submitButton.IsEnabled = false;
+                    break;
+                case GeoPositionStatus.NoData:
+                    saveButton.IsEnabled = false;
+                    submitButton.IsEnabled = false;
+                    //displayPopup(popupTitle1, popupContent6);
+                    break;
+                case GeoPositionStatus.Ready:
+                    saveButton.IsEnabled = true;
+                    submitButton.IsEnabled = true;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Handler for the PositionChanged event. This invokes MyStatusChanged on the UI thread and
+        /// passes the GeoPositionStatusChangedEventArgs
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() => MyPositionChanged(e));
+        }
+
+        /// <summary>
+        /// Custom method called from the PositionChanged event handler
+        /// </summary>
+        /// <param name="e"></param>
+        void MyPositionChanged(GeoPositionChangedEventArgs<GeoCoordinate> e)
+        {
+            // Update the TextBlocks to show the current location
+            lat = e.Position.Location.Latitude;
+            lng = e.Position.Location.Longitude;
+            LatBlock.Text = lat.ToString("0.000");
+            LngBlock.Text = lng.ToString("0.000");
+        }
+
+        #endregion
 
         private static string popupTitle1 = "myscience";
         private static string popupTitle2 = "myscience error";
@@ -547,6 +628,8 @@ namespace MyScience
         private static string popupContent2 = "Submission Saved!";
         private static string popupContent3 = "Oops, forgot to submit a pic!";
         private static string popupContent4 = "Congratulation! Data Submitted Successfully!";
+        private static string popupContent5 = "Location services maybe turned off. Please turn on location services in order to provide location info with your data submission. myScience will anonymize location data and will make it accessible for academic research purposes.";
+        private static string popupContent6 = "Unable to accurately triangulate location. Please wait and try again later.";
 
         public void displayPopup(string title, string content)
         {

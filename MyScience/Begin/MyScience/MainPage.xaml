@@ -8,13 +8,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converter ="clr-namespace:MyScience"
+    xmlns:toolbox="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
-    
+
     <UserControl.Resources>
         <converter:ImageConverter x:Key="ImageConverter" />
         <converter:DateConverter x:Key="DateConverter" />
@@ -38,7 +39,7 @@
 
             <!--Pivot item one-->
             <controls:PanoramaItem Header="Projects" Foreground="#FFFF6c16">
-                <Grid x:Name="projectsgrid" Width="444" Height="630" Margin="0, -140, 0, 0">
+                <Grid x:Name="projectsgrid" Width="444" Height="615" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -68,7 +69,7 @@
             <!--Pivot item two-->
             <controls:PanoramaItem Header="Top Users" Foreground="#FFFF6c16">
                 <!--ContentPanel - place additional content here-->
-                <Grid x:Name="famegrid" Width="444" Height="630" Margin="0, -140, 0, 0">
+                <Grid x:Name="famegrid" Width="444" Height="615" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -99,12 +100,12 @@
             
             <!--Pivot item three-->
             <controls:PanoramaItem Header="Profile" Foreground="#FFFF6c16">
-                <Grid x:Name="profilegrid" Width="444" Height="630" Margin="0, -140, 0, 0">
+                <Grid x:Name="profilegrid" Width="444" Height="615" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="390"/>
+                        <RowDefinition Height="126*"/>
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Height="50" Width="50" Source="Images/refresh-icon.png" Margin="0, 50, 35, 0" HorizontalAlignment="Right" Name="refreshprofile" Stretch="Fill" VerticalAlignment="Top" MouseLeftButtonUp="refreshprofile_MouseLeftButtonUp" />
 
@@ -132,30 +133,32 @@
                                 <TextBlock Grid.Row="1" Height="44" HorizontalAlignment="Center" Margin="0,35,-1,0" Name="scientistLevel" Text="" VerticalAlignment="Top" Width="220" FontSize="26" Grid.RowSpan="2" Foreground="#FF181515"/>
                             </Grid>
                         </Grid>
-                        <Button Content="logout" Height="78" HorizontalAlignment="Left" Margin="230,147,0,0" Name="logoutButton" VerticalAlignment="Top" Width="185" Background="{StaticResource PhoneTextBoxReadOnlyBrush}" Style="{StaticResource WhiteBackgroundButtonStyle}" Grid.RowSpan="2" Click="logoutButton_Click" Foreground="Black" />
+                        <Button Content="logout" Height="78" HorizontalAlignment="Left" Margin="104,79,0,0" Name="logoutButton" VerticalAlignment="Top" Width="213" Background="{StaticResource PhoneTextBoxReadOnlyBrush}" Style="{StaticResource WhiteBackgroundButtonStyle}" Click="logoutButton_Click" Foreground="Black" Grid.Row="1" />
+                        <toolkit:ToggleSwitch x:Name="LocationToggle" Header="" Content="Off" IsChecked="false" Checked="ToggleSwitch_Checked" Unchecked="ToggleSwitch_Unchecked" Margin="12,16,8,88" Background="White" Foreground="Black" FontFamily="Segoe WP" FontSize="29.333" BorderBrush="Black" Grid.Row="1" />
+                        <TextBlock Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,19,0,0" Name="textBlock1" Text="Location services:" VerticalAlignment="Top" Width="256" Foreground="Black" />
                     </Grid>
-                   <Grid Name="ActiveProjectsGrid" Grid.Row="3" HorizontalAlignment="Left" Margin="12,16,0,0" VerticalAlignment="Top" Width="444" Height="95" Visibility="Visible">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock x:Name="UserProjectsText" Text="Active Projects" Style="{StaticResource PhoneTextExtraLargeStyle}" TextAlignment="Center" Grid.Row="0" Foreground="Black" />
-                    <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="300" Width="446" Foreground="Black">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Margin="0,0,0,17" Width="432">
-                                    <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" Foreground="Black"/>
-                                    <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="Black"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    <!--Grid Name="ActiveProjectsGrid" Grid.Row="3" HorizontalAlignment="Left" Margin="12,16,0,0" VerticalAlignment="Top" Width="444" Height="95" Visibility="Visible">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="UserProjectsText" Text="Active Projects" Style="{StaticResource PhoneTextExtraLargeStyle}" TextAlignment="Center" Grid.Row="0" Foreground="Black" />
+                        <ListBox x:Name="ProjectListBox" Grid.Row="1" ItemsSource="{Binding Items}" Margin="0,0,0,-213" HorizontalAlignment="Left" VerticalAlignment="Top" MaxHeight="300" Width="446" Foreground="Black">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,0,0,17" Width="432">
+                                        <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" Foreground="Black"/>
+                                        <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" Foreground="Black"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                   </Grid-->
                 </Grid>
-    </Grid>
             </controls:PanoramaItem>
 
             <!--<controls:PanoramaItem Header="Your Data">
-                <Grid x:Name="yourdatagrid" Width="444" Height="630" Margin="0, -140, 0, 0">
+                <Grid x:Name="yourdatagrid" Width="444" Height="615" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -184,7 +187,7 @@
             </controls:PanoramaItem>-->
 
             <controls:PanoramaItem Header="Your Data" Foreground="#FFFF6c16">
-                <Grid x:Name="yourdatagrid2" Width="444" Height="630" Margin="0, -140, 0, 0">
+                <Grid x:Name="yourdatagrid2" Width="444" Height="615" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -213,7 +216,7 @@
             </controls:PanoramaItem>
 
             <controls:PanoramaItem Header="To Submit" Foreground="#FFFF6c16">
-                <Grid x:Name="tobesubmitgrid" Width="444" Height="630" Margin="0, -140, 0, 0">
+                <Grid x:Name="tobesubmitgrid" Width="444" Height="615" Margin="0, -140, 0, 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -245,6 +248,5 @@
                 </Grid>
             </controls:PanoramaItem>
         </controls:Panorama>
-
     </Grid>
 </phone:PhoneApplicationPage>

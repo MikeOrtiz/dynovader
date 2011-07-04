@@ -25,6 +25,7 @@ namespace MyScience
     {
         private bool alreadyClicked = false;
         private GeoLocationMessageControl locpermitmsg;
+        private PopupMessageControl msg;
         public SignIn()
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace MyScience
                 registerButton.IsEnabled = false;
             }
             locpermitmsg = new GeoLocationMessageControl(registerUser, activatePage);
+            msg = new PopupMessageControl(registerUser);
         }
 
         private void SignInPage_Loaded(object sender, RoutedEventArgs e)
@@ -45,7 +47,8 @@ namespace MyScience
         {
             tryAgainBlock.Text = "";
             App.registerName = registerNameBox.Text;
-            displayLocationPermissionPopup();
+            //displayLocationPermissionPopup();
+            displayPopup();
         }
 
 
@@ -148,6 +151,7 @@ namespace MyScience
 
         public void registerUser()
         {
+            LayoutRoot.IsHitTestVisible = true; //make sure phone touchscreen is active
             /* Get phoneid */
             byte[] result = null;
             object uniqueId;
@@ -192,6 +196,24 @@ namespace MyScience
             App.popup.VerticalOffset = 0;
             App.popup.MinHeight = locpermitmsg.Height;
             App.popup.MinWidth = locpermitmsg.Width;
+            App.popup.IsOpen = true;
+            LayoutRoot.IsHitTestVisible = false;
+        }
+
+        public void displayPopup()
+        {
+            msg.msgcontent.Text = "Welcome to myScience! Thank you for contributing to scientific research around the world!";
+            msg.msgtitle.Text = "myScience";
+            App.popup.Child = msg;
+            App.popup.Margin = new Thickness(0);
+            App.popup.Height = msg.Height;
+            App.popup.Width = msg.Width;
+            App.popup.HorizontalAlignment = HorizontalAlignment.Center;
+            App.popup.VerticalAlignment = VerticalAlignment.Center;
+            App.popup.HorizontalOffset = 0;
+            App.popup.VerticalOffset = 0;
+            App.popup.MinHeight = msg.Height;
+            App.popup.MinWidth = msg.Width;
             App.popup.IsOpen = true;
             LayoutRoot.IsHitTestVisible = false;
         }

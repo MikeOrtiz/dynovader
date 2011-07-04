@@ -29,7 +29,7 @@ namespace MyScience
         public static List<Project> applist = new List<Project>();
         public static List<TopScorer> topscorerslist = new List<TopScorer>();
         public static int currentIndex;
-        public static GeoCoordinateWatcher geoCoordinateWatcher = new GeoCoordinateWatcher();
+        public static GeoCoordinateWatcher geoCoordinateWatcher;// = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
         public static Random random = new Random();
         public static bool userVerified = false;
         public static User currentUser = null;
@@ -41,6 +41,7 @@ namespace MyScience
         public static List<int> userProject = new List<int>();
         public static Popup popup = new Popup();
         public static BitmapImage userProfileImage;
+        public static bool locationServicesOn = false;
 
 
         /// <summary>
@@ -126,6 +127,7 @@ namespace MyScience
         {
             SavePersistentState();
             SaveTransState();
+            //geoCoordinateWatcher.Stop();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
@@ -133,6 +135,7 @@ namespace MyScience
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
             SavePersistentState();
+            //geoCoordinateWatcher.Stop();
         }
 
         // Code to execute if a navigation fails
@@ -153,18 +156,6 @@ namespace MyScience
                 // An unhandled exception has occurred; break into the debugger
                 System.Diagnostics.Debugger.Break();
             }
-        }
-
-        public static IObservable<GeoCoordinate> CreateObservableGeoPositionWatcher()
-        {
-            var observable = Observable.FromEvent<GeoPositionChangedEventArgs<GeoCoordinate>>(
-                e => geoCoordinateWatcher.PositionChanged += e,
-                e => geoCoordinateWatcher.PositionChanged -= e)
-                .Select(e => e.EventArgs.Position.Location);
-
-            geoCoordinateWatcher.Start();
-
-            return observable;
         }
 
         #region Phone application initialization
@@ -205,6 +196,7 @@ namespace MyScience
 
         /* Persistent State */
         private const string AppCurrentUserKey = "CurrentUser";
+        private const string AppLocationServicesOnKey = "LocationServicesOn";
         /* Transient State */
         private const string AppProjectsList = "ProjectsList";
         private const string AppTopScorersList = "TopScorersList";
@@ -240,7 +232,17 @@ namespace MyScience
                 currentUser = (User)settings[AppCurrentUserKey];
             }
             else
+            {
                 currentUser = null;
+            }
+            if (settings.Contains(AppLocationServicesOnKey))
+            {
+                locationServicesOn = (bool)settings[AppLocationServicesOnKey];
+            }
+            else
+            {
+                locationServicesOn = false;
+            }
         }
 
         private void LoadTransState()
@@ -264,7 +266,7 @@ namespace MyScience
             transState.TryGetValue(AppFirstAccess, out obj);
             firstAccess = (bool)obj;
             //initialize other app fields, these don't need to be remembered at all
-            geoCoordinateWatcher = new GeoCoordinateWatcher();
+            //geoCoordinateWatcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
             random = new Random();
             popup = new Popup();
         }
@@ -401,6 +403,7 @@ namespace MyScience
             {
                 IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
                 settings[AppCurrentUserKey] = currentUser;
+                settings[AppLocationServicesOnKey] = locationServicesOn;
                 settings.Save();
             }
         }
@@ -524,7 +527,8 @@ namespace MyScience
             SavePersistentState();
             SaveTransState();
             //go back to sign in page
-            RootFrame.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));   
+            RootFrame.Navigate(new Uri("/SignInPage.xaml", UriKind.Relative));
         }
+
     }
 }

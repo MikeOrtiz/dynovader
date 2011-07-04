@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Device.Location;
 using System.Globalization;
 using System.IO;
 using System.IO.IsolatedStorage;
@@ -41,6 +42,9 @@ namespace MyScience
 
             msg = new PopupMessageControl(activatePage); //TODO test this
             logoutmsg = new LogoutMessageControl(activatePage);
+            LocationToggle.IsChecked = App.locationServicesOn;
+            if (App.locationServicesOn)
+                LocationToggle.Content = "On ";
         }
 
         // Handle selection changed on ListBox
@@ -145,30 +149,46 @@ namespace MyScience
 
         private void GetProjectsinBackground(Object state)
         {
-            Service1Client client = (Service1Client)state;
-            client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
-            client.GetProjectsAsync();
+            try
+            {
+                Service1Client client = (Service1Client)state;
+                client.GetProjectsCompleted += new EventHandler<GetProjectsCompletedEventArgs>(client_GetProjectsCompleted);
+                client.GetProjectsAsync();
+            }
+            catch (Exception e){}
         }
 
         private void GetTopScorerinBackground(Object state)
         {
-            Service1Client client = (Service1Client)state;
-            client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
-            client.GetTopScorersAsync();
+            try
+            {
+                Service1Client client = (Service1Client)state;
+                client.GetTopScorersCompleted += new EventHandler<GetTopScorersCompletedEventArgs>(client_GetTopScorersCompleted);
+                client.GetTopScorersAsync();
+            }
+            catch (Exception e){}
         }
 
         private void GetSubmissioninBackground(Object state)
         {
-            Service1Client client = (Service1Client)state;
-            client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
-            client.GetUserSubmissionAsync(App.currentUser.ID);
+            try
+            {
+                Service1Client client = (Service1Client)state;
+                client.GetUserSubmissionCompleted += new EventHandler<GetUserSubmissionCompletedEventArgs>(client_GetUserSubmissionCompleted);
+                client.GetUserSubmissionAsync(App.currentUser.ID);
+            }
+            catch (Exception e){}
         }
 
         private void GetUserImageinBackground(Object state)
         {
-            Service1Client client = (Service1Client)state;
-            client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
-            client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+            try
+            {
+                Service1Client client = (Service1Client)state;
+                client.GetUserImageCompleted += new EventHandler<GetUserImageCompletedEventArgs>(client_GetUserImageCompleted);
+                client.GetUserImageAsync(App.currentUser.Name, "JPEG");
+            }
+            catch (Exception e){}
         }
         private void updatePageControls()
         {
@@ -260,17 +280,17 @@ namespace MyScience
 
         private void displayUserProjects()
         {
-            if (projectloaded && submissionloaded)
-            {
-                List<Project> userprojects = new List<Project>();
-                for (int i = 0; i < App.applist.Count; i++)
-                {
-                    if (App.userProject.Contains(App.applist[i].ID))
-                        userprojects.Add(App.applist[i]);
-                }
-                ProjectListBox.ItemsSource = userprojects;
-                ProjectListBox.Visibility = System.Windows.Visibility.Visible;
-            }
+            //if (projectloaded && submissionloaded)
+            //{
+            //    List<Project> userprojects = new List<Project>();
+            //    for (int i = 0; i < App.applist.Count; i++)
+            //    {
+            //        if (App.userProject.Contains(App.applist[i].ID))
+            //            userprojects.Add(App.applist[i]);
+            //    }
+            //    ProjectListBox.ItemsSource = userprojects;
+            //    ProjectListBox.Visibility = System.Windows.Visibility.Visible;
+            //}
 
         }
 
@@ -542,6 +562,7 @@ namespace MyScience
             }
             else
             {
+                msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
                 displayPopup();
             }
         }
@@ -559,6 +580,7 @@ namespace MyScience
             }
             else
             {
+                msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
                 displayPopup();
             }
         }
@@ -576,6 +598,7 @@ namespace MyScience
             }
             else
             {
+                msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
                 displayPopup();
             }
         }
@@ -592,6 +615,7 @@ namespace MyScience
             }
             else
             {
+                msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
                 displayPopup();
             }
         }
@@ -608,6 +632,7 @@ namespace MyScience
             }
             else
             {
+                msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
                 displayPopup();
             }
         }
@@ -622,7 +647,7 @@ namespace MyScience
 
         public void displayPopup()
         {
-            msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
+            //msg.msgcontent.Text = "We're having a connectivity problem. This maybe because your cellular data connections are turned off. Please try again later.";
             App.popup.Child = msg;
             App.popup.Margin = new Thickness(0);
             App.popup.Height = msg.Height;
@@ -676,6 +701,36 @@ namespace MyScience
         public void activatePage()
         {
             LayoutRoot.IsHitTestVisible = true;
+        }
+
+        private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
+        {
+            //location services will anonymized and only used for scientific research only
+            GeoCoordinateWatcher gcw = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+            gcw.Start();
+            if (gcw.Permission == GeoPositionPermission.Denied)
+            {
+                App.locationServicesOn = false;
+                LocationToggle.IsChecked = false;
+                msg.msgcontent.Text = "Please turn on location services inside phone settings first.";
+                displayPopup();
+                LocationToggle.Content = "Off";
+            }
+            else
+            {
+                App.locationServicesOn = true;
+                //msg.msgcontent.Text = "myScience will anonymize location info and only use it for scientific research.";
+                LocationToggle.Content = "On ";
+            }
+        }
+
+        private void ToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
+        {
+            //display warning message saying myScience doesn't function without the location services
+            msg.msgcontent.Text = "myScience submissions rely on smartphone GPS systems of location information. Please turn on location services to submit data to myScience.";
+            displayPopup();
+            App.locationServicesOn = false;
+            LocationToggle.Content = "Off";
         }
     }
 }
